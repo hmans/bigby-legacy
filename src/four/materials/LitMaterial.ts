@@ -33,8 +33,9 @@ export class LitMaterial extends Material {
           float ambientLight = 0.2;
 
           // Directional Light
+          float directionalLightIntensity = 0.5;
           vec3 lightDirection = normalize(vec3(-1.0, 0.5, 1.0));
-          float directionalLight = max(dot(normalize(vNormal), lightDirection), 0.0);
+          float directionalLight = max(dot(normalize(vNormal), lightDirection) * directionalLightIntensity, 0.0);
 
           float finalLight = ambientLight + directionalLight;
           
