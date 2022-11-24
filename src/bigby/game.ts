@@ -1,21 +1,27 @@
 export class Game {
-  start() {
+  canvas: HTMLCanvasElement
+  gl: WebGLRenderingContext
+
+  constructor() {
     console.log("Let's go! 🐝")
 
-    const canvas = document.createElement("canvas")
+    /* Initialize canvas */
+    this.canvas = document.body.appendChild(document.createElement("canvas"))
+    this.canvas.width = 500
+    this.canvas.height = 500
 
-    canvas.width = 500
-    canvas.height = 500
-
-    const gl = canvas.getContext("webgl2", {
+    /* Initialize WebGL */
+    const gl = this.canvas.getContext("webgl2", {
       antialias: true,
       powerPreference: "high-performance"
     })
 
-    console.log(gl)
+    if (!gl) throw new Error("WebGL2 not supported")
+
+    this.gl = gl
   }
 
-  stop() {}
+  dispoe() {}
 
   update() {}
 }
