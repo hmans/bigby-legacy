@@ -1,26 +1,21 @@
-import * as THREE from "three"
-
 export class Game {
-  renderer = new THREE.WebGLRenderer()
-  scene = new THREE.Scene()
-  camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  )
-
   start() {
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
-    document.body.appendChild(this.renderer.domElement)
-    this.camera.position.z = 5
+    console.log("Let's go! 🐝")
+
+    const canvas = document.createElement("canvas")
+
+    canvas.width = 500
+    canvas.height = 500
+
+    const gl = canvas.getContext("webgl2", {
+      antialias: true,
+      powerPreference: "high-performance"
+    })
+
+    console.log(gl)
   }
 
-  stop() {
-    document.body.removeChild(this.renderer.domElement)
-  }
+  stop() {}
 
-  update() {
-    this.renderer.render(this.scene, this.camera)
-  }
+  update() {}
 }

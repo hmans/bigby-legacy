@@ -1,4 +1,5 @@
-import { animate } from "./four_test"
+import { Game } from "./bigby/game"
 import "./style.css"
 
-animate()
+const game = new Game()
+game.start()
