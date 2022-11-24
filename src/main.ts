@@ -42,24 +42,33 @@ class BoxGeometry extends Geometry {
           22, 21, 22, 23, 21,
         ]),
       },
+      normal: {
+        size: 3,
+        data: new Float32Array([
+          0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5,
+          -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5,
+          -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5,
+          -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5,
+        ])
+      }
     })
   }
 }
 
 const pink = new Mesh(new BoxGeometry(), new LitMaterial([1.0, 0.3, 0.9]))
-pink.position[0] = -1
+// pink.position[0] = -1
 scene.add(pink)
 
-const green = new Mesh(
-  new BoxGeometry(),
-  new WireframeMaterial([0.2, 1.0, 0.6])
-)
-green.position[0] = 0
-scene.add(green)
+// const green = new Mesh(
+//   new BoxGeometry(),
+//   new WireframeMaterial([0.2, 1.0, 0.6])
+// )
+// green.position[0] = 0
+// scene.add(green)
 
-const blue = new Mesh(new BoxGeometry(), new WireframeMaterial([0.5, 0.8, 1.0]))
-blue.position[0] = 1
-scene.add(blue)
+// const blue = new Mesh(new BoxGeometry(), new WireframeMaterial([0.5, 0.8, 1.0]))
+// blue.position[0] = 1
+// scene.add(blue)
 
 window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight)
