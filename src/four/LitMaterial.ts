@@ -12,7 +12,7 @@ export class LitMaterial extends Material {
         in vec3 normal;
         in vec3 position;
 
-        out vec3 vNormal;
+        flat out vec3 vNormal;
 
         void main() {
           vNormal = normal;
@@ -25,7 +25,7 @@ export class LitMaterial extends Material {
 
         uniform vec3 color;
 
-        in vec3 vNormal;
+        flat in vec3 vNormal;
         out vec4 pc_fragColor;
 
         void main() {
@@ -33,7 +33,7 @@ export class LitMaterial extends Material {
           float ambientLight = 0.2;
 
           // Directional Light
-          vec3 lightDirection = normalize(vec3(-1.0, -1.0, -3.0));
+          vec3 lightDirection = normalize(vec3(-1.0, 0.5, 1.0));
           float directionalLight = max(dot(vNormal, lightDirection), 0.0);
 
           float finalLight = ambientLight + directionalLight;

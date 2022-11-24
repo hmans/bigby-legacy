@@ -1,10 +1,8 @@
 import "./style.css"
 
-import { BasicMaterial } from "./four/BasicMaterial"
 import { Camera, Geometry, Mesh, Object3D, Renderer } from "./four/four"
-import { OrbitControls } from "./four/OrbitControls"
-import { WireframeMaterial } from "./four/WireframeMaterial"
 import { LitMaterial } from "./four/LitMaterial"
+import { OrbitControls } from "./four/OrbitControls"
 
 /* Create a renderer */
 const renderer = new Renderer()
@@ -58,6 +56,13 @@ class BoxGeometry extends Geometry {
 const pink = new Mesh(new BoxGeometry(), new LitMaterial([1.0, 0.3, 0.9]))
 // pink.position[0] = -1
 scene.add(pink)
+
+const green = new Mesh(new BoxGeometry(), new LitMaterial([0.3, 0.9, 0.3]))
+green.scale[0] = 5
+green.scale[1] = 5
+green.scale[2] = 5
+green.position[2] = -10
+scene.add(green)
 
 // const green = new Mesh(
 //   new BoxGeometry(),
