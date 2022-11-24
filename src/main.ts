@@ -1,12 +1,12 @@
 import "./style.css"
 
 import { Camera } from "./four/Camera"
-import { Geometry } from "./four/Geometry"
 import { LitMaterial } from "./four/LitMaterial"
 import { Mesh } from "./four/Mesh"
 import { Object3D } from "./four/Object3D"
 import { OrbitControls } from "./four/OrbitControls"
 import { Renderer } from "./four/Renderer"
+import { BoxGeometry } from "./four/BoxGeometry"
 
 /* Create a renderer */
 const renderer = new Renderer()
@@ -23,39 +23,6 @@ controls.connect(renderer.canvas)
 
 /* Create a scene */
 const scene = new Object3D()
-
-// prettier-ignore
-class BoxGeometry extends Geometry {
-  constructor() {
-    super({
-      position: {
-        size: 3,
-        data: new Float32Array([
-          0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5,
-          -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5,
-          -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5,
-          -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5,
-        ]),
-      },
-      index: {
-        size: 1,
-        data: new Uint32Array([
-          0, 2, 1, 2, 3, 1, 4, 6, 5, 6, 7, 5, 8, 10, 9, 10, 11, 9, 12, 14, 13, 14, 15, 13, 16, 18, 17, 18, 19, 17, 20,
-          22, 21, 22, 23, 21,
-        ]),
-      },
-      normal: {
-        size: 3,
-        data: new Float32Array([
-          0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5,
-          -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5,
-          -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5,
-          -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5,
-        ])
-      }
-    })
-  }
-}
 
 const pink = new Mesh(new BoxGeometry(), new LitMaterial([1.0, 0.3, 0.9]))
 // pink.position[0] = -1
