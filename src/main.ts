@@ -1,12 +1,12 @@
 import "./style.css"
 
-import { Camera } from "./four/Camera"
+import { Camera } from "./four/cameras/Camera"
 import { LitMaterial } from "./four/materials/LitMaterial"
-import { Mesh } from "./four/Mesh"
-import { Object3D } from "./four/Object3D"
-import { OrbitControls } from "./four/OrbitControls"
-import { Renderer } from "./four/Renderer"
-import { BoxGeometry } from "./four/BoxGeometry"
+import { Mesh } from "./four/core/Mesh"
+import { Object3D } from "./four/core/Object3D"
+import { OrbitControls } from "./four/utils/OrbitControls"
+import { Renderer } from "./four/core/Renderer"
+import { BoxGeometry } from "./four/geometries/BoxGeometry"
 
 /* Create a renderer */
 const renderer = new Renderer()

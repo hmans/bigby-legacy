@@ -1,5 +1,5 @@
 import { mat4 } from "gl-matrix"
-import { Object3D } from "./Object3D"
+import { Object3D } from "../core/Object3D"
 
 export class Camera extends Object3D {
   public fov: number

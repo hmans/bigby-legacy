@@ -1,10 +1,10 @@
 import { mat4, vec3, mat3 } from "gl-matrix"
 import { Attribute, RenderTarget } from "./RenderTarget"
-import { Camera } from "./Camera"
+import { Camera } from "../cameras/Camera"
 import { Mesh } from "./Mesh"
 import { Object3D } from "./Object3D"
 import { Texture } from "./Texture"
-import { Uniform } from "./materials/Material"
+import { Uniform } from "../materials/Material"
 
 const lineNumbers = (source: string, offset = 0): string =>
   source.replace(/^/gm, () => `${offset++}:`)

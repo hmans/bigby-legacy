@@ -1,4 +1,4 @@
-import { Attribute } from "./RenderTarget"
+import { Attribute } from "../core/RenderTarget"
 
 export class Geometry {
   readonly attributes: Record<string, Attribute> = {}

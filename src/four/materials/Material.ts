@@ -1,4 +1,4 @@
-import { Texture } from "../Texture"
+import { Texture } from "../core/Texture"
 
 export type Uniform = number | number[] | Float32Array | Texture
 
