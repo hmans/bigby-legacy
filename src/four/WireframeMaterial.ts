@@ -1,4 +1,4 @@
-import { Material } from "./four"
+import { Material } from "./Material"
 
 export class WireframeMaterial extends Material {
   constructor(color = [1, 1, 1], thickness = 0.03) {

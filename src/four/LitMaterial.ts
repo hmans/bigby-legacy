@@ -1,4 +1,4 @@
-import { Material } from "./four"
+import { Material } from "./Material"
 
 export class LitMaterial extends Material {
   constructor(color = [1, 1, 1]) {

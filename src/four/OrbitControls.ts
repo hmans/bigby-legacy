@@ -1,6 +1,6 @@
 // Adapted from my threejs version: https://gist.github.com/CodyJasonBennett/4c2b6f758dec7be618eafd5b3d96769a
 import { vec3, quat } from "gl-matrix"
-import type { Camera } from "./four"
+import { Camera } from "./Camera"
 
 // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/buttons
 enum BUTTONS {

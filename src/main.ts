@@ -1,8 +1,12 @@
 import "./style.css"
 
-import { Camera, Geometry, Mesh, Object3D, Renderer } from "./four/four"
+import { Camera } from "./four/Camera"
+import { Geometry } from "./four/Geometry"
 import { LitMaterial } from "./four/LitMaterial"
+import { Mesh } from "./four/Mesh"
+import { Object3D } from "./four/Object3D"
 import { OrbitControls } from "./four/OrbitControls"
+import { Renderer } from "./four/Renderer"
 
 /* Create a renderer */
 const renderer = new Renderer()
