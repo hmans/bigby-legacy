@@ -372,6 +372,7 @@ export class Renderer {
     scene.traverse((node) => {
       if (!node.visible) return true
       if (node instanceof Mesh) renderList.push(node)
+      return undefined
     })
 
     if (camera) mat4.getTranslation(this._c, camera.matrix)
