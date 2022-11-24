@@ -7,6 +7,7 @@ import { Object3D } from "./four/core/Object3D"
 import { OrbitControls } from "./four/utils/OrbitControls"
 import { Renderer } from "./four/core/Renderer"
 import { BoxGeometry } from "./four/geometries/BoxGeometry"
+import { quat } from "gl-matrix"
 
 /* Create a renderer */
 const renderer = new Renderer()
@@ -53,6 +54,9 @@ window.addEventListener("resize", () => {
 
 function animate() {
   requestAnimationFrame(animate)
+  quat.rotateX(pink.quaternion, pink.quaternion, 0.01)
+  quat.rotateY(pink.quaternion, pink.quaternion, 0.01)
   renderer.render(scene, camera)
 }
+
 animate()

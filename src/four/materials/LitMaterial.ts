@@ -15,7 +15,7 @@ export class LitMaterial extends Material {
         flat out vec3 vNormal;
 
         void main() {
-          vNormal = normal;
+          vNormal = mat3(modelViewMatrix) * normal;
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
       `,
@@ -34,7 +34,7 @@ export class LitMaterial extends Material {
 
           // Directional Light
           vec3 lightDirection = normalize(vec3(-1.0, 0.5, 1.0));
-          float directionalLight = max(dot(vNormal, lightDirection), 0.0);
+          float directionalLight = max(dot(normalize(vNormal), lightDirection), 0.0);
 
           float finalLight = ambientLight + directionalLight;
           
