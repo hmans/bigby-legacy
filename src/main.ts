@@ -1,7 +1,7 @@
 import "./style.css"
 
 import { Camera } from "./four/Camera"
-import { LitMaterial } from "./four/LitMaterial"
+import { LitMaterial } from "./four/materials/LitMaterial"
 import { Mesh } from "./four/Mesh"
 import { Object3D } from "./four/Object3D"
 import { OrbitControls } from "./four/OrbitControls"

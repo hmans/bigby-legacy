@@ -4,7 +4,7 @@ import { Camera } from "./Camera"
 import { Mesh } from "./Mesh"
 import { Object3D } from "./Object3D"
 import { Texture } from "./Texture"
-import { Uniform } from "./Material"
+import { Uniform } from "./materials/Material"
 
 const lineNumbers = (source: string, offset = 0): string =>
   source.replace(/^/gm, () => `${offset++}:`)

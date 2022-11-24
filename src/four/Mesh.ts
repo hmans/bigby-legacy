@@ -1,7 +1,7 @@
 import { mat4, mat3 } from "gl-matrix"
 import { Geometry } from "./Geometry"
 import { Object3D } from "./Object3D"
-import { Material } from "./Material"
+import { Material } from "./materials/Material"
 
 export type Mode = "TRIANGLES" | "POINTS" | "LINES"
 
