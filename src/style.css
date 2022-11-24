@@ -11,7 +11,7 @@ body {
   background-color: #111;
 }
 
-div#app {
+canvas {
   height: 100%;
   width: 100%;
   overflow: hidden;
