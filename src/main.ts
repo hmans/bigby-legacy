@@ -1,21 +1,25 @@
 import "./style.css"
 
-import { Renderer, Camera, Object3D, Geometry, Mesh } from "./four/four"
+import { BasicMaterial } from "./four/BasicMaterial"
+import { Camera, Geometry, Mesh, Object3D, Renderer } from "./four/four"
 import { OrbitControls } from "./four/OrbitControls"
 import { WireframeMaterial } from "./four/WireframeMaterial"
-import { BasicMaterial } from "./four/BasicMaterial"
-// import { OrbitControls } from './OrbitControls'
+import { LitMaterial } from "./four/LitMaterial"
 
+/* Create a renderer */
 const renderer = new Renderer()
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.canvas)
 
+/* Create a camera */
 const camera = new Camera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
 camera.position[2] = 5
 
+/* Create and attach orbit controls */
 const controls = new OrbitControls(camera)
 controls.connect(renderer.canvas)
 
+/* Create a scene */
 const scene = new Object3D()
 
 // prettier-ignore
@@ -42,7 +46,7 @@ class BoxGeometry extends Geometry {
   }
 }
 
-const pink = new Mesh(new BoxGeometry(), new BasicMaterial([1.0, 0.3, 0.9]))
+const pink = new Mesh(new BoxGeometry(), new LitMaterial([1.0, 0.3, 0.9]))
 pink.position[0] = -1
 scene.add(pink)
 
