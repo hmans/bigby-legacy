@@ -10,7 +10,7 @@
     "semi": false,
     "singleQuote": false,
     "arrowParens": "always",
-    "printWidth": 80
+    "printWidth": 85
   },
   "scripts": {
     "dev": "vite",
