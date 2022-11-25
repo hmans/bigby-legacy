@@ -6,10 +6,6 @@ export class Material {
 
   program?: WebGLProgram
 
-  constructor(options: Material) {
-    Object.assign(this, options)
-  }
-
   get isCompiled() {
     return this.program
   }

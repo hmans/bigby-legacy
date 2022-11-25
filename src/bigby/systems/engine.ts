@@ -55,7 +55,7 @@ export default (world: World<Entity>) => {
         "a_position"
       )
 
-      var size = 3 // 2 components per iteration
+      var size = 2 // 2 components per iteration
       var type = gl.FLOAT // the data is 32bit floats
       var normalize = false // don't normalize the data
       var stride = 0 // 0 = move forward size * sizeof(type) each iteration to get the next position
