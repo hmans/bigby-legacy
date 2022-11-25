@@ -6,7 +6,7 @@ const world = new World<Entity>()
 
 const systems = [engine(world)]
 
-world.add({ mesh: true })
+world.add({ mesh: {} })
 
 function animate() {
   requestAnimationFrame(animate)
