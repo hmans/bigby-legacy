@@ -2,31 +2,18 @@ import { World } from "@miniplex/core"
 import { createProgram, createShader } from "./helpers"
 
 export type Entity = {
-  mesh?: {
-    program: WebGLProgram
-    vao: WebGLVertexArrayObject
-  }
+  mesh?: Mesh
 }
 
-export default (world: World<Entity>) => {
-  console.log("Let's go! 🐝")
+export class Mesh {
+  program?: WebGLProgram
+  vao?: WebGLVertexArrayObject
 
-  const meshes = world.with("mesh")
+  get isCompiled() {
+    return this.program && this.vao
+  }
 
-  /* Initialize canvas */
-  const canvas = document.body.appendChild(document.createElement("canvas"))
-  canvas.width = window.innerWidth
-  canvas.height = window.innerHeight
-
-  /* Initialize WebGL */
-  const gl = canvas.getContext("webgl2", {
-    antialias: true,
-    powerPreference: "high-performance"
-  })!
-
-  if (!gl) throw new Error("WebGL2 not supported")
-
-  meshes.onEntityAdded.add((entity) => {
+  compile(gl: WebGL2RenderingContext) {
     const vertexShader = createShader(
       gl,
       gl.VERTEX_SHADER,
@@ -87,8 +74,28 @@ export default (world: World<Entity>) => {
       offset
     )
 
-    entity.mesh = { program, vao }
-  })
+    this.program = program
+    this.vao = vao
+  }
+}
+
+export default (world: World<Entity>) => {
+  console.log("Let's go! 🐝")
+
+  const meshes = world.with("mesh")
+
+  /* Initialize canvas */
+  const canvas = document.body.appendChild(document.createElement("canvas"))
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+
+  /* Initialize WebGL */
+  const gl = canvas.getContext("webgl2", {
+    antialias: true,
+    powerPreference: "high-performance"
+  })!
+
+  if (!gl) throw new Error("WebGL2 not supported")
 
   /* Configure viewport */
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
@@ -100,8 +107,10 @@ export default (world: World<Entity>) => {
 
     /* Draw */
     for (const { mesh } of meshes) {
-      gl.useProgram(mesh.program)
-      gl.bindVertexArray(mesh.vao)
+      if (!mesh.isCompiled) mesh.compile(gl)
+
+      gl.useProgram(mesh.program!)
+      gl.bindVertexArray(mesh.vao!)
       var primitiveType = gl.TRIANGLES
       var offset = 0
       var count = 3
