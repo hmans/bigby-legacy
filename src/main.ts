@@ -24,22 +24,6 @@ const gl = canvas.getContext("webgl2", {
 
 if (!gl) throw new Error("WebGL2 not supported")
 
-const vertexShaderSource = /*glsl*/ `#version 300 es
-  in vec4 a_position;
-  void main() {
-    gl_Position = a_position;
-  }
-`
-
-const fragmentShaderSource = /*glsl*/ `#version 300 es
-  precision highp float;
-  out vec4 outColor;
-  
-  void main() {
-    outColor = vec4(1, 0, 0.5, 1);
-  }
-`
-
 function createShader(
   gl: WebGL2RenderingContext,
   type: number,
@@ -58,11 +42,28 @@ function createShader(
   return shader
 }
 
-const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource)
+const vertexShader = createShader(
+  gl,
+  gl.VERTEX_SHADER,
+  /*glsl*/ `#version 300 es
+    in vec4 a_position;
+    void main() {
+      gl_Position = a_position;
+    }
+  `
+)
+
 const fragmentShader = createShader(
   gl,
   gl.FRAGMENT_SHADER,
-  fragmentShaderSource
+  /*glsl*/ `#version 300 es
+    precision highp float;
+    out vec4 outColor;
+    
+    void main() {
+      outColor = vec4(1, 0, 0.5, 1);
+    }
+  `
 )
 
 function createProgram(
