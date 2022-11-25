@@ -36,9 +36,10 @@ export default (world: World<Entity>) => {
 
     /* Draw */
     for (const { mesh } of meshes) {
+      if (!mesh.material.isCompiled) mesh.material.compile(gl)
       if (!mesh.isCompiled) mesh.compile(gl)
 
-      gl.useProgram(mesh.program!)
+      gl.useProgram(mesh.material.program!)
       gl.bindVertexArray(mesh.vao!)
       var primitiveType = gl.TRIANGLES
       var offset = 0

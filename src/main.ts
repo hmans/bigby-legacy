@@ -1,6 +1,7 @@
 import { World } from "@miniplex/core"
 import { Mesh } from "./bigby/core/Mesh"
 import { Transform } from "./bigby/core/Transform"
+import { Material } from "./bigby/materials/Material"
 import engine, { Entity } from "./bigby/systems/engine"
 import transforms from "./bigby/systems/transforms"
 import "./style.css"
@@ -11,7 +12,7 @@ const systems = [engine(world), transforms(world)]
 
 world.add({
   transform: new Transform(),
-  mesh: new Mesh(),
+  mesh: new Mesh(new Material()),
 })
 
 function animate() {

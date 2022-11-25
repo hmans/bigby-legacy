@@ -1,45 +1,21 @@
-import { createProgram, createShader } from "../helpers"
+import { Material } from "../materials/Material"
 
 export class Mesh {
-  program?: WebGLProgram
   vao?: WebGLVertexArrayObject
 
+  constructor(public material: Material) {}
+
   get isCompiled() {
-    return this.program && this.vao
+    return this.vao
   }
 
   compile(gl: WebGL2RenderingContext) {
-    const vertexShader = createShader(
-      gl,
-      gl.VERTEX_SHADER,
-      /*glsl*/ `#version 300 es
-        in vec4 a_position;
-        void main() {
-          gl_Position = a_position;
-        }
-      `
-    )
-
-    const fragmentShader = createShader(
-      gl,
-      gl.FRAGMENT_SHADER,
-      /*glsl*/ `#version 300 es
-        precision highp float;
-        out vec4 outColor;
-        
-        void main() {
-          outColor = vec4(1, 0, 0.5, 1);
-        }
-      `
-    )
-
-    const program = createProgram(gl, vertexShader, fragmentShader)
-    gl.deleteShader(vertexShader)
-    gl.deleteShader(fragmentShader)
+    /* Make sure material is compiled */
+    if (!this.material.isCompiled) this.material.compile(gl)
 
     /* Upload positions */
     const positionAttributeLocation = gl.getAttribLocation(
-      program,
+      this.material.program!,
       "a_position"
     )
     const positionBuffer = gl.createBuffer()
@@ -69,7 +45,6 @@ export class Mesh {
       offset
     )
 
-    this.program = program
     this.vao = vao
   }
 }
