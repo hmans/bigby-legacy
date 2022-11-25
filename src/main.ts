@@ -8,7 +8,7 @@ import "./style.css"
 
 const world = new World<Entity>()
 
-const systems = [engine(world), transforms(world)]
+const systems = [transforms(world), engine(world)]
 
 world.add({
   transform: new Transform(),
