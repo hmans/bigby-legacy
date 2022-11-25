@@ -1,5 +1,4 @@
 import { $, Attribute, compileShader, Input, Master, Vec3 } from "shader-composer"
-import { Uniform } from "three"
 import { createProgram, createShader } from "../helpers"
 
 function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
