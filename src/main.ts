@@ -10,7 +10,7 @@ const systems = [engine(world), transforms(world)]
 
 const a = world.add({
   transform: new Transform(),
-  mesh: new Mesh()
+  mesh: new Mesh(),
 })
 
 // world.add({
