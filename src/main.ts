@@ -24,6 +24,19 @@ world.add({
   ),
 })
 
+world.add({
+  transform: new Transform(),
+  mesh: new Mesh(
+    new Geometry({
+      position: {
+        data: new Float32Array([0, 0, 0, -0.7, -0.7, 0]),
+        size: 2,
+      },
+    }),
+    new Material()
+  ),
+})
+
 function animate() {
   requestAnimationFrame(animate)
   systems.forEach((system) => system())
