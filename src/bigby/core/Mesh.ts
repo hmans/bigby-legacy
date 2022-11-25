@@ -10,9 +10,6 @@ export class Mesh {
   }
 
   compile(gl: WebGL2RenderingContext) {
-    /* Make sure material is compiled */
-    if (!this.material.isCompiled) this.material.compile(gl)
-
     /* Fill the position buffer */
     const positionBuffer = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)

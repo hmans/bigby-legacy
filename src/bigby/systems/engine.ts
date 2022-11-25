@@ -54,7 +54,6 @@ export default (world: World<Entity>) => {
         mesh.material.program!,
         "a_position"
       )
-      gl.enableVertexAttribArray(positionAttributeLocation)
 
       var size = 2 // 2 components per iteration
       var type = gl.FLOAT // the data is 32bit floats
@@ -69,6 +68,8 @@ export default (world: World<Entity>) => {
         stride,
         offset
       )
+
+      gl.enableVertexAttribArray(positionAttributeLocation)
 
       var primitiveType = gl.TRIANGLES
       var offset = 0
