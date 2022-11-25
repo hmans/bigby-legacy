@@ -2,11 +2,13 @@ import { World } from "@miniplex/core"
 import { createProgram, createShader } from "./helpers"
 
 export type Entity = {
-  engine?: true
+  mesh?: true
 }
 
 export default (world: World<Entity>) => {
   console.log("Let's go! 🐝")
+
+  const meshes = world.with("mesh")
 
   /* Initialize canvas */
   const canvas = document.body.appendChild(document.createElement("canvas"))
@@ -87,11 +89,13 @@ export default (world: World<Entity>) => {
     gl.clear(gl.COLOR_BUFFER_BIT)
 
     /* Draw */
-    gl.useProgram(program)
-    gl.bindVertexArray(vao)
-    var primitiveType = gl.TRIANGLES
-    var offset = 0
-    var count = 3
-    gl.drawArrays(primitiveType, offset, count)
+    for (const entity of meshes) {
+      gl.useProgram(program)
+      gl.bindVertexArray(vao)
+      var primitiveType = gl.TRIANGLES
+      var offset = 0
+      var count = 3
+      gl.drawArrays(primitiveType, offset, count)
+    }
   }
 }
