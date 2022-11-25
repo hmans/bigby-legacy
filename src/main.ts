@@ -1,6 +1,7 @@
 import { World } from "@miniplex/core"
 import { Mesh } from "./bigby/core/Mesh"
 import { Transform } from "./bigby/core/Transform"
+import { Geometry } from "./bigby/geometry/Geometry"
 import { Material } from "./bigby/materials/Material"
 import engine, { Entity } from "./bigby/systems/engine"
 import transforms from "./bigby/systems/transforms"
@@ -12,7 +13,15 @@ const systems = [transforms(world), engine(world)]
 
 world.add({
   transform: new Transform(),
-  mesh: new Mesh(new Material()),
+  mesh: new Mesh(
+    new Geometry({
+      position: {
+        data: new Float32Array([0, 0, 0, 0.7, 0.7, 0]),
+        size: 2,
+      },
+    }),
+    new Material()
+  ),
 })
 
 function animate() {

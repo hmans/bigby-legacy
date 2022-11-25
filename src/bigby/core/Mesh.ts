@@ -1,9 +1,10 @@
+import { Geometry } from "../geometry/Geometry"
 import { Material } from "../materials/Material"
 
 export class Mesh {
   vao?: WebGLVertexArrayObject
 
-  constructor(public material: Material) {}
+  constructor(public geometry: Geometry, public material: Material) {}
 
   get isCompiled() {
     return this.vao
@@ -18,7 +19,7 @@ export class Mesh {
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
     gl.bufferData(
       gl.ARRAY_BUFFER,
-      new Float32Array([0, 0, 0, 0.7, 0.7, 0]),
+      this.geometry.attributes.position.data,
       gl.STATIC_DRAW
     )
 
