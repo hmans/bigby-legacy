@@ -1,11 +1,13 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@miniplex/core': 2.0.0-beta.2
   gl-matrix: ^3.4.3
   typescript: ^4.6.4
   vite: ^3.2.3
 
 dependencies:
+  '@miniplex/core': 2.0.0-beta.2
   gl-matrix: 3.4.3
 
 devDependencies:
@@ -31,6 +33,23 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@hmans/event/0.2.0:
+    resolution: {integrity: sha512-VrDaUafGrcT2yuC59yTxpxT7KsWoST6zNd/JdATgU4y/jEHghL5yqY9sNftNajo5VpzJkF9XxwxBixz6UlGNfg==}
+    dev: false
+
+  /@miniplex/bucket/2.0.0-beta.2:
+    resolution: {integrity: sha512-mgxESyQcM4bPiFnl8tj5KjW9kP996D6QgaCDQ18XX+KA1tSN69dY09BiXbRvAlxbUgFG+kKwLhVeLYw16VJpGA==}
+    dependencies:
+      '@hmans/event': 0.2.0
+    dev: false
+
+  /@miniplex/core/2.0.0-beta.2:
+    resolution: {integrity: sha512-7DBm5kS+5UXs1lT/mXK9xRM6OYbJ24Intk+eHf9wS/u5ldBsb5EpQYZtjq5nxbT6jbLiDt4/t9jOhpkM61coiw==}
+    dependencies:
+      '@hmans/event': 0.2.0
+      '@miniplex/bucket': 2.0.0-beta.2
+    dev: false
 
   /esbuild-android-64/0.15.15:
     resolution: {integrity: sha512-F+WjjQxO+JQOva3tJWNdVjouFMLK6R6i5gjDvgUthLYJnIZJsp1HlF523k73hELY20WPyEO8xcz7aaYBVkeg5Q==}

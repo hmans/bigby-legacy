@@ -22,6 +22,7 @@
     "vite": "^3.2.3"
   },
   "dependencies": {
+    "@miniplex/core": "2.0.0-beta.2",
     "gl-matrix": "^3.4.3"
   }
 }
