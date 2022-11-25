@@ -1,37 +1,43 @@
+import { $, compileShader, Input, Master, Vec3 } from "shader-composer"
 import { createProgram, createShader } from "../helpers"
 
-export class Material {
-  constructor(public color = "1, 0, .5") {}
+const MaterialRoot = ({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) =>
+  Master({
+    vertex: {
+      header: $`
+        attribute vec4 a_position;
+      `,
+      body: $`
+        gl_Position = a_position;
+      `,
+    },
+    fragment: {
+      body: $`
+        gl_FragColor = vec4(${color}, 1.0);
+      `,
+    },
+  })
 
+export class Material {
   program?: WebGLProgram
+
+  constructor(public color: Input<"vec3">) {}
 
   get isCompiled() {
     return this.program
   }
 
   compile(gl: WebGL2RenderingContext) {
-    const vertexShader = /*glsl*/ `#version 300 es
-    in vec4 a_position;
-    void main() {
-      gl_Position = a_position;
-    }
-  `
+    /* Create our shaders */
+    const [shader] = compileShader(MaterialRoot({ color: this.color }))
+    const vertex = createShader(gl, gl.VERTEX_SHADER, shader.vertexShader)
+    const fragment = createShader(gl, gl.FRAGMENT_SHADER, shader.fragmentShader)
 
-    const fragmentShader = /*glsl*/ `#version 300 es
-    precision highp float;
-    out vec4 outColor;
-    
-    void main() {
-      outColor = vec4(${this.color}, 1);
-    }
-  `
-
-    const vertex = createShader(gl, gl.VERTEX_SHADER, vertexShader)
-    const fragment = createShader(gl, gl.FRAGMENT_SHADER, fragmentShader)
-
+    /* Link them into a program */
     this.program = createProgram(gl, vertex, fragment)
 
-    gl.deleteShader(vertexShader)
-    gl.deleteShader(fragmentShader)
+    /* At this point, we no longer need the shaders */
+    gl.deleteShader(vertex)
+    gl.deleteShader(fragment)
   }
 }

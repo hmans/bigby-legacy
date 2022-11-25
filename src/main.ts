@@ -1,4 +1,5 @@
 import { World } from "@miniplex/core"
+import { Color } from "three"
 import { Mesh } from "./bigby/core/Mesh"
 import { Transform } from "./bigby/core/Transform"
 import { Geometry } from "./bigby/geometry/Geometry"
@@ -20,7 +21,7 @@ world.add({
         size: 2,
       },
     }),
-    new Material()
+    new Material(new Color("hotpink"))
   ),
 })
 
@@ -33,7 +34,7 @@ world.add({
         size: 2,
       },
     }),
-    new Material(".3, .3, 1")
+    new Material(new Color("white"))
   ),
 })
 
