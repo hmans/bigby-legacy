@@ -1,10 +1,19 @@
-import { $, Attribute, compileShader, Input, Master, Vec3 } from "shader-composer"
+import {
+  $,
+  Attribute,
+  compileShader,
+  GlobalTime,
+  Input,
+  Master,
+  Vec3,
+} from "shader-composer"
 import { createProgram, createShader } from "../helpers"
 
 function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
   return Master({
     vertex: {
       body: $`
+        // ${GlobalTime}
         gl_Position = ${Attribute("vec4", "a_position")};
       `,
     },
@@ -18,6 +27,7 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
 
 export class Material {
   program?: WebGLProgram
+  uniforms?: Record<string, { value: any }>
 
   constructor(public color: Input<"vec3">) {}
 
@@ -28,6 +38,8 @@ export class Material {
   compile(gl: WebGL2RenderingContext) {
     /* Create our shaders */
     const [shader] = compileShader(MaterialRoot({ color: this.color }))
+    this.uniforms = shader.uniforms
+
     const vertex = createShader(gl, gl.VERTEX_SHADER, shader.vertexShader)
     const fragment = createShader(gl, gl.FRAGMENT_SHADER, shader.fragmentShader)
 
