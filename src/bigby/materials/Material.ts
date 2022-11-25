@@ -1,14 +1,11 @@
-import { $, compileShader, Input, Master, Vec3 } from "shader-composer"
+import { $, Attribute, compileShader, Input, Master, Vec3 } from "shader-composer"
 import { createProgram, createShader } from "../helpers"
 
-const MaterialRoot = ({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) =>
-  Master({
+function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
+  return Master({
     vertex: {
-      header: $`
-        attribute vec4 a_position;
-      `,
       body: $`
-        gl_Position = a_position;
+        gl_Position = ${Attribute("vec4", "a_position")};
       `,
     },
     fragment: {
@@ -17,6 +14,7 @@ const MaterialRoot = ({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) =>
       `,
     },
   })
+}
 
 export class Material {
   program?: WebGLProgram
