@@ -13,8 +13,8 @@ console.log("Let's go! 🐝")
 
 /* Initialize canvas */
 const canvas = document.body.appendChild(document.createElement("canvas"))
-canvas.width = 400
-canvas.height = 300
+canvas.width = window.innerWidth
+canvas.height = window.innerHeight
 
 /* Initialize WebGL */
 const gl = canvas.getContext("webgl2", {
