@@ -33,7 +33,7 @@ world.add({
         size: 2,
       },
     }),
-    new Material()
+    new Material(".3, .3, 1")
   ),
 })
 

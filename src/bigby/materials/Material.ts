@@ -1,21 +1,7 @@
 import { createProgram, createShader } from "../helpers"
 
 export class Material {
-  readonly vertexShader = /*glsl*/ `#version 300 es
-    in vec4 a_position;
-    void main() {
-      gl_Position = a_position;
-    }
-  `
-
-  readonly fragmentShader = /*glsl*/ `#version 300 es
-    precision highp float;
-    out vec4 outColor;
-    
-    void main() {
-      outColor = vec4(1, 0, 0.5, 1);
-    }
-  `
+  constructor(public color = "1, 0, .5") {}
 
   program?: WebGLProgram
 
@@ -24,10 +10,26 @@ export class Material {
   }
 
   compile(gl: WebGL2RenderingContext) {
-    const vertexShader = createShader(gl, gl.VERTEX_SHADER, this.vertexShader)
-    const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, this.fragmentShader)
+    const vertexShader = /*glsl*/ `#version 300 es
+    in vec4 a_position;
+    void main() {
+      gl_Position = a_position;
+    }
+  `
 
-    this.program = createProgram(gl, vertexShader, fragmentShader)
+    const fragmentShader = /*glsl*/ `#version 300 es
+    precision highp float;
+    out vec4 outColor;
+    
+    void main() {
+      outColor = vec4(${this.color}, 1);
+    }
+  `
+
+    const vertex = createShader(gl, gl.VERTEX_SHADER, vertexShader)
+    const fragment = createShader(gl, gl.FRAGMENT_SHADER, fragmentShader)
+
+    this.program = createProgram(gl, vertex, fragment)
 
     gl.deleteShader(vertexShader)
     gl.deleteShader(fragmentShader)
