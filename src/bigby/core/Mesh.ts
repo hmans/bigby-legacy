@@ -18,6 +18,8 @@ export class Mesh {
       this.material.program!,
       "a_position"
     )
+
+    /* Fill the position buffer */
     const positionBuffer = gl.createBuffer()
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
     gl.bufferData(
