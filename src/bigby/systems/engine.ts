@@ -1,5 +1,5 @@
 import { World } from "@miniplex/core"
-import { createProgram, createShader } from "./helpers"
+import { createProgram, createShader } from "../helpers"
 
 export type Entity = {
   mesh?: Mesh

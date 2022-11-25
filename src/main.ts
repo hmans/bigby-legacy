@@ -1,5 +1,5 @@
 import { World } from "@miniplex/core"
-import engine, { Entity, Mesh } from "./bigby/engine"
+import engine, { Entity, Mesh } from "./bigby/systems/engine"
 import "./style.css"
 
 const world = new World<Entity>()
