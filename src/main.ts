@@ -85,13 +85,17 @@ const fragmentShader = createShader(
 
 const program = createProgram(gl, vertexShader, fragmentShader)
 
+/* Upload positions */
 const positionAttributeLocation = gl.getAttribLocation(program, "a_position")
 const positionBuffer = gl.createBuffer()
 gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
+gl.bufferData(
+  gl.ARRAY_BUFFER,
+  new Float32Array([0, 0, 0, 0.5, 0.7, 0]),
+  gl.STATIC_DRAW
+)
 
-const positions = [0, 0, 0, 0.5, 0.7, 0]
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
-
+/* Create VAO */
 const vao = gl.createVertexArray()
 gl.bindVertexArray(vao)
 gl.enableVertexAttribArray(positionAttributeLocation)
@@ -110,16 +114,23 @@ gl.vertexAttribPointer(
   offset
 )
 
+/* Configure viewport */
 gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
 
-/* Clear */
-gl.clearColor(1, 1, 0, 1)
-gl.clear(gl.COLOR_BUFFER_BIT)
+function animate() {
+  requestAnimationFrame(animate)
 
-gl.useProgram(program)
-gl.bindVertexArray(vao)
+  /* Clear canvas */
+  gl.clearColor(0, 0, 0, 0)
+  gl.clear(gl.COLOR_BUFFER_BIT)
 
-var primitiveType = gl.TRIANGLES
-var offset = 0
-var count = 3
-gl.drawArrays(primitiveType, offset, count)
+  /* Draw */
+  gl.useProgram(program)
+  gl.bindVertexArray(vao)
+  var primitiveType = gl.TRIANGLES
+  var offset = 0
+  var count = 3
+  gl.drawArrays(primitiveType, offset, count)
+}
+
+animate()
