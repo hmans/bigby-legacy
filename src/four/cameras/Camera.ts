@@ -20,6 +20,7 @@ export class Camera extends Object3D {
 
   updateMatrix(): void {
     super.updateMatrix()
+
     if (this.matrixAutoUpdate)
       mat4.perspectiveNO(
         this.projectionMatrix,
@@ -28,6 +29,7 @@ export class Camera extends Object3D {
         this.near,
         this.far
       )
+
     mat4.copy(this.viewMatrix, this.matrix)
     mat4.invert(this.viewMatrix, this.viewMatrix)
   }

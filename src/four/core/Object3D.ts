@@ -2,11 +2,15 @@ import { mat4, quat, vec3 } from "gl-matrix"
 
 export class Object3D {
   readonly matrix = mat4.create()
+
   readonly quaternion = quat.create()
   readonly position = vec3.create()
   readonly scale = vec3.set(vec3.create(), 1, 1, 1)
+
   readonly up = vec3.set(vec3.create(), 0, 1, 0)
+
   readonly children: Object3D[] = []
+
   public parent: Object3D | null = null
   public matrixAutoUpdate = true
   public visible = true
