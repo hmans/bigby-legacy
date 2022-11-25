@@ -1,7 +1,9 @@
 import { World } from "@miniplex/core"
+import { Transform } from "../core/Transform"
 import { createProgram, createShader } from "../helpers"
 
 export type Entity = {
+  transform?: Transform
   mesh?: Mesh
 }
 

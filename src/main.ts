@@ -1,10 +1,11 @@
 import { World } from "@miniplex/core"
 import engine, { Entity, Mesh } from "./bigby/systems/engine"
+import transforms from "./bigby/systems/transforms"
 import "./style.css"
 
 const world = new World<Entity>()
 
-const systems = [engine(world)]
+const systems = [engine(world), transforms(world)]
 
 world.add({ mesh: new Mesh() })
 
