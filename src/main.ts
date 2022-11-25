@@ -35,11 +35,28 @@ function createShader(
   gl.shaderSource(shader, source)
   gl.compileShader(shader)
 
-  const success = gl.getShaderParameter(shader, gl.COMPILE_STATUS)
-  if (!success)
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
     throw new Error("Failed to compile shader: " + gl.getShaderInfoLog(shader))
 
   return shader
+}
+
+function createProgram(
+  gl: WebGL2RenderingContext,
+  vertexShader: WebGLShader,
+  fragmentShader: WebGLShader
+) {
+  const program = gl.createProgram()
+  if (!program) throw new Error("Failed to create program")
+
+  gl.attachShader(program, vertexShader)
+  gl.attachShader(program, fragmentShader)
+  gl.linkProgram(program)
+
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS))
+    throw new Error("Failed to link program")
+
+  return program
 }
 
 const vertexShader = createShader(
@@ -65,24 +82,6 @@ const fragmentShader = createShader(
     }
   `
 )
-
-function createProgram(
-  gl: WebGL2RenderingContext,
-  vertexShader: WebGLShader,
-  fragmentShader: WebGLShader
-) {
-  const program = gl.createProgram()
-  if (!program) throw new Error("Failed to create program")
-
-  gl.attachShader(program, vertexShader)
-  gl.attachShader(program, fragmentShader)
-  gl.linkProgram(program)
-
-  const success = gl.getProgramParameter(program, gl.LINK_STATUS)
-  if (!success) throw new Error("Failed to link program")
-
-  return program
-}
 
 const program = createProgram(gl, vertexShader, fragmentShader)
 
