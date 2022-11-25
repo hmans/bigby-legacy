@@ -10,8 +10,6 @@ world.add({ mesh: new Mesh() })
 
 function animate() {
   requestAnimationFrame(animate)
-
-  /* Execute systems */
   systems.forEach((system) => system())
 }
 
