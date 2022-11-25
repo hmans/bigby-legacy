@@ -84,6 +84,8 @@ const fragmentShader = createShader(
 )
 
 const program = createProgram(gl, vertexShader, fragmentShader)
+gl.deleteShader(vertexShader)
+gl.deleteShader(fragmentShader)
 
 /* Upload positions */
 const positionAttributeLocation = gl.getAttribLocation(program, "a_position")
