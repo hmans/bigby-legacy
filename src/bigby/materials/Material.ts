@@ -1,19 +1,11 @@
-import {
-  $,
-  Attribute,
-  compileShader,
-  GlobalTime,
-  Input,
-  Master,
-  Vec3,
-} from "shader-composer"
+import { $, Attribute, compileShader, Input, Master, Vec3 } from "shader-composer"
+import { Uniform } from "three"
 import { createProgram, createShader } from "../helpers"
 
 function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
   return Master({
     vertex: {
       body: $`
-        // ${GlobalTime}
         gl_Position = ${Attribute("vec4", "a_position")};
       `,
     },
@@ -27,9 +19,11 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
 
 export class Material {
   program?: WebGLProgram
-  uniforms?: Record<string, { value: any }>
+  shader: ReturnType<typeof compileShader>
 
-  constructor(public color: Input<"vec3">) {}
+  constructor(props: { color: Input<"vec3"> }) {
+    this.shader = compileShader(MaterialRoot(props))
+  }
 
   get isCompiled() {
     return this.program
@@ -37,11 +31,12 @@ export class Material {
 
   compile(gl: WebGL2RenderingContext) {
     /* Create our shaders */
-    const [shader] = compileShader(MaterialRoot({ color: this.color }))
-    this.uniforms = shader.uniforms
-
-    const vertex = createShader(gl, gl.VERTEX_SHADER, shader.vertexShader)
-    const fragment = createShader(gl, gl.FRAGMENT_SHADER, shader.fragmentShader)
+    const vertex = createShader(gl, gl.VERTEX_SHADER, this.shader[0].vertexShader)
+    const fragment = createShader(
+      gl,
+      gl.FRAGMENT_SHADER,
+      this.shader[0].fragmentShader
+    )
 
     /* Link them into a program */
     this.program = createProgram(gl, vertex, fragment)
@@ -49,5 +44,18 @@ export class Material {
     /* At this point, we no longer need the shaders */
     gl.deleteShader(vertex)
     gl.deleteShader(fragment)
+  }
+
+  updateUniforms(gl: WebGL2RenderingContext) {
+    if (!this.program) return
+
+    /* Update uniforms */
+    this.shader[1].update(0.01, undefined!, undefined!, undefined!)
+
+    for (const [name, uniform] of Object.entries(this.shader[0].uniforms!)) {
+      const location = gl.getUniformLocation(this.program, name)
+      if (location === null) throw new Error(`Uniform ${name} not found in program`)
+      gl.uniform1f(location, (uniform as any).value)
+    }
   }
 }

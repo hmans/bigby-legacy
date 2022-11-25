@@ -55,6 +55,7 @@ export class Mesh {
     if (!this.isCompiled) this.compile(gl)
 
     gl.useProgram(this.material.program!)
+    this.material.updateUniforms(gl)
     gl.bindVertexArray(this.vao!)
 
     var primitiveType = gl.TRIANGLES

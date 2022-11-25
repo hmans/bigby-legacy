@@ -39,6 +39,7 @@ export default (world: World<Entity>) => {
 
     /* Draw */
     for (const { mesh } of meshes) {
+      /* Render mesh */
       mesh.render(gl)
     }
   }
