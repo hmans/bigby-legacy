@@ -5,7 +5,7 @@ import { Entity } from "./engine"
 export default (world: World<Entity>) => {
   const entities = world.with("transform")
 
-  return () => {
+  return (dt: number) => {
     for (const { transform } of entities) {
       if (!transform.autoUpdate) continue
 

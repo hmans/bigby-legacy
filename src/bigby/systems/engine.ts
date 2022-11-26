@@ -1,4 +1,5 @@
 import { With, World } from "@miniplex/core"
+import { vec3 } from "gl-matrix"
 import { Mesh } from "../core/Mesh"
 import { Transform } from "../core/Transform"
 
@@ -6,7 +7,7 @@ export type Entity = {
   transform?: Transform
   parent?: With<Entity, "transform">
   mesh?: Mesh
-  autorotate?: true
+  autorotate?: vec3
 }
 
 export default (world: World<Entity>) => {
@@ -30,7 +31,7 @@ export default (world: World<Entity>) => {
 
   const meshes = world.with("mesh", "transform")
 
-  return () => {
+  return (dt: number) => {
     /* Clear canvas */
     gl.clearColor(0, 0, 0, 0)
     gl.clear(gl.COLOR_BUFFER_BIT)
