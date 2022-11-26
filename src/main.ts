@@ -25,8 +25,17 @@ world.add({
   mesh: new Mesh(
     new Geometry({
       position: {
-        data: new Float32Array([0, 0, 0, 0.7, 0.7, 0]),
-        size: 2,
+        // prettier-ignore
+        data: new Float32Array([
+          0.0, 0.0, 0.0,
+          0.0, 0.7, 0.0,
+          0.7, 0.7, 0.0,
+
+          0.0, 0.0, 0.0,
+          0.7, 0.7, 0.0,
+          0.7, 0.0, 0.0,
+        ]),
+        size: 3,
       },
     }),
 
@@ -34,24 +43,6 @@ world.add({
       color: Add(
         new Color("hotpink"),
         NormalizePlusMinusOne(Sin(Mul(GlobalTime, 1.3)))
-      ),
-    })
-  ),
-})
-
-world.add({
-  transform: new Transform(),
-  mesh: new Mesh(
-    new Geometry({
-      position: {
-        data: new Float32Array([0, 0, 0, -0.7, -0.7, 0]),
-        size: 2,
-      },
-    }),
-    new Material({
-      color: Add(
-        new Color("cyan"),
-        NormalizePlusMinusOne(Cos(Mul(GlobalTime, 2.3)))
       ),
     })
   ),
