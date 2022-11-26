@@ -1,6 +1,6 @@
 import { World } from "@miniplex/core"
 import { mat4, quat } from "gl-matrix"
-import { Entity } from "./rendering"
+import { Entity } from "../Entity"
 
 export default (world: World<Entity>) => {
   const entities = world.with("transform")

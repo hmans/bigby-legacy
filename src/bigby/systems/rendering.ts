@@ -1,14 +1,6 @@
-import { With, World } from "@miniplex/core"
-import { mat4, vec3 } from "gl-matrix"
-import { Mesh } from "../core/Mesh"
-import { Transform } from "../core/Transform"
-
-export type Entity = {
-  transform?: Transform
-  parent?: With<Entity, "transform">
-  mesh?: Mesh
-  autorotate?: vec3
-}
+import { World } from "@miniplex/core"
+import { mat4 } from "gl-matrix"
+import { Entity } from "../Entity"
 
 export default (world: World<Entity>) => {
   /* Initialize canvas */
