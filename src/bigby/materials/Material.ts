@@ -1,5 +1,13 @@
 import { mat3, mat4 } from "gl-matrix"
-import { $, Attribute, compileShader, Input, Master, Vec3 } from "shader-composer"
+import {
+  $,
+  Attribute,
+  compileShader,
+  Input,
+  Master,
+  ModelViewMatrix,
+  Vec3,
+} from "shader-composer"
 import { createProgram, createShader } from "../helpers"
 
 export type Uniform = number | mat3 | mat4
@@ -10,6 +18,7 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
       header: $`
         uniform mat4 modelMatrix;
         uniform mat4 viewMatrix;
+        uniform mat4 modelViewMatrix;
         uniform mat3 normalMatrix;
         uniform mat4 projectionMatrix;
 
@@ -31,8 +40,7 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
 
         /* Calculate the vertex position */
         gl_Position = projectionMatrix
-          * viewMatrix
-          * modelMatrix
+          * modelViewMatrix
           * ${Attribute("vec4", "position")};
       `,
     },

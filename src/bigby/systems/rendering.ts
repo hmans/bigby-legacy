@@ -65,12 +65,12 @@ export default (world: World<Entity>) => {
         mat4.invert(viewMatrix, camera.transform.matrix)
         material.uniforms.viewMatrix = viewMatrix
 
-        /* Eh */
+        /* Update modelViewMatrix uniform */
         mat4.copy(modelViewMatrix, viewMatrix)
         mat4.multiply(modelViewMatrix, modelViewMatrix, transform.matrix)
+        material.uniforms.modelViewMatrix = modelViewMatrix
 
-        mat4.copy(modelViewMatrix, viewMatrix)
-        mat4.multiply(modelViewMatrix, modelViewMatrix, transform.matrix)
+        /* Update normalMatrix uniform */
         mat3.normalFromMat4(normalMatrix, modelViewMatrix)
         material.uniforms.normalMatrix = normalMatrix
 
