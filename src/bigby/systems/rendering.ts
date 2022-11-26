@@ -24,7 +24,6 @@ export default (world: World<Entity>) => {
   const cameras = transforms.with("camera")
 
   const viewMatrix = mat4.create()
-  const projectionMatrix = mat4.create()
 
   return (dt: number) => {
     /* Clear canvas */
@@ -50,19 +49,14 @@ export default (world: World<Entity>) => {
         if (location !== null) gl.uniformMatrix4fv(location, false, transform.matrix)
 
         /* Update viewMatrix uniform */
-        mesh.material.uniforms.viewMatrix = {
-          value: mat4.invert(viewMatrix, camera.transform.matrix),
-        }
+        mat4.invert(viewMatrix, camera.transform.matrix)
+        mesh.material.uniforms.viewMatrix = { value: viewMatrix }
 
         /* Update projectionMatrix uniform */
-        mat4.perspectiveNO(
-          projectionMatrix,
-          75 * (Math.PI / 180),
-          gl.canvas.width / gl.canvas.height,
-          0.1,
-          1000
-        )
-        mesh.material.uniforms.projectionMatrix = { value: projectionMatrix }
+        camera.camera.updateProjectionMatrix(gl)
+        mesh.material.uniforms.projectionMatrix = {
+          value: camera.camera.projectionMatrix,
+        }
 
         /* Update the material's uniforms */
         mesh.material.updateUniforms(gl)
