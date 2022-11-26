@@ -47,17 +47,15 @@ export default (world: World<Entity>) => {
         gl.useProgram(material.program!)
 
         /* Update modelMatrix uniform */
-        material.uniforms.modelMatrix = { value: transform.matrix }
+        material.uniforms.modelMatrix = transform.matrix
 
         /* Update viewMatrix uniform */
         mat4.invert(viewMatrix, camera.transform.matrix)
-        material.uniforms.viewMatrix = { value: viewMatrix }
+        material.uniforms.viewMatrix = viewMatrix
 
         /* Update projectionMatrix uniform */
         camera.camera.updateProjectionMatrix(gl)
-        material.uniforms.projectionMatrix = {
-          value: camera.camera.projectionMatrix,
-        }
+        material.uniforms.projectionMatrix = camera.camera.projectionMatrix
 
         /* Update the material's uniforms */
         material.updateUniforms(gl)

@@ -2,9 +2,7 @@ import { mat4 } from "gl-matrix"
 import { $, Attribute, compileShader, Input, Master, Vec3 } from "shader-composer"
 import { createProgram, createShader } from "../helpers"
 
-export type Uniform = {
-  value: any
-}
+export type Uniform = number | mat4
 
 function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
   return Master({
@@ -107,7 +105,7 @@ export class Material {
     }
 
     /* Upload my own uniforms */
-    for (const [name, { value }] of Object.entries(this.uniforms)) {
+    for (const [name, value] of Object.entries(this.uniforms)) {
       const location = gl.getUniformLocation(this.program, name)
       if (location === null) throw new Error(`Uniform ${name} not found in program`)
 
