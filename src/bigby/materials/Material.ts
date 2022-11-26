@@ -105,14 +105,14 @@ export class Material {
     /* Upload shader composer uniforms */
     for (const [name, uniform] of Object.entries(this.shader[0].uniforms!)) {
       const location = gl.getUniformLocation(this.program, name)
-      if (location === null) return
+      if (location === null) continue
       gl.uniform1f(location, (uniform as any).value)
     }
 
     /* Upload my own uniforms */
     for (const [name, value] of Object.entries(this.uniforms)) {
       const location = gl.getUniformLocation(this.program, name)
-      if (location === null) return
+      if (location === null) continue
 
       if (typeof value === "number") {
         gl.uniform1f(location, value)
