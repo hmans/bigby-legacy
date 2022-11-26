@@ -61,7 +61,7 @@ export class Mesh {
 
     /* Update viewMatrix uniform */
     const viewMatrix = mat4.create()
-    mat4.lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0])
+    mat4.lookAt(viewMatrix, [0, 0, -5], [0, 0, 0], [0, 1, 0])
     const viewLocation = gl.getUniformLocation(this.material.program!, "viewMatrix")
     if (viewLocation !== null) gl.uniformMatrix4fv(viewLocation, false, viewMatrix)
 
