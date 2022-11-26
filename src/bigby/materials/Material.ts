@@ -9,7 +9,7 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
         uniform mat4 viewMatrix;
         uniform mat4 projectionMatrix;
 
-        varying vec3 vNormal;
+        flat varying vec3 vNormal;
 
         attribute vec3 normal;
       `,

@@ -10,7 +10,11 @@ export function createShader(
   gl.compileShader(shader)
 
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
-    throw new Error("Failed to compile shader: " + gl.getShaderInfoLog(shader))
+    throw new Error(
+      `Failed to compile ${
+        type === gl.VERTEX_SHADER ? "vertex" : "fragment"
+      } shader: ` + gl.getShaderInfoLog(shader)
+    )
 
   return shader
 }
