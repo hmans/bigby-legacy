@@ -31,11 +31,39 @@ export default (world: World<Entity>) => {
 
     /* Draw */
     for (const { mesh, transform } of meshes) {
-      /* Ensure that the mesh is compiled */
-      if (!mesh.isCompiled) mesh.compile(gl)
-
       /* Use this mesh's material's program */
+      if (!mesh.material.isCompiled) mesh.material.compile(gl)
       gl.useProgram(mesh.material.program!)
+
+      /* Ensure that the mesh is compiled */
+      if (!mesh.vao) {
+        /* Create our VAO */
+        mesh.vao = gl.createVertexArray()!
+        if (!mesh.vao) throw new Error("Could not create VAO")
+
+        gl.bindVertexArray(mesh.vao)
+
+        /* Upload all of the geometry's attributes */
+        for (const [name, attribute] of Object.entries(mesh.geometry.attributes)) {
+          const type = name === "index" ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER
+
+          const buffer = gl.createBuffer()
+          if (!buffer) throw new Error("Failed to create buffer")
+
+          /* Upload buffer */
+          gl.bindBuffer(type, buffer)
+          gl.bufferData(type, attribute.data, gl.STATIC_DRAW)
+
+          /* Find the attribute's location in the shader */
+          const location = gl.getAttribLocation(mesh.material.program!, name)
+
+          /* Enable vertex attribute */
+          if (location !== -1) {
+            gl.enableVertexAttribArray(location)
+            gl.vertexAttribPointer(location, attribute.size, gl.FLOAT, false, 0, 0)
+          }
+        }
+      }
 
       /* Update the material's uniforms */
       /* TODO: Change this so this only happens once per frame per material */
