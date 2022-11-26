@@ -8,8 +8,14 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
         uniform mat4 modelMatrix;
         uniform mat4 viewMatrix;
         uniform mat4 projectionMatrix;
+
+        varying vec3 vNormal;
+
+        attribute vec3 normal;
       `,
       body: $`
+        vNormal = normal;
+
         gl_Position = projectionMatrix
           * viewMatrix
           * modelMatrix
@@ -17,8 +23,19 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
       `,
     },
     fragment: {
+      header: $`
+        varying vec3 vNormal;
+      `,
       body: $`
-        gl_FragColor = vec4(${color}, 1.0);
+        float light = 0.0;
+
+        /* Add ambient light */
+        light += 0.1;
+
+        /* Add directional light */
+        light += max(dot(normalize(vNormal), normalize(vec3(1, 1, 1))), 0.0);
+        
+        gl_FragColor = vec4(${color} * light, 1.0);
       `,
     },
   })
