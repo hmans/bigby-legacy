@@ -29,7 +29,6 @@ export default (world: World<Entity>) => {
     gl.bindFramebuffer(gl.FRAMEBUFFER, null)
     gl.viewport(0, 0, canvas.width, canvas.height)
 
-    /* Draw */
     for (const { mesh, transform } of meshes) {
       /* Prepare Material */
       {
