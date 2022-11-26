@@ -61,7 +61,7 @@ export class Mesh {
 
     /* Update viewMatrix uniform */
     const viewMatrix = mat4.create()
-    mat4.lookAt(viewMatrix, [0, 0, -5], [0, 0, 0], [0, 1, 0])
+    mat4.lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0])
     const viewLocation = gl.getUniformLocation(this.material.program!, "viewMatrix")
     if (viewLocation !== null) gl.uniformMatrix4fv(viewLocation, false, viewMatrix)
 
@@ -75,9 +75,9 @@ export class Mesh {
       gl.uniformMatrix4fv(
         projectionLocation,
         false,
-        mat4.perspective(
+        mat4.perspectiveNO(
           perspectiveMatrix,
-          Math.PI * 1.5,
+          75 * (Math.PI / 180),
           gl.canvas.width / gl.canvas.height,
           0.1,
           1000
