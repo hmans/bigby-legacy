@@ -24,7 +24,7 @@ world.add({
 
 world.add({
   autorotate: [0.3, 0.1, 0.2],
-  transform: new Transform([0, 0, -20], [0, 0, 0, 1], [15, 15, 15]),
+  transform: new Transform([0, 0, -30], [0, 0, 0, 1], [20, 20, 20]),
   mesh: new Mesh(
     new BoxGeometry(),
     new Material({
