@@ -6,6 +6,7 @@ export type Entity = {
   transform?: Transform
   parent?: With<Entity, "transform">
   mesh?: Mesh
+  autorotate?: true
 }
 
 export default (world: World<Entity>) => {

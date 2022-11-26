@@ -12,15 +12,17 @@ import { Mesh } from "./bigby/core/Mesh"
 import { Transform } from "./bigby/core/Transform"
 import { Geometry } from "./bigby/geometry/Geometry"
 import { Material } from "./bigby/materials/Material"
+import autorotate from "./bigby/systems/autorotate"
 import engine, { Entity } from "./bigby/systems/engine"
 import transforms from "./bigby/systems/transforms"
 import "./style.css"
 
 const world = new World<Entity>()
 
-const systems = [transforms(world), engine(world)]
+const systems = [autorotate(world), transforms(world), engine(world)]
 
 world.add({
+  autorotate: true,
   transform: new Transform(),
   mesh: new Mesh(
     new Geometry({

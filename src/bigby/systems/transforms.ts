@@ -9,8 +9,6 @@ export default (world: World<Entity>) => {
     for (const { transform } of entities) {
       if (!transform.autoUpdate) continue
 
-      quat.rotateZ(transform.quaternion, transform.quaternion, 0.01)
-
       mat4.fromRotationTranslationScale(
         transform.matrix,
         transform.quaternion,
