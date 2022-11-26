@@ -1,5 +1,10 @@
+import { mat4 } from "gl-matrix"
 import { $, Attribute, compileShader, Input, Master, Vec3 } from "shader-composer"
 import { createProgram, createShader } from "../helpers"
+
+export type Uniform = {
+  value: any
+}
 
 function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
   return Master({
@@ -86,16 +91,31 @@ export class Material {
     gl.deleteShader(fragment)
   }
 
+  uniforms: Record<string, Uniform> = {}
+
   updateUniforms(gl: WebGL2RenderingContext) {
     if (!this.program) return
 
     /* Update uniforms */
     this.shader[1].update(0.01, undefined!, undefined!, undefined!)
 
+    /* Upload shader composer uniforms */
     for (const [name, uniform] of Object.entries(this.shader[0].uniforms!)) {
       const location = gl.getUniformLocation(this.program, name)
       if (location === null) throw new Error(`Uniform ${name} not found in program`)
       gl.uniform1f(location, (uniform as any).value)
+    }
+
+    /* Upload my own uniforms */
+    for (const [name, { value }] of Object.entries(this.uniforms)) {
+      const location = gl.getUniformLocation(this.program, name)
+      if (location === null) throw new Error(`Uniform ${name} not found in program`)
+
+      if (typeof value === "number") {
+        gl.uniform1f(location, value)
+      } else if (value instanceof Float32Array) {
+        gl.uniformMatrix4fv(location, false, value)
+      }
     }
   }
 }

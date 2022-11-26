@@ -36,10 +36,6 @@ export default (world: World<Entity>) => {
         if (!mesh.material.isCompiled) mesh.material.compile(gl)
         gl.useProgram(mesh.material.program!)
 
-        /* Update the material's uniforms */
-        /* TODO: Change this so this only happens once per frame per material */
-        mesh.material.updateUniforms(gl)
-
         /* Update modelMatrix uniform */
         const location = gl.getUniformLocation(mesh.material.program!, "modelMatrix")
         if (location !== null) gl.uniformMatrix4fv(location, false, transform.matrix)
@@ -47,31 +43,21 @@ export default (world: World<Entity>) => {
         /* Update viewMatrix uniform */
         const viewMatrix = mat4.create()
         mat4.lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0])
-        const viewLocation = gl.getUniformLocation(
-          mesh.material.program!,
-          "viewMatrix"
-        )
-        if (viewLocation !== null)
-          gl.uniformMatrix4fv(viewLocation, false, viewMatrix)
+        mesh.material.uniforms.viewMatrix = { value: viewMatrix }
 
         /* Update projectionMatrix uniform */
-        const perspectiveMatrix = mat4.create()
-        const projectionLocation = gl.getUniformLocation(
-          mesh.material.program!,
-          "projectionMatrix"
+        const projectionMatrix = mat4.create()
+        mat4.perspectiveNO(
+          projectionMatrix,
+          75 * (Math.PI / 180),
+          gl.canvas.width / gl.canvas.height,
+          0.1,
+          1000
         )
-        if (projectionLocation !== null)
-          gl.uniformMatrix4fv(
-            projectionLocation,
-            false,
-            mat4.perspectiveNO(
-              perspectiveMatrix,
-              75 * (Math.PI / 180),
-              gl.canvas.width / gl.canvas.height,
-              0.1,
-              1000
-            )
-          )
+        mesh.material.uniforms.projectionMatrix = { value: projectionMatrix }
+
+        /* Update the material's uniforms */
+        mesh.material.updateUniforms(gl)
       }
 
       /* Prepare Geometry */
