@@ -60,10 +60,7 @@ const a = world.add({
     }),
 
     new Material({
-      color: Add(
-        new Color("hotpink"),
-        NormalizePlusMinusOne(Sin(Mul(GlobalTime, 1.3)))
-      ),
+      color: new Color("hotpink"),
     })
   ),
 })

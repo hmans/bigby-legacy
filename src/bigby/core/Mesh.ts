@@ -87,6 +87,13 @@ export class Mesh {
     /* Draw the geometry */
     gl.bindVertexArray(this.vao!)
 
+    /* Cull back faces... for now */
+    gl.enable(gl.CULL_FACE)
+    gl.cullFace(gl.BACK)
+
+    /* Enable depth testing */
+    gl.enable(gl.DEPTH_TEST)
+
     if (this.geometry.attributes.index) {
       gl.drawElements(
         gl.TRIANGLES,
