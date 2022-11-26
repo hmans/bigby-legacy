@@ -30,12 +30,22 @@ export default (world: World<Entity>) => {
     gl.clearColor(0, 0, 0, 0)
     gl.clear(gl.COLOR_BUFFER_BIT)
 
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null)
-    gl.viewport(0, 0, canvas.width, canvas.height)
-
     /* Get camera */
     const camera = cameras.first
     if (!camera) return
+
+    /* Check if we need to update the renderer size */
+    if (
+      gl.canvas.width !== canvas.clientWidth ||
+      gl.canvas.height !== canvas.clientHeight
+    ) {
+      gl.canvas.width = canvas.clientWidth
+      gl.canvas.height = canvas.clientHeight
+      camera.camera.updateProjectionMatrix(gl)
+    }
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null)
+    gl.viewport(0, 0, canvas.width, canvas.height)
 
     for (const { mesh, transform } of meshes) {
       const { geometry, material } = mesh
