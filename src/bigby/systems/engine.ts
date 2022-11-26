@@ -11,8 +11,6 @@ export type Entity = {
 export default (world: World<Entity>) => {
   console.log("Let's go! 🐝")
 
-  const meshes = world.with("mesh")
-
   /* Initialize canvas */
   const canvas = document.body.appendChild(document.createElement("canvas"))
   canvas.width = window.innerWidth
@@ -29,6 +27,8 @@ export default (world: World<Entity>) => {
   /* Configure viewport */
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
 
+  const meshes = world.with("mesh", "transform")
+
   return () => {
     /* Clear canvas */
     gl.clearColor(0, 0, 0, 0)
@@ -38,9 +38,9 @@ export default (world: World<Entity>) => {
     gl.viewport(0, 0, canvas.width, canvas.height)
 
     /* Draw */
-    for (const { mesh } of meshes) {
+    for (const { mesh, transform } of meshes) {
       /* Render mesh */
-      mesh.render(gl)
+      mesh.render(gl, transform)
     }
   }
 }

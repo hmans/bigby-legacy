@@ -4,8 +4,11 @@ import { createProgram, createShader } from "../helpers"
 function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
   return Master({
     vertex: {
+      header: $`
+        uniform mat4 modelMatrix;
+      `,
       body: $`
-        gl_Position = ${Attribute("vec4", "position")};
+        gl_Position = modelMatrix * ${Attribute("vec4", "position")};
       `,
     },
     fragment: {

@@ -1,5 +1,6 @@
 import { Geometry } from "../geometry/Geometry"
 import { Material } from "../materials/Material"
+import { Transform } from "./Transform"
 
 export class Mesh {
   vao?: WebGLVertexArrayObject
@@ -37,7 +38,7 @@ export class Mesh {
     }
   }
 
-  render(gl: WebGL2RenderingContext) {
+  render(gl: WebGL2RenderingContext, transform: Transform) {
     /* Ensure that the mesh is compiled */
     if (!this.isCompiled) this.compile(gl)
 
@@ -47,9 +48,13 @@ export class Mesh {
     /* Update the material's uniforms */
     /* TODO: Change this so this only happens once per frame per material */
     this.material.updateUniforms(gl)
-    gl.bindVertexArray(this.vao!)
+
+    /* Update modelMatrix uniform */
+    const location = gl.getUniformLocation(this.material.program!, "modelMatrix")
+    if (location !== null) gl.uniformMatrix4fv(location, false, transform.matrix)
 
     /* Draw the geometry */
+    gl.bindVertexArray(this.vao!)
     gl.drawArrays(
       gl.TRIANGLES,
       0,
