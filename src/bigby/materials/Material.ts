@@ -24,7 +24,9 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
     },
     fragment: {
       header: $`
-        varying vec3 vNormal;
+        flat varying vec3 vNormal;
+
+        out vec4 fragColor;
       `,
       body: $`
         float light = 0.0;
@@ -35,7 +37,7 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
         /* Add directional light */
         light += max(dot(normalize(vNormal), normalize(vec3(1, 1, 1))), 0.0);
         
-        gl_FragColor = vec4(${color} * light, 1.0);
+        fragColor = vec4(${color} * light, 1.0);
       `,
     },
   })
@@ -54,12 +56,29 @@ export class Material {
   }
 
   compile(gl: WebGL2RenderingContext) {
+    const vertexCheats = `#version 300 es
+      precision mediump sampler2DArray;
+			#define attribute in
+			#define varying out
+			#define texture2D texture
+    `
+
+    const fragmentCheats = `#version 300 es
+      precision mediump sampler2DArray;
+      #define varying in
+      #define texture2D texture
+      `
+
     /* Create our shaders */
-    const vertex = createShader(gl, gl.VERTEX_SHADER, this.shader[0].vertexShader)
+    const vertex = createShader(
+      gl,
+      gl.VERTEX_SHADER,
+      vertexCheats + this.shader[0].vertexShader
+    )
     const fragment = createShader(
       gl,
       gl.FRAGMENT_SHADER,
-      this.shader[0].fragmentShader
+      fragmentCheats + this.shader[0].fragmentShader
     )
 
     /* Link them into a program */

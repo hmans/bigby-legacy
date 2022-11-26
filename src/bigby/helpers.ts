@@ -9,13 +9,13 @@ export function createShader(
   gl.shaderSource(shader, source)
   gl.compileShader(shader)
 
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS))
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
     throw new Error(
       `Failed to compile ${
         type === gl.VERTEX_SHADER ? "vertex" : "fragment"
       } shader: ` + gl.getShaderInfoLog(shader)
     )
-
+  }
   return shader
 }
 
