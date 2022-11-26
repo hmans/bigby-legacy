@@ -60,12 +60,23 @@ export class Mesh {
 
     /* Draw the geometry */
     gl.bindVertexArray(this.vao!)
-    gl.drawArraysInstanced(
-      gl.TRIANGLES,
-      0,
-      this.geometry.attributes.position.data.length /
-        this.geometry.attributes.position.size,
-      1
-    )
+
+    if (this.geometry.attributes.index) {
+      gl.drawElements(
+        gl.TRIANGLES,
+        this.geometry.attributes.index.data.length /
+          this.geometry.attributes.index.size,
+        gl.UNSIGNED_INT,
+        0
+      )
+    } else {
+      gl.drawArraysInstanced(
+        gl.TRIANGLES,
+        0,
+        this.geometry.attributes.position.data.length /
+          this.geometry.attributes.position.size,
+        1
+      )
+    }
   }
 }

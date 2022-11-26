@@ -21,7 +21,7 @@ const world = new World<Entity>()
 
 const systems = [autorotate(world), transforms(world), engine(world)]
 
-world.add({
+const a = world.add({
   autorotate: true,
 
   transform: new Transform(),
@@ -67,6 +67,8 @@ world.add({
     })
   ),
 })
+
+a.transform.position[0] = 1
 
 function animate() {
   requestAnimationFrame(animate)
