@@ -38,15 +38,23 @@ export class Mesh {
   }
 
   render(gl: WebGL2RenderingContext) {
+    /* Ensure that the mesh is compiled */
     if (!this.isCompiled) this.compile(gl)
 
+    /* Use this mesh's material's program */
     gl.useProgram(this.material.program!)
+
+    /* Update the material's uniforms */
+    /* TODO: Change this so this only happens once per frame per material */
     this.material.updateUniforms(gl)
     gl.bindVertexArray(this.vao!)
 
-    var primitiveType = gl.TRIANGLES
-    var offset = 0
-    var count = 3
-    gl.drawArrays(primitiveType, offset, count)
+    /* Draw the geometry */
+    gl.drawArrays(
+      gl.TRIANGLES,
+      0,
+      this.geometry.attributes.position.data.length /
+        this.geometry.attributes.position.size
+    )
   }
 }
