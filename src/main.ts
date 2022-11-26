@@ -1,27 +1,18 @@
 import { World } from "@miniplex/core"
 import { vec3 } from "gl-matrix"
-import {
-  Add,
-  Cos,
-  GlobalTime,
-  Mul,
-  NormalizePlusMinusOne,
-  Sin,
-} from "shader-composer"
 import { Color } from "three"
 import { Mesh } from "./bigby/core/Mesh"
 import { Transform } from "./bigby/core/Transform"
 import { BoxGeometry } from "./bigby/geometry/BoxGeometry"
-import { Geometry } from "./bigby/geometry/Geometry"
 import { Material } from "./bigby/materials/Material"
 import autorotate from "./bigby/systems/autorotate"
-import engine, { Entity } from "./bigby/systems/engine"
+import rendering, { Entity } from "./bigby/systems/rendering"
 import transforms from "./bigby/systems/transforms"
 import "./style.css"
 
 const world = new World<Entity>()
 
-const systems = [autorotate(world), transforms(world), engine(world)]
+const systems = [autorotate(world), transforms(world), rendering(world)]
 
 world.add({
   autorotate: vec3.set(vec3.create(), 1, 1.3, 0),

@@ -11,8 +11,6 @@ export type Entity = {
 }
 
 export default (world: World<Entity>) => {
-  console.log("Let's go! 🐝")
-
   /* Initialize canvas */
   const canvas = document.body.appendChild(document.createElement("canvas"))
   canvas.width = window.innerWidth
