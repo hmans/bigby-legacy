@@ -47,8 +47,7 @@ export default (world: World<Entity>) => {
         gl.useProgram(material.program!)
 
         /* Update modelMatrix uniform */
-        const location = gl.getUniformLocation(material.program!, "modelMatrix")
-        if (location !== null) gl.uniformMatrix4fv(location, false, transform.matrix)
+        material.uniforms.modelMatrix = { value: transform.matrix }
 
         /* Update viewMatrix uniform */
         mat4.invert(viewMatrix, camera.transform.matrix)
