@@ -26,8 +26,8 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
         vLight += max(
           dot(
             normalize(normalMatrix * normal),
-            lightDirection),
-          0.0) * 0.6;
+            lightDirection
+          ), 0.0) * 0.6;
 
         /* Calculate the vertex position */
         gl_Position = projectionMatrix
