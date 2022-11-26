@@ -17,7 +17,7 @@ const world = new World<Entity>()
 const systems = [autorotate(world), transforms(world), rendering(world)]
 
 world.add({
-  autorotate: [1, 1.3, 0],
+  // autorotate: [1, 1.3, 0],
   transform: new Transform([0, 0, 5]),
   camera: new Camera(70, 0.1, 1000),
 })
