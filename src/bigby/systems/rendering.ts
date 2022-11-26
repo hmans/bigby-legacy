@@ -1,5 +1,5 @@
 import { World } from "@miniplex/core"
-import { mat4 } from "gl-matrix"
+import { mat3, mat4 } from "gl-matrix"
 import { Entity } from "../Entity"
 
 export default (world: World<Entity>) => {
@@ -24,6 +24,8 @@ export default (world: World<Entity>) => {
   const cameras = transforms.with("camera")
 
   const viewMatrix = mat4.create()
+  const normalMatrix = mat3.create()
+  const modelViewMatrix = mat4.create()
 
   return (dt: number) => {
     /* Clear canvas */
@@ -62,6 +64,15 @@ export default (world: World<Entity>) => {
         /* Update viewMatrix uniform */
         mat4.invert(viewMatrix, camera.transform.matrix)
         material.uniforms.viewMatrix = viewMatrix
+
+        /* Eh */
+        mat4.copy(modelViewMatrix, viewMatrix)
+        mat4.multiply(modelViewMatrix, modelViewMatrix, transform.matrix)
+
+        mat4.copy(modelViewMatrix, viewMatrix)
+        mat4.multiply(modelViewMatrix, modelViewMatrix, transform.matrix)
+        mat3.normalFromMat4(normalMatrix, modelViewMatrix)
+        material.uniforms.normalMatrix = normalMatrix
 
         /* Update projectionMatrix uniform */
         camera.camera.updateProjectionMatrix(gl)

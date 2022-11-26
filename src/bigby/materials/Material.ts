@@ -1,8 +1,8 @@
-import { mat4 } from "gl-matrix"
+import { mat3, mat4 } from "gl-matrix"
 import { $, Attribute, compileShader, Input, Master, Vec3 } from "shader-composer"
 import { createProgram, createShader } from "../helpers"
 
-export type Uniform = number | mat4
+export type Uniform = number | mat3 | mat4
 
 function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
   return Master({
@@ -10,6 +10,7 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
       header: $`
         uniform mat4 modelMatrix;
         uniform mat4 viewMatrix;
+        uniform mat3 normalMatrix;
         uniform mat4 projectionMatrix;
 
         flat out float vLight;
@@ -17,14 +18,14 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
         in vec3 normal;
       `,
       body: $`
-        vec3 lightDirection = normalize(vec3(1.0, 2.0, 3.0));
+        vec3 lightDirection = normalize(vec3(0.0, 1.0, 0.0));
 
         /* Calculate the light intensity */
         vLight = 0.0;
         vLight += 0.4;
         vLight += max(
           dot(
-            normalize(mat3(modelMatrix) * normal),
+            normalize(normalMatrix * normal),
             lightDirection),
           0.0) * 0.6;
 
@@ -104,19 +105,25 @@ export class Material {
     /* Upload shader composer uniforms */
     for (const [name, uniform] of Object.entries(this.shader[0].uniforms!)) {
       const location = gl.getUniformLocation(this.program, name)
-      if (location === null) throw new Error(`Uniform ${name} not found in program`)
+      if (location === null) return
       gl.uniform1f(location, (uniform as any).value)
     }
 
     /* Upload my own uniforms */
     for (const [name, value] of Object.entries(this.uniforms)) {
       const location = gl.getUniformLocation(this.program, name)
-      if (location === null) throw new Error(`Uniform ${name} not found in program`)
+      if (location === null) return
 
       if (typeof value === "number") {
         gl.uniform1f(location, value)
       } else if (value instanceof Float32Array) {
-        gl.uniformMatrix4fv(location, false, value)
+        if (value.length === 9) {
+          gl.uniformMatrix3fv(location, false, value)
+        } else if (value.length === 16) {
+          gl.uniformMatrix4fv(location, false, value)
+        } else {
+          console.warn("Couldn't upload uniform")
+        }
       }
     }
   }
