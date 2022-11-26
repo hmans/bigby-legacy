@@ -28,13 +28,14 @@ export class Mesh {
 
       /* Find the attribute's location in the shader */
       const location = gl.getAttribLocation(this.material.program!, name)
-      if (location === -1) throw new Error(`Attribute ${name} not found in program`)
 
       /* Upload the attribute's data */
-      gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-      gl.bufferData(gl.ARRAY_BUFFER, attribute.data, gl.STATIC_DRAW)
-      gl.enableVertexAttribArray(location)
-      gl.vertexAttribPointer(location, attribute.size, gl.FLOAT, false, 0, 0)
+      if (location !== -1) {
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+        gl.bufferData(gl.ARRAY_BUFFER, attribute.data, gl.STATIC_DRAW)
+        gl.enableVertexAttribArray(location)
+        gl.vertexAttribPointer(location, attribute.size, gl.FLOAT, false, 0, 0)
+      }
     }
   }
 
