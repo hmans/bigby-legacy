@@ -10,10 +10,16 @@ import rendering from "./bigby/systems/rendering"
 import { Entity } from "./bigby/Entity"
 import transforms from "./bigby/systems/transforms"
 import "./style.css"
+import { Camera } from "./bigby/core/Camera"
 
 const world = new World<Entity>()
 
 const systems = [autorotate(world), transforms(world), rendering(world)]
+
+world.add({
+  transform: new Transform(vec3.set(vec3.create(), 0, 0, 5)),
+  camera: new Camera(),
+})
 
 world.add({
   autorotate: vec3.set(vec3.create(), 1, 1.3, 0),

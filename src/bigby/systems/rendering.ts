@@ -19,7 +19,12 @@ export default (world: World<Entity>) => {
   /* Configure viewport */
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
 
-  const meshes = world.with("mesh", "transform")
+  const transforms = world.with("transform")
+  const meshes = transforms.with("mesh")
+  const cameras = transforms.with("camera")
+
+  const viewMatrix = mat4.create()
+  const projectionMatrix = mat4.create()
 
   return (dt: number) => {
     /* Clear canvas */
@@ -28,6 +33,10 @@ export default (world: World<Entity>) => {
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, null)
     gl.viewport(0, 0, canvas.width, canvas.height)
+
+    /* Get camera */
+    const camera = cameras.first
+    if (!camera) return
 
     for (const { mesh, transform } of meshes) {
       /* Prepare Material */
@@ -41,12 +50,11 @@ export default (world: World<Entity>) => {
         if (location !== null) gl.uniformMatrix4fv(location, false, transform.matrix)
 
         /* Update viewMatrix uniform */
-        const viewMatrix = mat4.create()
-        mat4.lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0])
-        mesh.material.uniforms.viewMatrix = { value: viewMatrix }
+        mesh.material.uniforms.viewMatrix = {
+          value: mat4.invert(viewMatrix, camera.transform.matrix),
+        }
 
         /* Update projectionMatrix uniform */
-        const projectionMatrix = mat4.create()
         mat4.perspectiveNO(
           projectionMatrix,
           75 * (Math.PI / 180),
