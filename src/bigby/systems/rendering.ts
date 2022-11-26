@@ -38,28 +38,30 @@ export default (world: World<Entity>) => {
     if (!camera) return
 
     for (const { mesh, transform } of meshes) {
+      const { geometry, material } = mesh
+
       /* Prepare Material */
       {
         /* Use this mesh's material's program */
-        if (!mesh.material.isCompiled) mesh.material.compile(gl)
-        gl.useProgram(mesh.material.program!)
+        if (!material.isCompiled) material.compile(gl)
+        gl.useProgram(material.program!)
 
         /* Update modelMatrix uniform */
-        const location = gl.getUniformLocation(mesh.material.program!, "modelMatrix")
+        const location = gl.getUniformLocation(material.program!, "modelMatrix")
         if (location !== null) gl.uniformMatrix4fv(location, false, transform.matrix)
 
         /* Update viewMatrix uniform */
         mat4.invert(viewMatrix, camera.transform.matrix)
-        mesh.material.uniforms.viewMatrix = { value: viewMatrix }
+        material.uniforms.viewMatrix = { value: viewMatrix }
 
         /* Update projectionMatrix uniform */
         camera.camera.updateProjectionMatrix(gl)
-        mesh.material.uniforms.projectionMatrix = {
+        material.uniforms.projectionMatrix = {
           value: camera.camera.projectionMatrix,
         }
 
         /* Update the material's uniforms */
-        mesh.material.updateUniforms(gl)
+        material.updateUniforms(gl)
       }
 
       /* Prepare Geometry */
@@ -74,7 +76,7 @@ export default (world: World<Entity>) => {
 
           /* Upload all of the geometry's attributes */
           /* TODO: do this in the loop, checking for dirty attributes */
-          for (const [name, attribute] of Object.entries(mesh.geometry.attributes)) {
+          for (const [name, attribute] of Object.entries(geometry.attributes)) {
             const type = name === "index" ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER
 
             const buffer = gl.createBuffer()
@@ -108,11 +110,10 @@ export default (world: World<Entity>) => {
         /* Enable depth testing */
         gl.enable(gl.DEPTH_TEST)
 
-        if (mesh.geometry.attributes.index) {
+        if (geometry.attributes.index) {
           gl.drawElements(
             gl.TRIANGLES,
-            mesh.geometry.attributes.index.data.length /
-              mesh.geometry.attributes.index.size,
+            geometry.attributes.index.data.length / geometry.attributes.index.size,
             gl.UNSIGNED_INT,
             0
           )
@@ -120,8 +121,8 @@ export default (world: World<Entity>) => {
           gl.drawArraysInstanced(
             gl.TRIANGLES,
             0,
-            mesh.geometry.attributes.position.data.length /
-              mesh.geometry.attributes.position.size,
+            geometry.attributes.position.data.length /
+              geometry.attributes.position.size,
             1
           )
         }
