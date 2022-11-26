@@ -23,22 +23,29 @@ const world = new World<Entity>()
 
 const systems = [autorotate(world), transforms(world), engine(world)]
 
-const a = world.add({
+world.add({
   autorotate: vec3.set(vec3.create(), 1, 1.3, 0),
-  transform: new Transform(),
-  mesh: new Mesh(new BoxGeometry(), new Material({ color: new Color("hotpink") })),
+  transform: new Transform(vec3.set(vec3.create(), -2, 0, 0)),
+  mesh: new Mesh(
+    new BoxGeometry(),
+    new Material({
+      color: new Color("hotpink"),
+    })
+  ),
 })
 
-a.transform.position[0] = -2
-
-const b = world.add({
+world.add({
   autorotate: vec3.set(vec3.create(), 0, -1, 1.3),
-  transform: new Transform(),
-  mesh: new Mesh(new BoxGeometry(), new Material({ color: new Color("cyan") })),
+  transform: new Transform(vec3.set(vec3.create(), 2, 0, 0)),
+  mesh: new Mesh(
+    new BoxGeometry(),
+    new Material({
+      color: new Color("cyan"),
+    })
+  ),
 })
 
-b.transform.position[0] = +2
-
+/* Tick */
 let lastTime = performance.now()
 
 function animate() {
