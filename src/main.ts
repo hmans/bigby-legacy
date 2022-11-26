@@ -17,14 +17,14 @@ const world = new World<Entity>()
 const systems = [autorotate(world), transforms(world), rendering(world)]
 
 world.add({
-  // autorotate: vec3.set(vec3.create(), 1, 1.3, 0),
-  transform: new Transform(vec3.set(vec3.create(), 0, 0, 5)),
-  camera: new Camera(),
+  autorotate: [1, 1.3, 0],
+  transform: new Transform([0, 0, 5]),
+  camera: new Camera(70, 0.1, 1000),
 })
 
 world.add({
-  autorotate: vec3.set(vec3.create(), 1, 1.3, 0),
-  transform: new Transform(vec3.set(vec3.create(), -2, 0, 0)),
+  autorotate: [1, 1.3, 0],
+  transform: new Transform([-2, 0, 0]),
   mesh: new Mesh(
     new BoxGeometry(),
     new Material({
@@ -34,8 +34,8 @@ world.add({
 })
 
 world.add({
-  autorotate: vec3.set(vec3.create(), 0, -1, 1.3),
-  transform: new Transform(vec3.set(vec3.create(), 2, 0, 0)),
+  autorotate: [0, -1, 1.3],
+  transform: new Transform([2, 0, 0]),
   mesh: new Mesh(
     new BoxGeometry(),
     new Material({
