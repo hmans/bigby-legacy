@@ -56,14 +56,14 @@ export class Material {
   }
 
   compile(gl: WebGL2RenderingContext) {
-    const vertexCheats = `#version 300 es
+    const vertexDefines = `#version 300 es
       precision mediump sampler2DArray;
 			#define attribute in
 			#define varying out
 			#define texture2D texture
     `
 
-    const fragmentCheats = `#version 300 es
+    const fragmentDefines = `#version 300 es
       precision mediump sampler2DArray;
       #define varying in
       #define texture2D texture
@@ -73,12 +73,12 @@ export class Material {
     const vertex = createShader(
       gl,
       gl.VERTEX_SHADER,
-      vertexCheats + this.shader[0].vertexShader
+      vertexDefines + this.shader[0].vertexShader
     )
     const fragment = createShader(
       gl,
       gl.FRAGMENT_SHADER,
-      fragmentCheats + this.shader[0].fragmentShader
+      fragmentDefines + this.shader[0].fragmentShader
     )
 
     /* Link them into a program */
