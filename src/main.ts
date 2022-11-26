@@ -23,6 +23,17 @@ world.add({
 })
 
 world.add({
+  autorotate: [0.3, 0.1, 0.2],
+  transform: new Transform([0, 0, -20], [0, 0, 0, 1], [15, 15, 15]),
+  mesh: new Mesh(
+    new BoxGeometry(),
+    new Material({
+      color: new Color("orange"),
+    })
+  ),
+})
+
+world.add({
   autorotate: [1, 1.3, 0],
   transform: new Transform([-2, 0, 0]),
   mesh: new Mesh(
