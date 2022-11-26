@@ -23,7 +23,9 @@ const systems = [autorotate(world), transforms(world), engine(world)]
 
 world.add({
   autorotate: true,
+
   transform: new Transform(),
+
   mesh: new Mesh(
     new Geometry({
       position: {
