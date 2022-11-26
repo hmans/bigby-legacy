@@ -12,9 +12,9 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
         uniform mat4 viewMatrix;
         uniform mat4 projectionMatrix;
 
-        flat varying float vLight;
+        flat out float vLight;
 
-        attribute vec3 normal;
+        in vec3 normal;
       `,
       body: $`
         vec3 lightDirection = normalize(vec3(1.0, 2.0, 3.0));
@@ -37,7 +37,7 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
     },
     fragment: {
       header: $`
-        flat varying float vLight;
+        flat in float vLight;
         out vec4 fragColor;
       `,
       body: $`
