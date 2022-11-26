@@ -14,7 +14,7 @@ export class Mesh {
     /* Ensure that material is compiled */
     if (!this.material.isCompiled) this.material.compile(gl)
 
-    /* Create VAO */
+    /* Create our VAO */
     this.vao = gl.createVertexArray()!
     if (!this.vao) throw new Error("Could not create VAO")
 
@@ -25,12 +25,13 @@ export class Mesh {
       const buffer = gl.createBuffer()
       if (!buffer) throw new Error("Failed to create buffer")
 
-      gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-      gl.bufferData(gl.ARRAY_BUFFER, attribute.data, gl.STATIC_DRAW)
-
+      /* Find the attribute's location in the shader */
       const location = gl.getAttribLocation(this.material.program!, name)
       if (location === -1) throw new Error(`Attribute ${name} not found in program`)
 
+      /* Upload the attribute's data */
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+      gl.bufferData(gl.ARRAY_BUFFER, attribute.data, gl.STATIC_DRAW)
       gl.enableVertexAttribArray(location)
       gl.vertexAttribPointer(location, attribute.size, gl.FLOAT, false, 0, 0)
     }

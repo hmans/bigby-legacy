@@ -1,5 +1,12 @@
 import { World } from "@miniplex/core"
-import { Add, Cos, GlobalTime, NormalizePlusMinusOne, Sin } from "shader-composer"
+import {
+  Add,
+  Cos,
+  GlobalTime,
+  Mul,
+  NormalizePlusMinusOne,
+  Sin,
+} from "shader-composer"
 import { Color } from "three"
 import { Mesh } from "./bigby/core/Mesh"
 import { Transform } from "./bigby/core/Transform"
@@ -24,7 +31,10 @@ world.add({
     }),
 
     new Material({
-      color: Add(new Color("hotpink"), NormalizePlusMinusOne(Sin(GlobalTime))),
+      color: Add(
+        new Color("hotpink"),
+        NormalizePlusMinusOne(Sin(Mul(GlobalTime, 1.3)))
+      ),
     })
   ),
 })
@@ -39,7 +49,10 @@ world.add({
       },
     }),
     new Material({
-      color: Add(new Color("cyan"), NormalizePlusMinusOne(Cos(GlobalTime))),
+      color: Add(
+        new Color("cyan"),
+        NormalizePlusMinusOne(Cos(Mul(GlobalTime, 2.3)))
+      ),
     })
   ),
 })
