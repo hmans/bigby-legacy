@@ -14,41 +14,26 @@ export class Mesh {
     /* Ensure that material is compiled */
     if (!this.material.isCompiled) this.material.compile(gl)
 
-    /* Fill the position buffer */
-    const positionBuffer = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer)
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      this.geometry.attributes.position.data,
-      gl.STATIC_DRAW
-    )
-
     /* Create VAO */
-    const vao = gl.createVertexArray()!
-    gl.bindVertexArray(vao)
+    this.vao = gl.createVertexArray()!
+    if (!this.vao) throw new Error("Could not create VAO")
 
-    const positionAttributeLocation = gl.getAttribLocation(
-      this.material.program!,
-      "a_position"
-    )
+    gl.bindVertexArray(this.vao)
 
-    var size = 2 // 2 components per iteration
-    var type = gl.FLOAT // the data is 32bit floats
-    var normalize = false // don't normalize the data
-    var stride = 0 // 0 = move forward size * sizeof(type) each iteration to get the next position
-    var offset = 0 // start at the beginning of the buffer
-    gl.vertexAttribPointer(
-      positionAttributeLocation,
-      size,
-      type,
-      normalize,
-      stride,
-      offset
-    )
+    /* Upload all of the geometry's attributes */
+    for (const [name, attribute] of Object.entries(this.geometry.attributes)) {
+      const buffer = gl.createBuffer()
+      if (!buffer) throw new Error("Failed to create buffer")
 
-    gl.enableVertexAttribArray(positionAttributeLocation)
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+      gl.bufferData(gl.ARRAY_BUFFER, attribute.data, gl.STATIC_DRAW)
 
-    this.vao = vao
+      const location = gl.getAttribLocation(this.material.program!, name)
+      if (location === -1) throw new Error(`Attribute ${name} not found in program`)
+
+      gl.enableVertexAttribArray(location)
+      gl.vertexAttribPointer(location, attribute.size, gl.FLOAT, false, 0, 0)
+    }
   }
 
   render(gl: WebGL2RenderingContext) {

@@ -5,7 +5,7 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
   return Master({
     vertex: {
       body: $`
-        gl_Position = ${Attribute("vec4", "a_position")};
+        gl_Position = ${Attribute("vec4", "position")};
       `,
     },
     fragment: {
