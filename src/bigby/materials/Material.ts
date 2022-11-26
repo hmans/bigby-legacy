@@ -14,7 +14,7 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
         attribute vec3 normal;
       `,
       body: $`
-        vNormal = normal;
+        vNormal = mat3(modelMatrix) * normal;
 
         gl_Position = projectionMatrix
           * viewMatrix
