@@ -6,9 +6,14 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
     vertex: {
       header: $`
         uniform mat4 modelMatrix;
+        uniform mat4 viewMatrix;
+        uniform mat4 projectionMatrix;
       `,
       body: $`
-        gl_Position = modelMatrix * ${Attribute("vec4", "position")};
+        gl_Position = projectionMatrix
+          * viewMatrix
+          * modelMatrix
+          * ${Attribute("vec4", "position")};
       `,
     },
     fragment: {

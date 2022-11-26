@@ -7,7 +7,8 @@ export default (world: World<Entity>) => {
 
   return () => {
     for (const { transform } of entities) {
-      quat.rotateZ(transform.quaternion, transform.quaternion, 0.01)
+      quat.rotateX(transform.quaternion, transform.quaternion, 0.01)
+      quat.rotateY(transform.quaternion, transform.quaternion, 0.017)
     }
   }
 }

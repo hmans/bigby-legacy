@@ -1,3 +1,4 @@
+import { mat4 } from "gl-matrix"
 import { Geometry } from "../geometry/Geometry"
 import { Material } from "../materials/Material"
 import { Transform } from "./Transform"
@@ -57,6 +58,31 @@ export class Mesh {
     /* Update modelMatrix uniform */
     const location = gl.getUniformLocation(this.material.program!, "modelMatrix")
     if (location !== null) gl.uniformMatrix4fv(location, false, transform.matrix)
+
+    /* Update viewMatrix uniform */
+    const viewMatrix = mat4.create()
+    mat4.lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0])
+    const viewLocation = gl.getUniformLocation(this.material.program!, "viewMatrix")
+    if (viewLocation !== null) gl.uniformMatrix4fv(viewLocation, false, viewMatrix)
+
+    /* Update projectionMatrix uniform */
+    const perspectiveMatrix = mat4.create()
+    const projectionLocation = gl.getUniformLocation(
+      this.material.program!,
+      "projectionMatrix"
+    )
+    if (projectionLocation !== null)
+      gl.uniformMatrix4fv(
+        projectionLocation,
+        false,
+        mat4.perspective(
+          perspectiveMatrix,
+          Math.PI * 1.5,
+          gl.canvas.width / gl.canvas.height,
+          0.1,
+          1000
+        )
+      )
 
     /* Draw the geometry */
     gl.bindVertexArray(this.vao!)

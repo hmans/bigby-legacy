@@ -68,7 +68,7 @@ const a = world.add({
   ),
 })
 
-a.transform.position[0] = 1
+a.transform.position[0] = 0
 
 function animate() {
   requestAnimationFrame(animate)
