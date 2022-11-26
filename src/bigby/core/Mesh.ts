@@ -23,16 +23,20 @@ export class Mesh {
 
     /* Upload all of the geometry's attributes */
     for (const [name, attribute] of Object.entries(this.geometry.attributes)) {
+      const type = name === "index" ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER
+
       const buffer = gl.createBuffer()
       if (!buffer) throw new Error("Failed to create buffer")
+
+      /* Upload buffer */
+      gl.bindBuffer(type, buffer)
+      gl.bufferData(type, attribute.data, gl.STATIC_DRAW)
 
       /* Find the attribute's location in the shader */
       const location = gl.getAttribLocation(this.material.program!, name)
 
-      /* Upload the attribute's data */
+      /* Enable vertex attribute */
       if (location !== -1) {
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-        gl.bufferData(gl.ARRAY_BUFFER, attribute.data, gl.STATIC_DRAW)
         gl.enableVertexAttribArray(location)
         gl.vertexAttribPointer(location, attribute.size, gl.FLOAT, false, 0, 0)
       }
