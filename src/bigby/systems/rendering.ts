@@ -31,103 +31,116 @@ export default (world: World<Entity>) => {
 
     /* Draw */
     for (const { mesh, transform } of meshes) {
-      /* Use this mesh's material's program */
-      if (!mesh.material.isCompiled) mesh.material.compile(gl)
-      gl.useProgram(mesh.material.program!)
+      /* Prepare Material */
+      {
+        /* Use this mesh's material's program */
+        if (!mesh.material.isCompiled) mesh.material.compile(gl)
+        gl.useProgram(mesh.material.program!)
 
-      /* Ensure that the mesh is compiled */
-      if (!mesh.vao) {
-        /* Create our VAO */
-        mesh.vao = gl.createVertexArray()!
-        if (!mesh.vao) throw new Error("Could not create VAO")
+        /* Update the material's uniforms */
+        /* TODO: Change this so this only happens once per frame per material */
+        mesh.material.updateUniforms(gl)
 
-        gl.bindVertexArray(mesh.vao)
+        /* Update modelMatrix uniform */
+        const location = gl.getUniformLocation(mesh.material.program!, "modelMatrix")
+        if (location !== null) gl.uniformMatrix4fv(location, false, transform.matrix)
 
-        /* Upload all of the geometry's attributes */
-        for (const [name, attribute] of Object.entries(mesh.geometry.attributes)) {
-          const type = name === "index" ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER
+        /* Update viewMatrix uniform */
+        const viewMatrix = mat4.create()
+        mat4.lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0])
+        const viewLocation = gl.getUniformLocation(
+          mesh.material.program!,
+          "viewMatrix"
+        )
+        if (viewLocation !== null)
+          gl.uniformMatrix4fv(viewLocation, false, viewMatrix)
 
-          const buffer = gl.createBuffer()
-          if (!buffer) throw new Error("Failed to create buffer")
+        /* Update projectionMatrix uniform */
+        const perspectiveMatrix = mat4.create()
+        const projectionLocation = gl.getUniformLocation(
+          mesh.material.program!,
+          "projectionMatrix"
+        )
+        if (projectionLocation !== null)
+          gl.uniformMatrix4fv(
+            projectionLocation,
+            false,
+            mat4.perspectiveNO(
+              perspectiveMatrix,
+              75 * (Math.PI / 180),
+              gl.canvas.width / gl.canvas.height,
+              0.1,
+              1000
+            )
+          )
+      }
 
-          /* Upload buffer */
-          gl.bindBuffer(type, buffer)
-          gl.bufferData(type, attribute.data, gl.STATIC_DRAW)
+      /* Prepare Geometry */
+      {
+        /* If this is the first time we're rendering this mesh, set up its VAO. */
+        if (!mesh.vao) {
+          /* Create our VAO */
+          mesh.vao = gl.createVertexArray()!
+          if (!mesh.vao) throw new Error("Could not create VAO")
 
-          /* Find the attribute's location in the shader */
-          const location = gl.getAttribLocation(mesh.material.program!, name)
+          gl.bindVertexArray(mesh.vao)
 
-          /* Enable vertex attribute */
-          if (location !== -1) {
-            gl.enableVertexAttribArray(location)
-            gl.vertexAttribPointer(location, attribute.size, gl.FLOAT, false, 0, 0)
+          /* Upload all of the geometry's attributes */
+          /* TODO: do this in the loop, checking for dirty attributes */
+          for (const [name, attribute] of Object.entries(mesh.geometry.attributes)) {
+            const type = name === "index" ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER
+
+            const buffer = gl.createBuffer()
+            if (!buffer) throw new Error("Failed to create buffer")
+
+            /* Upload buffer */
+            gl.bindBuffer(type, buffer)
+            gl.bufferData(type, attribute.data, gl.STATIC_DRAW)
+
+            /* Find the attribute's location in the shader */
+            const location = gl.getAttribLocation(mesh.material.program!, name)
+
+            /* Enable vertex attribute */
+            if (location !== -1) {
+              gl.enableVertexAttribArray(location)
+              gl.vertexAttribPointer(location, attribute.size, gl.FLOAT, false, 0, 0)
+            }
           }
         }
       }
 
-      /* Update the material's uniforms */
-      /* TODO: Change this so this only happens once per frame per material */
-      mesh.material.updateUniforms(gl)
+      /* Draw */
+      {
+        /* Draw the geometry */
+        gl.bindVertexArray(mesh.vao!)
 
-      /* Update modelMatrix uniform */
-      const location = gl.getUniformLocation(mesh.material.program!, "modelMatrix")
-      if (location !== null) gl.uniformMatrix4fv(location, false, transform.matrix)
+        /* Cull back faces... for now */
+        gl.enable(gl.CULL_FACE)
+        gl.cullFace(gl.BACK)
 
-      /* Update viewMatrix uniform */
-      const viewMatrix = mat4.create()
-      mat4.lookAt(viewMatrix, [0, 0, 5], [0, 0, 0], [0, 1, 0])
-      const viewLocation = gl.getUniformLocation(
-        mesh.material.program!,
-        "viewMatrix"
-      )
-      if (viewLocation !== null) gl.uniformMatrix4fv(viewLocation, false, viewMatrix)
+        /* Enable depth testing */
+        gl.enable(gl.DEPTH_TEST)
 
-      /* Update projectionMatrix uniform */
-      const perspectiveMatrix = mat4.create()
-      const projectionLocation = gl.getUniformLocation(
-        mesh.material.program!,
-        "projectionMatrix"
-      )
-      if (projectionLocation !== null)
-        gl.uniformMatrix4fv(
-          projectionLocation,
-          false,
-          mat4.perspectiveNO(
-            perspectiveMatrix,
-            75 * (Math.PI / 180),
-            gl.canvas.width / gl.canvas.height,
-            0.1,
-            1000
+        if (mesh.geometry.attributes.index) {
+          gl.drawElements(
+            gl.TRIANGLES,
+            mesh.geometry.attributes.index.data.length /
+              mesh.geometry.attributes.index.size,
+            gl.UNSIGNED_INT,
+            0
           )
-        )
-
-      /* Draw the geometry */
-      gl.bindVertexArray(mesh.vao!)
-
-      /* Cull back faces... for now */
-      gl.enable(gl.CULL_FACE)
-      gl.cullFace(gl.BACK)
-
-      /* Enable depth testing */
-      gl.enable(gl.DEPTH_TEST)
-
-      if (mesh.geometry.attributes.index) {
-        gl.drawElements(
-          gl.TRIANGLES,
-          mesh.geometry.attributes.index.data.length /
-            mesh.geometry.attributes.index.size,
-          gl.UNSIGNED_INT,
-          0
-        )
-      } else {
-        gl.drawArraysInstanced(
-          gl.TRIANGLES,
-          0,
-          mesh.geometry.attributes.position.data.length /
-            mesh.geometry.attributes.position.size,
-          1
-        )
+        } else {
+          gl.drawArraysInstanced(
+            gl.TRIANGLES,
+            0,
+            mesh.geometry.attributes.position.data.length /
+              mesh.geometry.attributes.position.size,
+            1
+          )
+        }
       }
+
+      /* Done! */
     }
   }
 }
