@@ -18,7 +18,7 @@ export class App<E extends BaseEntity> {
     return plugin(this)
   }
 
-  addSystem(system: System<E>) {
+  addSystem<D extends E>(system: System<D>) {
     this.systems.push(system)
     return this
   }
