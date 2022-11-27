@@ -1,6 +1,5 @@
 import { World } from "@miniplex/core"
 import { Entity } from "./Entity"
-import physics from "./systems/physics"
 import { Plugin, SystemFactory } from "./types"
 
 export class App {
@@ -10,8 +9,6 @@ export class App {
 
   constructor() {
     this.world = new World<Entity>()
-
-    this.systems.push(physics(this.world))
 
     /* Tick */
     let lastTime = performance.now()
