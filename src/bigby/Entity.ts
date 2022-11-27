@@ -3,7 +3,7 @@ import { vec3 } from "gl-matrix"
 import { Camera } from "./core/Camera"
 import { Mesh } from "./core/Mesh"
 import { Transform } from "./core/Transform"
-import { RigidBody } from "./systems/physics"
+import { RigidBody } from "./plugins/physics"
 
 export type Entity = {
   transform?: Transform
