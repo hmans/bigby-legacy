@@ -19,11 +19,20 @@ function PhysicsSystem(world: World<Partial<IRigidBody & ITransform>>) {
   const entities = world.with("rigidbody", "transform")
 
   entities.onEntityAdded.add((entity) => {
-    let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic().setTranslation(
+    let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
+
+    rigidBodyDesc.setTranslation(
       entity.transform.position[0],
       entity.transform.position[1],
       entity.transform.position[2]
     )
+
+    rigidBodyDesc.setRotation({
+      x: entity.transform.quaternion[0],
+      y: entity.transform.quaternion[1],
+      z: entity.transform.quaternion[2],
+      w: entity.transform.quaternion[3],
+    })
 
     entity.rigidbody.rigidBody = physics.createRigidBody(rigidBodyDesc)
 
