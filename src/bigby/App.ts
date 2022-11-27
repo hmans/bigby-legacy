@@ -1,6 +1,7 @@
 import { World } from "@miniplex/core"
 import { Entity } from "./Entity"
 import autorotate from "./systems/autorotate"
+import physics from "./systems/physics"
 import rendering from "./systems/rendering"
 import transforms from "./systems/transforms"
 
@@ -11,6 +12,7 @@ export class App {
     this.world = new World<Entity>()
 
     const systems = [
+      physics(this.world),
       autorotate(this.world),
       transforms(this.world),
       rendering(this.world),

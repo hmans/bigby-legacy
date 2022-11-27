@@ -9,7 +9,7 @@ import { BoxGeometry } from "./bigby/geometry/BoxGeometry"
 import { Material } from "./bigby/materials/Material"
 import "./style.css"
 
-import("@dimforge/rapier3d-compat").then((RAPIER) => {
+import("@dimforge/rapier3d-compat").then(() => {
   new App((world) => {
     world.add({
       // autorotate: [1, 1.3, 0],
