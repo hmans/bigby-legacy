@@ -23,6 +23,7 @@
     "vite": "^3.2.3"
   },
   "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.10.0",
     "@miniplex/core": "2.0.0-beta.2",
     "gl-matrix": "^3.4.3",
     "randomish": "^0.1.6",
