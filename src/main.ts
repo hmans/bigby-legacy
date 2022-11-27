@@ -18,6 +18,7 @@ import("@dimforge/rapier3d").then(() => {
     .addPlugin(PhysicsPlugin)
     .addPlugin(RenderingPlugin)
     .addPlugin(AutorotatePlugin)
+    .run()
 
   app.world.add({
     transform: new Transform([0, 0, 20]),

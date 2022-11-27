@@ -10,7 +10,18 @@ export class App<E extends BaseEntity> {
 
   constructor() {
     this.world = new World<E>()
+  }
 
+  addPlugin<D extends E>(plugin: Plugin<E, D>): App<D> {
+    return plugin(this)
+  }
+
+  addSystem(system: SystemFactory<any>) {
+    this.systems.push(system(this.world))
+    return this
+  }
+
+  run() {
     /* Tick */
     let lastTime = performance.now()
 
@@ -27,14 +38,7 @@ export class App<E extends BaseEntity> {
     }
 
     animate()
-  }
 
-  addPlugin<D extends E>(plugin: Plugin<E, D>): App<D> {
-    return plugin(this)
-  }
-
-  addSystem(system: SystemFactory<any>) {
-    this.systems.push(system(this.world))
     return this
   }
 }
