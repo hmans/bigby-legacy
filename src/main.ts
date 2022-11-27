@@ -6,7 +6,6 @@ import { Camera } from "./bigby/core/Camera"
 import { Mesh } from "./bigby/core/Mesh"
 import { Transform } from "./bigby/core/Transform"
 import { BoxGeometry } from "./bigby/geometry/BoxGeometry"
-
 import { Material } from "./bigby/materials/Material"
 import AutorotatePlugin from "./bigby/plugins/autorotate"
 import PhysicsPlugin, { RigidBody } from "./bigby/plugins/physics"
