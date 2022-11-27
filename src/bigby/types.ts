@@ -1,9 +1,8 @@
 import { World } from "@miniplex/core"
 import { App } from "./App"
-import { Entity } from "./Entity"
 
 export type System = (dt: number) => void
 
-export type SystemFactory = (world: World<Entity>) => System
+export type SystemFactory<E extends {}> = (world: World<E>) => System
 
-export type Plugin = (app: App) => App
+export type Plugin<E extends {}, D extends E> = (app: App<E>) => App<D>

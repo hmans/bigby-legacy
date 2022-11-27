@@ -1,12 +1,21 @@
 import { World } from "@miniplex/core"
 import { mat3, mat4 } from "gl-matrix"
 import { App } from "../App"
-import { Entity } from "../Entity"
+import { Mesh } from "../core/Mesh"
+import { Transform } from "../core/Transform"
 
-function TransformsSystem(world: World<Entity>) {
+export interface ITransform {
+  transform: Transform
+}
+
+export interface IMesh {
+  mesh: Mesh
+}
+
+function TransformsSystem(world: World<Partial<ITransform>>) {
   const entities = world.with("transform")
 
-  return (dt: number) => {
+  return () => {
     for (const { transform } of entities) {
       if (!transform.autoUpdate) continue
 
@@ -20,7 +29,7 @@ function TransformsSystem(world: World<Entity>) {
   }
 }
 
-function RenderingSystem(world: World<Entity>) {
+function RenderingSystem(world: World<Partial<ITransform & IMesh>>) {
   /* Initialize canvas */
   const canvas = document.body.appendChild(document.createElement("canvas"))
   canvas.width = window.innerWidth
@@ -169,6 +178,8 @@ function RenderingSystem(world: World<Entity>) {
   }
 }
 
-export default function RenderingPlugin(app: App) {
+export default function RenderingPlugin<E extends {}>(
+  app: App<E>
+): App<E & Partial<ITransform & IMesh>> {
   return app.addSystem(TransformsSystem).addSystem(RenderingSystem)
 }

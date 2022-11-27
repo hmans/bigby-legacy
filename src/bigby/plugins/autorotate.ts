@@ -1,9 +1,14 @@
 import { World } from "@miniplex/core"
-import { quat } from "gl-matrix"
-import { App } from "../App"
-import { Entity } from "../Entity"
+import { quat, vec3 } from "gl-matrix"
+import { App, BaseEntity } from "../App"
+import { Transform } from "../core/Transform"
 
-function AutorotateSystem(world: World<Entity>) {
+interface IAutoRotate {
+  autorotate: vec3
+  transform: Transform
+}
+
+function AutorotateSystem(world: World<Partial<IAutoRotate>>) {
   const entities = world.with("transform", "autorotate")
 
   return (dt: number) => {
@@ -15,7 +20,8 @@ function AutorotateSystem(world: World<Entity>) {
   }
 }
 
-export default function AutorotatePlugin(app: App) {
-  app.addSystem(AutorotateSystem)
-  return app
+export default function AutorotatePlugin<E extends BaseEntity>(
+  app: App<E>
+): App<E & Partial<IAutoRotate>> {
+  return app.addSystem(AutorotateSystem)
 }

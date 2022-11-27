@@ -1,14 +1,15 @@
 import { World } from "@miniplex/core"
-import { Entity } from "./Entity"
 import { Plugin, SystemFactory } from "./types"
 
-export class App {
-  world: World<Entity>
+export type BaseEntity = {}
+
+export class App<E extends BaseEntity> {
+  world: World<E>
 
   systems = new Array<(dt: number) => void>()
 
   constructor() {
-    this.world = new World<Entity>()
+    this.world = new World<E>()
 
     /* Tick */
     let lastTime = performance.now()
@@ -28,11 +29,11 @@ export class App {
     animate()
   }
 
-  addPlugin(plugin: Plugin) {
+  addPlugin<D extends E>(plugin: Plugin<E, D>): App<D> {
     return plugin(this)
   }
 
-  addSystem(system: SystemFactory) {
+  addSystem(system: SystemFactory<any>) {
     this.systems.push(system(this.world))
     return this
   }

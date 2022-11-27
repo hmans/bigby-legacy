@@ -1,5 +1,4 @@
 import { World } from "@miniplex/core"
-import { Entity } from "../Entity"
 import * as RAPIER from "@dimforge/rapier3d"
 import { quat, vec3 } from "gl-matrix"
 import { App } from "../App"
@@ -9,7 +8,11 @@ export class RigidBody {
   collider?: RAPIER.Collider
 }
 
-function PhysicsSystem(world: World<Entity>) {
+export interface IRigidBody {
+  rigidbody: RigidBody
+}
+
+function PhysicsSystem(world: World<Partial<IRigidBody>>) {
   const physics = new RAPIER.World({ x: 0, y: 0, z: 0 })
 
   const entities = world.with("rigidbody", "transform")
@@ -51,6 +54,8 @@ function PhysicsSystem(world: World<Entity>) {
   }
 }
 
-export default function PhysicsPlugin(app: App) {
+export default function PhysicsPlugin<E extends {}>(
+  app: App<E>
+): App<E & Partial<IRigidBody>> {
   return app.addSystem(PhysicsSystem)
 }
