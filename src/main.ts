@@ -29,7 +29,7 @@ import("@dimforge/rapier3d").then(() => {
     color: new Color("hotpink"),
   })
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 1000; i++) {
     app.world.add({
       transform: new Transform(
         [plusMinus(20), plusMinus(10), 0],
