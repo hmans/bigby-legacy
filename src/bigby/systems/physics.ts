@@ -8,7 +8,7 @@ export class RigidBody {
 }
 
 export default (world: World<Entity>) => {
-  const physics = new RAPIER.World({ x: 0, y: -9.81, z: 0 })
+  const physics = new RAPIER.World({ x: 0, y: 0, z: 0 })
 
   const entities = world.with("rigidbody", "transform")
 
