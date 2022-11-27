@@ -6,11 +6,12 @@ import { Transform } from "./bigby/core/Transform"
 import { BoxGeometry } from "./bigby/geometry/BoxGeometry"
 import { Material } from "./bigby/materials/Material"
 import AutorotatePlugin from "./bigby/plugins/autorotate"
+import RenderingPlugin from "./bigby/plugins/rendering"
 import "./style.css"
 
 const app = new App()
 
-app.addPlugin(AutorotatePlugin)
+app.addPlugin(AutorotatePlugin).addPlugin(RenderingPlugin)
 
 app.world.add({
   transform: new Transform([0, 0, 20]),

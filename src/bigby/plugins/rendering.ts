@@ -1,8 +1,9 @@
 import { World } from "@miniplex/core"
 import { mat3, mat4 } from "gl-matrix"
+import { App } from "../App"
 import { Entity } from "../Entity"
 
-export default (world: World<Entity>) => {
+const RenderingSystem = (world: World<Entity>) => {
   /* Initialize canvas */
   const canvas = document.body.appendChild(document.createElement("canvas"))
   canvas.width = window.innerWidth
@@ -149,4 +150,9 @@ export default (world: World<Entity>) => {
       /* Done! */
     }
   }
+}
+
+export default function RenderingPlugin(app: App) {
+  app.addSystem(RenderingSystem)
+  return app
 }
