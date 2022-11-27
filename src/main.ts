@@ -13,32 +13,30 @@ import PhysicsPlugin, { RigidBody } from "./bigby/plugins/physics"
 import RenderingPlugin from "./bigby/plugins/rendering"
 import "./style.css"
 
-import("@dimforge/rapier3d").then(() => {
-  new App()
-    .addPlugin(PhysicsPlugin)
-    .addPlugin(RenderingPlugin)
-    .addPlugin(AutorotatePlugin)
-    .addSystem((app) => {
-      app.world.add({
-        transform: new Transform([0, 0, 20]),
-        camera: new Camera(70, 0.1, 1000),
-      })
-
-      const geometry = new BoxGeometry()
-      const material = new Material({
-        color: new Color("hotpink"),
-      })
-
-      for (let i = 0; i < 1000; i++) {
-        app.world.add({
-          transform: new Transform(
-            [plusMinus(20), plusMinus(10), 0],
-            quat.random(quat.create())
-          ),
-          mesh: new Mesh(geometry, material),
-          rigidbody: new RigidBody(),
-        })
-      }
+new App()
+  .addPlugin(PhysicsPlugin)
+  .addPlugin(RenderingPlugin)
+  .addPlugin(AutorotatePlugin)
+  .addSystem((app) => {
+    app.world.add({
+      transform: new Transform([0, 0, 20]),
+      camera: new Camera(70, 0.1, 1000),
     })
-    .run()
-})
+
+    const geometry = new BoxGeometry()
+    const material = new Material({
+      color: new Color("hotpink"),
+    })
+
+    for (let i = 0; i < 1000; i++) {
+      app.world.add({
+        transform: new Transform(
+          [plusMinus(20), plusMinus(10), 0],
+          quat.random(quat.create())
+        ),
+        mesh: new Mesh(geometry, material),
+        rigidbody: new RigidBody(),
+      })
+    }
+  })
+  .run()
