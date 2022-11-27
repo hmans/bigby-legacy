@@ -1,3 +1,4 @@
+import * as RAPIER from "@dimforge/rapier3d-compat"
 import { quat } from "gl-matrix"
 import { plusMinus } from "randomish"
 import { Color } from "three"
@@ -9,7 +10,7 @@ import { BoxGeometry } from "./bigby/geometry/BoxGeometry"
 import { Material } from "./bigby/materials/Material"
 import "./style.css"
 
-import("@dimforge/rapier3d-compat").then(() => {
+RAPIER.init().then(() => {
   new App((world) => {
     world.add({
       // autorotate: [1, 1.3, 0],
