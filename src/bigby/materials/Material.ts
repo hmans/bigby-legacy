@@ -55,7 +55,7 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
       `,
       body: $`
         fragColor = vec4(${color} * vLight, 1.0);
-        fragColor = vec4(vNormal, 1.0);
+        // fragColor = vec4(vNormal, 1.0);
       `,
     },
   })
