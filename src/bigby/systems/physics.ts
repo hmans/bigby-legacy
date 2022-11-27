@@ -1,6 +1,7 @@
 import { World } from "@miniplex/core"
 import { Entity } from "../Entity"
 import * as RAPIER from "@dimforge/rapier3d"
+import { quat, vec3 } from "gl-matrix"
 
 await import("@dimforge/rapier3d")
 
@@ -37,9 +38,16 @@ export default (world: World<Entity>) => {
 
     for (const entity of entities) {
       const position = entity.rigidbody.rigidBody!.translation()
-      entity.transform.position[0] = position.x
-      entity.transform.position[1] = position.y
-      entity.transform.position[2] = position.z
+      vec3.set(entity.transform.position, position.x, position.y, position.z)
+
+      const rotation = entity.rigidbody.rigidBody!.rotation()
+      quat.set(
+        entity.transform.quaternion,
+        rotation.x,
+        rotation.y,
+        rotation.z,
+        rotation.w
+      )
     }
   }
 }
