@@ -16,8 +16,8 @@ import "./style.css"
 import("@dimforge/rapier3d").then(() => {
   const app = new App()
     .addPlugin(PhysicsPlugin)
-    .addPlugin(AutorotatePlugin)
     .addPlugin(RenderingPlugin)
+    .addPlugin(AutorotatePlugin)
 
   app.world.add({
     transform: new Transform([0, 0, 20]),
