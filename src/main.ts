@@ -7,6 +7,7 @@ import { Mesh } from "./bigby/core/Mesh"
 import { Transform } from "./bigby/core/Transform"
 import { BoxGeometry } from "./bigby/geometry/BoxGeometry"
 import { Material } from "./bigby/materials/Material"
+import { RigidBody } from "./bigby/systems/physics"
 import "./style.css"
 
 import("@dimforge/rapier3d").then(() => {
@@ -28,6 +29,7 @@ import("@dimforge/rapier3d").then(() => {
           quat.random(quat.create())
         ),
         mesh: new Mesh(geometry, material),
+        rigidbody: new RigidBody(),
       })
     }
   })
