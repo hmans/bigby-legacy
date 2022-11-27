@@ -3,6 +3,7 @@ import { Entity } from "./Entity"
 import physics from "./systems/physics"
 import rendering from "./systems/rendering"
 import transforms from "./systems/transforms"
+import { Plugin, SystemFactory } from "./types"
 
 export class App {
   world: World<Entity>
@@ -36,11 +37,12 @@ export class App {
     animate()
   }
 
-  addPlugin(plugin: (app: App) => void) {
+  addPlugin(plugin: Plugin) {
     plugin(this)
   }
 
-  addSystem(system: (world: World<Entity>) => (dt: number) => void) {
+  addSystem(system: SystemFactory) {
     this.systems.push(system(this.world))
+    return this
   }
 }

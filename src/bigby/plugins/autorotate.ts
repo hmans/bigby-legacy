@@ -17,4 +17,5 @@ function AutorotateSystem(world: World<Entity>) {
 
 export default function AutorotatePlugin(app: App) {
   app.addSystem(AutorotateSystem)
+  return app
 }
