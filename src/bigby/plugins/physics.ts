@@ -2,6 +2,7 @@ import { World } from "@miniplex/core"
 import * as RAPIER from "@dimforge/rapier3d"
 import { quat, vec3 } from "gl-matrix"
 import { App } from "../App"
+import { ITransform } from "./rendering"
 
 export class RigidBody {
   rigidBody?: RAPIER.RigidBody
@@ -12,7 +13,7 @@ export interface IRigidBody {
   rigidbody: RigidBody
 }
 
-function PhysicsSystem(world: World<Partial<IRigidBody>>) {
+function PhysicsSystem(world: World<Partial<IRigidBody & ITransform>>) {
   const physics = new RAPIER.World({ x: 0, y: 0, z: 0 })
 
   const entities = world.with("rigidbody", "transform")
