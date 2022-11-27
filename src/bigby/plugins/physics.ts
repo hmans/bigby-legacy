@@ -1,7 +1,7 @@
-import { World } from "@miniplex/core"
 import * as RAPIER from "@dimforge/rapier3d"
 import { quat, vec3 } from "gl-matrix"
 import { App } from "../App"
+import { clamp } from "../helpers"
 import { ITransform } from "./rendering"
 
 export class RigidBody {
@@ -45,7 +45,7 @@ function PhysicsSystem(app: App<Partial<IRigidBody & ITransform>>) {
   })
 
   return (dt: number) => {
-    physics.timestep = dt
+    physics.timestep = clamp(dt, 0.01, 0.2)
     physics.step()
 
     for (const entity of entities) {

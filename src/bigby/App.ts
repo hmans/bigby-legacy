@@ -1,4 +1,5 @@
 import { World } from "@miniplex/core"
+import { clamp } from "./helpers"
 import { Plugin, System, UpdateCallback } from "./types"
 
 export type BaseEntity = {}
@@ -37,7 +38,7 @@ export class App<E extends BaseEntity> {
 
       /* Calculate delta time */
       const time = performance.now()
-      const dt = (time - lastTime) / 1000
+      const dt = clamp((time - lastTime) / 1000, 0, 0.2)
       lastTime = time
 
       /* Update systems */
