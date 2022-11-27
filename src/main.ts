@@ -1,4 +1,3 @@
-import * as RAPIER from "@dimforge/rapier3d-compat"
 import { quat } from "gl-matrix"
 import { plusMinus } from "randomish"
 import { Color } from "three"
