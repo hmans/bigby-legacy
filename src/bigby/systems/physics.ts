@@ -2,6 +2,8 @@ import { World } from "@miniplex/core"
 import { Entity } from "../Entity"
 import * as RAPIER from "@dimforge/rapier3d"
 
+await import("@dimforge/rapier3d")
+
 export class RigidBody {
   rigidBody?: RAPIER.RigidBody
   collider?: RAPIER.Collider
