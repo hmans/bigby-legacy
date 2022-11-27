@@ -14,30 +14,31 @@ import RenderingPlugin from "./bigby/plugins/rendering"
 import "./style.css"
 
 import("@dimforge/rapier3d").then(() => {
-  const app = new App()
+  new App()
     .addPlugin(PhysicsPlugin)
     .addPlugin(RenderingPlugin)
     .addPlugin(AutorotatePlugin)
-    .run()
+    .addSystem((app) => {
+      app.world.add({
+        transform: new Transform([0, 0, 20]),
+        camera: new Camera(70, 0.1, 1000),
+      })
 
-  app.world.add({
-    transform: new Transform([0, 0, 20]),
-    camera: new Camera(70, 0.1, 1000),
-  })
+      const geometry = new BoxGeometry()
+      const material = new Material({
+        color: new Color("hotpink"),
+      })
 
-  const geometry = new BoxGeometry()
-  const material = new Material({
-    color: new Color("hotpink"),
-  })
-
-  for (let i = 0; i < 1000; i++) {
-    app.world.add({
-      transform: new Transform(
-        [plusMinus(20), plusMinus(10), 0],
-        quat.random(quat.create())
-      ),
-      mesh: new Mesh(geometry, material),
-      rigidbody: new RigidBody(),
+      for (let i = 0; i < 1000; i++) {
+        app.world.add({
+          transform: new Transform(
+            [plusMinus(20), plusMinus(10), 0],
+            quat.random(quat.create())
+          ),
+          mesh: new Mesh(geometry, material),
+          rigidbody: new RigidBody(),
+        })
+      }
     })
-  }
+    .run()
 })

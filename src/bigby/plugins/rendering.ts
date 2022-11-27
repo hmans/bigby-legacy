@@ -12,8 +12,8 @@ export interface IMesh {
   mesh: Mesh
 }
 
-function TransformsSystem(world: World<Partial<ITransform>>) {
-  const entities = world.with("transform")
+function TransformsSystem(app: App<Partial<ITransform>>) {
+  const entities = app.world.with("transform")
 
   return () => {
     for (const { transform } of entities) {
@@ -29,7 +29,7 @@ function TransformsSystem(world: World<Partial<ITransform>>) {
   }
 }
 
-function RenderingSystem(world: World<Partial<ITransform & IMesh>>) {
+function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
   /* Initialize canvas */
   const canvas = document.body.appendChild(document.createElement("canvas"))
   canvas.width = window.innerWidth
@@ -46,7 +46,7 @@ function RenderingSystem(world: World<Partial<ITransform & IMesh>>) {
   /* Configure viewport */
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
 
-  const transforms = world.with("transform")
+  const transforms = app.world.with("transform")
   const meshes = transforms.with("mesh")
   const cameras = transforms.with("camera")
 

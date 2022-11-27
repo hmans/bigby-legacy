@@ -1,4 +1,3 @@
-import { World } from "@miniplex/core"
 import { quat, vec3 } from "gl-matrix"
 import { App } from "../App"
 
@@ -8,8 +7,8 @@ interface IAutoRotate {
   autorotate: vec3
 }
 
-function AutorotateSystem(world: World<Partial<IAutoRotate & ITransform>>) {
-  const entities = world.with("transform", "autorotate")
+function AutorotateSystem(app: App<Partial<IAutoRotate & ITransform>>) {
+  const entities = app.world.with("transform", "autorotate")
 
   return (dt: number) => {
     for (const { transform, autorotate } of entities) {

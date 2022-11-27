@@ -13,10 +13,10 @@ export interface IRigidBody {
   rigidbody: RigidBody
 }
 
-function PhysicsSystem(world: World<Partial<IRigidBody & ITransform>>) {
+function PhysicsSystem(app: App<Partial<IRigidBody & ITransform>>) {
   const physics = new RAPIER.World({ x: 0, y: 0, z: 0 })
 
-  const entities = world.with("rigidbody", "transform")
+  const entities = app.world.with("rigidbody", "transform")
 
   entities.onEntityAdded.add((entity) => {
     let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
