@@ -4,6 +4,7 @@ specifiers:
   '@miniplex/core': 2.0.0-beta.2
   '@types/three': ^0.146.0
   gl-matrix: ^3.4.3
+  randomish: ^0.1.6
   shader-composer: ^0.4.9
   three: ^0.146.0
   typescript: ^4.9.3
@@ -12,6 +13,7 @@ specifiers:
 dependencies:
   '@miniplex/core': 2.0.0-beta.2
   gl-matrix: 3.4.3
+  randomish: 0.1.6
   shader-composer: 0.4.9_three@0.146.0
   three: 0.146.0
 
@@ -332,6 +334,10 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
     dev: true
+
+  /randomish/0.1.6:
+    resolution: {integrity: sha512-RZCiQHkDq8zpq948ui5S+DzNfP48EdHvYxXV1RokgpaiJ9uPoQdjRL0T2UertJnvuklIWjzmxDcu9Yl03NzNPQ==}
+    dev: false
 
   /resolve/1.22.1:
     resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==}

@@ -1,3 +1,5 @@
+import { quat } from "gl-matrix"
+import { plusMinus } from "randomish"
 import { Color } from "three"
 import { App } from "./bigby/App"
 import { Camera } from "./bigby/core/Camera"
@@ -10,40 +12,21 @@ import "./style.css"
 new App((world) => {
   world.add({
     // autorotate: [1, 1.3, 0],
-    transform: new Transform([0, 0, 5]),
+    transform: new Transform([0, 0, 20]),
     camera: new Camera(70, 0.1, 1000),
   })
 
-  world.add({
-    autorotate: [0.3, 0.1, 0.2],
-    transform: new Transform([0, 0, -30], [0, 0, 0, 1], [20, 20, 20]),
-    mesh: new Mesh(
-      new BoxGeometry(),
-      new Material({
-        color: new Color("orange"),
-      })
-    ),
-  })
+  const geometry = new BoxGeometry()
+  const material = new Material({ color: new Color(0x00ff00) })
 
-  world.add({
-    autorotate: [1, 1.3, 0],
-    transform: new Transform([-2, 0, 0]),
-    mesh: new Mesh(
-      new BoxGeometry(),
-      new Material({
-        color: new Color("hotpink"),
-      })
-    ),
-  })
-
-  world.add({
-    autorotate: [0, -1, 1.3],
-    transform: new Transform([2, 0, 0]),
-    mesh: new Mesh(
-      new BoxGeometry(),
-      new Material({
-        color: new Color("cyan"),
-      })
-    ),
-  })
+  for (let i = 0; i < 100; i++) {
+    world.add({
+      // autorotate: [plusMinus(1), plusMinus(1), 0],
+      transform: new Transform(
+        [plusMinus(20), plusMinus(10), 0],
+        quat.random(quat.create())
+      ),
+      mesh: new Mesh(geometry, material),
+    })
+  }
 })
