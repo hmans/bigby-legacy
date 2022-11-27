@@ -1,6 +1,5 @@
 import { World } from "@miniplex/core"
 import { Entity } from "./Entity"
-import autorotate from "./systems/autorotate"
 import physics from "./systems/physics"
 import rendering from "./systems/rendering"
 import transforms from "./systems/transforms"
@@ -8,22 +7,21 @@ import transforms from "./systems/transforms"
 export class App {
   world: World<Entity>
 
-  constructor(setup?: (world: World<Entity>) => void) {
+  systems = new Array<(dt: number) => void>()
+
+  constructor() {
     this.world = new World<Entity>()
 
-    const systems = [
+    this.systems.push(
       physics(this.world),
-      autorotate(this.world),
       transforms(this.world),
-      rendering(this.world),
-    ]
-
-    setup?.(this.world)
+      rendering(this.world)
+    )
 
     /* Tick */
     let lastTime = performance.now()
 
-    function animate() {
+    const animate = () => {
       requestAnimationFrame(animate)
 
       /* Calculate delta time */
@@ -32,9 +30,17 @@ export class App {
       lastTime = time
 
       /* Update systems */
-      systems.forEach((system) => system(dt))
+      this.systems.forEach((system) => system(dt))
     }
 
     animate()
+  }
+
+  addPlugin(plugin: (app: App) => void) {
+    plugin(this)
+  }
+
+  addSystem(system: (world: World<Entity>) => (dt: number) => void) {
+    this.systems.push(system(this.world))
   }
 }

@@ -1,5 +1,3 @@
-import { quat } from "gl-matrix"
-import { plusMinus } from "randomish"
 import { Color } from "three"
 import { App } from "./bigby/App"
 import { Camera } from "./bigby/core/Camera"
@@ -7,28 +5,46 @@ import { Mesh } from "./bigby/core/Mesh"
 import { Transform } from "./bigby/core/Transform"
 import { BoxGeometry } from "./bigby/geometry/BoxGeometry"
 import { Material } from "./bigby/materials/Material"
-import { RigidBody } from "./bigby/systems/physics"
+import AutorotatePlugin from "./bigby/plugins/autorotate"
 import "./style.css"
 
-new App((world) => {
-  world.add({
-    // autorotate: [1, 1.3, 0],
-    transform: new Transform([0, 0, 20]),
-    camera: new Camera(70, 0.1, 1000),
-  })
+const app = new App()
 
-  const geometry = new BoxGeometry()
-  const material = new Material({ color: new Color(0x00ff00) })
+app.addPlugin(AutorotatePlugin)
 
-  for (let i = 0; i < 100; i++) {
-    world.add({
-      // autorotate: [plusMinus(1), plusMinus(1), 0],
-      transform: new Transform(
-        [plusMinus(20), plusMinus(10), 0],
-        quat.random(quat.create())
-      ),
-      mesh: new Mesh(geometry, material),
-      rigidbody: new RigidBody(),
-    })
-  }
+app.world.add({
+  transform: new Transform([0, 0, 20]),
+  camera: new Camera(70, 0.1, 1000),
 })
+
+const geometry = new BoxGeometry()
+const material = new Material({ color: new Color(0x00ff00) })
+
+app.world.add({
+  autorotate: [1, 2, 0],
+  transform: new Transform(),
+  mesh: new Mesh(geometry, material),
+})
+
+// new App((world) => {
+//   world.add({
+//     // autorotate: [1, 1.3, 0],
+//     transform: new Transform([0, 0, 20]),
+//     camera: new Camera(70, 0.1, 1000),
+//   })
+
+//   const geometry = new BoxGeometry()
+//   const material = new Material({ color: new Color(0x00ff00) })
+
+//   for (let i = 0; i < 100; i++) {
+//     world.add({
+//       // autorotate: [plusMinus(1), plusMinus(1), 0],
+//       transform: new Transform(
+//         [plusMinus(20), plusMinus(10), 0],
+//         quat.random(quat.create())
+//       ),
+//       mesh: new Mesh(geometry, material),
+//       rigidbody: new RigidBody(),
+//     })
+//   }
+// })
