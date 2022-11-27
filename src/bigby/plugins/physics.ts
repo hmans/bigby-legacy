@@ -4,8 +4,6 @@ import * as RAPIER from "@dimforge/rapier3d"
 import { quat, vec3 } from "gl-matrix"
 import { App } from "../App"
 
-await import("@dimforge/rapier3d")
-
 export class RigidBody {
   rigidBody?: RAPIER.RigidBody
   collider?: RAPIER.Collider

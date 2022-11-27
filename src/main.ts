@@ -12,6 +12,8 @@ import PhysicsPlugin, { RigidBody } from "./bigby/plugins/physics"
 import RenderingPlugin from "./bigby/plugins/rendering"
 import "./style.css"
 
+await import("@dimforge/rapier3d")
+
 const app = new App()
   .addPlugin(PhysicsPlugin)
   .addPlugin(AutorotatePlugin)
