@@ -3,7 +3,24 @@ import { mat3, mat4 } from "gl-matrix"
 import { App } from "../App"
 import { Entity } from "../Entity"
 
-const RenderingSystem = (world: World<Entity>) => {
+function TransformsSystem(world: World<Entity>) {
+  const entities = world.with("transform")
+
+  return (dt: number) => {
+    for (const { transform } of entities) {
+      if (!transform.autoUpdate) continue
+
+      mat4.fromRotationTranslationScale(
+        transform.matrix,
+        transform.quaternion,
+        transform.position,
+        transform.scale
+      )
+    }
+  }
+}
+
+function RenderingSystem(world: World<Entity>) {
   /* Initialize canvas */
   const canvas = document.body.appendChild(document.createElement("canvas"))
   canvas.width = window.innerWidth
@@ -153,6 +170,5 @@ const RenderingSystem = (world: World<Entity>) => {
 }
 
 export default function RenderingPlugin(app: App) {
-  app.addSystem(RenderingSystem)
-  return app
+  return app.addSystem(TransformsSystem).addSystem(RenderingSystem)
 }
