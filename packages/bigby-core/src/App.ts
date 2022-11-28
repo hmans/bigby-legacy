@@ -1,5 +1,5 @@
 import { World } from "@miniplex/core"
-import { clamp } from "./helpers"
+import { clamp } from "@bigby/math"
 import { Plugin, StartupSystem, System } from "./types"
 
 export type BaseEntity = {}

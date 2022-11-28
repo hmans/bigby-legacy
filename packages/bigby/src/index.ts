@@ -1,4 +1,4 @@
-export * from "./App"
+export * from "@bigby/core"
 export * from "./plugins"
 export * from "./geometry/BoxGeometry"
 export * from "./core/Camera"
