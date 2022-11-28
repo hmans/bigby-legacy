@@ -64,9 +64,7 @@ function PhysicsSystem(app: App<Partial<IRigidBody & ITransform>>) {
   }
 }
 
-export default function PhysicsPlugin(
-  app: App<Partial<ITransform & IRigidBody>>
-) {
+export function PhysicsPlugin(app: App<Partial<ITransform & IRigidBody>>) {
   import("@dimforge/rapier3d")
   app.addSystem(PhysicsSystem(app))
   return app
