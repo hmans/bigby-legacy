@@ -164,5 +164,5 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
   }
 }
 
-export const RenderingPlugin = (app: App<Partial<ITransform & IMesh>>) =>
+export const WebGL2RenderingPlugin = (app: App<Partial<ITransform & IMesh>>) =>
   app.addSystem(RenderingSystem(app))

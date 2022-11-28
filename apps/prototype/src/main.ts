@@ -1,24 +1,27 @@
 import {
   App,
+  BaseEntity,
   BoxGeometry,
   Camera,
   Material,
   Mesh,
   PhysicsPlugin,
-  RenderingPlugin,
   RigidBody,
   Transform,
   TransformsPlugin,
+  WebGL2RenderingPlugin,
 } from "bigby"
 import { quat } from "gl-matrix"
 import { plusMinus } from "randomish"
 import { Color } from "three"
 import "./style.css"
 
+const WebGL2Game = (app: App<BaseEntity>) =>
+  app.addPlugin(TransformsPlugin).addPlugin(WebGL2RenderingPlugin)
+
 new App()
-  .addPlugin(TransformsPlugin)
+  .addPlugin(WebGL2Game)
   .addPlugin(PhysicsPlugin)
-  .addPlugin(RenderingPlugin)
 
   .addStartupSystem((app) => {
     app.world.add({
