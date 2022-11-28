@@ -27,6 +27,7 @@ importers:
       '@dimforge/rapier3d': ^0.10.0
       '@miniplex/core': 2.0.0-beta.2
       '@types/three': ^0.146.0
+      bigby: workspace:^0.8.0
       gl-matrix: ^3.4.3
       randomish: ^0.1.6
       shader-composer: ^0.4.9
@@ -38,6 +39,7 @@ importers:
     dependencies:
       '@dimforge/rapier3d': 0.10.0
       '@miniplex/core': 2.0.0-beta.2
+      bigby: link:../../packages/bigby
       gl-matrix: 3.4.3
       randomish: 0.1.6
       shader-composer: 0.4.9_three@0.146.0
@@ -48,6 +50,18 @@ importers:
       vite: 3.2.4
       vite-plugin-top-level-await: 1.2.2_vite@3.2.4
       vite-plugin-wasm: 3.1.0
+
+  packages/bigby:
+    specifiers:
+      '@dimforge/rapier3d': ^0.10.0
+      '@miniplex/core': 2.0.0-beta.2
+      gl-matrix: ^3.4.3
+      shader-composer: ^0.4.9
+    dependencies:
+      '@dimforge/rapier3d': 0.10.0
+      '@miniplex/core': 2.0.0-beta.2
+      gl-matrix: 3.4.3
+      shader-composer: 0.4.9
 
 packages:
 
@@ -3603,6 +3617,14 @@ packages:
   /set-blocking/2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
     dev: true
+
+  /shader-composer/0.4.9:
+    resolution: {integrity: sha512-GZaT6Ky6rXSG7vsl3fFSFgRrB8mmVK0JBPx0+rMi6+gp0KSnpDAaLHmrkznmRD2Jfdm9RD7RpZ8aIAOqT3gvUw==}
+    peerDependencies:
+      three: '>=0.141.0'
+    dependencies:
+      fp-ts: 2.13.1
+    dev: false
 
   /shader-composer/0.4.9_three@0.146.0:
     resolution: {integrity: sha512-GZaT6Ky6rXSG7vsl3fFSFgRrB8mmVK0JBPx0+rMi6+gp0KSnpDAaLHmrkznmRD2Jfdm9RD7RpZ8aIAOqT3gvUw==}

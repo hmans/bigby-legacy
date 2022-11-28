@@ -1,15 +1,18 @@
+import {
+  App,
+  AutorotatePlugin,
+  BoxGeometry,
+  Camera,
+  Material,
+  Mesh,
+  PhysicsPlugin,
+  RenderingPlugin,
+  RigidBody,
+  Transform,
+} from "bigby"
 import { quat } from "gl-matrix"
 import { plusMinus } from "randomish"
 import { Color } from "three"
-import { App } from "./bigby/App"
-import { Camera } from "./bigby/core/Camera"
-import { Mesh } from "./bigby/core/Mesh"
-import { Transform } from "./bigby/core/Transform"
-import { BoxGeometry } from "./bigby/geometry/BoxGeometry"
-import { Material } from "./bigby/materials/Material"
-import AutorotatePlugin from "./bigby/plugins/autorotate"
-import PhysicsPlugin, { RigidBody } from "./bigby/plugins/physics"
-import RenderingPlugin from "./bigby/plugins/rendering"
 import "./style.css"
 
 new App()
