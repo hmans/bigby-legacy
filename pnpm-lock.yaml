@@ -31,7 +31,7 @@ importers:
   apps/prototype:
     specifiers:
       '@types/three': ^0.146.0
-      bigby: workspace:^0.8.1
+      bigby: workspace:^0.8.3
       gl-matrix: ^3.4.3
       randomish: ^0.1.6
       three: ^0.146.0
@@ -85,7 +85,7 @@ importers:
 
   packages/bigby-physics3d:
     specifiers:
-      '@bigby/core': workspace:^0.8.1
+      '@bigby/core': workspace:^0.8.2
       '@bigby/math': workspace:^0.8.1
       '@dimforge/rapier3d': ^0.10.0
       gl-matrix: ^3.4.3
