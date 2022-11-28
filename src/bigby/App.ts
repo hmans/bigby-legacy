@@ -14,8 +14,8 @@ export class App<E extends BaseEntity> {
     this.world = new World<E>()
   }
 
-  addPlugin<D extends E>(plugin: Plugin<E, D>): App<D> {
-    return plugin(this)
+  addPlugin<D extends E>(plugin: Plugin<D>): App<E & D> {
+    return plugin(this as any)
   }
 
   addSystem(system: System) {

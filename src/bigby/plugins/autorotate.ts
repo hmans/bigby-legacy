@@ -7,9 +7,9 @@ interface IAutoRotate {
   autorotate: vec3
 }
 
-export default function AutorotatePlugin<E extends Partial<ITransform>>(
-  app: App<E>
-): App<E & Partial<IAutoRotate>> {
+export default function AutorotatePlugin(
+  app: App<Partial<ITransform & IAutoRotate>>
+) {
   const entities = app.world.with("transform", "autorotate")
 
   app.addSystem((dt: number) => {
