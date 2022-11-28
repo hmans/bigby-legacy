@@ -1,8 +1,5 @@
-export * from "./App"
+export * from "@bigby/core"
 export * from "./plugins"
-export * from "./geometry/BoxGeometry"
-export * from "./core/Camera"
-export * from "./core/Mesh"
-export * from "./core/Transform"
-export * from "./materials/Material"
-export * from "./plugins/physics"
+
+export * from "@bigby/math"
+export * from "@bigby/webgl2"

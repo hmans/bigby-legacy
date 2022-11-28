@@ -1,24 +1,28 @@
 import {
   App,
-  AutorotatePlugin,
+  BaseEntity,
   BoxGeometry,
   Camera,
   Material,
   Mesh,
   PhysicsPlugin,
-  RenderingPlugin,
   RigidBody,
   Transform,
+  TransformsPlugin,
+  WebGL2RenderingPlugin,
 } from "bigby"
 import { quat } from "gl-matrix"
 import { plusMinus } from "randomish"
 import { Color } from "three"
 import "./style.css"
 
+const WebGL2Game = (app: App<BaseEntity>) =>
+  app.addPlugin(TransformsPlugin).addPlugin(WebGL2RenderingPlugin)
+
 new App()
-  .addPlugin(AutorotatePlugin)
+  .addPlugin(WebGL2Game)
   .addPlugin(PhysicsPlugin)
-  .addPlugin(RenderingPlugin)
+
   .addStartupSystem((app) => {
     app.world.add({
       transform: new Transform([0, 0, 20]),
@@ -30,10 +34,10 @@ new App()
       color: new Color("hotpink"),
     })
 
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 200; i++) {
       app.world.add({
         transform: new Transform(
-          [plusMinus(20), plusMinus(10), 0],
+          [plusMinus(16), plusMinus(10), 0],
           quat.random(quat.create())
         ),
         mesh: new Mesh(geometry, material),

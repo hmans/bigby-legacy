@@ -1,31 +1,9 @@
 import { mat3, mat4 } from "gl-matrix"
-import { App } from "../App"
-import { Mesh } from "../core/Mesh"
-import { Transform } from "../core/Transform"
-
-export interface ITransform {
-  transform: Transform
-}
+import { App, ITransform } from "@bigby/core"
+import { Mesh } from "./Mesh"
 
 export interface IMesh {
   mesh: Mesh
-}
-
-function TransformsSystem(app: App<Partial<ITransform>>) {
-  const entities = app.world.with("transform")
-
-  return () => {
-    for (const { transform } of entities) {
-      if (!transform.autoUpdate) continue
-
-      mat4.fromRotationTranslationScale(
-        transform.matrix,
-        transform.quaternion,
-        transform.position,
-        transform.scale
-      )
-    }
-  }
 }
 
 function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
@@ -37,7 +15,7 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
   /* Initialize WebGL */
   const gl = canvas.getContext("webgl2", {
     antialias: true,
-    powerPreference: "high-performance",
+    powerPreference: "high-performance"
   })!
 
   if (!gl) throw new Error("WebGL2 not supported")
@@ -121,7 +99,8 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
           /* Upload all of the geometry's attributes */
           /* TODO: do this in the loop, checking for dirty attributes */
           for (const [name, attribute] of Object.entries(geometry.attributes)) {
-            const type = name === "index" ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER
+            const type =
+              name === "index" ? gl.ELEMENT_ARRAY_BUFFER : gl.ARRAY_BUFFER
 
             const buffer = gl.createBuffer()
             if (!buffer) throw new Error("Failed to create buffer")
@@ -136,7 +115,14 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
             /* Enable vertex attribute */
             if (location !== -1) {
               gl.enableVertexAttribArray(location)
-              gl.vertexAttribPointer(location, attribute.size, gl.FLOAT, false, 0, 0)
+              gl.vertexAttribPointer(
+                location,
+                attribute.size,
+                gl.FLOAT,
+                false,
+                0,
+                0
+              )
             }
           }
         }
@@ -157,7 +143,8 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
         if (geometry.attributes.index) {
           gl.drawElements(
             gl.TRIANGLES,
-            geometry.attributes.index.data.length / geometry.attributes.index.size,
+            geometry.attributes.index.data.length /
+              geometry.attributes.index.size,
             gl.UNSIGNED_INT,
             0
           )
@@ -177,6 +164,5 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
   }
 }
 
-export default function RenderingPlugin(app: App<Partial<ITransform & IMesh>>) {
-  return app.addSystem(TransformsSystem(app)).addSystem(RenderingSystem(app))
-}
+export const WebGL2RenderingPlugin = (app: App<Partial<ITransform & IMesh>>) =>
+  app.addSystem(RenderingSystem(app))

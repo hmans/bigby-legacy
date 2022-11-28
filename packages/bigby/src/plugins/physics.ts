@@ -1,8 +1,7 @@
+import { App, ITransform } from "@bigby/core"
+import { clamp } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d"
 import { quat, vec3 } from "gl-matrix"
-import { App } from "../App"
-import { clamp } from "../helpers"
-import { ITransform } from "./rendering"
 
 export class RigidBody {
   rigidBody?: RAPIER.RigidBody
@@ -31,7 +30,7 @@ function PhysicsSystem(app: App<Partial<IRigidBody & ITransform>>) {
       x: entity.transform.quaternion[0],
       y: entity.transform.quaternion[1],
       z: entity.transform.quaternion[2],
-      w: entity.transform.quaternion[3],
+      w: entity.transform.quaternion[3]
     })
 
     entity.rigidbody.rigidBody = physics.createRigidBody(rigidBodyDesc)
@@ -64,7 +63,7 @@ function PhysicsSystem(app: App<Partial<IRigidBody & ITransform>>) {
   }
 }
 
-export default function PhysicsPlugin(app: App<Partial<ITransform & IRigidBody>>) {
+export function PhysicsPlugin(app: App<Partial<ITransform & IRigidBody>>) {
   import("@dimforge/rapier3d")
   app.addSystem(PhysicsSystem(app))
   return app
