@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "Make games, learn things.",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "main": "dist/bigby-webgl2.cjs.js",
   "module": "dist/bigby-webgl2.esm.js",
   "files": [
@@ -27,7 +27,7 @@
     ]
   },
   "dependencies": {
-    "@bigby/core": "workspace:^0.8.1",
+    "@bigby/core": "workspace:^0.9.0",
     "gl-matrix": "^3.4.3",
     "shader-composer": "^0.4.9"
   }

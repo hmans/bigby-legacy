@@ -1,4 +1,4 @@
-# @bigby/physics3d
+# @bigby/ticker
 
 ## 0.9.0
 
@@ -11,11 +11,3 @@
 - Updated dependencies [1529fe6]
   - @bigby/core@0.9.0
   - @bigby/math@0.9.0
-
-## 0.8.2
-
-### Patch Changes
-
-- 6abcde4: Initializers!
-- Updated dependencies [6abcde4]
-  - @bigby/core@0.8.2

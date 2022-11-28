@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "Make games, learn things.",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "main": "dist/bigby-math.cjs.js",
   "module": "dist/bigby-math.esm.js",
   "files": [
