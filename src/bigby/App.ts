@@ -1,14 +1,13 @@
 import { World } from "@miniplex/core"
 import { clamp } from "./helpers"
-import { Plugin, StartupSystem, System, UpdateCallback } from "./types"
+import { Plugin, StartupSystem, System } from "./types"
 
 export type BaseEntity = {}
 
 export class App<E extends BaseEntity> {
   world: World<E>
 
-  updateCallbacks = new Array<UpdateCallback>()
-  systems = new Array<System<any>>()
+  systems = new Array<System>()
   startupSystems = new Array<StartupSystem<E>>()
 
   constructor() {
@@ -19,7 +18,7 @@ export class App<E extends BaseEntity> {
     return plugin(this)
   }
 
-  addSystem<D extends E>(system: System<D>) {
+  addSystem(system: System) {
     this.systems.push(system)
     return this
   }
@@ -30,12 +29,6 @@ export class App<E extends BaseEntity> {
   }
 
   run() {
-    /* Initialize all systems */
-    for (const systemFactory of this.systems) {
-      const update = systemFactory(this)
-      if (update) this.updateCallbacks.push(update)
-    }
-
     /* Execute startup systems */
     this.startupSystems.forEach((system) => system(this))
 
@@ -51,7 +44,7 @@ export class App<E extends BaseEntity> {
       lastTime = time
 
       /* Update systems */
-      this.updateCallbacks.forEach((system) => system(dt))
+      this.systems.forEach((system) => system(dt))
     }
 
     animate()

@@ -1,9 +1,6 @@
-import { World } from "@miniplex/core"
 import { App } from "./App"
 
-export type UpdateCallback = (dt: number) => void
-
-export type System<E extends {}> = (app: App<E>) => UpdateCallback | void
+export type System = (dt: number) => void
 
 export type StartupSystem<E extends {}> = (app: App<E>) => void
 
