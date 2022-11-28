@@ -1,5 +1,11 @@
 # @bigby/core
 
+## 0.8.2
+
+### Patch Changes
+
+- 6abcde4: Initializers!
+
 ## 0.8.1
 
 ### Patch Changes
