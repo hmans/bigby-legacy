@@ -164,6 +164,5 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
   }
 }
 
-export function RenderingPlugin(app: App<Partial<ITransform & IMesh>>) {
-  return app.addSystem(RenderingSystem(app))
-}
+export const RenderingPlugin = (app: App<Partial<ITransform & IMesh>>) =>
+  app.addSystem(RenderingSystem(app))

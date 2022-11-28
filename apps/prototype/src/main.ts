@@ -17,6 +17,7 @@ new App()
   .addPlugin(AutorotatePlugin)
   .addPlugin(RenderingPlugin)
   .addStartupSystem((app) => {
+    console.log("hello")
     app.world.add({
       transform: new Transform([0, 0, 20]),
       camera: new Camera(70, 0.1, 1000),
