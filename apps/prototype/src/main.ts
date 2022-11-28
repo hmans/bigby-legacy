@@ -26,7 +26,7 @@ new App()
 
     const geometry = new BoxGeometry()
     const material = new Material({
-      color: new Color("hotpink"),
+      color: new Color("orange"),
     })
 
     for (let i = 0; i < 200; i++) {
