@@ -1,5 +1,5 @@
-import { Geometry } from "../geometry/Geometry"
-import { Material } from "../materials/Material"
+import { Geometry } from "./Geometry"
+import { Material } from "./Material"
 
 export class Mesh {
   vao?: WebGLVertexArrayObject

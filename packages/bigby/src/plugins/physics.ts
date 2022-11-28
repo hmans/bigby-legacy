@@ -1,8 +1,8 @@
 import * as RAPIER from "@dimforge/rapier3d"
 import { quat, vec3 } from "gl-matrix"
 import { App } from "../../../bigby-core/src/App"
-import { clamp } from "../helpers"
-import { ITransform } from "./rendering"
+import { clamp } from "../../../bigby-webgl2/src/helpers"
+import { ITransform } from "../../../bigby-webgl2/src/plugin"
 
 export class RigidBody {
   rigidBody?: RAPIER.RigidBody

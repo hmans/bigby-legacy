@@ -1,4 +1,4 @@
-import { Attribute } from "../core/Attribute"
+import { Attribute } from "./Attribute"
 
 export class Geometry {
   readonly attributes: Record<string, Attribute> = {}

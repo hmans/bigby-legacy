@@ -5,10 +5,9 @@ import {
   compileShader,
   Input,
   Master,
-  ModelViewMatrix,
-  Vec3,
+  Vec3
 } from "shader-composer"
-import { createProgram, createShader } from "../helpers"
+import { createProgram, createShader } from "./helpers"
 
 export type Uniform = number | mat3 | mat4
 
@@ -45,7 +44,7 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
         gl_Position = projectionMatrix
           * modelViewMatrix
           * ${Attribute("vec4", "position")};
-      `,
+      `
     },
     fragment: {
       header: $`
@@ -56,8 +55,8 @@ function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
       body: $`
         fragColor = vec4(${color} * vLight, 1.0);
         // fragColor = vec4(vNormal, 1.0);
-      `,
-    },
+      `
+    }
   })
 }
 

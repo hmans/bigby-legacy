@@ -1,7 +1,7 @@
 import { mat3, mat4 } from "gl-matrix"
-import { App } from "../../../bigby-core/src/App"
-import { Mesh } from "../core/Mesh"
-import { Transform } from "../core/Transform"
+import { App } from "@bigby/core"
+import { Mesh } from "./Mesh"
+import { Transform } from "./Transform"
 
 export interface ITransform {
   transform: Transform
@@ -186,6 +186,6 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
   }
 }
 
-export default function RenderingPlugin(app: App<Partial<ITransform & IMesh>>) {
+export function RenderingPlugin(app: App<Partial<ITransform & IMesh>>) {
   return app.addSystem(TransformsSystem(app)).addSystem(RenderingSystem(app))
 }

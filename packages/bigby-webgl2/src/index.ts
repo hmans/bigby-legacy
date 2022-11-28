@@ -1,1 +1,7 @@
-export const foo = "bar"
+export * from "./BoxGeometry"
+export * from "./Camera"
+export * from "./Geometry"
+export * from "./Material"
+export * from "./Mesh"
+export * from "./plugin"
+export * from "./Transform"

@@ -83,9 +83,13 @@ importers:
 
   packages/bigby-webgl2:
     specifiers:
+      '@bigby/core': workspace:^0.8.0
       gl-matrix: ^3.4.3
+      shader-composer: ^0.4.9
     dependencies:
+      '@bigby/core': link:../bigby-core
       gl-matrix: 3.4.3
+      shader-composer: 0.4.9
 
 packages:
 
