@@ -16,7 +16,7 @@ new App()
   .addPlugin(PhysicsPlugin)
   .addPlugin(RenderingPlugin)
   .addPlugin(AutorotatePlugin)
-  .addSystem((app) => {
+  .addStartupSystem((app) => {
     app.world.add({
       transform: new Transform([0, 0, 20]),
       camera: new Camera(70, 0.1, 1000),

@@ -1,6 +1,6 @@
 import { World } from "@miniplex/core"
 import { clamp } from "./helpers"
-import { Plugin, System, UpdateCallback } from "./types"
+import { Plugin, StartupSystem, System, UpdateCallback } from "./types"
 
 export type BaseEntity = {}
 
@@ -9,6 +9,7 @@ export class App<E extends BaseEntity> {
 
   updateCallbacks = new Array<UpdateCallback>()
   systems = new Array<System<any>>()
+  startupSystems = new Array<StartupSystem<E>>()
 
   constructor() {
     this.world = new World<E>()
@@ -23,12 +24,20 @@ export class App<E extends BaseEntity> {
     return this
   }
 
+  addStartupSystem(system: StartupSystem<E>) {
+    this.startupSystems.push(system)
+    return this
+  }
+
   run() {
     /* Initialize all systems */
     for (const systemFactory of this.systems) {
       const update = systemFactory(this)
       if (update) this.updateCallbacks.push(update)
     }
+
+    /* Execute startup systems */
+    this.startupSystems.forEach((system) => system(this))
 
     /* Tick */
     let lastTime = performance.now()
