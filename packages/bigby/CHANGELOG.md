@@ -1,5 +1,11 @@
 # bigby
 
+## 0.8.3
+
+### Patch Changes
+
+- New bits!
+
 ## 0.8.1
 
 ### Patch Changes
