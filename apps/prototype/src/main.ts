@@ -20,10 +20,6 @@ new App()
   .addPlugin(PhysicsPlugin)
   .addPlugin(RenderingPlugin)
 
-  .addSystem((dt) => {
-    console.log(dt)
-  })
-
   .addStartupSystem((app) => {
     app.world.add({
       transform: new Transform([0, 0, 20]),
