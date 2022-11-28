@@ -26,25 +26,19 @@ importers:
 
   apps/prototype:
     specifiers:
-      '@dimforge/rapier3d': ^0.10.0
-      '@miniplex/core': 2.0.0-beta.2
       '@types/three': ^0.146.0
       bigby: workspace:^0.8.0
       gl-matrix: ^3.4.3
       randomish: ^0.1.6
-      shader-composer: ^0.4.9
       three: ^0.146.0
       typescript: ^4.9.3
       vite: ^3.2.3
       vite-plugin-top-level-await: ^1.2.2
       vite-plugin-wasm: ^3.1.0
     dependencies:
-      '@dimforge/rapier3d': 0.10.0
-      '@miniplex/core': 2.0.0-beta.2
       bigby: link:../../packages/bigby
       gl-matrix: 3.4.3
       randomish: 0.1.6
-      shader-composer: 0.4.9_three@0.146.0
       three: 0.146.0
     devDependencies:
       '@types/three': 0.146.0
@@ -3714,15 +3708,6 @@ packages:
       three: '>=0.141.0'
     dependencies:
       fp-ts: 2.13.1
-    dev: false
-
-  /shader-composer/0.4.9_three@0.146.0:
-    resolution: {integrity: sha512-GZaT6Ky6rXSG7vsl3fFSFgRrB8mmVK0JBPx0+rMi6+gp0KSnpDAaLHmrkznmRD2Jfdm9RD7RpZ8aIAOqT3gvUw==}
-    peerDependencies:
-      three: '>=0.141.0'
-    dependencies:
-      fp-ts: 2.13.1
-      three: 0.146.0
     dev: false
 
   /shebang-command/1.2.0:
