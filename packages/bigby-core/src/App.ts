@@ -4,7 +4,7 @@ import { Plugin, StartupSystem, System } from "./types"
 
 export type BaseEntity = {}
 
-export class App<E extends BaseEntity> {
+export class App<E extends BaseEntity = BaseEntity> {
   world: World<E>
 
   systems = new Array<System>()

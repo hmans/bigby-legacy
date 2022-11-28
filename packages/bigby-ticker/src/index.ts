@@ -1,7 +1,7 @@
-import { App, BaseEntity } from "@bigby/core"
+import { App } from "@bigby/core"
 import { clamp } from "@bigby/math"
 
-export const TickerPlugin = (app: App<BaseEntity>) =>
+export const TickerPlugin = (app: App) =>
   app.addStartupSystem((app) => {
     /* Tick */
     let lastTime = performance.now()
