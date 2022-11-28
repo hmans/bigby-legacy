@@ -1,35 +1,38 @@
 {
-  "name": "bigby-prototype",
+  "name": "bigby-monorepo",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "1.0.0",
+  "preconstruct": {
+    "packages": [
+      "packages/*"
+    ]
+  },
   "prettier": {
-    "trailingComma": "es5",
+    "trailingComma": "none",
     "tabWidth": 2,
     "useTabs": false,
     "semi": false,
     "singleQuote": false,
-    "arrowParens": "always",
-    "printWidth": 85
+    "arrowParens": "always"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "pnpm clean && turbo build",
+    "build:packages": "pnpm build --filter=./packages/*",
+    "build:apps": "pnpm build --filter=./apps/*",
+    "clean": "rimraf packages/*/*/dist packages/*/dist",
+    "clean:vite": "rimraf **/node_modules/.vite",
+    "dev": "turbo dev",
+    "dev:link": "preconstruct dev",
+    "postinstall": "preconstruct dev",
+    "test": "turbo test",
+    "ci": "preconstruct validate && pnpm build && pnpm test",
+    "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
+    "ci:release": "pnpm ci && pnpm changeset publish"
   },
   "devDependencies": {
-    "@types/three": "^0.146.0",
-    "typescript": "^4.9.3",
-    "vite": "^3.2.3",
-    "vite-plugin-top-level-await": "^1.2.2",
-    "vite-plugin-wasm": "^3.1.0"
-  },
-  "dependencies": {
-    "@dimforge/rapier3d": "^0.10.0",
-    "@miniplex/core": "2.0.0-beta.2",
-    "gl-matrix": "^3.4.3",
-    "randomish": "^0.1.6",
-    "shader-composer": "^0.4.9",
-    "three": "^0.146.0"
+    "@changesets/cli": "^2.25.2",
+    "@preconstruct/cli": "^2.2.2",
+    "rimraf": "^3.0.2",
+    "turbo": "^1.6.3"
   }
 }
