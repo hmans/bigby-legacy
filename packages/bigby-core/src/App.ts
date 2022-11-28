@@ -1,13 +1,15 @@
 import { World } from "@miniplex/core"
-import { clamp } from "@bigby/math"
 import { Plugin, StartupSystem, System } from "./types"
 
 export type BaseEntity = {}
+
+type Initializer = () => Promise<void>
 
 export class App<E extends BaseEntity = BaseEntity> {
   world: World<E>
 
   systems = new Array<System>()
+  initializers = new Array<Initializer>()
   startupSystems = new Array<StartupSystem<E>>()
 
   constructor() {
@@ -28,7 +30,15 @@ export class App<E extends BaseEntity = BaseEntity> {
     return this
   }
 
-  run() {
+  addInitializer(system: Initializer) {
+    this.initializers.push(system)
+    return this
+  }
+
+  async run() {
+    /* Execute and wait for initializers to complete */
+    await Promise.all(this.initializers.map((system) => system()))
+
     /* Execute startup systems */
     this.startupSystems.forEach((system) => system(this))
 
