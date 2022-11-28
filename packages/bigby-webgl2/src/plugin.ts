@@ -1,31 +1,9 @@
 import { mat3, mat4 } from "gl-matrix"
-import { App } from "@bigby/core"
+import { App, ITransform } from "@bigby/core"
 import { Mesh } from "./Mesh"
-import { Transform } from "./Transform"
-
-export interface ITransform {
-  transform: Transform
-}
 
 export interface IMesh {
   mesh: Mesh
-}
-
-function TransformsSystem(app: App<Partial<ITransform>>) {
-  const entities = app.world.with("transform")
-
-  return () => {
-    for (const { transform } of entities) {
-      if (!transform.autoUpdate) continue
-
-      mat4.fromRotationTranslationScale(
-        transform.matrix,
-        transform.quaternion,
-        transform.position,
-        transform.scale
-      )
-    }
-  }
 }
 
 function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
@@ -187,5 +165,5 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
 }
 
 export function RenderingPlugin(app: App<Partial<ITransform & IMesh>>) {
-  return app.addSystem(TransformsSystem(app)).addSystem(RenderingSystem(app))
+  return app.addSystem(RenderingSystem(app))
 }
