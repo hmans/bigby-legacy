@@ -105,7 +105,7 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
         material.uniforms.projectionMatrix = camera.camera.projectionMatrix
 
         /* Update the material's uniforms */
-        material.updateUniforms(gl)
+        material.updateUniforms(gl, dt)
       }
 
       /* Prepare Geometry */

@@ -109,11 +109,11 @@ export class Material {
 
   uniforms: Record<string, Uniform> = {}
 
-  updateUniforms(gl: WebGL2RenderingContext) {
+  updateUniforms(gl: WebGL2RenderingContext, dt: number) {
     if (!this.program) return
 
     /* Update uniforms */
-    this.shader[1].update(0.01, undefined!, undefined!, undefined!)
+    this.shader[1].update(dt, undefined!, undefined!, undefined!)
 
     /* Upload shader composer uniforms */
     for (const [name, uniform] of Object.entries(this.shader[0].uniforms!)) {
