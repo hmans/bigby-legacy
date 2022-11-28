@@ -55,6 +55,7 @@ importers:
     specifiers:
       '@bigby/core': workspace:^0.8.1
       '@bigby/math': workspace:^0.8.1
+      '@bigby/ticker': workspace:^0.8.1
       '@bigby/webgl2': workspace:^0.8.1
       '@dimforge/rapier3d': ^0.10.0
       '@miniplex/core': 2.0.0-beta.2
@@ -63,6 +64,7 @@ importers:
     dependencies:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
+      '@bigby/ticker': link:../bigby-ticker
       '@bigby/webgl2': link:../bigby-webgl2
       '@dimforge/rapier3d': 0.10.0
       '@miniplex/core': 2.0.0-beta.2
@@ -84,6 +86,14 @@ importers:
       gl-matrix: ^3.4.3
     dependencies:
       gl-matrix: 3.4.3
+
+  packages/bigby-ticker:
+    specifiers:
+      '@bigby/core': workspace:^0.8.1
+      '@bigby/math': workspace:^0.8.1
+    dependencies:
+      '@bigby/core': link:../bigby-core
+      '@bigby/math': link:../bigby-math
 
   packages/bigby-webgl2:
     specifiers:

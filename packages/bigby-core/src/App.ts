@@ -32,23 +32,6 @@ export class App<E extends BaseEntity> {
     /* Execute startup systems */
     this.startupSystems.forEach((system) => system(this))
 
-    /* Tick */
-    let lastTime = performance.now()
-
-    const animate = () => {
-      requestAnimationFrame(animate)
-
-      /* Calculate delta time */
-      const time = performance.now()
-      const dt = clamp((time - lastTime) / 1000, 0, 0.2)
-      lastTime = time
-
-      /* Update systems */
-      this.systems.forEach((system) => system(dt))
-    }
-
-    animate()
-
     return this
   }
 }
