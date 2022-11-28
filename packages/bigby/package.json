@@ -23,18 +23,13 @@
   "babel": {
     "presets": [
       "@babel/preset-env",
-      "@babel/preset-react",
-      [
-        "@babel/preset-typescript",
-        {
-          "isTSX": true,
-          "allExtensions": true
-        }
-      ]
+      "@babel/preset-typescript"
     ]
   },
   "dependencies": {
     "@bigby/core": "workspace:^0.8.0",
+    "@bigby/math": "workspace:^0.8.0",
+    "@bigby/webgl2": "workspace:^0.8.0",
     "@dimforge/rapier3d": "^0.10.0",
     "@miniplex/core": "2.0.0-beta.2",
     "gl-matrix": "^3.4.3",

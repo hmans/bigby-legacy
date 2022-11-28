@@ -1,5 +1,3 @@
 export * from "@bigby/core"
 export * from "./plugins"
-export * from "../../bigby-webgl2/src/BoxGeometry"
-export * from "../../bigby-webgl2/src/Material"
 export * from "./plugins/physics"
