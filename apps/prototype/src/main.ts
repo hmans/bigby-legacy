@@ -5,9 +5,7 @@ import {
   Camera,
   Material,
   Mesh,
-  PhysicsPlugin,
   RenderingPlugin,
-  RigidBody,
   Transform,
 } from "bigby"
 import { quat } from "gl-matrix"
@@ -17,7 +15,6 @@ import "./style.css"
 
 new App()
   .addPlugin(AutorotatePlugin)
-  .addPlugin(PhysicsPlugin)
   .addPlugin(RenderingPlugin)
   .addStartupSystem((app) => {
     app.world.add({
@@ -30,14 +27,13 @@ new App()
       color: new Color("hotpink"),
     })
 
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 100; i++) {
       app.world.add({
         transform: new Transform(
           [plusMinus(20), plusMinus(10), 0],
           quat.random(quat.create())
         ),
         mesh: new Mesh(geometry, material),
-        rigidbody: new RigidBody(),
       })
     }
   })

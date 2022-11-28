@@ -1,6 +1,5 @@
+import { App, ITransform } from "@bigby/core"
 import { quat, vec3 } from "gl-matrix"
-import { App } from "@bigby/core"
-import { ITransform } from "@bigby/webgl2"
 
 interface IAutoRotate {
   autorotate: vec3
