@@ -1,5 +1,7 @@
 export * from "@bigby/core"
 export * from "@bigby/math"
+export * from "@bigby/physics3d"
+export * from "@bigby/ticker"
 export * from "@bigby/webgl2"
 export * from "./plugins"
 export * from "./templates"

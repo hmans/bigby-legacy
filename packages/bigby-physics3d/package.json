@@ -1,5 +1,5 @@
 {
-  "name": "bigby",
+  "name": "@bigby/physics3d",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
@@ -7,8 +7,8 @@
   },
   "description": "Make games, learn things.",
   "version": "0.8.1",
-  "main": "dist/bigby.cjs.js",
-  "module": "dist/bigby.esm.js",
+  "main": "dist/bigby-physics3d.cjs.js",
+  "module": "dist/bigby-physics3d.esm.js",
   "files": [
     "dist/**",
     "LICENSE",
@@ -29,9 +29,7 @@
   "dependencies": {
     "@bigby/core": "workspace:^0.8.1",
     "@bigby/math": "workspace:^0.8.1",
-    "@bigby/physics3d": "workspace:^0.8.1",
-    "@bigby/ticker": "workspace:^0.8.1",
-    "@bigby/webgl2": "workspace:^0.8.1",
+    "@dimforge/rapier3d": "^0.10.0",
     "gl-matrix": "^3.4.3"
   }
 }
