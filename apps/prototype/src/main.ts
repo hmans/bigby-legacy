@@ -1,12 +1,14 @@
 import {
   App,
-  AutorotatePlugin,
   BoxGeometry,
   Camera,
   Material,
   Mesh,
+  PhysicsPlugin,
   RenderingPlugin,
+  RigidBody,
   Transform,
+  TransformsPlugin,
 } from "bigby"
 import { quat } from "gl-matrix"
 import { plusMinus } from "randomish"
@@ -14,10 +16,15 @@ import { Color } from "three"
 import "./style.css"
 
 new App()
-  .addPlugin(AutorotatePlugin)
+  .addPlugin(TransformsPlugin)
+  .addPlugin(PhysicsPlugin)
   .addPlugin(RenderingPlugin)
+
+  .addSystem((dt) => {
+    console.log(dt)
+  })
+
   .addStartupSystem((app) => {
-    console.log("hello")
     app.world.add({
       transform: new Transform([0, 0, 20]),
       camera: new Camera(70, 0.1, 1000),
@@ -28,13 +35,14 @@ new App()
       color: new Color("hotpink"),
     })
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 200; i++) {
       app.world.add({
         transform: new Transform(
-          [plusMinus(20), plusMinus(10), 0],
+          [plusMinus(16), plusMinus(10), 0],
           quat.random(quat.create())
         ),
         mesh: new Mesh(geometry, material),
+        rigidbody: new RigidBody(),
       })
     }
   })

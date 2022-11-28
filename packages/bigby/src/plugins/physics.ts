@@ -1,6 +1,5 @@
-import { App } from "@bigby/core"
+import { App, ITransform } from "@bigby/core"
 import { clamp } from "@bigby/math"
-import { ITransform } from "@bigby/webgl2"
 import * as RAPIER from "@dimforge/rapier3d"
 import { quat, vec3 } from "gl-matrix"
 
