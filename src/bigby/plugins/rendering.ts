@@ -178,8 +178,6 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
   }
 }
 
-export default function RenderingPlugin<E extends {}>(
-  app: App<E>
-): App<E & Partial<ITransform & IMesh>> {
-  return app.addSystem(TransformsSystem).addSystem(RenderingSystem)
+export default function RenderingPlugin(app: App<Partial<ITransform & IMesh>>) {
+  return app.addSystem(TransformsSystem(app)).addSystem(RenderingSystem(app))
 }
