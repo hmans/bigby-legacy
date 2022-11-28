@@ -1,4 +1,3 @@
-import { World } from "@miniplex/core"
 import { mat3, mat4 } from "gl-matrix"
 import { App } from "../App"
 import { Mesh } from "../core/Mesh"
