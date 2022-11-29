@@ -1,5 +1,11 @@
 # @bigby/webgl2
 
+## 0.10.0
+
+### Minor Changes
+
+- a8c8c27: Now using a newer version of Shader Composer that doesn't require Three. Cool!
+
 ## 0.9.0
 
 ### Minor Changes

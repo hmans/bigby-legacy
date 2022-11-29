@@ -1,5 +1,12 @@
 # bigby
 
+## 0.10.0
+
+### Patch Changes
+
+- Updated dependencies [a8c8c27]
+  - @bigby/webgl2@0.10.0
+
 ## 0.9.0
 
 ### Minor Changes
