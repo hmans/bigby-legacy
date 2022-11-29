@@ -112,7 +112,7 @@ export class Material {
     if (!this.program) return
 
     /* Update uniforms */
-    this.shader[1].update(dt, undefined!, undefined!, undefined!)
+    this.shader[1].update(dt)
 
     /* Upload shader composer uniforms */
     for (const [name, uniform] of Object.entries(this.shader[0].uniforms!)) {

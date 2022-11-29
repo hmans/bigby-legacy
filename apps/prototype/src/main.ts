@@ -11,7 +11,6 @@ import {
 } from "bigby"
 import { quat } from "gl-matrix"
 import { plusMinus } from "randomish"
-import { Color } from "three"
 import "./style.css"
 
 new App()
@@ -26,7 +25,7 @@ new App()
 
     const geometry = new BoxGeometry()
     const material = new Material({
-      color: new Color("orange"),
+      color: { r: 1, g: 0.6, b: 0.2 },
     })
 
     for (let i = 0; i < 200; i++) {
