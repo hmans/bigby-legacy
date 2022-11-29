@@ -1,5 +1,5 @@
 ---
-"@bigby/webgl2": patch
+"@bigby/webgl2": minor
 ---
 
 Now using a newer version of Shader Composer that doesn't require Three. Cool!
