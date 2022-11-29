@@ -1,5 +1,17 @@
 # bigby
 
+## 0.10.1
+
+### Patch Changes
+
+- Force version bump.
+- Updated dependencies
+  - @bigby/core@0.10.1
+  - @bigby/math@0.10.1
+  - @bigby/physics3d@0.10.1
+  - @bigby/ticker@0.10.1
+  - @bigby/webgl2@0.10.1
+
 ## 0.10.0
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @bigby/core
 
+## 0.10.1
+
+### Patch Changes
+
+- Force version bump.
+- Updated dependencies
+  - @bigby/math@0.10.1
+
 ## 0.9.0
 
 ### Minor Changes

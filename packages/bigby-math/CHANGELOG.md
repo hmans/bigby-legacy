@@ -1,5 +1,11 @@
 # @bigby/math
 
+## 0.10.1
+
+### Patch Changes
+
+- Force version bump.
+
 ## 0.9.0
 
 ### Minor Changes
