@@ -54,6 +54,7 @@ importers:
       '@bigby/core': workspace:^0.10.1
       '@bigby/math': workspace:^0.10.1
       '@bigby/physics3d': workspace:^0.10.1
+      '@bigby/plugin-input': workspace:^0.10.1
       '@bigby/ticker': workspace:^0.10.1
       '@bigby/webgl2': workspace:^0.10.1
       gl-matrix: ^3.4.3
@@ -61,6 +62,7 @@ importers:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
       '@bigby/physics3d': link:../bigby-physics3d
+      '@bigby/plugin-input': link:../bigby-plugin-input
       '@bigby/ticker': link:../bigby-ticker
       '@bigby/webgl2': link:../bigby-webgl2
       gl-matrix: 3.4.3
