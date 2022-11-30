@@ -33,6 +33,8 @@ function PhysicsSystem(app: App<Partial<IRigidBody & ITransform>>) {
       w: entity.transform.quaternion[3]
     })
 
+    rigidBodyDesc.enabledTranslations(true, true, false)
+
     entity.rigidbody.rigidBody = physics.createRigidBody(rigidBodyDesc)
 
     // Create a cuboid collider attached to the dynamic rigidBody.
