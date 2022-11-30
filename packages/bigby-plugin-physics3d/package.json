@@ -1,5 +1,5 @@
 {
-  "name": "@bigby/physics3d",
+  "name": "@bigby/plugin-physics3d",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
@@ -7,8 +7,8 @@
   },
   "description": "Make games, learn things.",
   "version": "0.10.1",
-  "main": "dist/bigby-physics3d.cjs.js",
-  "module": "dist/bigby-physics3d.esm.js",
+  "main": "dist/bigby-plugin-physics3d.cjs.js",
+  "module": "dist/bigby-plugin-physics3d.esm.js",
   "files": [
     "dist/**",
     "LICENSE",

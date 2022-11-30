@@ -1,6 +1,6 @@
 export * from "@bigby/core"
 export * from "@bigby/math"
-export * from "@bigby/physics3d"
+export * from "@bigby/plugin-physics3d"
 export * from "@bigby/plugin-input"
 export * from "@bigby/plugin-ticker"
 export * from "@bigby/plugin-webgl2"
