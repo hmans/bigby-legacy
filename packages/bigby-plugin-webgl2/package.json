@@ -1,5 +1,5 @@
 {
-  "name": "@bigby/webgl2",
+  "name": "@bigby/plugin-webgl2",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
@@ -7,8 +7,8 @@
   },
   "description": "Make games, learn things.",
   "version": "0.10.1",
-  "main": "dist/bigby-webgl2.cjs.js",
-  "module": "dist/bigby-webgl2.esm.js",
+  "main": "dist/bigby-plugin-webgl2.cjs.js",
+  "module": "dist/bigby-plugin-webgl2.esm.js",
   "files": [
     "dist/**",
     "LICENSE",

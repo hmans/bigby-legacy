@@ -56,7 +56,7 @@ importers:
       '@bigby/physics3d': workspace:^0.10.1
       '@bigby/plugin-input': workspace:^0.10.1
       '@bigby/plugin-ticker': workspace:^0.10.1
-      '@bigby/webgl2': workspace:^0.10.1
+      '@bigby/plugin-webgl2': workspace:^0.10.1
       gl-matrix: ^3.4.3
     dependencies:
       '@bigby/core': link:../bigby-core
@@ -64,7 +64,7 @@ importers:
       '@bigby/physics3d': link:../bigby-physics3d
       '@bigby/plugin-input': link:../bigby-plugin-input
       '@bigby/plugin-ticker': link:../bigby-plugin-ticker
-      '@bigby/webgl2': link:../bigby-webgl2
+      '@bigby/plugin-webgl2': link:../bigby-plugin-webgl2
       gl-matrix: 3.4.3
 
   packages/bigby-core:
@@ -111,7 +111,7 @@ importers:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
 
-  packages/bigby-webgl2:
+  packages/bigby-plugin-webgl2:
     specifiers:
       '@bigby/core': workspace:^0.10.1
       '@shader-composer/core': 0.0.0-canary-20221130162026
