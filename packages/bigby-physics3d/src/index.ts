@@ -35,10 +35,13 @@ function PhysicsSystem(app: App<Partial<IRigidBody & ITransform>>) {
 
     rigidBodyDesc.enabledTranslations(true, true, false)
 
+    rigidBodyDesc.setLinearDamping(0.5)
+    rigidBodyDesc.setAngularDamping(0.5)
+
     entity.rigidbody.rigidBody = physics.createRigidBody(rigidBodyDesc)
 
     // Create a cuboid collider attached to the dynamic rigidBody.
-    let colliderDesc = RAPIER.ColliderDesc.cuboid(0.5, 0.5, 0.5)
+    let colliderDesc = RAPIER.ColliderDesc.cuboid(0.5, 0.5, 0.5).setDensity(5.0)
     entity.rigidbody.collider = physics.createCollider(
       colliderDesc,
       entity.rigidbody.rigidBody
