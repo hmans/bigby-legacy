@@ -1,18 +1,18 @@
-import { mat3, mat4 } from "gl-matrix"
 import {
   $,
   Attribute,
   compileShader,
   Input,
-  Master,
+  Root,
   Vec3
-} from "shader-composer"
+} from "@shader-composer/core"
+import { mat3, mat4 } from "gl-matrix"
 import { createProgram, createShader } from "./helpers"
 
 export type Uniform = number | mat3 | mat4
 
 function MaterialRoot({ color = Vec3([1, 1, 1]) }: { color: Input<"vec3"> }) {
-  return Master({
+  return Root({
     vertex: {
       header: $`
         uniform mat4 modelMatrix;

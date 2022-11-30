@@ -31,7 +31,7 @@ importers:
   apps/prototype:
     specifiers:
       '@types/three': ^0.146.0
-      bigby: workspace:^0.10.0
+      bigby: workspace:^0.10.1
       gl-matrix: ^3.4.3
       randomish: ^0.1.6
       typescript: ^4.9.3
@@ -51,11 +51,11 @@ importers:
 
   packages/bigby:
     specifiers:
-      '@bigby/core': workspace:^0.9.0
-      '@bigby/math': workspace:^0.9.0
-      '@bigby/physics3d': workspace:^0.9.0
-      '@bigby/ticker': workspace:^0.9.0
-      '@bigby/webgl2': workspace:^0.10.0
+      '@bigby/core': workspace:^0.10.1
+      '@bigby/math': workspace:^0.10.1
+      '@bigby/physics3d': workspace:^0.10.1
+      '@bigby/ticker': workspace:^0.10.1
+      '@bigby/webgl2': workspace:^0.10.1
       gl-matrix: ^3.4.3
     dependencies:
       '@bigby/core': link:../bigby-core
@@ -67,7 +67,7 @@ importers:
 
   packages/bigby-core:
     specifiers:
-      '@bigby/math': workspace:^0.9.0
+      '@bigby/math': workspace:^0.10.1
       '@miniplex/core': 2.0.0-beta.2
       gl-matrix: ^3.4.3
     dependencies:
@@ -83,8 +83,8 @@ importers:
 
   packages/bigby-physics3d:
     specifiers:
-      '@bigby/core': workspace:^0.9.0
-      '@bigby/math': workspace:^0.9.0
+      '@bigby/core': workspace:^0.10.1
+      '@bigby/math': workspace:^0.10.1
       '@dimforge/rapier3d': ^0.10.0
       gl-matrix: ^3.4.3
     dependencies:
@@ -95,21 +95,23 @@ importers:
 
   packages/bigby-ticker:
     specifiers:
-      '@bigby/core': workspace:^0.9.0
-      '@bigby/math': workspace:^0.9.0
+      '@bigby/core': workspace:^0.10.1
+      '@bigby/math': workspace:^0.10.1
     dependencies:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
 
   packages/bigby-webgl2:
     specifiers:
-      '@bigby/core': workspace:^0.9.0
+      '@bigby/core': workspace:^0.10.1
+      '@shader-composer/core': 0.0.0-canary-20221130162026
+      '@shader-composer/noise': 0.0.0-canary-20221130162026
       gl-matrix: ^3.4.3
-      shader-composer: 0.0.0-canary-20221129151046
     dependencies:
       '@bigby/core': link:../bigby-core
+      '@shader-composer/core': 0.0.0-canary-20221130162026
+      '@shader-composer/noise': 0.0.0-canary-20221130162026_7gypnbji454pyfw2v4ngh44fra
       gl-matrix: 3.4.3
-      shader-composer: 0.0.0-canary-20221129151046
 
 packages:
 
@@ -2052,6 +2054,20 @@ packages:
       picomatch: 2.3.1
       rollup: 2.79.1
     dev: true
+
+  /@shader-composer/core/0.0.0-canary-20221130162026:
+    resolution: {integrity: sha512-5wT1Dno27fgy79/qDlheqacLjVngXTz71GeqazkRYNiS/k13NylOGAYgd/ePNLxdtCbZsjPcZJ/vxd7nFzbH5w==}
+    dependencies:
+      fp-ts: 2.13.1
+    dev: false
+
+  /@shader-composer/noise/0.0.0-canary-20221130162026_7gypnbji454pyfw2v4ngh44fra:
+    resolution: {integrity: sha512-l3kDml/Z3ND3zVNDzv0SEu1tRL3b/jFImSmkWpHHO6aRq4qnbesJ86HCVmnU3cQUGh59NFbrraOQg6uqBXLweg==}
+    peerDependencies:
+      '@shader-composer/core': 0.0.0-canary-20221130162026
+    dependencies:
+      '@shader-composer/core': 0.0.0-canary-20221130162026
+    dev: false
 
   /@sinclair/typebox/0.24.51:
     resolution: {integrity: sha512-1P1OROm/rdubP5aFDSZQILU0vrLCJ4fvHt6EoqHEM+2D/G5MK3bIaymUKLit8Js9gbns5UyJnkP/TZROLw4tUA==}
@@ -4900,12 +4916,6 @@ packages:
   /set-blocking/2.0.0:
     resolution: {integrity: sha512-KiKBS8AnWGEyLzofFfmvKwpdPzqiy16LvQfK3yv/fVH7Bj13/wl3JSR1J+rfgRE9q7xUJK4qvgS8raSOeLUehw==}
     dev: true
-
-  /shader-composer/0.0.0-canary-20221129151046:
-    resolution: {integrity: sha512-YDpIKSPS2Qm2lG9Rkm66I56Ii7jtgd7EDLhnOwDYuo+ygKc9gPbRR/S2hyGjlyI5wWeuaNQpuYuKTGSLxbyE1Q==}
-    dependencies:
-      fp-ts: 2.13.1
-    dev: false
 
   /shebang-command/1.2.0:
     resolution: {integrity: sha512-EV3L1+UQWGor21OmnvojK36mhg+TyIKDh3iFBKBohr5xeXIhNBcx8oWdgkTEEQ+BEFFYdLRuqMfd5L84N1V5Vg==}

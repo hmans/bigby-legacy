@@ -29,6 +29,7 @@
   "dependencies": {
     "@bigby/core": "workspace:^0.10.1",
     "gl-matrix": "^3.4.3",
-    "shader-composer": "0.0.0-canary-20221129151046"
+    "@shader-composer/core": "0.0.0-canary-20221130162026",
+    "@shader-composer/noise": "0.0.0-canary-20221130162026"
   }
 }
