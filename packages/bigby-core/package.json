@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@bigby/math": "workspace:^0.10.1",
-    "@miniplex/core": "2.0.0-beta.2",
+    "@miniplex/core": "2.0.0-beta.3",
     "gl-matrix": "^3.4.3"
   }
 }

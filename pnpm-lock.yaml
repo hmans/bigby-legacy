@@ -68,11 +68,11 @@ importers:
   packages/bigby-core:
     specifiers:
       '@bigby/math': workspace:^0.10.1
-      '@miniplex/core': 2.0.0-beta.2
+      '@miniplex/core': 2.0.0-beta.3
       gl-matrix: ^3.4.3
     dependencies:
       '@bigby/math': link:../bigby-math
-      '@miniplex/core': 2.0.0-beta.2
+      '@miniplex/core': 2.0.0-beta.3
       gl-matrix: 3.4.3
 
   packages/bigby-math:
@@ -1893,17 +1893,17 @@ packages:
       read-yaml-file: 1.1.0
     dev: true
 
-  /@miniplex/bucket/2.0.0-beta.2:
-    resolution: {integrity: sha512-mgxESyQcM4bPiFnl8tj5KjW9kP996D6QgaCDQ18XX+KA1tSN69dY09BiXbRvAlxbUgFG+kKwLhVeLYw16VJpGA==}
+  /@miniplex/bucket/2.0.0-beta.3:
+    resolution: {integrity: sha512-RlRE37GQbhE1fvlowiZE4F2sI7FGvoT2OBDYyvl6mDrdxIQYLGn2nHGhOKCGRGp11PlmqBsBEMGJpY1g3HS7SQ==}
     dependencies:
       '@hmans/event': 0.2.0
     dev: false
 
-  /@miniplex/core/2.0.0-beta.2:
-    resolution: {integrity: sha512-7DBm5kS+5UXs1lT/mXK9xRM6OYbJ24Intk+eHf9wS/u5ldBsb5EpQYZtjq5nxbT6jbLiDt4/t9jOhpkM61coiw==}
+  /@miniplex/core/2.0.0-beta.3:
+    resolution: {integrity: sha512-z7Ci6uK+HX02v06B9R5zAyLk6bUAlLbVMgylPo0J2xBFkFBzhMnauNd8SqMO8cN7s93KyLUiyMrFnSrgQuugGw==}
     dependencies:
       '@hmans/event': 0.2.0
-      '@miniplex/bucket': 2.0.0-beta.2
+      '@miniplex/bucket': 2.0.0-beta.3
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
