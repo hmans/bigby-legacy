@@ -14,17 +14,20 @@ import { quat } from "gl-matrix"
 import { plusMinus } from "randomish"
 import "./style.css"
 
-function PlayerPlugin(app: App<Partial<IRigidBody> & { isPlayer?: true }>) {
-  const entities = app.world.with("isPlayer", "rigidbody")
+class Input {
+  x = 0
+  y = 0
+}
 
+interface IInput {
+  input?: Input
+}
+
+function InputPlugin(app: App) {
   const keys = new Set<string>()
+  const entities = app.world.with("input")
 
   const isPressed = (key: string) => (keys.has(key) ? 1 : 0)
-
-  const stick = {
-    x: 0,
-    y: 0,
-  }
 
   app.addStartupSystem(() => {
     document.addEventListener("keydown", (e) => {
@@ -37,9 +40,17 @@ function PlayerPlugin(app: App<Partial<IRigidBody> & { isPlayer?: true }>) {
   })
 
   app.addSystem((dt) => {
-    stick.x = isPressed("d") - isPressed("a")
-    stick.y = isPressed("w") - isPressed("s")
+    for (const { input } of entities) {
+      input.x = isPressed("d") - isPressed("a")
+      input.y = isPressed("w") - isPressed("s")
+    }
   })
+
+  return app
+}
+
+function PlayerPlugin(app: App<Partial<IRigidBody & IInput> & { isPlayer?: true }>) {
+  const entities = app.world.with("isPlayer", "input", "rigidbody")
 
   app.addSystem((dt) => {
     const player = entities.first
@@ -48,12 +59,13 @@ function PlayerPlugin(app: App<Partial<IRigidBody> & { isPlayer?: true }>) {
     const rigidBody = player.rigidbody.rigidBody
     if (!rigidBody) return
 
-    rigidBody.applyImpulse({ ...stick, z: 0 }, true)
+    rigidBody.applyImpulse({ ...player.input, z: 0 }, true)
   })
 
   app.addStartupSystem(() => {
     app.world.add({
       isPlayer: true,
+      input: new Input(),
       rigidbody: new RigidBody(),
       transform: new Transform(),
       mesh: new Mesh(
@@ -70,6 +82,7 @@ new App()
   .addPlugin(WebGL2Game)
   .addPlugin(PhysicsPlugin)
 
+  .addPlugin(InputPlugin)
   .addPlugin(PlayerPlugin)
 
   .addStartupSystem((app) => {
