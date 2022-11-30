@@ -55,7 +55,7 @@ importers:
       '@bigby/math': workspace:^0.10.1
       '@bigby/physics3d': workspace:^0.10.1
       '@bigby/plugin-input': workspace:^0.10.1
-      '@bigby/ticker': workspace:^0.10.1
+      '@bigby/plugin-ticker': workspace:^0.10.1
       '@bigby/webgl2': workspace:^0.10.1
       gl-matrix: ^3.4.3
     dependencies:
@@ -63,7 +63,7 @@ importers:
       '@bigby/math': link:../bigby-math
       '@bigby/physics3d': link:../bigby-physics3d
       '@bigby/plugin-input': link:../bigby-plugin-input
-      '@bigby/ticker': link:../bigby-ticker
+      '@bigby/plugin-ticker': link:../bigby-plugin-ticker
       '@bigby/webgl2': link:../bigby-webgl2
       gl-matrix: 3.4.3
 
@@ -95,7 +95,15 @@ importers:
       '@dimforge/rapier3d': 0.10.0
       gl-matrix: 3.4.3
 
-  packages/bigby-ticker:
+  packages/bigby-plugin-input:
+    specifiers:
+      '@bigby/core': workspace:^0.10.1
+      '@bigby/math': workspace:^0.10.1
+    dependencies:
+      '@bigby/core': link:../bigby-core
+      '@bigby/math': link:../bigby-math
+
+  packages/bigby-plugin-ticker:
     specifiers:
       '@bigby/core': workspace:^0.10.1
       '@bigby/math': workspace:^0.10.1
