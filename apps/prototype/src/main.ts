@@ -2,6 +2,7 @@ import {
   App,
   BoxGeometry,
   Camera,
+  IRigidBody,
   Material,
   Mesh,
   PhysicsPlugin,
@@ -13,9 +14,34 @@ import { quat } from "gl-matrix"
 import { plusMinus } from "randomish"
 import "./style.css"
 
+function PlayerPlugin(app: App<Partial<IRigidBody> & { isPlayer?: true }>) {
+  const entities = app.world.with("isPlayer", "rigidbody")
+
+  app.addSystem((dt) => {
+    for (const { rigidbody } of entities) {
+    }
+  })
+
+  app.addStartupSystem(() => {
+    app.world.add({
+      isPlayer: true,
+      rigidbody: new RigidBody(),
+      transform: new Transform(),
+      mesh: new Mesh(
+        new BoxGeometry(),
+        new Material({ color: { r: 1, g: 0.5, b: 0 } })
+      ),
+    })
+  })
+
+  return app
+}
+
 new App()
   .addPlugin(WebGL2Game)
   .addPlugin(PhysicsPlugin)
+
+  .addPlugin(PlayerPlugin)
 
   .addStartupSystem((app) => {
     app.world.add({
@@ -25,7 +51,7 @@ new App()
 
     const geometry = new BoxGeometry()
     const material = new Material({
-      color: { r: 1, g: 0.6, b: 0.2 },
+      color: { r: 0.5, g: 0.5, b: 0.5 },
     })
 
     for (let i = 0; i < 200; i++) {
@@ -39,4 +65,5 @@ new App()
       })
     }
   })
+
   .run()
