@@ -10,8 +10,10 @@ import {
   Mesh,
   PhysicsPlugin,
   RigidBody,
+  TickerPlugin,
   Transform,
-  WebGL2Game,
+  TransformsPlugin,
+  WebGL2RenderingPlugin,
 } from "bigby"
 import { quat } from "gl-matrix"
 import { plusMinus } from "randomish"
@@ -43,7 +45,9 @@ function PlayerPlugin(app: App<Partial<IRigidBody & IInput> & { isPlayer?: true 
 }
 
 new App()
-  .addPlugin(WebGL2Game)
+  .addPlugin(TickerPlugin)
+  .addPlugin(TransformsPlugin)
+  .addPlugin(WebGL2RenderingPlugin)
   .addPlugin(PhysicsPlugin)
 
   .addPlugin(InputPlugin)
