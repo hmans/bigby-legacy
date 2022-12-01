@@ -42,12 +42,13 @@ export class Query<Q extends readonly C[], C> {
     for (const entity of world.entities) {
       const subentity: C[] = []
 
+      /* Collect components */
       query.forEach((component) => {
         const found = entity.find((c) => c instanceof component)
         if (found) subentity.push(found)
       })
 
-      if (subentity.length) {
+      if (subentity.length === query.length) {
         this.entities.push(entity)
         this.components.set(entity, subentity as unknown as Q)
       }

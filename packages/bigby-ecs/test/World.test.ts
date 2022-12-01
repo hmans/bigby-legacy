@@ -1,4 +1,4 @@
-import { World } from "../src"
+import { Query, World } from "../src"
 
 class Position {
   constructor(public x = 0, public y = 0) {}
@@ -33,5 +33,19 @@ describe(World, () => {
       expect(entity[1]).toBe(velocity)
       expect(entity[2]).toBe(health)
     })
+  })
+})
+
+describe(Query, () => {
+  it("queries the world for entities that have a specific set of components", () => {
+    const world = new World()
+
+    const entity = world.spawn([new Position(), new Velocity()])
+
+    const moving = new Query(world, [Position, Velocity])
+    expect(moving.entities).toEqual([entity])
+
+    const withHealth = new Query(world, [Health])
+    expect(withHealth.entities).toEqual([])
   })
 })
