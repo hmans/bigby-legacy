@@ -79,12 +79,10 @@ importers:
     specifiers:
       '@bigby/ecs': workspace:^0.10.1
       '@bigby/math': workspace:^0.10.1
-      '@miniplex/core': 2.0.0-beta.3
       gl-matrix: ^3.4.3
     dependencies:
       '@bigby/ecs': link:../bigby-ecs
       '@bigby/math': link:../bigby-math
-      '@miniplex/core': 2.0.0-beta.3
       gl-matrix: 3.4.3
 
   packages/bigby-ecs:
@@ -1921,19 +1919,6 @@ packages:
       globby: 11.1.0
       read-yaml-file: 1.1.0
     dev: true
-
-  /@miniplex/bucket/2.0.0-beta.3:
-    resolution: {integrity: sha512-RlRE37GQbhE1fvlowiZE4F2sI7FGvoT2OBDYyvl6mDrdxIQYLGn2nHGhOKCGRGp11PlmqBsBEMGJpY1g3HS7SQ==}
-    dependencies:
-      '@hmans/event': 0.2.0
-    dev: false
-
-  /@miniplex/core/2.0.0-beta.3:
-    resolution: {integrity: sha512-z7Ci6uK+HX02v06B9R5zAyLk6bUAlLbVMgylPo0J2xBFkFBzhMnauNd8SqMO8cN7s93KyLUiyMrFnSrgQuugGw==}
-    dependencies:
-      '@hmans/event': 0.2.0
-      '@miniplex/bucket': 2.0.0-beta.3
-    dev: false
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
