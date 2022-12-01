@@ -1,12 +1,9 @@
+import { App, Transform } from "@bigby/core"
 import { mat3, mat4 } from "gl-matrix"
-import { App, ITransform } from "@bigby/core"
+import { Camera } from "./Camera"
 import { Mesh } from "./Mesh"
 
-export interface IMesh {
-  mesh: Mesh
-}
-
-function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
+function RenderingSystem(app: App) {
   /* Initialize canvas */
   const canvas = document.body.appendChild(document.createElement("canvas"))
   canvas.width = window.innerWidth
@@ -23,9 +20,9 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
   /* Configure viewport */
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
 
-  const transforms = app.world.with("transform")
-  const meshes = transforms.with("mesh")
-  const cameras = transforms.with("camera")
+  const transforms = app.world.query([Transform])
+  const meshes = app.world.query([Transform, Mesh])
+  const cameras = app.world.query([Transform, Camera])
 
   const viewMatrix = mat4.create()
   const normalMatrix = mat3.create()
@@ -37,8 +34,10 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
     gl.clear(gl.COLOR_BUFFER_BIT)
 
     /* Get camera */
-    const camera = cameras.first
-    if (!camera) return
+    if (!cameras.first) return
+
+    const cameraTransform = app.world.getComponent(cameras.first, Transform)!
+    const cameraCamera = app.world.getComponent(cameras.first, Camera)!
 
     /* Check if we need to update the renderer size */
     if (
@@ -47,13 +46,13 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
     ) {
       gl.canvas.width = canvas.clientWidth
       gl.canvas.height = canvas.clientHeight
-      camera.camera.updateProjectionMatrix(gl)
+      cameraCamera.updateProjectionMatrix(gl)
     }
 
     gl.bindFramebuffer(gl.FRAMEBUFFER, null)
     gl.viewport(0, 0, canvas.width, canvas.height)
 
-    for (const { mesh, transform } of meshes) {
+    meshes.iterate((entity, [transform, mesh]) => {
       const { geometry, material } = mesh
 
       /* Prepare Material */
@@ -66,7 +65,7 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
         material.uniforms.modelMatrix = transform.matrix
 
         /* Update viewMatrix uniform */
-        mat4.invert(viewMatrix, camera.transform.matrix)
+        mat4.invert(viewMatrix, cameraTransform.matrix)
         material.uniforms.viewMatrix = viewMatrix
 
         /* Update modelViewMatrix uniform */
@@ -79,8 +78,8 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
         material.uniforms.normalMatrix = normalMatrix
 
         /* Update projectionMatrix uniform */
-        camera.camera.updateProjectionMatrix(gl)
-        material.uniforms.projectionMatrix = camera.camera.projectionMatrix
+        cameraCamera.updateProjectionMatrix(gl)
+        material.uniforms.projectionMatrix = cameraCamera.projectionMatrix
 
         /* Update the material's uniforms */
         material.updateUniforms(gl, dt)
@@ -160,9 +159,9 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
       }
 
       /* Done! */
-    }
+    })
   }
 }
 
-export const WebGL2RenderingPlugin = (app: App<Partial<ITransform & IMesh>>) =>
+export const WebGL2RenderingPlugin = (app: App) =>
   app.addSystem(RenderingSystem(app))

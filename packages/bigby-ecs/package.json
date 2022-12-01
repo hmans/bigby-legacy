@@ -1,5 +1,5 @@
 {
-  "name": "@bigby/core",
+  "name": "@bigby/ecs",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
@@ -7,8 +7,8 @@
   },
   "description": "Make games, learn things.",
   "version": "0.10.1",
-  "main": "dist/bigby-core.cjs.js",
-  "module": "dist/bigby-core.esm.js",
+  "main": "dist/bigby-ecs.cjs.js",
+  "module": "dist/bigby-ecs.esm.js",
   "files": [
     "dist/**",
     "LICENSE",
@@ -26,9 +26,10 @@
       "@babel/preset-typescript"
     ]
   },
+  "devDependencies": {
+    "ts-toolbelt": "^9.6.0"
+  },
   "dependencies": {
-    "@bigby/ecs": "workspace:^0.10.1",
-    "@bigby/math": "workspace:^0.10.1",
-    "gl-matrix": "^3.4.3"
+    "@hmans/event": "0.2.0"
   }
 }

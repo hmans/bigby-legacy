@@ -1,31 +1,31 @@
-import { App, ITransform } from "@bigby/core"
+import { App, Transform } from "@bigby/core"
 import { quat, vec3 } from "gl-matrix"
 
-interface IAutoRotate {
-  autorotate: vec3
+export class AutoRotate {
+  constructor(public velocity = vec3.create()) {}
 }
 
-export function AutorotatePlugin(app: App<Partial<ITransform & IAutoRotate>>) {
-  const entities = app.world.with("transform", "autorotate")
+export function AutorotatePlugin(app: App) {
+  const entities = app.world.query([Transform, AutoRotate])
 
   app.addSystem((dt: number) => {
-    for (const { transform, autorotate } of entities) {
+    entities.iterate((_, [transform, autorotate]) => {
       quat.rotateX(
         transform.quaternion,
         transform.quaternion,
-        autorotate[0] * dt
+        autorotate.velocity[0] * dt
       )
       quat.rotateY(
         transform.quaternion,
         transform.quaternion,
-        autorotate[1] * dt
+        autorotate.velocity[1] * dt
       )
       quat.rotateZ(
         transform.quaternion,
         transform.quaternion,
-        autorotate[2] * dt
+        autorotate.velocity[2] * dt
       )
-    }
+    })
   })
 
   return app

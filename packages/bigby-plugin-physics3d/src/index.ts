@@ -1,4 +1,4 @@
-import { App, ITransform } from "@bigby/core"
+import { App, ITransform, Transform } from "@bigby/core"
 import { clamp } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { quat, vec3 } from "gl-matrix"
@@ -8,29 +8,28 @@ export class RigidBody {
   collider?: RAPIER.Collider
 }
 
-export interface IRigidBody {
-  rigidbody: RigidBody
-}
-
-function PhysicsSystem(app: App<Partial<IRigidBody & ITransform>>) {
+function PhysicsSystem(app: App) {
   const physics = new RAPIER.World({ x: 0, y: 0, z: 0 })
 
-  const entities = app.world.with("rigidbody", "transform")
+  const entities = app.world.query([Transform, RigidBody])
 
   entities.onEntityAdded.add((entity) => {
     let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
 
+    const transform = app.world.getComponent(entity, Transform)!
+    const rigidbody = app.world.getComponent(entity, RigidBody)!
+
     rigidBodyDesc.setTranslation(
-      entity.transform.position[0],
-      entity.transform.position[1],
-      entity.transform.position[2]
+      transform.position[0],
+      transform.position[1],
+      transform.position[2]
     )
 
     rigidBodyDesc.setRotation({
-      x: entity.transform.quaternion[0],
-      y: entity.transform.quaternion[1],
-      z: entity.transform.quaternion[2],
-      w: entity.transform.quaternion[3]
+      x: transform.quaternion[0],
+      y: transform.quaternion[1],
+      z: transform.quaternion[2],
+      w: transform.quaternion[3]
     })
 
     rigidBodyDesc.enabledTranslations(true, true, false)
@@ -38,13 +37,13 @@ function PhysicsSystem(app: App<Partial<IRigidBody & ITransform>>) {
     rigidBodyDesc.setLinearDamping(0.5)
     rigidBodyDesc.setAngularDamping(0.5)
 
-    entity.rigidbody.rigidBody = physics.createRigidBody(rigidBodyDesc)
+    rigidbody.rigidBody = physics.createRigidBody(rigidBodyDesc)
 
     // Create a cuboid collider attached to the dynamic rigidBody.
     let colliderDesc = RAPIER.ColliderDesc.cuboid(0.5, 0.5, 0.5).setDensity(5.0)
-    entity.rigidbody.collider = physics.createCollider(
+    rigidbody.collider = physics.createCollider(
       colliderDesc,
-      entity.rigidbody.rigidBody
+      rigidbody.rigidBody
     )
   })
 
@@ -52,23 +51,23 @@ function PhysicsSystem(app: App<Partial<IRigidBody & ITransform>>) {
     physics.timestep = clamp(dt, 0.01, 0.2)
     physics.step()
 
-    for (const entity of entities) {
-      const position = entity.rigidbody.rigidBody!.translation()
-      vec3.set(entity.transform.position, position.x, position.y, position.z)
+    entities.iterate((entity, [transform, rigidbody]) => {
+      const position = rigidbody.rigidBody!.translation()
+      vec3.set(transform.position, position.x, position.y, position.z)
 
-      const rotation = entity.rigidbody.rigidBody!.rotation()
+      const rotation = rigidbody.rigidBody!.rotation()
       quat.set(
-        entity.transform.quaternion,
+        transform.quaternion,
         rotation.x,
         rotation.y,
         rotation.z,
         rotation.w
       )
-    }
+    })
   }
 }
 
-export function PhysicsPlugin(app: App<Partial<ITransform & IRigidBody>>) {
+export function PhysicsPlugin(app: App) {
   app.addInitializer(async function () {
     await RAPIER.init()
   })
