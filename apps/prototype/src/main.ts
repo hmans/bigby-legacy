@@ -1,4 +1,4 @@
-import { vec3 } from "gl-matrix"
+import { quat, vec3 } from "gl-matrix"
 import "./style.css"
 import { type Function } from "ts-toolbelt"
 
@@ -7,14 +7,14 @@ class Transform {
 
   constructor(
     public position = vec3.create(),
-    public quaternion = vec3.create(),
+    public quaternion = quat.create(),
     public scale = vec3.set(vec3.create(), 1, 1, 1)
   ) {}
 }
 
 class AutoRotate {
   isAutorotate = true
-  constructor() {}
+  constructor(public speed = 1) {}
 }
 
 class Unrelated {
@@ -61,9 +61,12 @@ class Query<Q extends readonly C[], C> {
     query: Function.Narrow<{ [K in keyof Q]: Constructor<Q[K]> }>
   ) {
     for (const entity of world.entities) {
-      const subentity = entity.filter((component) =>
-        query.some((ctor) => component instanceof ctor)
-      )
+      const subentity: C[] = []
+
+      query.forEach((component) => {
+        const found = entity.find((c) => c instanceof component)
+        if (found) subentity.push(found)
+      })
 
       if (subentity.length) {
         this.entities.push(entity)
@@ -83,16 +86,14 @@ const world = new World<Transform | AutoRotate>()
 
 world.spawn([new Transform(), new AutoRotate()])
 
-/* Dummy system */
 console.log("Complete entity:")
 for (const entity of world.entities) {
   console.log(entity)
 }
 
-console.log("Just Autorotate:")
-
-const query = new Query(world, [AutoRotate])
-
-query.iterate((entity, [autoRotate]) => {
-  console.log(autoRotate)
+console.log("AutoRotate:")
+const query = new Query(world, [AutoRotate, Transform])
+query.iterate((entity, [autoRotate, transform]) => {
+  console.log(transform)
+  quat.rotateY(transform.quaternion, transform.quaternion, autoRotate.speed)
 })
