@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "Make games, learn things.",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "main": "dist/bigby-plugin-physics3d.cjs.js",
   "module": "dist/bigby-plugin-physics3d.esm.js",
   "files": [
