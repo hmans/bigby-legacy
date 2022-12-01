@@ -1,20 +1,20 @@
 import { Function } from "ts-toolbelt"
 
-export type Entity<C> = C[]
+export type Entity = any[]
 
 type Constructor<T> = new (...args: any[]) => T
 
-export class World<C> {
+export class World {
   constructor() {}
 
-  entities = new Array<C[]>()
+  entities = new Array<any[]>()
 
-  spawn(entity: Entity<C>) {
+  spawn(entity: Entity) {
     this.entities.push(entity)
     return entity
   }
 
-  despawn(entity: Entity<C>) {
+  despawn(entity: Entity) {
     /* Remove entity */
     const index = this.entities.indexOf(entity)
     if (index !== -1) this.entities.splice(index, 1)
@@ -22,31 +22,31 @@ export class World<C> {
     return entity
   }
 
-  insert(entity: Entity<C>) {
+  insert(entity: Entity) {
     return entity
   }
 
-  remove(entity: Entity<C>) {
+  remove(entity: Entity) {
     return entity
   }
 
-  query<Q extends readonly C[]>(
+  query<Q extends readonly any[]>(
     query: Function.Narrow<{ [K in keyof Q]: Constructor<Q[K]> }>
   ) {
-    return new Query<Q, C>(this, query)
+    return new Query<Q>(this, query)
   }
 }
 
-export class Query<Q extends readonly C[], C> {
-  entities = new Array<Entity<C>>()
-  components = new Map<Entity<C>, Q>()
+export class Query<Q extends readonly any[]> {
+  entities = new Array<Entity>()
+  components = new Map<Entity, Q>()
 
   constructor(
-    public world: World<C>,
+    public world: World,
     query: Function.Narrow<{ [K in keyof Q]: Constructor<Q[K]> }>
   ) {
     for (const entity of world.entities) {
-      const subentity: C[] = []
+      const subentity: any[] = []
 
       /* Collect components */
       query.forEach((component) => {
@@ -61,7 +61,7 @@ export class Query<Q extends readonly C[], C> {
     }
   }
 
-  iterate(fun: (entity: Entity<C>, components: Q) => void) {
+  iterate(fun: (entity: Entity, components: Q) => void) {
     for (const entity of this.entities) {
       fun(entity, this.components.get(entity)!)
     }
