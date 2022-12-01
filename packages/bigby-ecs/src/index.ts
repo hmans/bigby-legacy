@@ -1,25 +1,27 @@
 import { Event } from "@hmans/event"
 import { Function } from "ts-toolbelt"
 
-export type Entity = any[]
+export type Component = any
+export type Entity = Component[]
 
 type Constructor<T> = new (...args: any[]) => T
 
 export class World {
   constructor() {}
 
-  entities = new Array<any[]>()
+  entities = new Array<Entity>()
 
   onEntityAdded = new Event<Entity>()
   onEntityRemoved = new Event<Entity>()
+  onEntityUpdated = new Event<Entity>()
 
-  spawn(entity: Entity) {
+  add(entity: Entity) {
     this.entities.push(entity)
     this.onEntityAdded.emit(entity)
     return entity
   }
 
-  despawn(entity: Entity) {
+  remove(entity: Entity) {
     /* Remove entity */
     const index = this.entities.indexOf(entity)
     if (index !== -1) {
@@ -30,11 +32,21 @@ export class World {
     return entity
   }
 
-  insert(entity: Entity) {
-    return entity
+  addComponent(entity: Entity, component: Component) {
+    /* check if the component is already present */
+    if (entity.some((c) => c.constructor === component.constructor))
+      return false
+
+    /* Add the component to the entity */
+    entity.push(component)
+
+    /* Emit the event */
+    this.onEntityUpdated.emit(entity)
+
+    return true
   }
 
-  remove(entity: Entity) {
+  removeComponent(entity: Entity) {
     return entity
   }
 
