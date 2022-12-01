@@ -33,6 +33,21 @@ describe(World, () => {
       expect(entity[1]).toBe(velocity)
       expect(entity[2]).toBe(health)
     })
+
+    it("adds the entity to all relevant queries", () => {
+      const world = new World()
+
+      const position = new Position()
+      const velocity = new Velocity()
+      const health = new Health()
+
+      const query = world.query([Position, Velocity])
+
+      const entity = world.add([position, velocity, health])
+
+      expect(query.entities).toContain(entity)
+      expect(query.components.get(entity)).toEqual([position, velocity])
+    })
   })
 
   describe("remove", () => {
@@ -44,6 +59,26 @@ describe(World, () => {
 
       world.remove(entity)
       expect(world.entities).toHaveLength(0)
+    })
+
+    it("removes the entity from all relevant queries", () => {
+      const world = new World()
+
+      const position = new Position()
+      const velocity = new Velocity()
+      const health = new Health()
+
+      const query = world.query([Position, Velocity])
+
+      const entity = world.add([position, velocity, health])
+
+      expect(query.entities).toContain(entity)
+      expect(query.components.get(entity)).toEqual([position, velocity])
+
+      world.remove(entity)
+
+      expect(query.entities).not.toContain(entity)
+      expect(query.components.get(entity)).toBeUndefined()
     })
   })
 
@@ -58,6 +93,25 @@ describe(World, () => {
       const velocity = new Velocity()
       world.addComponent(entity, velocity)
       expect(entity).toEqual([position, velocity])
+    })
+
+    it("adds the entity from all relevant queries", () => {
+      const world = new World()
+
+      const position = new Position()
+      const velocity = new Velocity()
+      const health = new Health()
+
+      const query = world.query([Position, Velocity])
+
+      const entity = world.add([position, health])
+
+      expect(query.entities).not.toContain(entity)
+
+      world.addComponent(entity, velocity)
+
+      expect(query.entities).toContain(entity)
+      expect(query.components.get(entity)).toEqual([position, velocity])
     })
 
     it("emits the onEntityUpdated event", () => {
@@ -112,6 +166,26 @@ describe(World, () => {
     })
 
     describe("when it removes a component successfully", () => {
+      it("removes the entity from all relevant queries", () => {
+        const world = new World()
+
+        const position = new Position()
+        const velocity = new Velocity()
+        const health = new Health()
+
+        const query = world.query([Position, Velocity])
+
+        const entity = world.add([position, velocity, health])
+
+        expect(query.entities).toContain(entity)
+        expect(query.components.get(entity)).toEqual([position, velocity])
+
+        world.removeComponent(entity, velocity)
+
+        expect(query.entities).not.toContain(entity)
+        expect(query.components.get(entity)).toBeUndefined()
+      })
+
       it("emits the onEntityUpdated event when a component has been removed successfully", () => {
         const world = new World()
         const entity = world.add([new Position(), new Velocity()])
