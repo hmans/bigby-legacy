@@ -34,6 +34,14 @@ describe(World, () => {
       expect(entity[2]).toBe(health)
     })
   })
+
+  describe("query", () => {
+    it("creates a Query object", () => {
+      const world = new World()
+      const query = world.query([Position, Velocity, Health])
+      expect(query).toBeInstanceOf(Query)
+    })
+  })
 })
 
 describe(Query, () => {

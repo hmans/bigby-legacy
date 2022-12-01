@@ -29,6 +29,12 @@ export class World<C> {
   remove(entity: Entity<C>) {
     return entity
   }
+
+  query<Q extends readonly C[]>(
+    query: Function.Narrow<{ [K in keyof Q]: Constructor<Q[K]> }>
+  ) {
+    return new Query<Q, C>(this, query)
+  }
 }
 
 export class Query<Q extends readonly C[], C> {
