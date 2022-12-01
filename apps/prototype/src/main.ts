@@ -1,4 +1,4 @@
-import { World } from "bigby"
+import { App, World } from "bigby"
 import "./style.css"
 
 class Position {
@@ -13,8 +13,8 @@ class Health {
   constructor(public current = 100, public max = current) {}
 }
 
-const world = new World()
-
-world.add([new Position(), new Velocity(), new Health()])
-
-const query = world.query([Position, Velocity])
+const app = new App()
+  .addStartupSystem((app) => {
+    console.log("hello world")
+  })
+  .run()

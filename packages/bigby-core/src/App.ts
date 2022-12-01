@@ -1,22 +1,22 @@
-import { World } from "@miniplex/core"
+import { World } from "@bigby/ecs"
 import { Plugin, StartupSystem, System } from "./types"
 
 export type BaseEntity = {}
 
 type Initializer = () => Promise<void>
 
-export class App<E extends BaseEntity = BaseEntity> {
-  world: World<E>
+export class App {
+  world: World
 
   systems = new Array<System>()
   initializers = new Array<Initializer>()
-  startupSystems = new Array<StartupSystem<E>>()
+  startupSystems = new Array<StartupSystem<any>>()
 
   constructor() {
-    this.world = new World<E>()
+    this.world = new World()
   }
 
-  addPlugin<D extends E>(plugin: Plugin<D>): App<E & D> {
+  addPlugin(plugin: Plugin<any>): App {
     return plugin(this as any)
   }
 
@@ -25,7 +25,7 @@ export class App<E extends BaseEntity = BaseEntity> {
     return this
   }
 
-  addStartupSystem(system: StartupSystem<E>) {
+  addStartupSystem(system: StartupSystem<any>) {
     this.startupSystems.push(system)
     return this
   }
