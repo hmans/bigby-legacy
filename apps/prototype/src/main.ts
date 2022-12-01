@@ -13,7 +13,7 @@ import "./style.css"
 new App()
   .addPlugin(TickerPlugin)
   .addPlugin(TransformsPlugin)
-  .addPlugin(ThreePlugin) // 👍
+  .addPlugin(ThreePlugin)
   .addPlugin(AutorotatePlugin)
   .addStartupSystem((app) => {
     /* Camera */
