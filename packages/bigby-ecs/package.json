@@ -28,5 +28,8 @@
   },
   "devDependencies": {
     "ts-toolbelt": "^9.6.0"
+  },
+  "dependencies": {
+    "@hmans/event": "0.2.0"
   }
 }

@@ -85,7 +85,10 @@ importers:
 
   packages/bigby-ecs:
     specifiers:
+      '@hmans/event': 0.2.0
       ts-toolbelt: ^9.6.0
+    dependencies:
+      '@hmans/event': 0.2.0
     devDependencies:
       ts-toolbelt: 9.6.0
 
