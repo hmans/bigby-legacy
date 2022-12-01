@@ -17,9 +17,7 @@ import { quat } from "gl-matrix"
 import { plusMinus } from "randomish"
 import "./style.css"
 
-class Player {
-  isPlayer = true
-}
+class Player {}
 
 function PlayerPlugin(app: App) {
   const entities = app.world.query([Player, Input, RigidBody])
