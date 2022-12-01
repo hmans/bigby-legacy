@@ -34,10 +34,10 @@ function RenderingSystem(app: App) {
     gl.clear(gl.COLOR_BUFFER_BIT)
 
     /* Get camera */
-    const camera = cameras.first
-    if (!camera) return
+    if (!cameras.first) return
 
-    const [cameraTransform, cameraCamera] = cameras.components.get(camera)!
+    const cameraTransform = app.world.getComponent(cameras.first, Transform)!
+    const cameraCamera = app.world.getComponent(cameras.first, Camera)!
 
     /* Check if we need to update the renderer size */
     if (
