@@ -1,5 +1,6 @@
 import { vec3 } from "gl-matrix"
 import "./style.css"
+import { type Function } from "ts-toolbelt"
 
 class Transform {
   isTransform = true
@@ -55,7 +56,10 @@ class Query<Q extends readonly C[], C> {
   entities = new Array<Entity<C>>()
   components = new Map<Entity<C>, Q>()
 
-  constructor(public world: World<C>, query: { [K in keyof Q]: Constructor<Q[K]> }) {
+  constructor(
+    public world: World<C>,
+    query: Function.Narrow<{ [K in keyof Q]: Constructor<Q[K]> }>
+  ) {
     for (const entity of world.entities) {
       const subentity = entity.filter((component) =>
         query.some((ctor) => component instanceof ctor)
@@ -63,7 +67,7 @@ class Query<Q extends readonly C[], C> {
 
       if (subentity.length) {
         this.entities.push(entity)
-        this.components.set(entity, subentity)
+        this.components.set(entity, subentity as unknown as Q)
       }
     }
   }
@@ -87,8 +91,8 @@ for (const entity of world.entities) {
 
 console.log("Just Autorotate:")
 
-const query = new Query(world, [Transform, AutoRotate] as const)
+const query = new Query(world, [AutoRotate])
 
-query.iterate((entity, [transform, autoRotate]) => {
+query.iterate((entity, [autoRotate]) => {
   console.log(autoRotate)
 })

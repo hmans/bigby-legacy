@@ -36,6 +36,7 @@ importers:
       bigby: workspace:^0.10.2
       gl-matrix: ^3.4.3
       randomish: ^0.1.6
+      ts-toolbelt: ^9.6.0
       typescript: ^4.9.3
       vite: ^3.2.3
       vite-plugin-top-level-await: ^1.2.2
@@ -46,6 +47,7 @@ importers:
       randomish: 0.1.6
     devDependencies:
       '@types/three': 0.146.0
+      ts-toolbelt: 9.6.0
       typescript: 4.9.3
       vite: 3.2.4
       vite-plugin-top-level-await: 1.2.2_vite@3.2.4
@@ -5567,6 +5569,10 @@ packages:
       semver: 7.3.8
       typescript: 4.9.3
       yargs-parser: 21.1.1
+    dev: true
+
+  /ts-toolbelt/9.6.0:
+    resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
     dev: true
 
   /tty-table/4.1.6:
