@@ -95,12 +95,12 @@ importers:
     specifiers:
       '@bigby/core': workspace:^0.10.1
       '@bigby/math': workspace:^0.10.1
-      '@dimforge/rapier3d': ^0.10.0
+      '@dimforge/rapier3d-compat': ^0.10.0
       gl-matrix: ^3.4.3
     dependencies:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
-      '@dimforge/rapier3d': 0.10.0
+      '@dimforge/rapier3d-compat': 0.10.0
       gl-matrix: 3.4.3
 
   packages/bigby-plugin-ticker:
@@ -1583,8 +1583,8 @@ packages:
       prettier: 2.8.0
     dev: true
 
-  /@dimforge/rapier3d/0.10.0:
-    resolution: {integrity: sha512-sNYpXHkWoiQTEIUsCFAQRV1hhdm//NzT/KDTvjGBK/O0HHbG3Pea/tftUrAz779mNJgkOZDr5mxzFy3Mhd5Nrg==}
+  /@dimforge/rapier3d-compat/0.10.0:
+    resolution: {integrity: sha512-3SPxyAnPQz9P3cIhgF8VncwJwrqyAW2xsNEYgXbxDhvB2IaIG63eTX7rNIJUnec5FDYqgvVo/nqY1XarzT5T2Q==}
     dev: false
 
   /@esbuild/android-arm/0.15.15:

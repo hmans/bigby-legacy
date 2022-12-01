@@ -1,6 +1,6 @@
 import { App, ITransform } from "@bigby/core"
 import { clamp } from "@bigby/math"
-import * as RAPIER from "@dimforge/rapier3d"
+import * as RAPIER from "@dimforge/rapier3d-compat"
 import { quat, vec3 } from "gl-matrix"
 
 export class RigidBody {
@@ -70,7 +70,7 @@ function PhysicsSystem(app: App<Partial<IRigidBody & ITransform>>) {
 
 export function PhysicsPlugin(app: App<Partial<ITransform & IRigidBody>>) {
   app.addInitializer(async function () {
-    await import("@dimforge/rapier3d")
+    await RAPIER.init()
   })
 
   app.addStartupSystem((app) => {
