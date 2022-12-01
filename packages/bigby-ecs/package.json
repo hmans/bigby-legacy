@@ -1,0 +1,32 @@
+{
+  "name": "@bigby/ecs",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "Make games, learn things.",
+  "version": "0.10.1",
+  "main": "dist/bigby-ecs.cjs.js",
+  "module": "dist/bigby-ecs.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "build": "preconstruct build",
+    "test": "jest --passWithNoTests"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-typescript"
+    ]
+  },
+  "devDependencies": {
+    "ts-toolbelt": "^9.6.0"
+  }
+}
