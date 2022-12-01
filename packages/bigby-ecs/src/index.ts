@@ -10,15 +10,22 @@ export class World {
 
   entities = new Array<any[]>()
 
+  onEntityAdded = new Event<Entity>()
+  onEntityRemoved = new Event<Entity>()
+
   spawn(entity: Entity) {
     this.entities.push(entity)
+    this.onEntityAdded.emit(entity)
     return entity
   }
 
   despawn(entity: Entity) {
     /* Remove entity */
     const index = this.entities.indexOf(entity)
-    if (index !== -1) this.entities.splice(index, 1)
+    if (index !== -1) {
+      this.entities.splice(index, 1)
+      this.onEntityRemoved.emit(entity)
+    }
 
     return entity
   }
