@@ -4,6 +4,10 @@ import { Function } from "ts-toolbelt"
 export type Component = any
 export type Entity = Component[]
 
+type ComponentQuery<C extends Component> = Function.Narrow<{
+  [K in keyof C]: Constructor<C[K]>
+}>
+
 type Constructor<T> = new (...args: any[]) => T
 
 export class World {
@@ -65,24 +69,19 @@ export class World {
     return true
   }
 
-  query<Q extends readonly any[]>(
-    query: Function.Narrow<{ [K in keyof Q]: Constructor<Q[K]> }>
-  ) {
+  query<Q extends readonly Component[]>(query: ComponentQuery<Q>) {
     return new Query<Q>(this, query)
   }
 }
 
-export class Query<Q extends readonly any[]> {
+export class Query<Q extends readonly Component[]> {
   entities = new Array<Entity>()
   components = new Map<Entity, Q>()
 
   onEntityAdded = new Event<Entity>()
   onEntityRemoved = new Event<Entity>()
 
-  constructor(
-    public world: World,
-    public query: Function.Narrow<{ [K in keyof Q]: Constructor<Q[K]> }>
-  ) {
+  constructor(public world: World, public query: ComponentQuery<Q>) {
     for (const entity of world.entities) {
       this.evaluate(entity)
     }
