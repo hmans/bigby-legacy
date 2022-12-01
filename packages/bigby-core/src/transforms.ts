@@ -17,12 +17,12 @@ export class Transform {
   ) {}
 }
 
-export function TransformsSystem(app: App<Partial<ITransform>>) {
-  const entities = app.world.with("transform")
+export function TransformsSystem(app: App) {
+  const withTransform = app.world.query([Transform])
 
   return () => {
-    for (const { transform } of entities) {
-      if (!transform.autoUpdate) continue
+    withTransform.iterate((entity, [transform]) => {
+      if (!transform.autoUpdate) return
 
       mat4.fromRotationTranslationScale(
         transform.matrix,
@@ -30,9 +30,9 @@ export function TransformsSystem(app: App<Partial<ITransform>>) {
         transform.position,
         transform.scale
       )
-    }
+    })
   }
 }
 
-export const TransformsPlugin = (app: App<Partial<ITransform>>) =>
+export const TransformsPlugin = (app: App) =>
   app.addSystem(TransformsSystem(app))

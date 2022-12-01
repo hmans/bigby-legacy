@@ -10,13 +10,13 @@ export class App {
 
   systems = new Array<System>()
   initializers = new Array<Initializer>()
-  startupSystems = new Array<StartupSystem<any>>()
+  startupSystems = new Array<StartupSystem>()
 
   constructor() {
     this.world = new World()
   }
 
-  addPlugin(plugin: Plugin<any>): App {
+  addPlugin(plugin: Plugin): App {
     return plugin(this as any)
   }
 
@@ -25,7 +25,7 @@ export class App {
     return this
   }
 
-  addStartupSystem(system: StartupSystem<any>) {
+  addStartupSystem(system: StartupSystem) {
     this.startupSystems.push(system)
     return this
   }
