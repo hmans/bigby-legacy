@@ -56,4 +56,19 @@ describe(Query, () => {
     const withHealth = new Query(world, [Health])
     expect(withHealth.entities).toEqual([])
   })
+
+  describe("iterate", () => {
+    it("loops over all entities contained in the query", () => {
+      const world = new World()
+
+      world.spawn([new Position(), new Velocity()])
+
+      const moving = new Query(world, [Position, Velocity])
+      moving.iterate((entity, [position, velocity]) => {
+        expect(entity).toBeDefined()
+        expect(position).toBeInstanceOf(Position)
+        expect(velocity).toBeInstanceOf(Velocity)
+      })
+    })
+  })
 })
