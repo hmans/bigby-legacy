@@ -24,7 +24,7 @@
     "dev": "turbo dev",
     "dev:link": "preconstruct dev",
     "postinstall": "preconstruct dev",
-    "test": "turbo test",
+    "test": "jest --passWithNoTests",
     "ci": "preconstruct validate && pnpm build && pnpm test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:release": "pnpm ci && pnpm changeset publish"
@@ -37,6 +37,7 @@
     "@changesets/cli": "^2.25.2",
     "@preconstruct/cli": "^2.2.2",
     "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^29.0.3",
     "turbo": "^1.6.3",
