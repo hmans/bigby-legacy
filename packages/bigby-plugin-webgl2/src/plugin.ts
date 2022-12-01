@@ -1,11 +1,7 @@
+import { App, Transform } from "@bigby/core"
 import { mat3, mat4 } from "gl-matrix"
-import { App, ITransform, Transform } from "@bigby/core"
-import { Mesh } from "./Mesh"
 import { Camera } from "./Camera"
-
-export interface IMesh {
-  mesh: Mesh
-}
+import { Mesh } from "./Mesh"
 
 function RenderingSystem(app: App) {
   /* Initialize canvas */
