@@ -19,6 +19,8 @@ export class World {
   onEntityRemoved = new Event<Entity>()
   onEntityUpdated = new Event<Entity>()
 
+  protected queries = new Map<string, Query<any>>()
+
   add(entity: Entity) {
     this.entities.push(entity)
     this.onEntityAdded.emit(entity)
@@ -69,8 +71,16 @@ export class World {
     return true
   }
 
-  query<Q extends readonly Component[]>(query: ComponentQuery<Q>) {
-    return new Query<Q>(this, query)
+  query<Q extends readonly Component[]>(query: ComponentQuery<Q>): Query<Q> {
+    /* Memoize query instances */
+    /* TODO: find a better way to build a key */
+    const key = query.toString()
+
+    if (!this.queries.has(key)) {
+      this.queries.set(key, new Query<Q>(this, query))
+    }
+
+    return this.queries.get(key)!
   }
 }
 

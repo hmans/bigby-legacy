@@ -230,6 +230,13 @@ describe(World, () => {
       const query = world.query([Position, Velocity, Health])
       expect(query).toBeInstanceOf(Query)
     })
+
+    it("returns the same query objects for identical queries", () => {
+      const world = new World()
+      const query1 = world.query([Position, Velocity, Health])
+      const query2 = world.query([Position, Velocity, Health])
+      expect(query1).toBe(query2)
+    })
   })
 })
 

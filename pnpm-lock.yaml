@@ -58,6 +58,7 @@ importers:
   packages/bigby:
     specifiers:
       '@bigby/core': workspace:^0.10.1
+      '@bigby/ecs': workspace:^0.10.1
       '@bigby/math': workspace:^0.10.1
       '@bigby/plugin-input': workspace:^0.10.1
       '@bigby/plugin-physics3d': workspace:^0.10.2
@@ -66,6 +67,7 @@ importers:
       gl-matrix: ^3.4.3
     dependencies:
       '@bigby/core': link:../bigby-core
+      '@bigby/ecs': link:../bigby-ecs
       '@bigby/math': link:../bigby-math
       '@bigby/plugin-input': link:../bigby-plugin-input
       '@bigby/plugin-physics3d': link:../bigby-plugin-physics3d
