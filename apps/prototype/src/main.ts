@@ -16,6 +16,18 @@ new App()
   .addPlugin(ThreePlugin) // 👍
   .addPlugin(AutorotatePlugin)
   .addStartupSystem((app) => {
+    /* Camera */
+    app.world.add([
+      new Transform([0, 0, 10]),
+      new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      ),
+    ])
+
+    /* Rotating cube */
     app.world.add([
       new AutoRotate([1, 2, 3]),
       new Transform(),
