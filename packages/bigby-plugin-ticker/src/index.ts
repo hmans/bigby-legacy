@@ -3,7 +3,6 @@ import { clamp } from "@bigby/math"
 
 export const TickerPlugin = (app: App) =>
   app.addStartupSystem((app) => {
-    /* Tick */
     let lastTime = performance.now()
 
     const animate = () => {
