@@ -1,37 +1,33 @@
-import { App, TickerPlugin } from "bigby"
+import {
+  App,
+  BoxGeometry,
+  Camera,
+  Material,
+  Mesh,
+  TickerPlugin,
+  Transform,
+  TransformsPlugin,
+  WebGL2RenderingPlugin,
+} from "bigby"
 import "./style.css"
-
-class Position {
-  constructor(public x = 0, public y = 0) {}
-}
-
-class Velocity {
-  constructor(public x = 0, public y = 0) {}
-}
-
-class Health {
-  constructor(public current = 100, public max = current) {}
-}
 
 new App()
   .addPlugin(TickerPlugin)
-
-  /* Movement */
-  .addStartupSystem((app) => {
-    const moving = app.world.query([Position, Velocity])
-
-    app.addSystem((dt) => {
-      moving.iterate((entity, [position, velocity]) => {
-        position.x += velocity.x * dt
-        position.y += velocity.y * dt
-      })
-    })
-  })
+  .addPlugin(TransformsPlugin)
+  .addPlugin(WebGL2RenderingPlugin)
 
   /* Game initialization */
   .addStartupSystem((app) => {
     console.log("hello world")
-    app.world.add([new Position(), new Velocity()])
+
+    /* Add a camera */
+    app.world.add([new Transform([0, 0, 5]), new Camera()])
+
+    /* Add a box */
+    app.world.add([
+      new Transform([0, 0, 0]),
+      new Mesh(new BoxGeometry(), new Material({ color: [1, 0.5, 0] })),
+    ])
   })
 
   .run()

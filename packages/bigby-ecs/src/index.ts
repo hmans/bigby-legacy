@@ -91,6 +91,10 @@ export class Query<Q extends readonly Component[]> {
   onEntityAdded = new Event<Entity>()
   onEntityRemoved = new Event<Entity>()
 
+  get first() {
+    return this.entities[0]
+  }
+
   constructor(public world: World, public query: ComponentQuery<Q>) {
     for (const entity of world.entities) {
       this.evaluate(entity)
