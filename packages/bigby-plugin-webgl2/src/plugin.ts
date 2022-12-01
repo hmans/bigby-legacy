@@ -1,5 +1,5 @@
 import { mat3, mat4 } from "gl-matrix"
-import { App, ITransform } from "@bigby/core"
+import { App, ITransform, transform } from "@bigby/core"
 import { Mesh } from "./Mesh"
 
 export interface IMesh {
@@ -23,7 +23,7 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
   /* Configure viewport */
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
 
-  const transforms = app.world.with("transform")
+  const transforms = app.world.with(transform)
   const meshes = transforms.with("mesh")
   const cameras = transforms.with("camera")
 
@@ -53,7 +53,7 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
     gl.bindFramebuffer(gl.FRAMEBUFFER, null)
     gl.viewport(0, 0, canvas.width, canvas.height)
 
-    for (const { mesh, transform } of meshes) {
+    for (const { mesh, [transform]: t } of meshes) {
       const { geometry, material } = mesh
 
       /* Prepare Material */
@@ -63,15 +63,15 @@ function RenderingSystem(app: App<Partial<ITransform & IMesh>>) {
         gl.useProgram(material.program!)
 
         /* Update modelMatrix uniform */
-        material.uniforms.modelMatrix = transform.matrix
+        material.uniforms.modelMatrix = t.matrix
 
         /* Update viewMatrix uniform */
-        mat4.invert(viewMatrix, camera.transform.matrix)
+        mat4.invert(viewMatrix, camera[transform].matrix)
         material.uniforms.viewMatrix = viewMatrix
 
         /* Update modelViewMatrix uniform */
         mat4.copy(modelViewMatrix, viewMatrix)
-        mat4.multiply(modelViewMatrix, modelViewMatrix, transform.matrix)
+        mat4.multiply(modelViewMatrix, modelViewMatrix, t.matrix)
         material.uniforms.modelViewMatrix = modelViewMatrix
 
         /* Update normalMatrix uniform */

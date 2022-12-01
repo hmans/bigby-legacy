@@ -1,8 +1,10 @@
 import { mat4, quat, vec3 } from "gl-matrix"
 import { App } from "./App"
 
+export const transform = "co.hmans.transform"
+
 export interface ITransform {
-  transform: Transform
+  [transform]: Transform
 }
 
 export class Transform {
@@ -18,17 +20,18 @@ export class Transform {
 }
 
 export function TransformsSystem(app: App<Partial<ITransform>>) {
-  const entities = app.world.with("transform")
+  const entities = app.world.with(transform)
 
   return () => {
-    for (const { transform } of entities) {
-      if (!transform.autoUpdate) continue
+    for (const entity of entities) {
+      const t = entity[transform]
+      if (!t.autoUpdate) continue
 
       mat4.fromRotationTranslationScale(
-        transform.matrix,
-        transform.quaternion,
-        transform.position,
-        transform.scale
+        t.matrix,
+        t.quaternion,
+        t.position,
+        t.scale
       )
     }
   }

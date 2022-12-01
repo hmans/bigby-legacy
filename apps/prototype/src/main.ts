@@ -11,6 +11,7 @@ import {
   PhysicsPlugin,
   RigidBody,
   TickerPlugin,
+  transform,
   Transform,
   TransformsPlugin,
   WebGL2RenderingPlugin,
@@ -33,7 +34,7 @@ function PlayerPlugin(app: App<Partial<IRigidBody & IInput> & { isPlayer?: true 
       isPlayer: true,
       input: new Input(),
       rigidbody: new RigidBody(),
-      transform: new Transform(),
+      [transform]: new Transform(),
       mesh: new Mesh(
         new BoxGeometry(),
         new Material({ color: { r: 1, g: 0.5, b: 0 } })
@@ -55,7 +56,7 @@ new App()
 
   .addStartupSystem((app) => {
     app.world.add({
-      transform: new Transform([0, 0, 20]),
+      [transform]: new Transform([0, 0, 20]),
       camera: new Camera(70, 0.1, 1000),
     })
 
@@ -66,7 +67,7 @@ new App()
 
     for (let i = 0; i < 200; i++) {
       app.world.add({
-        transform: new Transform(
+        [transform]: new Transform(
           [plusMinus(30), plusMinus(30), 0],
           quat.random(quat.create())
         ),
