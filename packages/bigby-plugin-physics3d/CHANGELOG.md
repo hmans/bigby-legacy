@@ -1,5 +1,11 @@
 # @bigby/physics3d
 
+## 0.10.2
+
+### Patch Changes
+
+- 660f02e: Switched to the `@dimforge/rapier3d-compat` package for the time being. This allows us to use the package in sandboxes.
+
 ## 0.10.1
 
 ### Patch Changes

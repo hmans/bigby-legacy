@@ -1,5 +1,13 @@
 # bigby
 
+## 0.10.2
+
+### Patch Changes
+
+- 5c01816: Use new `plugin-*` packages.
+- Updated dependencies [660f02e]
+  - @bigby/plugin-physics3d@0.10.2
+
 ## 0.10.1
 
 ### Patch Changes
