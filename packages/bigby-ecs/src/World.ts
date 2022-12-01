@@ -1,6 +1,7 @@
 import { Event } from "@hmans/event"
+import { Entity } from "./Entity"
 import { Query } from "./Query"
-import { Entity, Component, Constructor, ComponentQuery } from "./types"
+import { Component, Constructor, ComponentQuery } from "./types"
 
 export class World {
   constructor() {}
@@ -13,9 +14,15 @@ export class World {
 
   protected queries = new Map<string, Query<any>>()
 
-  add(entity: Entity) {
+  add(components: Component[]) {
+    /* Create a new entity */
+    const entity = new Entity()
+    entity.components.push(...components)
+
+    /* Add the entity to the world */
     this.entities.push(entity)
     this.onEntityAdded.emit(entity)
+
     return entity
   }
 
@@ -32,11 +39,11 @@ export class World {
 
   addComponent(entity: Entity, component: Component) {
     /* check if the component is already present */
-    if (entity.some((c) => c.constructor === component.constructor))
+    if (entity.components.some((c) => c.constructor === component.constructor))
       return false
 
     /* Add the component to the entity */
-    entity.push(component)
+    entity.components.push(component)
 
     /* Emit the event */
     this.onEntityUpdated.emit(entity)
@@ -49,13 +56,13 @@ export class World {
     component: Component | Constructor<Component>
   ) {
     /* Remove the component from the entity */
-    const index = entity.findIndex(
+    const index = entity.components.findIndex(
       (c) => c === component || c.constructor === component
     )
     if (index === -1) return false
 
     /* Remove the component from the entity */
-    entity.splice(index, 1)
+    entity.components.splice(index, 1)
 
     /* Emit the onEntityUpdated event */
     this.onEntityUpdated.emit(entity)
@@ -64,7 +71,9 @@ export class World {
   }
 
   getComponent<T extends Component>(entity: Entity, component: Constructor<T>) {
-    return entity.find((c) => c.constructor === component) as T | undefined
+    return entity.components.find((c) => c.constructor === component) as
+      | T
+      | undefined
   }
 
   query<Q extends readonly Component[]>(query: ComponentQuery<Q>): Query<Q> {

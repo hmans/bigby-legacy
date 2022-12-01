@@ -1,5 +1,6 @@
 import { Event } from "@hmans/event"
-import { Component, Entity, ComponentQuery } from "./index"
+import { Entity } from "./Entity"
+import { Component, ComponentQuery } from "./index"
 import { World } from "./World"
 
 export class Query<Q extends readonly Component[]> {
@@ -42,7 +43,7 @@ export class Query<Q extends readonly Component[]> {
 
     /* Collect components */
     this.query.forEach((component) => {
-      const found = entity.find((c) => c instanceof component)
+      const found = entity.components.find((c) => c instanceof component)
       if (found) subentity.push(found)
     })
 

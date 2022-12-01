@@ -19,9 +19,9 @@ describe(World, () => {
       const entity = world.add([position, velocity, health])
 
       expect(entity).toBeDefined()
-      expect(entity[0]).toBe(position)
-      expect(entity[1]).toBe(velocity)
-      expect(entity[2]).toBe(health)
+      expect(entity.components[0]).toBe(position)
+      expect(entity.components[1]).toBe(velocity)
+      expect(entity.components[2]).toBe(health)
     })
 
     it("adds the entity to all relevant queries", () => {
@@ -78,11 +78,11 @@ describe(World, () => {
 
       const position = new Position()
       const entity = world.add([position])
-      expect(entity).toEqual([position])
+      expect(entity.components).toEqual([position])
 
       const velocity = new Velocity()
       world.addComponent(entity, velocity)
-      expect(entity).toEqual([position, velocity])
+      expect(entity.components).toEqual([position, velocity])
     })
 
     it("adds the entity from all relevant queries", () => {
@@ -137,10 +137,10 @@ describe(World, () => {
       const position = new Position()
       const velocity = new Velocity()
       const entity = world.add([position, velocity])
-      expect(entity).toEqual([position, velocity])
+      expect(entity.components).toEqual([position, velocity])
 
       world.removeComponent(entity, velocity)
-      expect(entity).toEqual([position])
+      expect(entity.components).toEqual([position])
     })
 
     it("removes the component of the given type from the entity", () => {
@@ -149,10 +149,10 @@ describe(World, () => {
       const position = new Position()
       const velocity = new Velocity()
       const entity = world.add([position, velocity])
-      expect(entity).toEqual([position, velocity])
+      expect(entity.components).toEqual([position, velocity])
 
       world.removeComponent(entity, Velocity)
-      expect(entity).toEqual([position])
+      expect(entity.components).toEqual([position])
     })
 
     describe("when it removes a component successfully", () => {
