@@ -1,79 +1,94 @@
-import {
-  App,
-  BoxGeometry,
-  Camera,
-  IInput,
-  Input,
-  InputPlugin,
-  IRigidBody,
-  Material,
-  Mesh,
-  PhysicsPlugin,
-  RigidBody,
-  TickerPlugin,
-  Transform,
-  TransformsPlugin,
-  WebGL2RenderingPlugin,
-} from "bigby"
-import { quat } from "gl-matrix"
-import { plusMinus } from "randomish"
+import { vec3 } from "gl-matrix"
 import "./style.css"
 
-function PlayerPlugin(app: App<Partial<IRigidBody & IInput> & { isPlayer?: true }>) {
-  const entities = app.world.with("isPlayer", "input", "rigidbody")
+class Transform {
+  isTransform = true
 
-  app.addSystem((dt) => {
-    for (const { input, rigidbody } of entities) {
-      rigidbody.rigidBody!.applyImpulse({ ...input, z: 0 }, true)
-    }
-  })
-
-  app.addStartupSystem(() => {
-    app.world.add({
-      isPlayer: true,
-      input: new Input(),
-      rigidbody: new RigidBody(),
-      transform: new Transform(),
-      mesh: new Mesh(
-        new BoxGeometry(),
-        new Material({ color: { r: 1, g: 0.5, b: 0 } })
-      ),
-    })
-  })
-
-  return app
+  constructor(
+    public position = vec3.create(),
+    public quaternion = vec3.create(),
+    public scale = vec3.set(vec3.create(), 1, 1, 1)
+  ) {}
 }
 
-new App()
-  .addPlugin(TickerPlugin)
-  .addPlugin(TransformsPlugin)
-  .addPlugin(WebGL2RenderingPlugin)
-  .addPlugin(PhysicsPlugin)
+class AutoRotate {
+  isAutorotate = true
+  constructor() {}
+}
 
-  .addPlugin(InputPlugin)
-  .addPlugin(PlayerPlugin)
+class Unrelated {
+  poop = "moo"
+}
 
-  .addStartupSystem((app) => {
-    app.world.add({
-      transform: new Transform([0, 0, 20]),
-      camera: new Camera(70, 0.1, 1000),
-    })
+export type Entity<C> = C[]
 
-    const geometry = new BoxGeometry()
-    const material = new Material({
-      color: { r: 0.5, g: 0.5, b: 0.5 },
-    })
+class World<C> {
+  constructor() {}
 
-    for (let i = 0; i < 200; i++) {
-      app.world.add({
-        transform: new Transform(
-          [plusMinus(30), plusMinus(30), 0],
-          quat.random(quat.create())
-        ),
-        mesh: new Mesh(geometry, material),
-        rigidbody: new RigidBody(),
-      })
+  entities = new Array<C[]>()
+
+  spawn(entity: Entity<C>) {
+    this.entities.push(entity)
+    return entity
+  }
+
+  despawn(entity: Entity<C>) {
+    /* Remove entity */
+    const index = this.entities.indexOf(entity)
+    if (index !== -1) this.entities.splice(index, 1)
+
+    return entity
+  }
+
+  insert(entity: Entity<C>) {
+    return entity
+  }
+
+  remove(entity: Entity<C>) {
+    return entity
+  }
+}
+
+type Constructor<T> = new (...args: any[]) => T
+
+class Query<Q extends readonly C[], C> {
+  entities = new Array<Entity<C>>()
+  components = new Map<Entity<C>, Q>()
+
+  constructor(public world: World<C>, query: { [K in keyof Q]: Constructor<Q[K]> }) {
+    for (const entity of world.entities) {
+      const subentity = entity.filter((component) =>
+        query.some((ctor) => component instanceof ctor)
+      )
+
+      if (subentity.length) {
+        this.entities.push(entity)
+        this.components.set(entity, subentity)
+      }
     }
-  })
+  }
 
-  .run()
+  iterate(fun: (entity: Entity<C>, components: Q) => void) {
+    for (const entity of this.entities) {
+      fun(entity, this.components.get(entity)!)
+    }
+  }
+}
+
+const world = new World<Transform | AutoRotate>()
+
+world.spawn([new Transform(), new AutoRotate()])
+
+/* Dummy system */
+console.log("Complete entity:")
+for (const entity of world.entities) {
+  console.log(entity)
+}
+
+console.log("Just Autorotate:")
+
+const query = new Query(world, [Transform, AutoRotate] as const)
+
+query.iterate((entity, [transform, autoRotate]) => {
+  console.log(autoRotate)
+})
