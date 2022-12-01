@@ -86,6 +86,70 @@ describe(World, () => {
     })
   })
 
+  describe("removeComponent", () => {
+    it("removes the specified component from the entity", () => {
+      const world = new World()
+
+      const position = new Position()
+      const velocity = new Velocity()
+      const entity = world.add([position, velocity])
+      expect(entity).toEqual([position, velocity])
+
+      world.removeComponent(entity, velocity)
+      expect(entity).toEqual([position])
+    })
+
+    it("removes the component of the given type from the entity", () => {
+      const world = new World()
+
+      const position = new Position()
+      const velocity = new Velocity()
+      const entity = world.add([position, velocity])
+      expect(entity).toEqual([position, velocity])
+
+      world.removeComponent(entity, Velocity)
+      expect(entity).toEqual([position])
+    })
+
+    describe("when it removes a component successfully", () => {
+      it("emits the onEntityUpdated event when a component has been removed successfully", () => {
+        const world = new World()
+        const entity = world.add([new Position(), new Velocity()])
+        const spy = jest.fn()
+
+        world.onEntityUpdated.add(spy)
+        world.removeComponent(entity, Velocity)
+
+        expect(spy).toHaveBeenCalledWith(entity)
+      })
+
+      it("returns true", () => {
+        const world = new World()
+        const entity = world.add([new Position(), new Velocity()])
+        expect(world.removeComponent(entity, Velocity)).toBe(true)
+      })
+    })
+
+    describe("when it doesn't remove a component", () => {
+      it("does not emit the event", () => {
+        const world = new World()
+        const entity = world.add([new Position()])
+        const spy = jest.fn()
+
+        world.onEntityUpdated.add(spy)
+        world.removeComponent(entity, Velocity)
+
+        expect(spy).not.toHaveBeenCalled()
+      })
+
+      it("returns false", () => {
+        const world = new World()
+        const entity = world.add([new Position()])
+        expect(world.removeComponent(entity, Velocity)).toBe(false)
+      })
+    })
+  })
+
   describe("query", () => {
     it("creates a Query object", () => {
       const world = new World()

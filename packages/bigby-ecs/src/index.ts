@@ -46,8 +46,23 @@ export class World {
     return true
   }
 
-  removeComponent(entity: Entity) {
-    return entity
+  removeComponent(
+    entity: Entity,
+    component: Component | Constructor<Component>
+  ) {
+    /* Remove the component from the entity */
+    const index = entity.findIndex(
+      (c) => c === component || c.constructor === component
+    )
+    if (index === -1) return false
+
+    /* Remove the component from the entity */
+    entity.splice(index, 1)
+
+    /* Emit the onEntityUpdated event */
+    this.onEntityUpdated.emit(entity)
+
+    return true
   }
 
   query<Q extends readonly any[]>(
