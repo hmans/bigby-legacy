@@ -136,6 +136,9 @@ export const Plugin =
               rotation.z,
               rotation.w
             )
+
+            /* Reset forces */
+            rigidbody.raw!.resetForces(true)
           })
         })
       })

@@ -2,6 +2,7 @@ import { Input, InputPlugin } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
 import { ThreePlugin } from "@bigby/plugin-three"
 import { App, TickerPlugin, Transform, TransformsPlugin } from "bigby"
+import { reverse } from "dns"
 import * as THREE from "three"
 import "./index.css"
 
@@ -43,7 +44,7 @@ new App()
       new Input(),
 
       new Physics.DynamicBody()
-        .setEnabledRotations(false, false, true)
+        .setEnabledRotations(false, false, false)
         .setEnabledTranslations(true, true, false),
 
       new Physics.BoxCollider([5, 1, 1]),
@@ -62,7 +63,7 @@ new App()
         app.world.add([
           new Physics.DynamicBody().setEnabledTranslations(true, true, false),
 
-          new Physics.BoxCollider([2, 1, 1]).setDensity(5),
+          new Physics.BoxCollider([2, 1, 1]).setDensity(2),
           new Transform([x * 3, y * 2 + 2, 0]),
 
           new THREE.Mesh(
@@ -114,7 +115,7 @@ new App()
     ])
 
     /* Ball */
-    app.world.add([
+    const ball = app.world.add([
       new Physics.DynamicBody().setEnabledTranslations(true, true, false),
       new Transform([0, -5, 0]),
       new Physics.BallCollider(0.5).setDensity(1),
@@ -123,6 +124,25 @@ new App()
         new THREE.MeshStandardMaterial({ color: "white" })
       )
     ])
+
+    const rb = ball.get(Physics.DynamicBody)!.raw!
+    const coll = ball.get(Physics.BallCollider)!.raw!
+    rb.setLinearDamping(0)
+    rb.applyImpulse({ x: 0, y: 10, z: 0 }, true)
+    coll.setRestitution(1)
+
+    /* Hacky ball system */
+    app.addSystem(() => {
+      /* Make sure the ball always travels at the same velocity */
+      const vel = rb.linvel()
+      const speed = Math.sqrt(vel.x * vel.x + vel.y * vel.y + vel.z * vel.z)
+      const targetSpeed = 15
+      const ratio = targetSpeed / speed
+      rb.setLinvel(
+        { x: vel.x * ratio, y: vel.y * ratio, z: vel.z * ratio },
+        true
+      )
+    })
 
     const playerQuery = app.world.query([Player])
 
@@ -134,7 +154,10 @@ new App()
         const rigidbody = player.get(Physics.RigidBody)!
 
         rigidbody.raw?.resetForces(false)
-        rigidbody.raw?.applyImpulse({ ...input, z: 0 }, true)
+        rigidbody.raw?.applyImpulse(
+          { x: input.x * 2, y: input.y * 2, z: 0 },
+          true
+        )
       }
     })
   })
