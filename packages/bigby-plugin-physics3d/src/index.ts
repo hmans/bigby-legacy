@@ -1,4 +1,4 @@
-import { App, ITransform, Transform } from "@bigby/core"
+import { App, Transform } from "@bigby/core"
 import { clamp } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { quat, vec3 } from "gl-matrix"

@@ -1,10 +1,6 @@
 import { mat4, quat, vec3 } from "gl-matrix"
 import { App } from "./App"
 
-export interface ITransform {
-  transform: Transform
-}
-
 export class Transform {
   autoUpdate = true
 
