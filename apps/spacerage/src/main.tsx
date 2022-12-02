@@ -2,6 +2,7 @@ import { Input, InputPlugin } from "@bigby/plugin-input"
 import {
   BoxCollider,
   Collider,
+  DynamicBody,
   PhysicsPlugin,
   RigidBody,
   StaticBody
@@ -47,7 +48,7 @@ new App()
     app.world.add([
       new Player(),
       new Input(),
-      new RigidBody(),
+      new DynamicBody(),
       new BoxCollider([5, 1, 1]),
       new Transform([0, -8.5, 0]),
       new THREE.Mesh(
@@ -60,7 +61,7 @@ new App()
     for (let x = -3; x <= 3; x++) {
       for (let y = -2; y <= 2; y++) {
         app.world.add([
-          new RigidBody(),
+          new DynamicBody(),
           new BoxCollider([2, 1, 1]).setDensity(5),
           new Transform([x * 3, y * 2 + 2, 0]),
 

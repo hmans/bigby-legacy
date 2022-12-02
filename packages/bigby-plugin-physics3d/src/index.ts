@@ -1,20 +1,25 @@
 import { App, Transform } from "@bigby/core"
 import { clamp } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d-compat"
+import { RigidBodyDesc } from "@dimforge/rapier3d-compat"
 import { quat, vec3 } from "gl-matrix"
 
-export class RigidBody {
-  desc = RAPIER.RigidBodyDesc.dynamic()
+export abstract class RigidBody {
+  abstract desc: RigidBodyDesc
   raw?: RAPIER.RigidBody
+}
+
+export class DynamicBody extends RigidBody {
+  desc = RAPIER.RigidBodyDesc.dynamic()
 }
 
 export class StaticBody extends RigidBody {
   desc = RAPIER.RigidBodyDesc.fixed()
 }
 
-export class Collider {
+export abstract class Collider {
   raw?: RAPIER.Collider
-  descriptor!: RAPIER.ColliderDesc
+  abstract descriptor: RAPIER.ColliderDesc
 
   setDensity(density: number) {
     this.raw?.setDensity(density)
