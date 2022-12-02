@@ -75,6 +75,10 @@ const setupPlayer = (app: App) => {
 }
 
 const setupBricks = (app: App) => {
+  const material = new THREE.MeshStandardMaterial({ color: "#99c" })
+  const geometry = new THREE.BoxGeometry(2, 1, 1)
+  const activeMaterial = new THREE.MeshStandardMaterial({ color: "#fff" })
+
   /* Bricks */
   for (let x = -3; x <= 3; x++) {
     for (let y = -2; y <= 2; y++) {
@@ -84,10 +88,7 @@ const setupBricks = (app: App) => {
         new Physics.BoxCollider([2, 1, 1]).setDensity(2),
         new Transform([x * 3, y * 2 + 2, 0]),
 
-        new THREE.Mesh(
-          new THREE.BoxGeometry(2, 1, 1),
-          new THREE.MeshStandardMaterial({ color: "#99c" })
-        )
+        new THREE.Mesh(geometry, material)
       ])
     }
   }
