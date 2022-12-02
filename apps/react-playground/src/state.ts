@@ -1,7 +1,7 @@
 import { createReactAPI } from "@bigby/react"
 import { App, TickerPlugin } from "bigby"
 
-class FrameCount {
+export class FrameCount {
   count = 0
 }
 
@@ -17,7 +17,3 @@ export const app = await new App()
   .run()
 
 export const ECS = createReactAPI(app)
-
-export const Components = {
-  FrameCount: ECS.makeComponent(FrameCount)
-}

@@ -1,11 +1,22 @@
-import { Components, ECS } from "./state"
+import { Canvas } from "@react-three/fiber"
+import { ECS, FrameCount } from "./state"
+
+export const Components = {
+  FrameCount: ECS.makeComponent(FrameCount)
+}
 
 function App() {
   return (
-    <ECS.Entity>
-      <p>moo</p>
-      <Components.FrameCount count={123} />
-    </ECS.Entity>
+    <Canvas>
+      <ECS.Entity>
+        <Components.FrameCount count={123} />
+
+        <mesh>
+          <icosahedronGeometry />
+          <meshBasicMaterial color="hotpink" />
+        </mesh>
+      </ECS.Entity>
+    </Canvas>
   )
 }
 
