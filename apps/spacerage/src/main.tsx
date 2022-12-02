@@ -3,7 +3,8 @@ import {
   BoxCollider,
   Collider,
   PhysicsPlugin,
-  RigidBody
+  RigidBody,
+  StaticBody
 } from "@bigby/plugin-physics3d"
 import { ThreePlugin } from "@bigby/plugin-three"
 import { App, TickerPlugin, Transform, TransformsPlugin } from "bigby"
@@ -48,7 +49,7 @@ new App()
       new Input(),
       new RigidBody(),
       new BoxCollider([5, 1, 1]),
-      new Transform([0, -8, 0]),
+      new Transform([0, -8.5, 0]),
       new THREE.Mesh(
         new THREE.BoxGeometry(5, 1, 1),
         new THREE.MeshStandardMaterial({ color: "hotpink" })
@@ -70,6 +71,46 @@ new App()
         ])
       }
     }
+
+    /* North Wall */
+    app.world.add([
+      new StaticBody(),
+      new BoxCollider([25, 1, 1]).setDensity(0),
+      new Transform([0, 8.5, 0]),
+      new THREE.Mesh(
+        new THREE.BoxGeometry(24, 1, 1),
+        new THREE.MeshStandardMaterial({ color: "#999" })
+      )
+    ])
+
+    /* West Wall */
+    app.world.add([
+      new StaticBody(),
+      new BoxCollider([1, 21, 1]).setDensity(0),
+      new Transform([-12.5, 0, 0]),
+      new THREE.Mesh(
+        new THREE.BoxGeometry(1, 18, 1),
+        new THREE.MeshStandardMaterial({ color: "#999" })
+      )
+    ])
+
+    /* East Wall */
+    app.world.add([
+      new StaticBody(),
+      new BoxCollider([1, 21, 1]).setDensity(0),
+      new Transform([+12.5, 0, 0]),
+      new THREE.Mesh(
+        new THREE.BoxGeometry(1, 18, 1),
+        new THREE.MeshStandardMaterial({ color: "#999" })
+      )
+    ])
+
+    /* South (Death) Wall */
+    app.world.add([
+      new StaticBody(),
+      new BoxCollider([27, 1, 1]).setDensity(0),
+      new Transform([0, -9.5, 0])
+    ])
 
     const playerQuery = app.world.query([Player])
 

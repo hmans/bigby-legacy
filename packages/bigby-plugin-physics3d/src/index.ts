@@ -4,7 +4,12 @@ import * as RAPIER from "@dimforge/rapier3d-compat"
 import { quat, vec3 } from "gl-matrix"
 
 export class RigidBody {
+  desc = RAPIER.RigidBodyDesc.dynamic()
   raw?: RAPIER.RigidBody
+}
+
+export class StaticBody extends RigidBody {
+  desc = RAPIER.RigidBodyDesc.fixed()
 }
 
 export class Collider {
