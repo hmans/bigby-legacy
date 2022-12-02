@@ -1,14 +1,17 @@
 import { App } from "@bigby/core"
 import { Component, Constructor, Entity } from "@bigby/ecs"
-import {
+import React, {
   createContext,
   forwardRef,
+  ReactElement,
   ReactNode,
   useContext,
   useImperativeHandle,
   useLayoutEffect,
+  useRef,
   useState
 } from "react"
+import mergeRefs from "react-merge-refs"
 
 export const createReactAPI = (app: App) => {
   const EntityContext = createContext<Entity>(null!)
@@ -56,5 +59,39 @@ export const createReactAPI = (app: App) => {
     }
   )
 
-  return { Entity, useCurrentEntity, makeComponent }
+  const Component = forwardRef<any, { children?: ReactNode }>(
+    ({ children }, parentRef) => {
+      const entity = useContext(EntityContext)
+      const ref = useRef<any>(null!)
+
+      if (!entity) {
+        throw new Error("<Component> must be a child of <Entity>")
+      }
+
+      /* Handle creation and removal of component with a value prop */
+      useLayoutEffect(() => {
+        const component = ref.current
+        if (!component) return
+
+        console.log("Adding component", component)
+        app.world.addComponent(entity, component)
+        return () => {
+          app.world.removeComponent(entity, component)
+        }
+      }, [entity])
+
+      /* Handle setting of child value */
+      if (children) {
+        const child = React.Children.only(children) as ReactElement
+
+        return React.cloneElement(child, {
+          ref: mergeRefs([(child as any).ref, ref])
+        })
+      }
+
+      return null
+    }
+  )
+
+  return { Entity, Component, useCurrentEntity, makeComponent }
 }

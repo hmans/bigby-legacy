@@ -190,6 +190,9 @@ importers:
       '@bigby/ecs': workspace:^0.10.1
       react: ^18.2.0
       react-dom: ^18.2.0
+      react-merge-refs: ^1.1.0
+    dependencies:
+      react-merge-refs: 1.1.0
     devDependencies:
       '@bigby/core': link:../bigby-core
       '@bigby/ecs': link:../bigby-ecs
@@ -5210,6 +5213,10 @@ packages:
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
     dev: true
+
+  /react-merge-refs/1.1.0:
+    resolution: {integrity: sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==}
+    dev: false
 
   /react-reconciler/0.27.0_react@18.2.0:
     resolution: {integrity: sha512-HmMDKciQjYmBRGuuhIaKA1ba/7a+UsM5FzOZsMO2JYHt9Jh8reCb7j1eDC95NOyUlKM9KRyvdx0flBuDvYSBoA==}
