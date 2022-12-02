@@ -1,4 +1,3 @@
-import { Entity } from "bigby"
 import { ECS } from "./state"
 
 function App() {
