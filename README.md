@@ -2,6 +2,12 @@
 
 > **Warning** Everything in this repository is _highly experimental_. Use at your own risk.
 
+## Summary
+
+- Provides Entity-System-Component scaffolding for scalable, maintainable, and testable code.
+- Implements all functionality through plugins.
+- Can be used as a standalone library, or together with your favorite reactive framework.
+
 ## License
 
 ```
