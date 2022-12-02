@@ -7,6 +7,16 @@ import { quat, vec3 } from "gl-matrix"
 export abstract class RigidBody {
   abstract desc: RigidBodyDesc
   raw?: RAPIER.RigidBody
+
+  setEnabledTranslations(...enabled: [boolean, boolean, boolean]) {
+    this.desc.enabledTranslations(...enabled)
+    return this
+  }
+
+  setEnabledRotations(...enabled: [boolean, boolean, boolean]) {
+    this.desc.enabledRotations(...enabled)
+    return this
+  }
 }
 
 export class DynamicBody extends RigidBody {
@@ -22,7 +32,6 @@ export abstract class Collider {
   abstract descriptor: RAPIER.ColliderDesc
 
   setDensity(density: number) {
-    this.raw?.setDensity(density)
     this.descriptor.setDensity(density)
     return this
   }
@@ -61,29 +70,28 @@ export const Plugin =
 
         /* Create new RAPIER rigidbodies when entities appear */
         rigidbodyQuery.onEntityAdded.add((entity) => {
-          let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
+          let desc = entity.get(RigidBody)!.desc
 
           const transform = entity.get(Transform)!
           const rigidbody = entity.get(RigidBody)!
 
-          rigidBodyDesc.setTranslation(
+          desc.setTranslation(
             transform.position[0],
             transform.position[1],
             transform.position[2]
           )
 
-          rigidBodyDesc.setRotation({
+          desc.setRotation({
             x: transform.quaternion[0],
             y: transform.quaternion[1],
             z: transform.quaternion[2],
             w: transform.quaternion[3]
           })
 
-          rigidBodyDesc.enabledTranslations(true, true, false)
-          rigidBodyDesc.setLinearDamping(0.5)
-          rigidBodyDesc.setAngularDamping(0.5)
+          desc.setLinearDamping(0.5)
+          desc.setAngularDamping(0.5)
 
-          rigidbody.raw = physics.createRigidBody(rigidBodyDesc)
+          rigidbody.raw = physics.createRigidBody(desc)
         })
 
         /* Create new RAPIER colliders when entities appear */
