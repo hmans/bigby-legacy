@@ -1,11 +1,16 @@
 import { Input, InputPlugin } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
+import { RigidBody } from "@bigby/plugin-physics3d"
 import { ThreePlugin } from "@bigby/plugin-three"
 import { App, TickerPlugin, Transform, TransformsPlugin } from "bigby"
 import * as THREE from "three"
 import "./index.css"
 
 class Player {}
+
+class ConstantVelocity {
+  constructor(public velocity: number) {}
+}
 
 function setupScene(app: App) {
   /* Camera */
@@ -136,6 +141,7 @@ function setupBall(app: App) {
     new Physics.DynamicBody().setEnabledTranslations(true, true, false),
     new Transform([0, -5, 0]),
     new Physics.BallCollider(0.5).setDensity(1),
+    new ConstantVelocity(10),
     new THREE.Mesh(
       new THREE.IcosahedronGeometry(0.6, 0),
       new THREE.MeshStandardMaterial({ color: "white" })
@@ -147,16 +153,6 @@ function setupBall(app: App) {
   rb.setLinearDamping(0)
   rb.applyImpulse({ x: 0, y: 10, z: 0 }, true)
   coll.setRestitution(1)
-
-  /* Hacky ball system */
-  app.addSystem(() => {
-    /* Make sure the ball always travels at the same velocity */
-    const vel = rb.linvel()
-    const speed = Math.sqrt(vel.x * vel.x + vel.y * vel.y + vel.z * vel.z)
-    const targetSpeed = 15
-    const ratio = targetSpeed / speed
-    rb.setLinvel({ x: vel.x * ratio, y: vel.y * ratio, z: vel.z * ratio }, true)
-  })
 }
 
 function setup(app: App) {
@@ -173,5 +169,24 @@ new App()
   .addPlugin(ThreePlugin)
   .addPlugin(InputPlugin)
   .addPlugin(Physics.Plugin({ gravity: [0, 0, 0] }))
+
+  .addStartupSystem((app) => {
+    const query = app.world.query([ConstantVelocity, RigidBody])
+
+    app.addSystem(() => {
+      query.iterate((_, [v, rigidbody]) => {
+        const rb = rigidbody.raw!
+        const vel = rb.linvel()
+        const speed = Math.sqrt(vel.x * vel.x + vel.y * vel.y + vel.z * vel.z)
+        const ratio = v.velocity / speed
+
+        rb.setLinvel(
+          { x: vel.x * ratio, y: vel.y * ratio, z: vel.z * ratio },
+          true
+        )
+      })
+    })
+  })
+
   .addStartupSystem(setup)
   .start()
