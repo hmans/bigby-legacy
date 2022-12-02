@@ -1,0 +1,45 @@
+{
+  "name": "@bigby/react",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "React glue for Bigby.",
+  "version": "0.10.1",
+  "main": "dist/bigby-react.cjs.js",
+  "module": "dist/bigby-react.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "build": "preconstruct build",
+    "test": "jest --passWithNoTests"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      "@babel/preset-typescript"
+    ]
+  },
+  "devDependencies": {
+    "@bigby/core": "workspace:^0.10.1",
+    "@bigby/ecs": "workspace:^0.10.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "peerDependencies": {
+    "@bigby/core": "workspace:^0.10.1",
+    "@bigby/ecs": "workspace:^0.10.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "dependencies": {
+    "react-merge-refs": "^1.1.0"
+  }
+}
