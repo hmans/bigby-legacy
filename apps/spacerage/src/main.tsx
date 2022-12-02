@@ -1,11 +1,5 @@
 import { Input, InputPlugin } from "@bigby/plugin-input"
-import {
-  BoxCollider,
-  DynamicBody,
-  PhysicsPlugin,
-  RigidBody,
-  StaticBody
-} from "@bigby/plugin-physics3d"
+import * as Physics from "@bigby/plugin-physics3d"
 import { ThreePlugin } from "@bigby/plugin-three"
 import { App, TickerPlugin, Transform, TransformsPlugin } from "bigby"
 import * as THREE from "three"
@@ -18,7 +12,7 @@ new App()
   .addPlugin(TransformsPlugin)
   .addPlugin(ThreePlugin)
   .addPlugin(InputPlugin)
-  .addPlugin(PhysicsPlugin({ gravity: [0, 0, 0] }))
+  .addPlugin(Physics.Plugin({ gravity: [0, 0, 0] }))
 
   .addStartupSystem((app) => {
     /* Camera */
@@ -47,8 +41,8 @@ new App()
     app.world.add([
       new Player(),
       new Input(),
-      new DynamicBody(),
-      new BoxCollider([5, 1, 1]),
+      new Physics.DynamicBody(),
+      new Physics.BoxCollider([5, 1, 1]),
       new Transform([0, -8.5, 0]),
       new THREE.Mesh(
         new THREE.BoxGeometry(5, 1, 1),
@@ -60,8 +54,8 @@ new App()
     for (let x = -3; x <= 3; x++) {
       for (let y = -2; y <= 2; y++) {
         app.world.add([
-          new DynamicBody(),
-          new BoxCollider([2, 1, 1]).setDensity(5),
+          new Physics.DynamicBody(),
+          new Physics.BoxCollider([2, 1, 1]).setDensity(5),
           new Transform([x * 3, y * 2 + 2, 0]),
 
           new THREE.Mesh(
@@ -74,8 +68,8 @@ new App()
 
     /* North Wall */
     app.world.add([
-      new StaticBody(),
-      new BoxCollider([25, 1, 1]).setDensity(0),
+      new Physics.StaticBody(),
+      new Physics.BoxCollider([25, 1, 1]).setDensity(0),
       new Transform([0, 8.5, 0]),
       new THREE.Mesh(
         new THREE.BoxGeometry(24, 1, 1),
@@ -85,8 +79,8 @@ new App()
 
     /* West Wall */
     app.world.add([
-      new StaticBody(),
-      new BoxCollider([1, 21, 1]).setDensity(0),
+      new Physics.StaticBody(),
+      new Physics.BoxCollider([1, 21, 1]).setDensity(0),
       new Transform([-12.5, 0, 0]),
       new THREE.Mesh(
         new THREE.BoxGeometry(1, 18, 1),
@@ -96,8 +90,8 @@ new App()
 
     /* East Wall */
     app.world.add([
-      new StaticBody(),
-      new BoxCollider([1, 21, 1]).setDensity(0),
+      new Physics.StaticBody(),
+      new Physics.BoxCollider([1, 21, 1]).setDensity(0),
       new Transform([+12.5, 0, 0]),
       new THREE.Mesh(
         new THREE.BoxGeometry(1, 18, 1),
@@ -107,8 +101,8 @@ new App()
 
     /* South (Death) Wall */
     app.world.add([
-      new StaticBody(),
-      new BoxCollider([27, 1, 1]).setDensity(0),
+      new Physics.StaticBody(),
+      new Physics.BoxCollider([27, 1, 1]).setDensity(0),
       new Transform([0, -9.5, 0])
     ])
 
@@ -119,7 +113,7 @@ new App()
 
       if (player) {
         const input = player.get(Input)!
-        const rigidbody = player.get(RigidBody)!
+        const rigidbody = player.get(Physics.RigidBody)!
 
         rigidbody.raw?.resetForces(false)
         rigidbody.raw?.applyImpulse({ ...input, z: 0 }, true)
