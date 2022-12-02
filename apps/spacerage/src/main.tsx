@@ -60,7 +60,7 @@ new App()
       for (let y = -2; y <= 2; y++) {
         app.world.add([
           new RigidBody(),
-          new BoxCollider([2, 1, 1]),
+          new BoxCollider([2, 1, 1]).setDensity(5),
           new Transform([x * 3, y * 2 + 2, 0]),
 
           new THREE.Mesh(

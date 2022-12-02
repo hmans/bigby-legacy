@@ -10,6 +10,12 @@ export class RigidBody {
 export class Collider {
   raw?: RAPIER.Collider
   descriptor!: RAPIER.ColliderDesc
+
+  setDensity(density: number) {
+    this.raw?.setDensity(density)
+    this.descriptor.setDensity(density)
+    return this
+  }
 }
 
 export class BoxCollider extends Collider {
