@@ -1,12 +1,18 @@
 import { App } from "@bigby/core"
 import { clamp } from "@bigby/math"
 
-export const TickerPlugin = (app: App) =>
-  app.addStartupSystem((app) => {
+let running = false
+
+export const TickerPlugin = (app: App) => {
+  console.log("TickerPlugin")
+
+  return app.addStartupSystem((app) => {
+    console.log("hello")
+
     let lastTime = performance.now()
 
     const animate = () => {
-      requestAnimationFrame(animate)
+      if (running) requestAnimationFrame(animate)
 
       /* Calculate delta time */
       const time = performance.now()
@@ -17,5 +23,9 @@ export const TickerPlugin = (app: App) =>
       app.systems.forEach((system) => system(dt))
     }
 
-    animate()
+    if (!running) {
+      running = true
+      animate()
+    }
   })
+}

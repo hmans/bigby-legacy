@@ -184,7 +184,7 @@ const Wonkynoid = (app: App) =>
     setupBall(app)
   })
 
-new App()
+const app = await new App()
   .addPlugin(TickerPlugin)
   .addPlugin(TransformsPlugin)
   .addPlugin(ThreePlugin)
@@ -193,3 +193,12 @@ new App()
   .addPlugin(ConstantVelocityPlugin)
   .addPlugin(Wonkynoid)
   .start()
+
+if (import.meta.hot) {
+  import.meta.hot.accept((newModule) => {
+    if (newModule) {
+      console.log("HMR received")
+      app.stop()
+    }
+  })
+}
