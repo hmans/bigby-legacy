@@ -1,77 +1,38 @@
+import { ThreePlugin } from "@bigby/plugin-three"
 import {
   App,
-  BoxGeometry,
-  Camera,
-  Input,
-  InputPlugin,
-  Material,
-  Mesh,
-  PhysicsPlugin,
-  RigidBody,
+  AutoRotate,
+  AutorotatePlugin,
   TickerPlugin,
   Transform,
   TransformsPlugin,
-  WebGL2RenderingPlugin,
 } from "bigby"
-import { quat } from "gl-matrix"
-import { plusMinus } from "randomish"
+import * as THREE from "three"
 import "./style.css"
 
-/* The app! */
-new App()
-  /* We'll need some system plugins to make it do something. */
+const app = await new App()
   .addPlugin(TickerPlugin)
   .addPlugin(TransformsPlugin)
-  .addPlugin(WebGL2RenderingPlugin)
-  .addPlugin(PhysicsPlugin)
-
-  /* Let's add some game-specific plugins. */
-  .addPlugin(InputPlugin)
-  .addPlugin(PlayerPlugin)
-
-  /* Create stuff on startup. */
-  .addStartupSystem((app) => {
-    app.world.add([new Transform([0, 0, 20]), new Camera(70, 0.1, 1000)])
-
-    const geometry = new BoxGeometry()
-    const material = new Material({
-      color: { r: 0.5, g: 0.5, b: 0.5 },
-    })
-
-    for (let i = 0; i < 200; i++) {
-      app.world.add([
-        new Transform([plusMinus(30), plusMinus(30), 0], quat.random(quat.create())),
-        new Mesh(geometry, material),
-        new RigidBody(),
-      ])
-    }
-  })
-
+  .addPlugin(ThreePlugin)
+  .addPlugin(AutorotatePlugin)
   .run()
 
-/* Components are class instances. */
-class Player {}
+/* Camera */
+app.world.add([
+  new Transform([0, 0, 10]),
+  new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000),
+])
 
-/* A custom plugin that adds and manages a player entity. Plugins
-are just functions that get passed a reference to the app. */
-function PlayerPlugin(app: App) {
-  const entities = app.world.query([Player, Input, RigidBody])
+/* Lights */
+app.world.add([new Transform(), new THREE.AmbientLight(0xffffff, 0.2)])
+app.world.add([new Transform([10, 20, 30]), new THREE.DirectionalLight(0xffffff, 1)])
 
-  app.addSystem((dt) => {
-    entities.iterate((entity, [player, input, rigidbody]) => {
-      rigidbody.rigidBody!.applyImpulse({ ...input, z: 0 }, true)
-    })
-  })
-
-  app.addStartupSystem(() => {
-    app.world.add([
-      new Player(),
-      new Input(),
-      new RigidBody(),
-      new Transform(),
-      new Mesh(new BoxGeometry(), new Material({ color: { r: 1, g: 0.5, b: 0 } })),
-    ])
-  })
-
-  return app
-}
+/* Rotating cube */
+app.world.add([
+  new AutoRotate([1, 2, 3]),
+  new Transform(),
+  new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshStandardMaterial({ color: "hotpink" })
+  ),
+])

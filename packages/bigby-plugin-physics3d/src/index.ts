@@ -1,4 +1,4 @@
-import { App, ITransform, Transform } from "@bigby/core"
+import { App, Transform } from "@bigby/core"
 import { clamp } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { quat, vec3 } from "gl-matrix"
@@ -16,8 +16,8 @@ function PhysicsSystem(app: App) {
   entities.onEntityAdded.add((entity) => {
     let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
 
-    const transform = app.world.getComponent(entity, Transform)!
-    const rigidbody = app.world.getComponent(entity, RigidBody)!
+    const transform = entity.get(Transform)!
+    const rigidbody = entity.get(RigidBody)!
 
     rigidBodyDesc.setTranslation(
       transform.position[0],

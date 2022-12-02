@@ -36,18 +36,24 @@ importers:
 
   apps/prototype:
     specifiers:
+      '@bigby/plugin-three': workspace:^0.10.1
       '@types/three': ^0.146.0
+      add: ^2.0.6
       bigby: workspace:^0.10.2
       gl-matrix: ^3.4.3
       randomish: ^0.1.6
+      three: ^0.147.0
       typescript: ^4.9.3
       vite: ^3.2.3
       vite-plugin-top-level-await: ^1.2.2
       vite-plugin-wasm: ^3.1.0
     dependencies:
+      '@bigby/plugin-three': link:../../packages/bigby-plugin-three
+      add: 2.0.6
       bigby: link:../../packages/bigby
       gl-matrix: 3.4.3
       randomish: 0.1.6
+      three: 0.147.0
     devDependencies:
       '@types/three': 0.146.0
       typescript: 4.9.3
@@ -119,6 +125,19 @@ importers:
       '@bigby/math': link:../bigby-math
       '@dimforge/rapier3d-compat': 0.10.0
       gl-matrix: 3.4.3
+
+  packages/bigby-plugin-three:
+    specifiers:
+      '@bigby/core': workspace:^0.10.1
+      '@bigby/math': workspace:^0.10.1
+      '@types/three': ^0.146.0
+      three: ^0.147.0
+    dependencies:
+      '@bigby/core': link:../bigby-core
+      '@bigby/math': link:../bigby-math
+    devDependencies:
+      '@types/three': 0.146.0
+      three: 0.147.0
 
   packages/bigby-plugin-ticker:
     specifiers:
@@ -2371,6 +2390,10 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: true
+
+  /add/2.0.6:
+    resolution: {integrity: sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==}
+    dev: false
 
   /agent-base/6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -5460,6 +5483,9 @@ packages:
       glob: 7.2.3
       minimatch: 3.1.2
     dev: true
+
+  /three/0.147.0:
+    resolution: {integrity: sha512-LPTOslYQXFkmvceQjFTNnVVli2LaVF6C99Pv34fJypp8NbQLbTlu3KinZ0zURghS5zEehK+VQyvWuPZ/Sm8fzw==}
 
   /tmp/0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}

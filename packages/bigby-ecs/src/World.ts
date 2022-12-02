@@ -70,12 +70,6 @@ export class World {
     return true
   }
 
-  getComponent<T extends Component>(entity: Entity, component: Constructor<T>) {
-    return entity.components.find((c) => c.constructor === component) as
-      | T
-      | undefined
-  }
-
   query<Q extends readonly Component[]>(query: ComponentQuery<Q>): Query<Q> {
     /* Memoize query instances */
     /* TODO: find a better way to build a key */
