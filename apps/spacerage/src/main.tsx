@@ -62,14 +62,18 @@ const setupPlayer = (app: App) => {
     const player = playerQuery.first
 
     if (player) {
-      const input = player.get(Input)!
+      const { move, aim } = player.get(Input)!
       const rigidbody = player.get(Physics.RigidBody)!
 
-      rigidbody.raw?.resetForces(false)
-      rigidbody.raw?.applyImpulse(
-        { x: input.x * 2, y: input.y * 2, z: 0 },
-        true
-      )
+      const rb = rigidbody.raw!
+      rb.resetForces(false)
+      rb.resetTorques(false)
+
+      /* Move */
+      rb.applyImpulse({ x: move.x * 2, y: move.y * 2, z: 0 }, true)
+
+      /* Rotate */
+      rb.applyTorqueImpulse({ x: 0, y: 0, z: aim.x * -1 }, true)
     }
   })
 }
