@@ -12,7 +12,7 @@ class ConstantVelocity {
   constructor(public velocity: number) {}
 }
 
-function setupScene(app: App) {
+const setupScene = (app: App) => {
   /* Camera */
   app.world.add([
     new Transform([0, 0, 15]),
@@ -36,7 +36,7 @@ function setupScene(app: App) {
   ])
 }
 
-function setupPlayer(app: App) {
+const setupPlayer = (app: App) => {
   /* Player */
   app.world.add([
     new Player(),
@@ -74,7 +74,7 @@ function setupPlayer(app: App) {
   })
 }
 
-function setupBricks(app: App) {
+const setupBricks = (app: App) => {
   /* Bricks */
   for (let x = -3; x <= 3; x++) {
     for (let y = -2; y <= 2; y++) {
@@ -93,7 +93,7 @@ function setupBricks(app: App) {
   }
 }
 
-function setupWalls(app: App) {
+const setupWalls = (app: App) => {
   /* North Wall */
   app.world.add([
     new Physics.StaticBody(),
@@ -135,7 +135,7 @@ function setupWalls(app: App) {
   ])
 }
 
-function setupBall(app: App) {
+const setupBall = (app: App) => {
   /* Ball */
   const ball = app.world.add([
     new Physics.DynamicBody().setEnabledTranslations(true, true, false),
@@ -155,22 +155,8 @@ function setupBall(app: App) {
   coll.setRestitution(1)
 }
 
-function setup(app: App) {
-  setupScene(app)
-  setupPlayer(app)
-  setupBricks(app)
-  setupWalls(app)
-  setupBall(app)
-}
-
-new App()
-  .addPlugin(TickerPlugin)
-  .addPlugin(TransformsPlugin)
-  .addPlugin(ThreePlugin)
-  .addPlugin(InputPlugin)
-  .addPlugin(Physics.Plugin({ gravity: [0, 0, 0] }))
-
-  .addStartupSystem((app) => {
+const ConstantVelocityPlugin = (app: App) =>
+  app.addStartupSystem((app) => {
     const query = app.world.query([ConstantVelocity, RigidBody])
 
     app.addSystem(() => {
@@ -188,5 +174,21 @@ new App()
     })
   })
 
-  .addStartupSystem(setup)
+const Wonkynoid = (app: App) =>
+  app.addStartupSystem((app) => {
+    setupScene(app)
+    setupPlayer(app)
+    setupBricks(app)
+    setupWalls(app)
+    setupBall(app)
+  })
+
+new App()
+  .addPlugin(TickerPlugin)
+  .addPlugin(TransformsPlugin)
+  .addPlugin(ThreePlugin)
+  .addPlugin(InputPlugin)
+  .addPlugin(Physics.Plugin({ gravity: [0, 0, 0] }))
+  .addPlugin(ConstantVelocityPlugin)
+  .addPlugin(Wonkynoid)
   .start()
