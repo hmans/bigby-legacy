@@ -94,14 +94,22 @@ importers:
 
   apps/spacerage:
     specifiers:
+      '@bigby/plugin-input': workspace:^0.10.1
+      '@bigby/plugin-physics3d': workspace:^0.10.2
+      '@bigby/plugin-three': workspace:^0.10.1
       '@types/react': ^18.0.24
       '@types/react-dom': ^18.0.8
       '@vitejs/plugin-react': ^2.2.0
+      bigby: workspace:^0.10.2
       react: ^18.2.0
       react-dom: ^18.2.0
       typescript: ^4.6.4
       vite: ^3.2.3
     dependencies:
+      '@bigby/plugin-input': link:../../packages/bigby-plugin-input
+      '@bigby/plugin-physics3d': link:../../packages/bigby-plugin-physics3d
+      '@bigby/plugin-three': link:../../packages/bigby-plugin-three
+      bigby: link:../../packages/bigby
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
