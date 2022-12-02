@@ -17,3 +17,7 @@ export const app = await new App()
   .run()
 
 export const ECS = createReactAPI(app)
+
+export const Components = {
+  FrameCount: ECS.makeComponent(FrameCount)
+}
