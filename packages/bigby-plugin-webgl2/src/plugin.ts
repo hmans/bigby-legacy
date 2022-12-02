@@ -36,8 +36,8 @@ function RenderingSystem(app: App) {
     /* Get camera */
     if (!cameras.first) return
 
-    const cameraTransform = app.world.getComponent(cameras.first, Transform)!
-    const cameraCamera = app.world.getComponent(cameras.first, Camera)!
+    const cameraTransform = cameras.first.get(Transform)!
+    const cameraCamera = cameras.first.get(Camera)!
 
     /* Check if we need to update the renderer size */
     if (

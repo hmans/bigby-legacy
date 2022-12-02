@@ -16,12 +16,12 @@ export const ThreePlugin = (app: App) =>
 
     /* When an entity with a scene object appears, add it to the Three.js scene */
     sceneObjects.onEntityAdded.add((entity) => {
-      scene.add(entity.get(THREE.Object3D))
+      scene.add(entity.get(THREE.Object3D)!)
     })
 
     /* When an entity with a scene object disappears, remove it from the Three.js scene */
     sceneObjects.onEntityRemoved.add((entity) => {
-      scene.remove(entity.get(THREE.Object3D))
+      scene.remove(entity.get(THREE.Object3D)!)
     })
 
     /* Every frame, copy the transform data over to the Three.js objects */
