@@ -48,6 +48,8 @@ export class BoxCollider extends Collider {
       size[1] / 2,
       size[2] / 2
     )
+
+    this.descriptor.setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS)
   }
 }
 
@@ -58,6 +60,7 @@ export class BallCollider extends Collider {
     super()
 
     this.descriptor = RAPIER.ColliderDesc.ball(radius)
+    this.descriptor.setActiveEvents(RAPIER.ActiveEvents.COLLISION_EVENTS)
   }
 }
 
@@ -118,10 +121,17 @@ export const Plugin =
           )
         })
 
+        const eventQueue = new RAPIER.EventQueue(true)
+
         app.addSystem((dt: number) => {
           /* Simulate physics world */
           physics.timestep = clamp(dt, 0.01, 0.2)
-          physics.step()
+          physics.step(eventQueue)
+
+          /* Check collisions */
+          eventQueue.drainCollisionEvents((handle1, handle2, started) => {
+            console.log("COLLISION!")
+          })
 
           /* Transfer physics transforms to the transform component */
           rigidbodyQuery.iterate((_, [transform, rigidbody]) => {
