@@ -44,7 +44,7 @@ new App()
       new Input(),
 
       new Physics.DynamicBody()
-        .setEnabledRotations(false, false, false)
+        .setEnabledRotations(false, false, true)
         .setEnabledTranslations(true, true, false),
 
       new Physics.BoxCollider([5, 1, 1]),
