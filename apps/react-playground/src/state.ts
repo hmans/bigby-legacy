@@ -19,7 +19,7 @@ export const app = await new App()
   })
 
   /* Start up */
-  .run()
+  .start()
 
 /* Create a React API specific to the app: */
 export const ECS = createReactAPI(app)

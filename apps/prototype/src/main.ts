@@ -15,7 +15,7 @@ const app = await new App()
   .addPlugin(TransformsPlugin)
   .addPlugin(ThreePlugin)
   .addPlugin(AutorotatePlugin)
-  .run()
+  .start()
 
 /* Camera */
 app.world.add([

@@ -35,7 +35,7 @@ export class App {
     return this
   }
 
-  async run() {
+  async start() {
     /* Execute and wait for initializers to complete */
     await Promise.all(this.initializers.map((system) => system()))
 
