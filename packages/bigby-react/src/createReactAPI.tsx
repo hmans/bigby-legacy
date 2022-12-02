@@ -4,12 +4,19 @@ import {
   createContext,
   forwardRef,
   ReactNode,
+  useContext,
   useImperativeHandle,
   useState
 } from "react"
 
 export const createReactAPI = (app: App) => {
   const EntityContext = createContext<Entity>(null!)
+
+  const useCurrentEntity = () => {
+    const entity = useContext(EntityContext)
+    if (!entity) throw new Error("No current entity")
+    return entity
+  }
 
   const Entity = forwardRef<Entity, { children?: ReactNode }>(
     ({ children }, ref) => {
@@ -25,5 +32,5 @@ export const createReactAPI = (app: App) => {
     }
   )
 
-  return { Entity }
+  return { Entity, useCurrentEntity }
 }
