@@ -85,7 +85,11 @@ const setupBricks = (app: App) => {
       app.world.add([
         new Physics.DynamicBody().setEnabledTranslations(true, true, false),
 
-        new Physics.BoxCollider([2, 1, 1]).setDensity(2),
+        new Physics.BoxCollider([2, 1, 1])
+          .setDensity(2)
+          .onCollisionStart((other) => {
+            console.log("OH NO")
+          }),
         new Transform([x * 3, y * 2 + 2, 0]),
 
         new THREE.Mesh(geometry, material)

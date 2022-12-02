@@ -1,7 +1,7 @@
 import { App, Transform } from "@bigby/core"
 import { clamp } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d-compat"
-import { RigidBodyDesc } from "@dimforge/rapier3d-compat"
+import { ColliderHandle, RigidBodyDesc } from "@dimforge/rapier3d-compat"
 import { quat, vec3 } from "gl-matrix"
 
 export abstract class RigidBody {
@@ -31,8 +31,15 @@ export abstract class Collider {
   raw?: RAPIER.Collider
   abstract descriptor: RAPIER.ColliderDesc
 
+  _onCollisionStart?: (other: Collider) => void
+
   setDensity(density: number) {
     this.descriptor.setDensity(density)
+    return this
+  }
+
+  onCollisionStart(fn: (other: Collider) => void) {
+    this._onCollisionStart = (other) => fn(other)
     return this
   }
 }
@@ -111,6 +118,7 @@ export const Plugin =
         const colliderQuery = app.world.query([RigidBody, Collider])
 
         /* Wire up colliders to their rigidbodies */
+        const collidersToComponent = new Map<ColliderHandle, Collider>()
         colliderQuery.onEntityAdded.add((entity) => {
           const rigidbody = entity.get(RigidBody)!
           const collider = entity.get(Collider)!
@@ -119,6 +127,13 @@ export const Plugin =
             collider.descriptor,
             rigidbody.raw
           )
+
+          collidersToComponent.set(collider.raw.handle, collider)
+        })
+
+        colliderQuery.onEntityRemoved.add((entity) => {
+          const collider = entity.get(Collider)!
+          collidersToComponent.delete(collider.raw!.handle)
         })
 
         const eventQueue = new RAPIER.EventQueue(true)
@@ -130,7 +145,14 @@ export const Plugin =
 
           /* Check collisions */
           eventQueue.drainCollisionEvents((handle1, handle2, started) => {
-            console.log("COLLISION!")
+            const collider1 = collidersToComponent.get(handle1)
+            const collider2 = collidersToComponent.get(handle2)
+
+            if (collider1 && collider2) {
+              if (started) {
+                collider1._onCollisionStart?.(collider2)
+              }
+            }
           })
 
           /* Transfer physics transforms to the transform component */
