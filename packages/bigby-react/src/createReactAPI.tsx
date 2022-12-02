@@ -19,8 +19,8 @@ export const createReactAPI = (app: App) => {
     return entity
   }
 
-  const makeComponent = (ctor: Constructor<Component>) => {
-    return forwardRef((props: any, ref: any) => {
+  const makeComponent = <C extends Component>(ctor: Constructor<C>) =>
+    forwardRef<C, Partial<C>>((props, ref) => {
       /* Fetch the current entity context. */
       const entity = useCurrentEntity()
 
@@ -41,7 +41,6 @@ export const createReactAPI = (app: App) => {
 
       return null
     })
-  }
 
   const Entity = forwardRef<Entity, { children?: ReactNode }>(
     ({ children }, ref) => {
