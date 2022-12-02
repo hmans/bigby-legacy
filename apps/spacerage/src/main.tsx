@@ -1,7 +1,6 @@
 import { Input, InputPlugin } from "@bigby/plugin-input"
 import {
   BoxCollider,
-  Collider,
   DynamicBody,
   PhysicsPlugin,
   RigidBody,
