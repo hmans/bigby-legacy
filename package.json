@@ -25,7 +25,7 @@
     "dev:link": "preconstruct dev",
     "postinstall": "preconstruct dev",
     "test": "jest --passWithNoTests",
-    "ci": "preconstruct validate && pnpm build && pnpm test",
+    "ci": "preconstruct validate && pnpm build:packages && pnpm test",
     "ci:version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci:release": "pnpm ci && pnpm changeset publish"
   },
