@@ -1,9 +1,5 @@
 import { Canvas } from "@react-three/fiber"
-import { ECS, FrameCount } from "./state"
-
-export const Components = {
-  FrameCount: ECS.makeComponent(FrameCount)
-}
+import { Components, ECS } from "./state"
 
 function App() {
   return (
