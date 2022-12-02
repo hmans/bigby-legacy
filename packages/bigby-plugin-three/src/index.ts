@@ -55,4 +55,12 @@ export const ThreePlugin = (app: App) =>
     app.addSystem(() => {
       if (activeCamera) renderer.render(scene, activeCamera)
     })
+
+    /* Cleanup */
+    return () => {
+      console.debug("Disposing renderer")
+      document.body.removeChild(renderer.domElement)
+      renderer.dispose()
+      renderer.forceContextLoss()
+    }
   })

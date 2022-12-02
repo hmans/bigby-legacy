@@ -15,6 +15,7 @@ export class App {
   stopCallbacks = new Array<SystemStopCallback>()
 
   constructor() {
+    console.log("🐝 Bigby Initializing")
     this.world = new World()
   }
 

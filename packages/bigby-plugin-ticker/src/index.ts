@@ -1,15 +1,11 @@
 import { App } from "@bigby/core"
 import { clamp } from "@bigby/math"
 
-let running = false
-
 export const TickerPlugin = (app: App) => {
-  console.log("TickerPlugin")
-
   return app.addStartupSystem((app) => {
-    console.log("hello")
-
     let lastTime = performance.now()
+
+    let running = true
 
     const animate = () => {
       if (running) requestAnimationFrame(animate)
@@ -23,9 +19,10 @@ export const TickerPlugin = (app: App) => {
       app.systems.forEach((system) => system(dt))
     }
 
-    if (!running) {
-      running = true
-      animate()
+    animate()
+
+    return () => {
+      running = false
     }
   })
 }
