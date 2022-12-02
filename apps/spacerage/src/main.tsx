@@ -148,6 +148,7 @@ const setupBall = (app: App) => {
     )
   ])
 
+  /* I don't have the APIs yet, so please don't look at this */
   const rb = ball.get(Physics.DynamicBody)!.raw!
   const coll = ball.get(Physics.BallCollider)!.raw!
   rb.setLinearDamping(0)
