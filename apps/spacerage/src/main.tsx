@@ -113,6 +113,17 @@ new App()
       new Transform([0, -9.5, 0])
     ])
 
+    /* Ball */
+    app.world.add([
+      new Physics.DynamicBody().setEnabledTranslations(true, true, false),
+      new Transform([0, -5, 0]),
+      new Physics.BallCollider(0.5).setDensity(1),
+      new THREE.Mesh(
+        new THREE.IcosahedronGeometry(0.6, 0),
+        new THREE.MeshStandardMaterial({ color: "white" })
+      )
+    ])
+
     const playerQuery = app.world.query([Player])
 
     app.addSystem((app) => {

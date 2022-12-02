@@ -40,7 +40,7 @@ export abstract class Collider {
 export class BoxCollider extends Collider {
   descriptor: RAPIER.ColliderDesc
 
-  constructor(public size: vec3 = [1, 1, 1]) {
+  constructor(size: vec3 = [1, 1, 1]) {
     super()
 
     this.descriptor = RAPIER.ColliderDesc.cuboid(
@@ -48,6 +48,16 @@ export class BoxCollider extends Collider {
       size[1] / 2,
       size[2] / 2
     )
+  }
+}
+
+export class BallCollider extends Collider {
+  descriptor: RAPIER.ColliderDesc
+
+  constructor(radius: number) {
+    super()
+
+    this.descriptor = RAPIER.ColliderDesc.ball(radius)
   }
 }
 
