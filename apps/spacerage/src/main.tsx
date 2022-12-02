@@ -1,5 +1,10 @@
 import { Input, InputPlugin } from "@bigby/plugin-input"
-import { Collider, PhysicsPlugin, RigidBody } from "@bigby/plugin-physics3d"
+import {
+  BoxCollider,
+  Collider,
+  PhysicsPlugin,
+  RigidBody
+} from "@bigby/plugin-physics3d"
 import { ThreePlugin } from "@bigby/plugin-three"
 import { App, TickerPlugin, Transform, TransformsPlugin } from "bigby"
 import * as THREE from "three"
@@ -42,7 +47,7 @@ new App()
       new Player(),
       new Input(),
       new RigidBody(),
-      new Collider(),
+      new BoxCollider([5, 1, 1]),
       new Transform([0, -8, 0]),
       new THREE.Mesh(
         new THREE.BoxGeometry(5, 1, 1),
@@ -55,7 +60,7 @@ new App()
       for (let y = -2; y <= 2; y++) {
         app.world.add([
           new RigidBody(),
-          new Collider(),
+          new BoxCollider([2, 1, 1]),
           new Transform([x * 3, y * 2 + 2, 0]),
 
           new THREE.Mesh(

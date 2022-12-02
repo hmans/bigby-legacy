@@ -9,6 +9,21 @@ export class RigidBody {
 
 export class Collider {
   raw?: RAPIER.Collider
+  descriptor!: RAPIER.ColliderDesc
+}
+
+export class BoxCollider extends Collider {
+  descriptor: RAPIER.ColliderDesc
+
+  constructor(public size: vec3 = [1, 1, 1]) {
+    super()
+
+    this.descriptor = RAPIER.ColliderDesc.cuboid(
+      size[0] / 2,
+      size[1] / 2,
+      size[2] / 2
+    )
+  }
 }
 
 export const PhysicsPlugin =
@@ -19,6 +34,7 @@ export const PhysicsPlugin =
         await RAPIER.init()
       })
       .addStartupSystem((app) => {
+        /* Create physics world */
         const physics = new RAPIER.World({
           x: gravity[0],
           y: gravity[1],
@@ -27,6 +43,7 @@ export const PhysicsPlugin =
 
         const rigidbodyQuery = app.world.query([Transform, RigidBody])
 
+        /* Create new RAPIER rigidbodies when entities appear */
         rigidbodyQuery.onEntityAdded.add((entity) => {
           let rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
 
@@ -47,13 +64,13 @@ export const PhysicsPlugin =
           })
 
           rigidBodyDesc.enabledTranslations(true, true, false)
-
           rigidBodyDesc.setLinearDamping(0.5)
           rigidBodyDesc.setAngularDamping(0.5)
 
           rigidbody.raw = physics.createRigidBody(rigidBodyDesc)
         })
 
+        /* Create new RAPIER colliders when entities appear */
         const colliderQuery = app.world.query([RigidBody, Collider])
 
         /* Wire up colliders to their rigidbodies */
@@ -61,21 +78,19 @@ export const PhysicsPlugin =
           const rigidbody = entity.get(RigidBody)!
           const collider = entity.get(Collider)!
 
-          // Create a cuboid collider attached to the dynamic rigidBody.
-          let colliderDesc = RAPIER.ColliderDesc.cuboid(
-            0.5,
-            0.5,
-            0.5
-          ).setDensity(5.0)
-
-          collider.raw = physics.createCollider(colliderDesc, rigidbody.raw)
+          collider.raw = physics.createCollider(
+            collider.descriptor,
+            rigidbody.raw
+          )
         })
 
         app.addSystem((dt: number) => {
+          /* Simulate physics world */
           physics.timestep = clamp(dt, 0.01, 0.2)
           physics.step()
 
-          rigidbodyQuery.iterate((entity, [transform, rigidbody]) => {
+          /* Transfer physics transforms to the transform component */
+          rigidbodyQuery.iterate((_, [transform, rigidbody]) => {
             const position = rigidbody.raw!.translation()
             vec3.set(transform.position, position.x, position.y, position.z)
 
