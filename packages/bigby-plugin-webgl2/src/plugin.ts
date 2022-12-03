@@ -167,4 +167,4 @@ export const WebGL2RenderingPlugin = (app: App) =>
   app
     .registerComponent(Mesh)
     .registerComponent(Camera)
-    .addSystem(RenderingSystem(app))
+    .onUpdate(RenderingSystem(app))

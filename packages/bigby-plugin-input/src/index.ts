@@ -20,7 +20,7 @@ export function InputPlugin(app: App) {
 
   const isPressed = (key: string) => (keys.has(key) ? 1 : 0)
 
-  app.addStartupSystem(() => {
+  app.onStart(() => {
     document.addEventListener("keydown", (e) => {
       keys.add(e.code)
     })
@@ -30,7 +30,7 @@ export function InputPlugin(app: App) {
     })
   })
 
-  app.addSystem(() => {
+  app.onUpdate(() => {
     for (const [_, input] of entities) {
       input.move.x = isPressed("KeyD") - isPressed("KeyA")
       input.move.y = isPressed("KeyW") - isPressed("KeyS")

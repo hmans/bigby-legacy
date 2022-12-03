@@ -55,7 +55,7 @@ const setupPlayer = (app: App) => {
 
   const playerQuery = app.query([Player])
 
-  app.addSystem(() => {
+  app.onUpdate(() => {
     const player = playerQuery.first
 
     if (player) {
@@ -163,10 +163,10 @@ const setupBall = (app: App) => {
 }
 
 const ConstantVelocityPlugin = (app: App) =>
-  app.addStartupSystem((app) => {
+  app.onStart((app) => {
     const query = app.query([ConstantVelocity, RigidBody])
 
-    app.addSystem(() => {
+    app.onUpdate(() => {
       for (const [_, v, rigidbody] of query) {
         const rb = rigidbody.raw!
         const vel = rb.linvel()
@@ -185,7 +185,7 @@ const Wonkynoid = (app: App) =>
   app
     .registerComponent(Player)
     .registerComponent(ConstantVelocity)
-    .addStartupSystem((app) => {
+    .onStart((app) => {
       setupScene(app)
       setupWalls(app)
       setupPlayer(app)
@@ -201,7 +201,8 @@ const app = new App()
   .use(Physics.Plugin({ gravity: [0, 0, 0] }))
   .use(ConstantVelocityPlugin)
   .use(Wonkynoid)
-  .start()
+
+app.start()
 
 if (import.meta.hot) {
   import.meta.hot.accept((newModule) => {

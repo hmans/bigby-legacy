@@ -15,7 +15,6 @@ const app = new App()
   .use(TransformsPlugin)
   .use(ThreePlugin)
   .use(AutorotatePlugin)
-  .start()
 
 /* Camera */
 app.add([
@@ -36,3 +35,5 @@ app.add([
     new THREE.MeshStandardMaterial({ color: "hotpink" })
   ),
 ])
+
+app.start()

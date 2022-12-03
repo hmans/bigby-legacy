@@ -1,15 +1,19 @@
 import { World } from "@bigby/ecs"
-import { Plugin, StartupSystem, System, SystemStopCallback } from "./types"
+import {
+  OnLoadCallback,
+  Plugin,
+  OnStartCallback,
+  OnStopCallback,
+  OnUpdateCallback
+} from "./types"
 
 export type BaseEntity = {}
 
-type Initializer = () => Promise<void>
-
 export class App extends World {
-  systems = new Array<System>()
-  initializers = new Array<Initializer>()
-  startupSystems = new Array<StartupSystem>()
-  stopCallbacks = new Array<SystemStopCallback>()
+  systems = new Array<OnUpdateCallback>()
+  initializers = new Array<OnLoadCallback>()
+  startupSystems = new Array<OnStartCallback>()
+  stopCallbacks = new Array<OnStopCallback>()
 
   constructor() {
     console.log("🐝 Bigby Initializing")
@@ -20,39 +24,41 @@ export class App extends World {
     return plugin(this as any)
   }
 
-  addSystem(system: System) {
-    this.systems.push(system)
-    return this
-  }
-
-  addStartupSystem(system: StartupSystem) {
-    this.startupSystems.push(system)
-    return this
-  }
-
-  addInitializer(system: Initializer) {
+  onLoad(system: OnLoadCallback) {
     this.initializers.push(system)
     return this
   }
 
-  start() {
+  onStart(system: OnStartCallback) {
+    this.startupSystems.push(system)
+    return this
+  }
+
+  onUpdate(system: OnUpdateCallback) {
+    this.systems.push(system)
+    return this
+  }
+
+  onStop(callback: OnStopCallback) {
+    this.stopCallbacks.push(callback)
+    return this
+  }
+
+  async start() {
     console.log("✅ Starting App")
 
     /* Execute and wait for initializers to complete */
-    Promise.all(this.initializers.map((system) => system())).then(() => {
-      /* Execute startup systems */
-      this.stopCallbacks = []
-      this.startupSystems.forEach((system) => {
-        const callback = system(this)
-        if (callback) this.stopCallbacks.push(callback)
-      })
-    })
+    await Promise.all(this.initializers.map((system) => system()))
+
+    /* Execute and wait for startupSystems to complete */
+    await Promise.all(this.startupSystems.map((system) => system(this)))
 
     return this
   }
 
   stop() {
     console.log("⛔ Stopping App")
-    this.stopCallbacks.forEach((callback) => callback())
+    this.stopCallbacks.forEach((callback) => callback(this))
+    return this
   }
 }

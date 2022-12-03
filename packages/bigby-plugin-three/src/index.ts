@@ -5,7 +5,7 @@ export const ThreePlugin = (app: App) =>
   app
     .registerComponent(THREE.Object3D)
     .registerComponent(THREE.Camera)
-    .addStartupSystem((app) => {
+    .onStart((app) => {
       /* Create our renderer */
       const renderer = new THREE.WebGLRenderer({ antialias: true })
       renderer.setSize(window.innerWidth, window.innerHeight)
@@ -28,7 +28,7 @@ export const ThreePlugin = (app: App) =>
       })
 
       /* Every frame, copy the transform data over to the Three.js objects */
-      app.addSystem(() => {
+      app.onUpdate(() => {
         for (const [
           _,
           { position, quaternion, scale },
@@ -59,15 +59,14 @@ export const ThreePlugin = (app: App) =>
       })
 
       /* Render every frame using the active camera if we have one */
-      app.addSystem(() => {
+      app.onUpdate(() => {
         if (activeCamera) renderer.render(scene, activeCamera)
       })
 
-      /* Cleanup */
-      return () => {
+      app.onStop(() => {
         console.debug("Disposing renderer")
         document.body.removeChild(renderer.domElement)
         renderer.dispose()
         renderer.forceContextLoss()
-      }
+      })
     })

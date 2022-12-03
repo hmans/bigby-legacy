@@ -10,16 +10,16 @@ export const app = new App()
   .use(TickerPlugin)
 
   /* Write a system that operates on Framecount */
-  .addStartupSystem((app) => {
+  .onStart((app) => {
     const query = app.query([FrameCount])
 
-    app.addSystem(() => {
+    app.onUpdate(() => {
       query.iterate((_, { count }) => count++)
     })
   })
 
-  /* Start up */
-  .start()
+/* Start up */
+app.start()
 
 /* Create a React API specific to the app: */
 export const ECS = createReactAPI(app)

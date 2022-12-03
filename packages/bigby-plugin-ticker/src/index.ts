@@ -2,7 +2,7 @@ import { App } from "@bigby/core"
 import { clamp } from "@bigby/math"
 
 export const TickerPlugin = (app: App) => {
-  return app.addStartupSystem((app) => {
+  return app.onStart((app) => {
     let lastTime = performance.now()
 
     let running = true
@@ -21,8 +21,8 @@ export const TickerPlugin = (app: App) => {
 
     animate()
 
-    return () => {
+    app.onStop(() => {
       running = false
-    }
+    })
   })
 }
