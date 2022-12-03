@@ -84,6 +84,11 @@ export class World {
     return true
   }
 
+  requireComponent(...query: Constructor<Component>[]) {
+    query.forEach((ctor) => this.assertRegisteredComponent(ctor))
+    return this
+  }
+
   private assertRegisteredComponent(ctor: Constructor<Component>) {
     /* Check our list of component constructors */
     if (this.registeredComponents.has(ctor)) return

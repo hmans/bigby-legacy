@@ -75,16 +75,25 @@ export const Plugin =
   ({ gravity = [0, -9.81, 0] }: { gravity?: vec3 } = {}) =>
   (app: App) =>
     app
+      /* Make sure this component is known to the app. We'll need it! */
+      .requireComponent(Transform)
+
+      /* Let the app know which components we will be adding. */
       .registerComponent(RigidBody)
       .registerComponent(Collider)
+
+      /* Initialize Rapier (the physics engine) */
       .onLoad(RAPIER.init)
+
+      /* Let's go! */
       .onStart((app) => {
-        /* Create physics world */
-        const physics = new RAPIER.World({
+        const world = new RAPIER.World({
           x: gravity[0],
           y: gravity[1],
           z: gravity[2]
         })
+
+        /* ... */
 
         const rigidbodyQuery = app.query([Transform, RigidBody])
 
@@ -111,7 +120,7 @@ export const Plugin =
           desc.setLinearDamping(0.5)
           desc.setAngularDamping(0.5)
 
-          rigidbody.raw = physics.createRigidBody(desc)
+          rigidbody.raw = world.createRigidBody(desc)
         })
 
         /* Create new RAPIER colliders when entities appear */
@@ -123,7 +132,7 @@ export const Plugin =
           const rigidbody = entity.get(RigidBody)!
           const collider = entity.get(Collider)!
 
-          collider.raw = physics.createCollider(
+          collider.raw = world.createCollider(
             collider.descriptor,
             rigidbody.raw
           )
@@ -140,8 +149,8 @@ export const Plugin =
 
         app.onUpdate((dt: number) => {
           /* Simulate physics world */
-          physics.timestep = clamp(dt, 0.01, 0.2)
-          physics.step(eventQueue)
+          world.timestep = clamp(dt, 0.01, 0.2)
+          world.step(eventQueue)
 
           /* Check collisions */
           eventQueue.drainCollisionEvents((handle1, handle2, started) => {
