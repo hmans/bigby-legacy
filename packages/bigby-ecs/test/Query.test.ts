@@ -21,7 +21,7 @@ describe(Query, () => {
       world.add([new Position(), new Velocity()])
 
       const moving = new Query(world, [Position, Velocity])
-      moving.iterate((entity, [position, velocity]) => {
+      moving.iterate((entity, position, velocity) => {
         expect(entity).toBeDefined()
         expect(position).toBeInstanceOf(Position)
         expect(velocity).toBeInstanceOf(Velocity)

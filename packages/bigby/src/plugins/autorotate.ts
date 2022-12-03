@@ -10,7 +10,7 @@ export const AutorotatePlugin = (app: App) =>
     const entities = app.query([Transform, AutoRotate])
 
     app.addSystem((dt: number) => {
-      entities.iterate((_, [transform, autorotate]) => {
+      entities.iterate((_, transform, autorotate) => {
         quat.rotateX(
           transform.quaternion,
           transform.quaternion,

@@ -56,9 +56,9 @@ export class Query<Q extends readonly Component[]> {
     })
   }
 
-  iterate(fun: (entity: Entity, components: Q) => void) {
-    for (const entity of this.entities) {
-      fun(entity, this.components.get(entity)!)
+  iterate(fun: (entity: Entity, ...components: Q) => void) {
+    for (const result of this) {
+      fun(...result)
     }
   }
 

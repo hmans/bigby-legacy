@@ -31,7 +31,7 @@ export function InputPlugin(app: App) {
   })
 
   app.addSystem(() => {
-    entities.iterate((_, [input]) => {
+    entities.iterate((_, input) => {
       input.move.x = isPressed("KeyD") - isPressed("KeyA")
       input.move.y = isPressed("KeyW") - isPressed("KeyS")
 

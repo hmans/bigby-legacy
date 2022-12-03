@@ -158,7 +158,7 @@ export const Plugin =
           })
 
           /* Transfer physics transforms to the transform component */
-          rigidbodyQuery.iterate((_, [transform, rigidbody]) => {
+          rigidbodyQuery.iterate((_, transform, rigidbody) => {
             const position = rigidbody.raw!.translation()
             vec3.set(transform.position, position.x, position.y, position.z)
 
