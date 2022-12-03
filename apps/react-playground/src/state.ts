@@ -18,8 +18,8 @@ export const app = new App()
     })
   })
 
-  /* Start up */
-  .start()
+/* Start up */
+app.start()
 
 /* Create a React API specific to the app: */
 export const ECS = createReactAPI(app)
