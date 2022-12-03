@@ -10,9 +10,12 @@ import {
 export type BaseEntity = {}
 
 export class App extends World {
-  onUpdateCallbacks = new Array<OnUpdateCallback>()
   onLoadCallbacks = new Array<OnLoadCallback>()
   onStartCallbacks = new Array<OnStartCallback>()
+  onEarlyUpdateCallbacks = new Array<OnUpdateCallback>()
+  onUpdateCallbacks = new Array<OnUpdateCallback>()
+  onLateUpdateCallbacks = new Array<OnUpdateCallback>()
+  onRenderCallbacks = new Array<OnUpdateCallback>()
   onStopCallbacks = new Array<OnStopCallback>()
 
   constructor() {
@@ -24,18 +27,33 @@ export class App extends World {
     return plugin(this as any)
   }
 
-  onLoad(system: OnLoadCallback) {
-    this.onLoadCallbacks.push(system)
+  onLoad(callback: OnLoadCallback) {
+    this.onLoadCallbacks.push(callback)
     return this
   }
 
-  onStart(system: OnStartCallback) {
-    this.onStartCallbacks.push(system)
+  onStart(callback: OnStartCallback) {
+    this.onStartCallbacks.push(callback)
     return this
   }
 
-  onUpdate(system: OnUpdateCallback) {
-    this.onUpdateCallbacks.push(system)
+  onEarlyUpdate(callback: OnUpdateCallback) {
+    this.onEarlyUpdateCallbacks.push(callback)
+    return this
+  }
+
+  onUpdate(callback: OnUpdateCallback) {
+    this.onUpdateCallbacks.push(callback)
+    return this
+  }
+
+  onLateUpdate(callback: OnUpdateCallback) {
+    this.onLateUpdateCallbacks.push(callback)
+    return this
+  }
+
+  onRender(callback: OnUpdateCallback) {
+    this.onRenderCallbacks.push(callback)
     return this
   }
 
@@ -48,10 +66,10 @@ export class App extends World {
     console.log("✅ Starting App")
 
     /* Execute and wait for initializers to complete */
-    await Promise.all(this.onLoadCallbacks.map((system) => system()))
+    await Promise.all(this.onLoadCallbacks.map((callback) => callback()))
 
     /* Execute and wait for startupSystems to complete */
-    await Promise.all(this.onStartCallbacks.map((system) => system(this)))
+    await Promise.all(this.onStartCallbacks.map((callback) => callback(this)))
 
     return this
   }
