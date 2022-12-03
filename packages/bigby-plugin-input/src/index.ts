@@ -13,6 +13,8 @@ export class Input {
 }
 
 export function InputPlugin(app: App) {
+  app.registerComponent(Input)
+
   const keys = new Set<string>()
   const entities = app.query([Input])
 

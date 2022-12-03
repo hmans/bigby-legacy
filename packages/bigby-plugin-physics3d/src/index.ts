@@ -75,6 +75,8 @@ export const Plugin =
   ({ gravity = [0, -9.81, 0] }: { gravity?: vec3 } = {}) =>
   (app: App) =>
     app
+      .registerComponent(RigidBody)
+      .registerComponent(Collider)
       .addInitializer(async function () {
         await RAPIER.init()
       })

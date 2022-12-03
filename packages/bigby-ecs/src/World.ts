@@ -7,6 +7,7 @@ export class World {
   constructor() {}
 
   entities = new Array<Entity>()
+  protected registeredComponents = new Set<Component>()
 
   onEntityAdded = new Event<Entity>()
   onEntityRemoved = new Event<Entity>()
@@ -15,6 +16,11 @@ export class World {
   protected queries = new Map<string, Query<any>>()
 
   add(components: Component[]) {
+    /* Check all given components if they've been registered with us */
+    components.forEach((component) => {
+      this.assertRegisteredComponent(component.constructor)
+    })
+
     /* Create a new entity */
     const entity = new Entity()
     entity.components.push(...components)
@@ -37,7 +43,15 @@ export class World {
     return entity
   }
 
+  registerComponent(ctor: Constructor<Component>) {
+    this.registeredComponents.add(ctor)
+    return this
+  }
+
   addComponent(entity: Entity, component: Component) {
+    /* Check if the component has been registered with us */
+    this.assertRegisteredComponent(component.constructor)
+
     /* check if the component is already present */
     if (entity.components.some((c) => c.constructor === component.constructor))
       return false
@@ -70,7 +84,25 @@ export class World {
     return true
   }
 
+  private assertRegisteredComponent(ctor: Constructor<Component>) {
+    /* Check our list of component constructors */
+    if (this.registeredComponents.has(ctor)) return
+
+    /* Check if the given component uses a child class */
+    for (const registered of this.registeredComponents) {
+      if (ctor.prototype instanceof registered) return
+    }
+
+    /* Otherwise, throw an error */
+    throw new Error(
+      `Component "${ctor.name}" unknown. Did you forget to register it first, or add a plugin that does this?`
+    )
+  }
+
   query<Q extends readonly Component[]>(query: ComponentQuery<Q>): Query<Q> {
+    /* Check if all these components have been registered with us */
+    query.forEach((ctor) => this.assertRegisteredComponent(ctor))
+
     /* Memoize query instances */
     /* TODO: find a better way to build a key */
     const key = query.toString()

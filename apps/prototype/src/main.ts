@@ -10,7 +10,7 @@ import {
 import * as THREE from "three"
 import "./style.css"
 
-const app = await new App()
+const app = new App()
   .use(TickerPlugin)
   .use(TransformsPlugin)
   .use(ThreePlugin)
