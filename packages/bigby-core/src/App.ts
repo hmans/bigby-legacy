@@ -19,7 +19,7 @@ export class App {
     this.world = new World()
   }
 
-  addPlugin(plugin: Plugin): App {
+  use(plugin: Plugin): App {
     return plugin(this as any)
   }
 

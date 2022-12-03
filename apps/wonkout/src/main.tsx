@@ -194,13 +194,13 @@ const Wonkynoid = (app: App) =>
   })
 
 const app = new App()
-  .addPlugin(TickerPlugin)
-  .addPlugin(TransformsPlugin)
-  .addPlugin(ThreePlugin)
-  .addPlugin(InputPlugin)
-  .addPlugin(Physics.Plugin({ gravity: [0, 0, 0] }))
-  .addPlugin(ConstantVelocityPlugin)
-  .addPlugin(Wonkynoid)
+  .use(TickerPlugin)
+  .use(TransformsPlugin)
+  .use(ThreePlugin)
+  .use(InputPlugin)
+  .use(Physics.Plugin({ gravity: [0, 0, 0] }))
+  .use(ConstantVelocityPlugin)
+  .use(Wonkynoid)
   .start()
 
 if (import.meta.hot) {

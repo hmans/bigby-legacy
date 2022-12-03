@@ -7,7 +7,7 @@ export class FrameCount {
 }
 
 export const app = await new App()
-  .addPlugin(TickerPlugin)
+  .use(TickerPlugin)
 
   /* Write a system that operates on Framecount */
   .addStartupSystem((app) => {

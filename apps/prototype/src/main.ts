@@ -11,10 +11,10 @@ import * as THREE from "three"
 import "./style.css"
 
 const app = await new App()
-  .addPlugin(TickerPlugin)
-  .addPlugin(TransformsPlugin)
-  .addPlugin(ThreePlugin)
-  .addPlugin(AutorotatePlugin)
+  .use(TickerPlugin)
+  .use(TransformsPlugin)
+  .use(ThreePlugin)
+  .use(AutorotatePlugin)
   .start()
 
 /* Camera */
