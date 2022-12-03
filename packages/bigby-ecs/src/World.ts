@@ -43,8 +43,8 @@ export class World {
     return entity
   }
 
-  registerComponent(...ctors: Constructor<Component>[]) {
-    ctors.forEach((ctor) => this.registeredComponents.add(ctor))
+  registerComponent(ctor: Constructor<Component>) {
+    this.registeredComponents.add(ctor)
     return this
   }
 

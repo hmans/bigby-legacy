@@ -3,7 +3,8 @@ import * as THREE from "three"
 
 export const ThreePlugin = (app: App) =>
   app
-    .registerComponent(THREE.Object3D, THREE.Camera)
+    .registerComponent(THREE.Object3D)
+    .registerComponent(THREE.Camera)
     .addStartupSystem((app) => {
       /* Create our renderer */
       const renderer = new THREE.WebGLRenderer({ antialias: true })

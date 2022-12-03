@@ -1,6 +1,6 @@
 import { World } from "../src"
 import { Query } from "../src/Query"
-import { Position, Velocity, Health } from "./common"
+import { Position, Velocity, Health, createWorldWithComponents } from "./common"
 
 describe(World, () => {
   it("should create a world", () => {
@@ -10,7 +10,7 @@ describe(World, () => {
 
   describe("add", () => {
     it("creates an entity with the given components", () => {
-      const world = new World().registerComponent(Position, Velocity, Health)
+      const world = createWorldWithComponents()
 
       const position = new Position()
       const velocity = new Velocity()
@@ -25,7 +25,7 @@ describe(World, () => {
     })
 
     it("adds the entity to all relevant queries", () => {
-      const world = new World().registerComponent(Position, Velocity, Health)
+      const world = createWorldWithComponents()
 
       const position = new Position()
       const velocity = new Velocity()
@@ -47,7 +47,7 @@ describe(World, () => {
 
   describe("remove", () => {
     it("removes the entity from the world", () => {
-      const world = new World().registerComponent(Position, Velocity, Health)
+      const world = createWorldWithComponents()
 
       const entity = world.add([new Position()])
       expect(world.entities).toHaveLength(1)
@@ -57,7 +57,7 @@ describe(World, () => {
     })
 
     it("removes the entity from all relevant queries", () => {
-      const world = new World().registerComponent(Position, Velocity, Health)
+      const world = createWorldWithComponents()
 
       const position = new Position()
       const velocity = new Velocity()
@@ -102,7 +102,7 @@ describe(World, () => {
 
   describe("addComponent", () => {
     it("adds the given component to the entity", () => {
-      const world = new World().registerComponent(Position, Velocity, Health)
+      const world = createWorldWithComponents()
 
       const position = new Position()
       const entity = world.add([position])
@@ -114,7 +114,7 @@ describe(World, () => {
     })
 
     it("adds the entity from all relevant queries", () => {
-      const world = new World().registerComponent(Position, Velocity, Health)
+      const world = createWorldWithComponents()
 
       const position = new Position()
       const velocity = new Velocity()
@@ -133,7 +133,7 @@ describe(World, () => {
     })
 
     it("emits the onEntityUpdated event", () => {
-      const world = new World().registerComponent(Position, Velocity, Health)
+      const world = createWorldWithComponents()
 
       const entity = world.add([new Position()])
 
@@ -144,14 +144,14 @@ describe(World, () => {
     })
 
     it("returns true if the component was added successfully", () => {
-      const world = new World().registerComponent(Position, Velocity, Health)
+      const world = createWorldWithComponents()
 
       const entity = world.add([new Position()])
       expect(world.addComponent(entity, new Velocity())).toBe(true)
     })
 
     it("returns false when the entity already has a component of the same type", () => {
-      const world = new World().registerComponent(Position, Velocity, Health)
+      const world = createWorldWithComponents()
 
       const entity = world.add([new Position()])
       expect(world.addComponent(entity, new Position())).toBe(false)
@@ -167,7 +167,7 @@ describe(World, () => {
 
   describe("removeComponent", () => {
     it("removes the specified component from the entity", () => {
-      const world = new World().registerComponent(Position, Velocity, Health)
+      const world = createWorldWithComponents()
 
       const position = new Position()
       const velocity = new Velocity()
@@ -179,7 +179,7 @@ describe(World, () => {
     })
 
     it("removes the component of the given type from the entity", () => {
-      const world = new World().registerComponent(Position, Velocity, Health)
+      const world = createWorldWithComponents()
 
       const position = new Position()
       const velocity = new Velocity()
@@ -192,7 +192,7 @@ describe(World, () => {
 
     describe("when it removes a component successfully", () => {
       it("removes the entity from all relevant queries", () => {
-        const world = new World().registerComponent(Position, Velocity, Health)
+        const world = createWorldWithComponents()
 
         const position = new Position()
         const velocity = new Velocity()
@@ -212,7 +212,7 @@ describe(World, () => {
       })
 
       it("emits the onEntityUpdated event when a component has been removed successfully", () => {
-        const world = new World().registerComponent(Position, Velocity, Health)
+        const world = createWorldWithComponents()
         const entity = world.add([new Position(), new Velocity()])
         const spy = jest.fn()
 
@@ -223,7 +223,7 @@ describe(World, () => {
       })
 
       it("returns true", () => {
-        const world = new World().registerComponent(Position, Velocity, Health)
+        const world = createWorldWithComponents()
         const entity = world.add([new Position(), new Velocity()])
         expect(world.removeComponent(entity, Velocity)).toBe(true)
       })
@@ -231,7 +231,7 @@ describe(World, () => {
 
     describe("when it doesn't remove a component", () => {
       it("does not emit the event", () => {
-        const world = new World().registerComponent(Position, Velocity, Health)
+        const world = createWorldWithComponents()
         const entity = world.add([new Position()])
         const spy = jest.fn()
 
@@ -242,7 +242,7 @@ describe(World, () => {
       })
 
       it("returns false", () => {
-        const world = new World().registerComponent(Position, Velocity, Health)
+        const world = createWorldWithComponents()
         const entity = world.add([new Position()])
         expect(world.removeComponent(entity, Velocity)).toBe(false)
       })
@@ -251,20 +251,20 @@ describe(World, () => {
 
   describe("query", () => {
     it("creates a Query object", () => {
-      const world = new World().registerComponent(Position, Velocity, Health)
+      const world = createWorldWithComponents()
       const query = world.query([Position, Velocity, Health])
       expect(query).toBeInstanceOf(Query)
     })
 
     it("returns the same query objects for identical queries", () => {
-      const world = new World().registerComponent(Position, Velocity, Health)
+      const world = createWorldWithComponents()
       const query1 = world.query([Position, Velocity, Health])
       const query2 = world.query([Position, Velocity, Health])
       expect(query1).toBe(query2)
     })
 
     it("throws an error if any of the queried components has not been registered previously", () => {
-      const world = new World().registerComponent(Position, Velocity)
+      const world = new World().registerComponent(Position)
       expect(() => world.query([Position, Health])).toThrow()
     })
   })
