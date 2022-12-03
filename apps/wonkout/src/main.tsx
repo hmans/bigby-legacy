@@ -182,13 +182,16 @@ const ConstantVelocityPlugin = (app: App) =>
   })
 
 const Wonkynoid = (app: App) =>
-  app.addStartupSystem((app) => {
-    setupScene(app)
-    setupPlayer(app)
-    setupBricks(app)
-    setupWalls(app)
-    setupBall(app)
-  })
+  app
+    .registerComponent(Player)
+    .registerComponent(ConstantVelocity)
+    .addStartupSystem((app) => {
+      setupScene(app)
+      setupPlayer(app)
+      setupBricks(app)
+      setupWalls(app)
+      setupBall(app)
+    })
 
 const app = new App()
   .use(TickerPlugin)

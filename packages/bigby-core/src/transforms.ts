@@ -31,4 +31,4 @@ export function TransformsSystem(app: App) {
 }
 
 export const TransformsPlugin = (app: App) =>
-  app.addSystem(TransformsSystem(app))
+  app.registerComponent(Transform).addSystem(TransformsSystem(app))

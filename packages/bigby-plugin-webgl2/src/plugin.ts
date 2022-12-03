@@ -1,6 +1,7 @@
 import { App, Transform } from "@bigby/core"
 import { mat3, mat4 } from "gl-matrix"
 import { Camera } from "./Camera"
+import { Material } from "./Material"
 import { Mesh } from "./Mesh"
 
 function RenderingSystem(app: App) {
@@ -163,4 +164,7 @@ function RenderingSystem(app: App) {
 }
 
 export const WebGL2RenderingPlugin = (app: App) =>
-  app.addSystem(RenderingSystem(app))
+  app
+    .registerComponent(Mesh)
+    .registerComponent(Camera)
+    .addSystem(RenderingSystem(app))

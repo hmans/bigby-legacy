@@ -4,7 +4,7 @@ import { Health, Position, Velocity } from "./common"
 
 describe(Query, () => {
   it("queries the world for entities that have a specific set of components", () => {
-    const world = new World()
+    const world = new World().registerComponent(Position, Velocity, Health)
 
     const entity = world.add([new Position(), new Velocity()])
 
@@ -17,7 +17,7 @@ describe(Query, () => {
 
   describe("iterate", () => {
     it("loops over all entities contained in the query", () => {
-      const world = new World()
+      const world = new World().registerComponent(Position, Velocity, Health)
 
       world.add([new Position(), new Velocity()])
 

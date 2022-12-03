@@ -85,11 +85,18 @@ export class World {
   }
 
   private assertRegisteredComponent(ctor: Constructor<Component>) {
-    if (!this.registeredComponents.has(ctor)) {
-      throw new Error(
-        `Component "${ctor.constructor.name}" unknown. Did you forget to register it first, or add a plugin that does this?`
-      )
+    /* Check our list of component constructors */
+    if (this.registeredComponents.has(ctor)) return
+
+    /* Check if the given component uses a child class */
+    for (const registered of this.registeredComponents) {
+      if (ctor.prototype instanceof registered) return
     }
+
+    /* Otherwise, throw an error */
+    throw new Error(
+      `Component "${ctor.name}" unknown. Did you forget to register it first, or add a plugin that does this?`
+    )
   }
 
   query<Q extends readonly Component[]>(query: ComponentQuery<Q>): Query<Q> {

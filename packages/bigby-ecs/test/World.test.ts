@@ -77,6 +77,29 @@ describe(World, () => {
     })
   })
 
+  describe("registerComponent", () => {
+    it("registers the given components", () => {
+      const world = new World()
+      world.registerComponent(Position)
+
+      /* Using this component will not throw an error */
+      expect(() => world.add([new Position()])).not.toThrow()
+
+      /* Using another component will throw an error. */
+      expect(() => world.add([new Velocity()])).toThrow()
+    })
+
+    it("works with child classes", () => {
+      class A {}
+      class B extends A {}
+
+      const world = new World()
+      world.registerComponent(A)
+
+      expect(() => world.add([new B()])).not.toThrow()
+    })
+  })
+
   describe("addComponent", () => {
     it("adds the given component to the entity", () => {
       const world = new World().registerComponent(Position, Velocity, Health)
