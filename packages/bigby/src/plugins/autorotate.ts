@@ -7,10 +7,10 @@ export class AutoRotate {
 
 export const AutorotatePlugin = (app: App) =>
   app.registerComponent(AutoRotate).addStartupSystem((app) => {
-    const entities = app.query([Transform, AutoRotate])
+    const query = app.query([Transform, AutoRotate])
 
     app.addSystem((dt: number) => {
-      entities.iterate((_, transform, autorotate) => {
+      for (const [_, transform, autorotate] of query) {
         quat.rotateX(
           transform.quaternion,
           transform.quaternion,
@@ -26,6 +26,6 @@ export const AutorotatePlugin = (app: App) =>
           transform.quaternion,
           autorotate.velocity[2] * dt
         )
-      })
+      }
     })
   })

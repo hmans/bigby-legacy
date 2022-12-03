@@ -167,7 +167,7 @@ const ConstantVelocityPlugin = (app: App) =>
     const query = app.query([ConstantVelocity, RigidBody])
 
     app.addSystem(() => {
-      query.iterate((_, v, rigidbody) => {
+      for (const [_, v, rigidbody] of query) {
         const rb = rigidbody.raw!
         const vel = rb.linvel()
         const speed = Math.sqrt(vel.x * vel.x + vel.y * vel.y + vel.z * vel.z)
@@ -177,7 +177,7 @@ const ConstantVelocityPlugin = (app: App) =>
           { x: vel.x * ratio, y: vel.y * ratio, z: vel.z * ratio },
           true
         )
-      })
+      }
     })
   })
 

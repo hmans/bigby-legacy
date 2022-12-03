@@ -29,7 +29,11 @@ export const ThreePlugin = (app: App) =>
 
       /* Every frame, copy the transform data over to the Three.js objects */
       app.addSystem(() => {
-        sceneObjects.iterate((_, { position, quaternion, scale }, object3d) => {
+        for (const [
+          _,
+          { position, quaternion, scale },
+          object3d
+        ] of sceneObjects) {
           object3d.position.set(position[0], position[1], position[2])
           object3d.quaternion.set(
             quaternion[0],
@@ -38,7 +42,7 @@ export const ThreePlugin = (app: App) =>
             quaternion[3]
           )
           object3d.scale.set(scale[0], scale[1], scale[2])
-        })
+        }
       })
 
       let activeCamera: THREE.Camera | undefined

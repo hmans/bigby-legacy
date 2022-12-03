@@ -31,13 +31,13 @@ export function InputPlugin(app: App) {
   })
 
   app.addSystem(() => {
-    entities.iterate((_, input) => {
+    for (const [_, input] of entities) {
       input.move.x = isPressed("KeyD") - isPressed("KeyA")
       input.move.y = isPressed("KeyW") - isPressed("KeyS")
 
       input.aim.x = isPressed("ArrowRight") - isPressed("ArrowLeft")
       input.aim.y = isPressed("ArrowUp") - isPressed("ArrowDown")
-    })
+    }
   })
 
   return app
