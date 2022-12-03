@@ -77,9 +77,7 @@ export const Plugin =
     app
       .registerComponent(RigidBody)
       .registerComponent(Collider)
-      .onLoad(async function () {
-        await RAPIER.init()
-      })
+      .onLoad(RAPIER.init)
       .onStart((app) => {
         /* Create physics world */
         const physics = new RAPIER.World({
