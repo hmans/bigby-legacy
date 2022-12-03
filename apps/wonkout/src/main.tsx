@@ -201,7 +201,8 @@ const app = new App()
   .use(Physics.Plugin({ gravity: [0, 0, 0] }))
   .use(ConstantVelocityPlugin)
   .use(Wonkynoid)
-  .start()
+
+app.start()
 
 if (import.meta.hot) {
   import.meta.hot.accept((newModule) => {

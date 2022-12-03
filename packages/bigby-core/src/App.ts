@@ -44,13 +44,14 @@ export class App extends World {
     return this
   }
 
-  start() {
+  async start() {
     console.log("✅ Starting App")
 
     /* Execute and wait for initializers to complete */
-    Promise.all(this.initializers.map((system) => system())).then(() => {
-      this.startupSystems.forEach((system) => system(this))
-    })
+    await Promise.all(this.initializers.map((system) => system()))
+
+    /* Execute and wait for startupSystems to complete */
+    await Promise.all(this.startupSystems.map((system) => system(this)))
 
     return this
   }
