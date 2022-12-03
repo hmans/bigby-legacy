@@ -6,7 +6,7 @@ export class AutoRotate {
 }
 
 export const AutorotatePlugin = (app: App) =>
-  app.registerComponent(AutoRotate).addStartupSystem((app) => {
+  app.registerComponent(AutoRotate).onStart((app) => {
     const query = app.query([Transform, AutoRotate])
 
     app.addSystem((dt: number) => {

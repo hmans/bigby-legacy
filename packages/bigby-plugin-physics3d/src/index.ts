@@ -80,7 +80,7 @@ export const Plugin =
       .addInitializer(async function () {
         await RAPIER.init()
       })
-      .addStartupSystem((app) => {
+      .onStart((app) => {
         /* Create physics world */
         const physics = new RAPIER.World({
           x: gravity[0],

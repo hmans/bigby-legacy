@@ -5,7 +5,7 @@ export const ThreePlugin = (app: App) =>
   app
     .registerComponent(THREE.Object3D)
     .registerComponent(THREE.Camera)
-    .addStartupSystem((app) => {
+    .onStart((app) => {
       /* Create our renderer */
       const renderer = new THREE.WebGLRenderer({ antialias: true })
       renderer.setSize(window.innerWidth, window.innerHeight)

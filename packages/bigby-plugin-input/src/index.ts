@@ -20,7 +20,7 @@ export function InputPlugin(app: App) {
 
   const isPressed = (key: string) => (keys.has(key) ? 1 : 0)
 
-  app.addStartupSystem(() => {
+  app.onStart(() => {
     document.addEventListener("keydown", (e) => {
       keys.add(e.code)
     })

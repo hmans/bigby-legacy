@@ -25,7 +25,7 @@ export class App extends World {
     return this
   }
 
-  addStartupSystem(system: StartupSystem) {
+  onStart(system: StartupSystem) {
     this.startupSystems.push(system)
     return this
   }

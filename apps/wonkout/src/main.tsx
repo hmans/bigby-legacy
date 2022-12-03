@@ -163,7 +163,7 @@ const setupBall = (app: App) => {
 }
 
 const ConstantVelocityPlugin = (app: App) =>
-  app.addStartupSystem((app) => {
+  app.onStart((app) => {
     const query = app.query([ConstantVelocity, RigidBody])
 
     app.addSystem(() => {
@@ -185,7 +185,7 @@ const Wonkynoid = (app: App) =>
   app
     .registerComponent(Player)
     .registerComponent(ConstantVelocity)
-    .addStartupSystem((app) => {
+    .onStart((app) => {
       setupScene(app)
       setupWalls(app)
       setupPlayer(app)
