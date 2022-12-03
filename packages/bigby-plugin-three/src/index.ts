@@ -63,11 +63,10 @@ export const ThreePlugin = (app: App) =>
         if (activeCamera) renderer.render(scene, activeCamera)
       })
 
-      /* Cleanup */
-      return () => {
+      app.onStop(() => {
         console.debug("Disposing renderer")
         document.body.removeChild(renderer.domElement)
         renderer.dispose()
         renderer.forceContextLoss()
-      }
+      })
     })
