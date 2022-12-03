@@ -45,12 +45,7 @@ export class App extends World {
 
     /* Execute and wait for initializers to complete */
     Promise.all(this.initializers.map((system) => system())).then(() => {
-      /* Execute startup systems */
-      this.stopCallbacks = []
-      this.startupSystems.forEach((system) => {
-        const callback = system(this)
-        if (callback) this.onStop(callback)
-      })
+      this.startupSystems.forEach((system) => system(this))
     })
 
     return this
@@ -58,6 +53,7 @@ export class App extends World {
 
   stop() {
     console.log("⛔ Stopping App")
-    this.stopCallbacks.forEach((callback) => callback())
+    this.stopCallbacks.forEach((callback) => callback(this))
+    return this
   }
 }
