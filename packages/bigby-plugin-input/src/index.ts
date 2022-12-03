@@ -14,7 +14,7 @@ export class Input {
 
 export function InputPlugin(app: App) {
   const keys = new Set<string>()
-  const entities = app.world.query([Input])
+  const entities = app.query([Input])
 
   const isPressed = (key: string) => (keys.has(key) ? 1 : 0)
 

@@ -5,18 +5,15 @@ export type BaseEntity = {}
 
 type Initializer = () => Promise<void>
 
-export class App {
-  world: World
-
+export class App extends World {
   systems = new Array<System>()
   initializers = new Array<Initializer>()
   startupSystems = new Array<StartupSystem>()
-
   stopCallbacks = new Array<SystemStopCallback>()
 
   constructor() {
     console.log("🐝 Bigby Initializing")
-    this.world = new World()
+    super()
   }
 
   use(plugin: Plugin): App {

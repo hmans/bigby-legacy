@@ -20,9 +20,8 @@ function RenderingSystem(app: App) {
   /* Configure viewport */
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
 
-  const transforms = app.world.query([Transform])
-  const meshes = app.world.query([Transform, Mesh])
-  const cameras = app.world.query([Transform, Camera])
+  const meshes = app.query([Transform, Mesh])
+  const cameras = app.query([Transform, Camera])
 
   const viewMatrix = mat4.create()
   const normalMatrix = mat3.create()

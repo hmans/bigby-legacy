@@ -14,7 +14,7 @@ export class Transform {
 }
 
 export function TransformsSystem(app: App) {
-  const withTransform = app.world.query([Transform])
+  const withTransform = app.query([Transform])
 
   return () => {
     withTransform.iterate((entity, [transform]) => {

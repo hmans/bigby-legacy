@@ -32,10 +32,10 @@ export const createReactAPI = (app: App) => {
 
       /* Add the component to the entity. */
       useLayoutEffect(() => {
-        app.world.addComponent(entity, componentInstance)
+        app.addComponent(entity, componentInstance)
 
         return () => {
-          app.world.removeComponent(entity, componentInstance)
+          app.removeComponent(entity, componentInstance)
         }
       }, [])
 
@@ -47,7 +47,7 @@ export const createReactAPI = (app: App) => {
 
   const Entity = forwardRef<Entity, { children?: ReactNode }>(
     ({ children }, ref) => {
-      const [entity] = useState(() => app.world.add([]))
+      const [entity] = useState(() => app.add([]))
 
       useImperativeHandle(ref, () => entity)
 
@@ -74,9 +74,9 @@ export const createReactAPI = (app: App) => {
         if (!component) return
 
         console.log("Adding component", component)
-        app.world.addComponent(entity, component)
+        app.addComponent(entity, component)
         return () => {
-          app.world.removeComponent(entity, component)
+          app.removeComponent(entity, component)
         }
       }, [entity])
 

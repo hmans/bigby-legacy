@@ -14,7 +14,7 @@ class ConstantVelocity {
 
 const setupScene = (app: App) => {
   /* Camera */
-  app.world.add([
+  app.add([
     new Transform([0, 0, 15]),
     new THREE.PerspectiveCamera(
       75,
@@ -25,12 +25,9 @@ const setupScene = (app: App) => {
   ])
 
   /* Lights */
-  app.world.add([
-    new Transform([0, 0, 0]),
-    new THREE.AmbientLight(0xffffff, 0.2)
-  ])
+  app.add([new Transform([0, 0, 0]), new THREE.AmbientLight(0xffffff, 0.2)])
 
-  app.world.add([
+  app.add([
     new Transform([10, 20, 30]),
     new THREE.DirectionalLight(0xffffff, 0.8)
   ])
@@ -38,7 +35,7 @@ const setupScene = (app: App) => {
 
 const setupPlayer = (app: App) => {
   /* Player */
-  app.world.add([
+  app.add([
     new Player(),
     new Input(),
 
@@ -56,7 +53,7 @@ const setupPlayer = (app: App) => {
     )
   ])
 
-  const playerQuery = app.world.query([Player])
+  const playerQuery = app.query([Player])
 
   app.addSystem(() => {
     const player = playerQuery.first
@@ -86,7 +83,7 @@ const setupBricks = (app: App) => {
   /* Bricks */
   for (let x = -3; x <= 3; x++) {
     for (let y = -2; y <= 2; y++) {
-      app.world.add([
+      app.add([
         new Physics.DynamicBody().setEnabledTranslations(true, true, false),
 
         new Physics.BoxCollider([2, 1, 1])
@@ -104,7 +101,7 @@ const setupBricks = (app: App) => {
 
 const setupWalls = (app: App) => {
   /* North Wall */
-  app.world.add([
+  app.add([
     new Physics.StaticBody(),
     new Physics.BoxCollider([25, 1, 1]).setDensity(0),
     new Transform([0, 8.5, 0]),
@@ -115,7 +112,7 @@ const setupWalls = (app: App) => {
   ])
 
   /* West Wall */
-  app.world.add([
+  app.add([
     new Physics.StaticBody(),
     new Physics.BoxCollider([1, 21, 1]).setDensity(0),
     new Transform([-12.5, 0, 0]),
@@ -126,7 +123,7 @@ const setupWalls = (app: App) => {
   ])
 
   /* East Wall */
-  app.world.add([
+  app.add([
     new Physics.StaticBody(),
     new Physics.BoxCollider([1, 21, 1]).setDensity(0),
     new Transform([+12.5, 0, 0]),
@@ -137,7 +134,7 @@ const setupWalls = (app: App) => {
   ])
 
   /* South (Death) Wall */
-  app.world.add([
+  app.add([
     new Physics.StaticBody(),
     new Physics.BoxCollider([27, 1, 1]).setDensity(0),
     new Transform([0, -9.5, 0])
@@ -146,7 +143,7 @@ const setupWalls = (app: App) => {
 
 const setupBall = (app: App) => {
   /* Ball */
-  const ball = app.world.add([
+  const ball = app.add([
     new Physics.DynamicBody().setEnabledTranslations(true, true, false),
     new Transform([0, -5, 0]),
     new Physics.BallCollider(0.5).setDensity(1),
@@ -167,7 +164,7 @@ const setupBall = (app: App) => {
 
 const ConstantVelocityPlugin = (app: App) =>
   app.addStartupSystem((app) => {
-    const query = app.world.query([ConstantVelocity, RigidBody])
+    const query = app.query([ConstantVelocity, RigidBody])
 
     app.addSystem(() => {
       query.iterate((_, [v, rigidbody]) => {

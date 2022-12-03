@@ -12,7 +12,7 @@ export const ThreePlugin = (app: App) =>
     const scene = new THREE.Scene()
 
     /* Query the world for Three.js scene objects */
-    const sceneObjects = app.world.query([Transform, THREE.Object3D])
+    const sceneObjects = app.query([Transform, THREE.Object3D])
 
     /* When an entity with a scene object appears, add it to the Three.js scene */
     sceneObjects.onEntityAdded.add((entity) => {
@@ -39,7 +39,7 @@ export const ThreePlugin = (app: App) =>
     })
 
     let activeCamera: THREE.Camera | undefined
-    const cameras = app.world.query([THREE.Camera])
+    const cameras = app.query([THREE.Camera])
 
     /* When a new camera appears, register it as the main camera */
     cameras.onEntityAdded.add((entity) => {

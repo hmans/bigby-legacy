@@ -86,7 +86,7 @@ export const Plugin =
           z: gravity[2]
         })
 
-        const rigidbodyQuery = app.world.query([Transform, RigidBody])
+        const rigidbodyQuery = app.query([Transform, RigidBody])
 
         /* Create new RAPIER rigidbodies when entities appear */
         rigidbodyQuery.onEntityAdded.add((entity) => {
@@ -115,7 +115,7 @@ export const Plugin =
         })
 
         /* Create new RAPIER colliders when entities appear */
-        const colliderQuery = app.world.query([RigidBody, Collider])
+        const colliderQuery = app.query([RigidBody, Collider])
 
         /* Wire up colliders to their rigidbodies */
         const collidersToComponent = new Map<ColliderHandle, Collider>()
