@@ -30,6 +30,11 @@ export class App extends World {
     return this
   }
 
+  onStop(callback: SystemStopCallback) {
+    this.stopCallbacks.push(callback)
+    return this
+  }
+
   onInit(system: Initializer) {
     this.initializers.push(system)
     return this
@@ -44,7 +49,7 @@ export class App extends World {
       this.stopCallbacks = []
       this.startupSystems.forEach((system) => {
         const callback = system(this)
-        if (callback) this.stopCallbacks.push(callback)
+        if (callback) this.onStop(callback)
       })
     })
 
