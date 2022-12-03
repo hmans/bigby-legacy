@@ -187,9 +187,9 @@ const Wonkynoid = (app: App) =>
     .registerComponent(ConstantVelocity)
     .addStartupSystem((app) => {
       setupScene(app)
+      setupWalls(app)
       setupPlayer(app)
       setupBricks(app)
-      setupWalls(app)
       setupBall(app)
     })
 

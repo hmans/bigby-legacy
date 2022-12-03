@@ -28,4 +28,19 @@ describe(Query, () => {
       })
     })
   })
+
+  describe("Symbol.iterator", () => {
+    it("iterates over contained entities in reverse", () => {
+      const world = createWorldWithComponents()
+
+      const entity1 = world.add([new Position(), new Velocity()])
+      const entity2 = world.add([new Position(), new Velocity()])
+      const moving = new Query(world, [Position, Velocity])
+
+      expect([...moving]).toEqual([
+        [entity2, entity2.get(Position), entity2.get(Velocity)],
+        [entity1, entity1.get(Position), entity1.get(Velocity)]
+      ])
+    })
+  })
 })
