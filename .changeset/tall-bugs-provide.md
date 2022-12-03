@@ -1,5 +1,4 @@
 ---
-"wonkout": minor
 "@bigby/core": minor
 "@bigby/ecs": minor
 "@bigby/plugin-input": minor
