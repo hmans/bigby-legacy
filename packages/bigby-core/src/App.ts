@@ -1,13 +1,17 @@
 import { World } from "@bigby/ecs"
-import { Plugin, StartCallback, UpdateCallback, StopCallback } from "./types"
+import {
+  InitCallback,
+  Plugin,
+  StartCallback,
+  StopCallback,
+  UpdateCallback
+} from "./types"
 
 export type BaseEntity = {}
 
-type Initializer = () => Promise<void>
-
 export class App extends World {
   systems = new Array<UpdateCallback>()
-  initializers = new Array<Initializer>()
+  initializers = new Array<InitCallback>()
   startupSystems = new Array<StartCallback>()
   stopCallbacks = new Array<StopCallback>()
 
@@ -20,8 +24,8 @@ export class App extends World {
     return plugin(this as any)
   }
 
-  onUpdate(system: UpdateCallback) {
-    this.systems.push(system)
+  onInit(system: InitCallback) {
+    this.initializers.push(system)
     return this
   }
 
@@ -30,13 +34,13 @@ export class App extends World {
     return this
   }
 
-  onStop(callback: StopCallback) {
-    this.stopCallbacks.push(callback)
+  onUpdate(system: UpdateCallback) {
+    this.systems.push(system)
     return this
   }
 
-  onInit(system: Initializer) {
-    this.initializers.push(system)
+  onStop(callback: StopCallback) {
+    this.stopCallbacks.push(callback)
     return this
   }
 
