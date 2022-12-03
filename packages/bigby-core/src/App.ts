@@ -20,7 +20,7 @@ export class App extends World {
     return plugin(this as any)
   }
 
-  addSystem(system: System) {
+  onUpdate(system: System) {
     this.systems.push(system)
     return this
   }
@@ -30,7 +30,7 @@ export class App extends World {
     return this
   }
 
-  addInitializer(system: Initializer) {
+  onInit(system: Initializer) {
     this.initializers.push(system)
     return this
   }

@@ -55,7 +55,7 @@ const setupPlayer = (app: App) => {
 
   const playerQuery = app.query([Player])
 
-  app.addSystem(() => {
+  app.onUpdate(() => {
     const player = playerQuery.first
 
     if (player) {
@@ -166,7 +166,7 @@ const ConstantVelocityPlugin = (app: App) =>
   app.onStart((app) => {
     const query = app.query([ConstantVelocity, RigidBody])
 
-    app.addSystem(() => {
+    app.onUpdate(() => {
       for (const [_, v, rigidbody] of query) {
         const rb = rigidbody.raw!
         const vel = rb.linvel()

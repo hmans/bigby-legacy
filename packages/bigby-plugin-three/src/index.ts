@@ -28,7 +28,7 @@ export const ThreePlugin = (app: App) =>
       })
 
       /* Every frame, copy the transform data over to the Three.js objects */
-      app.addSystem(() => {
+      app.onUpdate(() => {
         for (const [
           _,
           { position, quaternion, scale },
@@ -59,7 +59,7 @@ export const ThreePlugin = (app: App) =>
       })
 
       /* Render every frame using the active camera if we have one */
-      app.addSystem(() => {
+      app.onUpdate(() => {
         if (activeCamera) renderer.render(scene, activeCamera)
       })
 

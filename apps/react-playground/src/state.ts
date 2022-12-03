@@ -13,7 +13,7 @@ export const app = new App()
   .onStart((app) => {
     const query = app.query([FrameCount])
 
-    app.addSystem(() => {
+    app.onUpdate(() => {
       query.iterate((_, { count }) => count++)
     })
   })

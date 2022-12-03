@@ -77,7 +77,7 @@ export const Plugin =
     app
       .registerComponent(RigidBody)
       .registerComponent(Collider)
-      .addInitializer(async function () {
+      .onInit(async function () {
         await RAPIER.init()
       })
       .onStart((app) => {
@@ -140,7 +140,7 @@ export const Plugin =
 
         const eventQueue = new RAPIER.EventQueue(true)
 
-        app.addSystem((dt: number) => {
+        app.onUpdate((dt: number) => {
           /* Simulate physics world */
           physics.timestep = clamp(dt, 0.01, 0.2)
           physics.step(eventQueue)

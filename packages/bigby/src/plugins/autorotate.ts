@@ -9,7 +9,7 @@ export const AutorotatePlugin = (app: App) =>
   app.registerComponent(AutoRotate).onStart((app) => {
     const query = app.query([Transform, AutoRotate])
 
-    app.addSystem((dt: number) => {
+    app.onUpdate((dt: number) => {
       for (const [_, transform, autorotate] of query) {
         quat.rotateX(
           transform.quaternion,
