@@ -21,8 +21,8 @@ export const TickerPlugin = (app: App) => {
 
     animate()
 
-    return () => {
+    app.onStop(() => {
       running = false
-    }
+    })
   })
 }
