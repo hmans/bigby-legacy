@@ -1,11 +1,11 @@
 import { App } from "./App"
 
-export type InitCallback = () => void | Promise<void>
+export type OnLoadCallback = () => void | Promise<void>
 
-export type StartCallback = (app: App) => void | Promise<void>
+export type OnStartCallback = (app: App) => void | Promise<void>
 
-export type UpdateCallback = (dt: number) => void
+export type OnUpdateCallback = (dt: number) => void
 
-export type StopCallback = (app: App) => void
+export type OnStopCallback = (app: App) => void
 
 export type Plugin = (app: App) => App

@@ -1,19 +1,19 @@
 import { World } from "@bigby/ecs"
 import {
-  InitCallback,
+  OnLoadCallback,
   Plugin,
-  StartCallback,
-  StopCallback,
-  UpdateCallback
+  OnStartCallback,
+  OnStopCallback,
+  OnUpdateCallback
 } from "./types"
 
 export type BaseEntity = {}
 
 export class App extends World {
-  systems = new Array<UpdateCallback>()
-  initializers = new Array<InitCallback>()
-  startupSystems = new Array<StartCallback>()
-  stopCallbacks = new Array<StopCallback>()
+  systems = new Array<OnUpdateCallback>()
+  initializers = new Array<OnLoadCallback>()
+  startupSystems = new Array<OnStartCallback>()
+  stopCallbacks = new Array<OnStopCallback>()
 
   constructor() {
     console.log("🐝 Bigby Initializing")
@@ -24,22 +24,22 @@ export class App extends World {
     return plugin(this as any)
   }
 
-  onInit(system: InitCallback) {
+  onLoad(system: OnLoadCallback) {
     this.initializers.push(system)
     return this
   }
 
-  onStart(system: StartCallback) {
+  onStart(system: OnStartCallback) {
     this.startupSystems.push(system)
     return this
   }
 
-  onUpdate(system: UpdateCallback) {
+  onUpdate(system: OnUpdateCallback) {
     this.systems.push(system)
     return this
   }
 
-  onStop(callback: StopCallback) {
+  onStop(callback: OnStopCallback) {
     this.stopCallbacks.push(callback)
     return this
   }

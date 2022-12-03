@@ -77,7 +77,7 @@ export const Plugin =
     app
       .registerComponent(RigidBody)
       .registerComponent(Collider)
-      .onInit(async function () {
+      .onLoad(async function () {
         await RAPIER.init()
       })
       .onStart((app) => {
