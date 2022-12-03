@@ -1,8 +1,15 @@
 import { App } from "@bigby/core"
 
 export class Input {
-  x = 0
-  y = 0
+  move = {
+    x: 0,
+    y: 0
+  }
+
+  aim = {
+    x: 0,
+    y: 0
+  }
 }
 
 export function InputPlugin(app: App) {
@@ -13,18 +20,21 @@ export function InputPlugin(app: App) {
 
   app.addStartupSystem(() => {
     document.addEventListener("keydown", (e) => {
-      keys.add(e.key)
+      keys.add(e.code)
     })
 
     document.addEventListener("keyup", (e) => {
-      keys.delete(e.key)
+      keys.delete(e.code)
     })
   })
 
   app.addSystem(() => {
     entities.iterate((_, [input]) => {
-      input.x = isPressed("d") - isPressed("a")
-      input.y = isPressed("w") - isPressed("s")
+      input.move.x = isPressed("KeyD") - isPressed("KeyA")
+      input.move.y = isPressed("KeyW") - isPressed("KeyS")
+
+      input.aim.x = isPressed("ArrowRight") - isPressed("ArrowLeft")
+      input.aim.y = isPressed("ArrowUp") - isPressed("ArrowDown")
     })
   })
 

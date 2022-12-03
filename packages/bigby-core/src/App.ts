@@ -1,5 +1,5 @@
 import { World } from "@bigby/ecs"
-import { Plugin, StartupSystem, System } from "./types"
+import { Plugin, StartupSystem, System, SystemStopCallback } from "./types"
 
 export type BaseEntity = {}
 
@@ -12,7 +12,10 @@ export class App {
   initializers = new Array<Initializer>()
   startupSystems = new Array<StartupSystem>()
 
+  stopCallbacks = new Array<SystemStopCallback>()
+
   constructor() {
+    console.log("🐝 Bigby Initializing")
     this.world = new World()
   }
 
@@ -35,13 +38,24 @@ export class App {
     return this
   }
 
-  async run() {
+  async start() {
+    console.log("✅ Starting App")
+
     /* Execute and wait for initializers to complete */
     await Promise.all(this.initializers.map((system) => system()))
 
     /* Execute startup systems */
-    this.startupSystems.forEach((system) => system(this))
+    this.stopCallbacks = []
+    this.startupSystems.forEach((system) => {
+      const callback = system(this)
+      if (callback) this.stopCallbacks.push(callback)
+    })
 
     return this
+  }
+
+  stop() {
+    console.log("⛔ Stopping App")
+    this.stopCallbacks.forEach((callback) => callback())
   }
 }
