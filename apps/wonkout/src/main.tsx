@@ -193,7 +193,7 @@ const Wonkynoid = (app: App) =>
     setupBall(app)
   })
 
-const app = await new App()
+const app = new App()
   .addPlugin(TickerPlugin)
   .addPlugin(TransformsPlugin)
   .addPlugin(ThreePlugin)

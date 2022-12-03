@@ -38,17 +38,17 @@ export class App {
     return this
   }
 
-  async start() {
+  start() {
     console.log("✅ Starting App")
 
     /* Execute and wait for initializers to complete */
-    await Promise.all(this.initializers.map((system) => system()))
-
-    /* Execute startup systems */
-    this.stopCallbacks = []
-    this.startupSystems.forEach((system) => {
-      const callback = system(this)
-      if (callback) this.stopCallbacks.push(callback)
+    Promise.all(this.initializers.map((system) => system())).then(() => {
+      /* Execute startup systems */
+      this.stopCallbacks = []
+      this.startupSystems.forEach((system) => {
+        const callback = system(this)
+        if (callback) this.stopCallbacks.push(callback)
+      })
     })
 
     return this
