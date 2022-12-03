@@ -10,10 +10,10 @@ import {
 export type BaseEntity = {}
 
 export class App extends World {
-  systems = new Array<OnUpdateCallback>()
-  initializers = new Array<OnLoadCallback>()
-  startupSystems = new Array<OnStartCallback>()
-  stopCallbacks = new Array<OnStopCallback>()
+  onUpdateCallbacks = new Array<OnUpdateCallback>()
+  onLoadCallbacks = new Array<OnLoadCallback>()
+  onStartCallbacks = new Array<OnStartCallback>()
+  onStopCallbacks = new Array<OnStopCallback>()
 
   constructor() {
     console.log("🐝 Bigby Initializing")
@@ -25,22 +25,22 @@ export class App extends World {
   }
 
   onLoad(system: OnLoadCallback) {
-    this.initializers.push(system)
+    this.onLoadCallbacks.push(system)
     return this
   }
 
   onStart(system: OnStartCallback) {
-    this.startupSystems.push(system)
+    this.onStartCallbacks.push(system)
     return this
   }
 
   onUpdate(system: OnUpdateCallback) {
-    this.systems.push(system)
+    this.onUpdateCallbacks.push(system)
     return this
   }
 
   onStop(callback: OnStopCallback) {
-    this.stopCallbacks.push(callback)
+    this.onStopCallbacks.push(callback)
     return this
   }
 
@@ -48,17 +48,17 @@ export class App extends World {
     console.log("✅ Starting App")
 
     /* Execute and wait for initializers to complete */
-    await Promise.all(this.initializers.map((system) => system()))
+    await Promise.all(this.onLoadCallbacks.map((system) => system()))
 
     /* Execute and wait for startupSystems to complete */
-    await Promise.all(this.startupSystems.map((system) => system(this)))
+    await Promise.all(this.onStartCallbacks.map((system) => system(this)))
 
     return this
   }
 
   stop() {
     console.log("⛔ Stopping App")
-    this.stopCallbacks.forEach((callback) => callback(this))
+    this.onStopCallbacks.forEach((callback) => callback(this))
     return this
   }
 }
