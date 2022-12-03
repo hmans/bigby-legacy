@@ -1,4 +1,4 @@
-import { Event } from "@hmans/event"
+import { Event } from "@bigby/event"
 import { Entity } from "./Entity"
 import { Query } from "./Query"
 import { Component, Constructor, ComponentQuery } from "./types"

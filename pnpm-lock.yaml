@@ -140,19 +140,21 @@ importers:
   packages/bigby-core:
     specifiers:
       '@bigby/ecs': workspace:^0.10.1
+      '@bigby/event': workspace:^0.10.1
       '@bigby/math': workspace:^0.10.1
       gl-matrix: ^3.4.3
     dependencies:
       '@bigby/ecs': link:../bigby-ecs
+      '@bigby/event': link:../bigby-event
       '@bigby/math': link:../bigby-math
       gl-matrix: 3.4.3
 
   packages/bigby-ecs:
     specifiers:
-      '@hmans/event': 0.2.0
+      '@bigby/event': workspace:^0.10.1
       ts-toolbelt: ^9.6.0
     dependencies:
-      '@hmans/event': 0.2.0
+      '@bigby/event': link:../bigby-event
     devDependencies:
       ts-toolbelt: 9.6.0
 
@@ -1730,10 +1732,6 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
-
-  /@hmans/event/0.2.0:
-    resolution: {integrity: sha512-VrDaUafGrcT2yuC59yTxpxT7KsWoST6zNd/JdATgU4y/jEHghL5yqY9sNftNajo5VpzJkF9XxwxBixz6UlGNfg==}
-    dev: false
 
   /@istanbuljs/load-nyc-config/1.1.0:
     resolution: {integrity: sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ==}

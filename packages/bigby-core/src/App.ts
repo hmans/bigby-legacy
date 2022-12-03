@@ -1,4 +1,5 @@
 import { World } from "@bigby/ecs"
+import { Event } from "@bigby/event"
 import {
   OnLoadCallback,
   Plugin,
@@ -12,11 +13,11 @@ export type BaseEntity = {}
 export class App extends World {
   onLoadCallbacks = new Array<OnLoadCallback>()
   onStartCallbacks = new Array<OnStartCallback>()
-  onEarlyUpdateCallbacks = new Array<OnUpdateCallback>()
-  onUpdateCallbacks = new Array<OnUpdateCallback>()
-  onLateUpdateCallbacks = new Array<OnUpdateCallback>()
-  onRenderCallbacks = new Array<OnUpdateCallback>()
-  onStopCallbacks = new Array<OnStopCallback>()
+  onEarlyUpdateCallbacks = new Event<number>()
+  onUpdateCallbacks = new Event<number>()
+  onLateUpdateCallbacks = new Event<number>()
+  onRenderCallbacks = new Event<number>()
+  onStopCallbacks = new Event<App>()
 
   constructor() {
     console.log("🐝 Bigby Initializing")
@@ -38,27 +39,27 @@ export class App extends World {
   }
 
   onEarlyUpdate(callback: OnUpdateCallback) {
-    this.onEarlyUpdateCallbacks.push(callback)
+    this.onEarlyUpdateCallbacks.add(callback)
     return this
   }
 
   onUpdate(callback: OnUpdateCallback) {
-    this.onUpdateCallbacks.push(callback)
+    this.onUpdateCallbacks.add(callback)
     return this
   }
 
   onLateUpdate(callback: OnUpdateCallback) {
-    this.onLateUpdateCallbacks.push(callback)
+    this.onLateUpdateCallbacks.add(callback)
     return this
   }
 
   onRender(callback: OnUpdateCallback) {
-    this.onRenderCallbacks.push(callback)
+    this.onRenderCallbacks.add(callback)
     return this
   }
 
   onStop(callback: OnStopCallback) {
-    this.onStopCallbacks.push(callback)
+    this.onStopCallbacks.add(callback)
     return this
   }
 
@@ -76,7 +77,7 @@ export class App extends World {
 
   stop() {
     console.log("⛔ Stopping App")
-    this.onStopCallbacks.forEach((callback) => callback(this))
+    this.onStopCallbacks.emit(this)
     return this
   }
 }
