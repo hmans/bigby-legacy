@@ -6,15 +6,15 @@ export class FrameCount {
   count = 0
 }
 
-export const app = await new App()
+export const app = new App()
   .use(TickerPlugin)
 
   /* Write a system that operates on Framecount */
   .addStartupSystem((app) => {
-    const query = app.world.query([FrameCount])
+    const query = app.query([FrameCount])
 
     app.addSystem(() => {
-      query.iterate((_, [{ count }]) => count++)
+      query.iterate((_, { count }) => count++)
     })
   })
 

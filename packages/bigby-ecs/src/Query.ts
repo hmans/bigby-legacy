@@ -4,6 +4,30 @@ import { Component, ComponentQuery } from "./index"
 import { World } from "./World"
 
 export class Query<Q extends readonly Component[]> {
+  /* Custom iterator that iterates over all entities in reverse order. */
+  [Symbol.iterator]() {
+    let index = this.entities.length
+
+    const result = {
+      value: undefined! as [Entity, ...Q],
+      done: false
+    }
+
+    return {
+      next: () => {
+        const entity = this.entities[--index]
+
+        if (entity) {
+          const components = this.components.get(entity)!
+          result.value = [entity, ...components]
+        }
+
+        result.done = index < 0
+        return result
+      }
+    }
+  }
+
   entities = new Array<Entity>()
   components = new Map<Entity, Q>()
 
@@ -32,9 +56,9 @@ export class Query<Q extends readonly Component[]> {
     })
   }
 
-  iterate(fun: (entity: Entity, components: Q) => void) {
-    for (const entity of this.entities) {
-      fun(entity, this.components.get(entity)!)
+  iterate(fun: (entity: Entity, ...components: Q) => void) {
+    for (const result of this) {
+      fun(...result)
     }
   }
 

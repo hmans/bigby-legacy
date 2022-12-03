@@ -158,7 +158,7 @@ export const Plugin =
           })
 
           /* Transfer physics transforms to the transform component */
-          rigidbodyQuery.iterate((_, [transform, rigidbody]) => {
+          for (const [_, transform, rigidbody] of rigidbodyQuery) {
             const position = rigidbody.raw!.translation()
             vec3.set(transform.position, position.x, position.y, position.z)
 
@@ -173,6 +173,6 @@ export const Plugin =
 
             /* Reset forces */
             rigidbody.raw!.resetForces(true)
-          })
+          }
         })
       })

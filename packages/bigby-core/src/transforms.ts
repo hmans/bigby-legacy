@@ -17,7 +17,7 @@ export function TransformsSystem(app: App) {
   const withTransform = app.query([Transform])
 
   return () => {
-    withTransform.iterate((entity, [transform]) => {
+    for (const [_, transform] of withTransform) {
       if (!transform.autoUpdate) return
 
       mat4.fromRotationTranslationScale(
@@ -26,7 +26,7 @@ export function TransformsSystem(app: App) {
         transform.position,
         transform.scale
       )
-    })
+    }
   }
 }
 

@@ -52,7 +52,7 @@ function RenderingSystem(app: App) {
     gl.bindFramebuffer(gl.FRAMEBUFFER, null)
     gl.viewport(0, 0, canvas.width, canvas.height)
 
-    meshes.iterate((entity, [transform, mesh]) => {
+    for (const [_, transform, mesh] of meshes) {
       const { geometry, material } = mesh
 
       /* Prepare Material */
@@ -159,7 +159,7 @@ function RenderingSystem(app: App) {
       }
 
       /* Done! */
-    })
+    }
   }
 }
 
