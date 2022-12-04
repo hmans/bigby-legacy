@@ -13,10 +13,10 @@ export const ThreePlugin = (app: App) => {
   app.registerComponent(THREE.Camera)
   app.registerComponent(ThreePluginState)
 
-  const comp = new ThreePluginState()
-  app.add([comp])
+  const state = new ThreePluginState()
+  app.add([state])
 
-  const { renderer, scene } = comp
+  const { renderer, scene } = state
 
   /* Renderer & Canvas */
   app.onStart((app) => {
