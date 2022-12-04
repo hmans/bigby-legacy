@@ -7,12 +7,13 @@ export class ConstantVelocity {
 
 export const ConstantVelocityPlugin = (app: App) =>
   app
+    .requireComponent(RigidBody)
     .registerComponent(ConstantVelocity)
 
     .onStart((app) => {
       const query = app.query([ConstantVelocity, RigidBody])
 
-      app.onUpdate(() => {
+      app.onEarlyUpdate(() => {
         for (const [_, v, rigidbody] of query) {
           const rb = rigidbody.raw!
           const vel = rb.linvel()
