@@ -23,7 +23,8 @@ const apply = <C extends object>(component: C, props: Partial<C>) => {
 const component = <C extends object>(
   ctor: Constructor<C>,
   props: Partial<C>
-) => {
+): C => {
+  // @ts-ignore
   const instance = new ctor()
   return apply(instance, props)
 }
