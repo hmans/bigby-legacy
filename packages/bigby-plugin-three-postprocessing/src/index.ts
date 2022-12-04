@@ -36,6 +36,7 @@ export const ThreePostprocessingPlugin = (app: App) => {
       const camera = entity.get(THREE.Camera)!
 
       composer.addPass(new RenderPass(three.scene, camera))
+
       composer.addPass(
         new EffectPass(
           camera,
