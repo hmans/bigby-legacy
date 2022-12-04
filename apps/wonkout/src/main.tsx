@@ -1,7 +1,7 @@
 import { Input, InputPlugin } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
 import { RigidBody } from "@bigby/plugin-physics3d"
-import { ThreePlugin } from "@bigby/plugin-three"
+import { loadGLTF, ThreePlugin } from "@bigby/plugin-three"
 import { ThreePostprocessingPlugin } from "@bigby/plugin-three-postprocessing"
 import {
   App,
@@ -14,7 +14,6 @@ import {
 import * as THREE from "three"
 import { Color } from "three"
 import "./index.css"
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 
 class Player {}
 
@@ -112,7 +111,7 @@ const setupPlayer = (app: App) => {
 
 const Bricks = (app: App) =>
   app.onStart(async (app) => {
-    const gltf = await new GLTFLoader().loadAsync("/models/wonkout_brick.gltf")
+    const gltf = await loadGLTF("/models/wonkout_brick.gltf")
 
     /* Bricks */
     for (let x = -3; x <= 3; x++) {
