@@ -102,6 +102,7 @@ importers:
       '@types/three': ^0.146.0
       '@vitejs/plugin-react': ^2.2.0
       bigby: workspace:^0.10.2
+      postprocessing: ^6.29.1
       react: ^18.2.0
       react-dom: ^18.2.0
       three: ^0.147.0
@@ -112,6 +113,7 @@ importers:
       '@bigby/plugin-physics3d': link:../../packages/bigby-plugin-physics3d
       '@bigby/plugin-three': link:../../packages/bigby-plugin-three
       bigby: link:../../packages/bigby
+      postprocessing: 6.29.1_three@0.147.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       three: 0.147.0
@@ -180,12 +182,14 @@ importers:
       '@bigby/core': workspace:^0.10.1
       '@bigby/math': workspace:^0.10.1
       '@types/three': ^0.146.0
+      postprocessing: ^6.29.1
       three: ^0.147.0
     dependencies:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
     devDependencies:
       '@types/three': 0.146.0
+      postprocessing: 6.29.1_three@0.147.0
       three: 0.147.0
 
   packages/bigby-plugin-ticker:
@@ -5167,6 +5171,14 @@ packages:
       picocolors: 1.0.0
       source-map-js: 1.0.2
     dev: true
+
+  /postprocessing/6.29.1_three@0.147.0:
+    resolution: {integrity: sha512-w+XoL2Z7YpVDsHbIeg6sldMMmDqZS4Hul1FDq3TjOeXZ0Wnp0Qy1EvR7QmYJxyWBux1cKQx/k3XO7LxfvPsZyg==}
+    engines: {node: '>= 0.13.2'}
+    peerDependencies:
+      three: '>= 0.125.0 < 0.147.0'
+    dependencies:
+      three: 0.147.0
 
   /preferred-pm/3.0.3:
     resolution: {integrity: sha512-+wZgbxNES/KlJs9q40F/1sfOd/j7f1O9JaHcW5Dsn3aUUOZg3L2bjpVUcKV2jvtElYfoTuQiNeMfQJ4kwUAhCQ==}
