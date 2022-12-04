@@ -56,8 +56,8 @@ const setupScene = (app: App) => {
 
 const setupFloor = (app: App) => {
   app.add([
-    make(Transform3D, { position: [0, 0, -2] }),
-    make(THREE.Mesh, {
+    make(Transform3D, [], { position: [0, 0, -2] }),
+    make(THREE.Mesh, [], {
       receiveShadow: true,
       geometry: new THREE.PlaneGeometry(100, 100),
       material: new THREE.MeshStandardMaterial({ color: "#555" })
@@ -79,7 +79,7 @@ const setupPlayer = (app: App) => {
 
     new Transform3D([0, -8.5, 0]),
 
-    make(THREE.Mesh, {
+    make(THREE.Mesh, [], {
       geometry: new THREE.BoxGeometry(5, 1, 1),
       material: new THREE.MeshStandardMaterial({
         color: new Color("hotpink").multiplyScalar(1.3)
@@ -144,7 +144,7 @@ const setupWalls = (app: App) => {
     new Physics.StaticBody(),
     new Physics.BoxCollider([24, 1, height]).setDensity(0),
     new Transform3D([0, 8.5, 0]),
-    make(THREE.Mesh, {
+    make(THREE.Mesh, [], {
       geometry: new THREE.BoxGeometry(24, 1, height),
       material: new THREE.MeshStandardMaterial({ color: "#999" }),
       castShadow: true
