@@ -1,7 +1,7 @@
 import { Input, InputPlugin } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
 import { RigidBody } from "@bigby/plugin-physics3d"
-import { loadGLTF, ThreePlugin } from "@bigby/plugin-three"
+import { ThreePlugin } from "@bigby/plugin-three"
 import { ThreePostprocessingPlugin } from "@bigby/plugin-three-postprocessing"
 import {
   App,
@@ -13,7 +13,10 @@ import {
 } from "bigby"
 import * as THREE from "three"
 import { Color } from "three"
+import { Bricks } from "./Bricks"
+import { Floor } from "./Floor"
 import "./index.css"
+import { Walls } from "./Walls"
 
 class Player {}
 
@@ -51,17 +54,6 @@ const setupScene = (app: App) => {
     shadow.mapSize.width = 1024
     shadow.mapSize.height = 1024
   }
-}
-
-const setupFloor = (app: App) => {
-  app.add([
-    make(Transform3D, [], { position: [0, 0, -2] }),
-    make(THREE.Mesh, [], {
-      receiveShadow: true,
-      geometry: new THREE.PlaneGeometry(100, 100),
-      material: new THREE.MeshStandardMaterial({ color: "#555" })
-    })
-  ])
 }
 
 const setupPlayer = (app: App) => {
@@ -107,83 +99,6 @@ const setupPlayer = (app: App) => {
       rb.applyTorqueImpulse({ x: 0, y: 0, z: aim.x * -1 }, true)
     }
   })
-}
-
-const Bricks = (app: App) =>
-  app.onStart(async (app) => {
-    const gltf = await loadGLTF("/models/wonkout_brick.gltf")
-
-    /* Bricks */
-    for (let x = -3; x <= 3; x++) {
-      for (let y = -2; y <= 2; y++) {
-        app.add([
-          new Transform3D([x * 3, y * 2 + 2, 0]),
-
-          new Physics.DynamicBody().setEnabledTranslations(true, true, false),
-
-          new Physics.BoxCollider([2, 1, 1])
-            .setDensity(2)
-            .onCollisionStart((other) => {
-              console.log("OH NO")
-            }),
-
-          apply(gltf.scene.children[0].clone(), {
-            castShadow: true
-            // receiveShadow: true  // this makes the bricks appear unlit?!
-          })
-        ])
-      }
-    }
-  })
-
-const setupWalls = (app: App) => {
-  const height = 4
-  /* North Wall */
-  app.add([
-    new Physics.StaticBody(),
-    new Physics.BoxCollider([24, 1, height]).setDensity(0),
-    new Transform3D([0, 8.5, 0]),
-    make(THREE.Mesh, [], {
-      geometry: new THREE.BoxGeometry(24, 1, height),
-      material: new THREE.MeshStandardMaterial({ color: "#999" }),
-      castShadow: true
-    })
-  ])
-
-  /* West Wall */
-  app.add([
-    new Physics.StaticBody(),
-    new Physics.BoxCollider([1, 18, height]).setDensity(0),
-    new Transform3D([-12.5, 0, 0]),
-    apply(
-      new THREE.Mesh(
-        new THREE.BoxGeometry(1, 18, height),
-        new THREE.MeshStandardMaterial({ color: "#999" })
-      ),
-      { castShadow: true }
-    )
-  ])
-
-  /* East Wall */
-  app.add([
-    new Physics.StaticBody(),
-    new Physics.BoxCollider([1, 18, height]).setDensity(0),
-    new Transform3D([+12.5, 0, 0]),
-    apply(
-      new THREE.Mesh(
-        new THREE.BoxGeometry(1, 18, height),
-        new THREE.MeshStandardMaterial({ color: "#999" })
-      ),
-      { castShadow: true }
-    )
-  ])
-
-  /* South (Death) Wall */
-  app.add([
-    new Physics.StaticBody(),
-    new Physics.BoxCollider([27, 1, 1]).setDensity(0),
-    new Transform3D([0, -9.5, 0])
-  ])
 }
 
 const setupBall = (app: App) => {
@@ -236,10 +151,10 @@ const Wonkynoid = (app: App) =>
     .registerComponent(Player)
     .registerComponent(ConstantVelocity)
     .use(Bricks)
+    .use(Floor)
+    .use(Walls)
     .onStart((app) => {
       setupScene(app)
-      setupFloor(app)
-      setupWalls(app)
       setupPlayer(app)
       setupBall(app)
     })
