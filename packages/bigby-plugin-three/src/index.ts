@@ -1,6 +1,8 @@
 import { App, Transform3D } from "@bigby/core"
 import * as THREE from "three"
 
+export * from "./helpers"
+
 export class ThreePluginState {
   renderer: THREE.WebGLRenderer
   scene: THREE.Scene
@@ -8,6 +10,8 @@ export class ThreePluginState {
   render = true
 
   constructor({ render = true }: { render?: boolean } = {}) {
+    this.render = render
+
     this.renderer = new THREE.WebGLRenderer({
       powerPreference: "high-performance",
       antialias: false,
@@ -15,13 +19,15 @@ export class ThreePluginState {
       depth: false
     })
 
+    /* Configure Shadow Map */
     this.renderer.shadowMap.enabled = true
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
-    this.renderer.outputEncoding = THREE.LinearEncoding
+
+    /* Configure color space */
+    THREE.ColorManagement.legacyMode = false
+    this.renderer.outputEncoding = THREE.sRGBEncoding
 
     this.scene = new THREE.Scene()
-
-    this.render = render
   }
 }
 
