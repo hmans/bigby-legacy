@@ -1,4 +1,4 @@
-import { App, Transform } from "@bigby/core"
+import { App, Transform3D } from "@bigby/core"
 import { mat3, mat4 } from "gl-matrix"
 import { Camera } from "./Camera"
 import { Material } from "./Material"
@@ -21,8 +21,8 @@ function RenderingSystem(app: App) {
   /* Configure viewport */
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
 
-  const meshes = app.query([Transform, Mesh])
-  const cameras = app.query([Transform, Camera])
+  const meshes = app.query([Transform3D, Mesh])
+  const cameras = app.query([Transform3D, Camera])
 
   const viewMatrix = mat4.create()
   const normalMatrix = mat3.create()
@@ -36,7 +36,7 @@ function RenderingSystem(app: App) {
     /* Get camera */
     if (!cameras.first) return
 
-    const cameraTransform = cameras.first.get(Transform)!
+    const cameraTransform = cameras.first.get(Transform3D)!
     const cameraCamera = cameras.first.get(Camera)!
 
     /* Check if we need to update the renderer size */

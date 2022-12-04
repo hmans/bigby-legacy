@@ -1,7 +1,7 @@
 import { mat4, quat, vec3 } from "gl-matrix"
 import { App } from "./App"
 
-export class Transform {
+export class Transform3D {
   autoUpdate = true
 
   readonly matrix = mat4.create()
@@ -14,8 +14,8 @@ export class Transform {
 }
 
 export const TransformsPlugin = (app: App) =>
-  app.registerComponent(Transform).onStart((app) => {
-    const withTransform = app.query([Transform])
+  app.registerComponent(Transform3D).onStart((app) => {
+    const withTransform = app.query([Transform3D])
 
     app.onRender(() => {
       for (const [_, transform] of withTransform) {

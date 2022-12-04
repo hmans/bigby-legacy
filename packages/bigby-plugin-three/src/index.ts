@@ -1,4 +1,4 @@
-import { App, Transform } from "@bigby/core"
+import { App, Transform3D } from "@bigby/core"
 import * as THREE from "three"
 
 export const ThreePlugin = (app: App) =>
@@ -15,7 +15,7 @@ export const ThreePlugin = (app: App) =>
       const scene = new THREE.Scene()
 
       /* Query the world for Three.js scene objects */
-      const sceneObjects = app.query([Transform, THREE.Object3D])
+      const sceneObjects = app.query([Transform3D, THREE.Object3D])
 
       /* When an entity with a scene object appears, add it to the Three.js scene */
       sceneObjects.onEntityAdded.add((entity) => {

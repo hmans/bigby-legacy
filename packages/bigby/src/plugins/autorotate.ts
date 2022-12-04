@@ -1,4 +1,4 @@
-import { App, Transform } from "@bigby/core"
+import { App, Transform3D } from "@bigby/core"
 import { quat, vec3 } from "gl-matrix"
 
 export class AutoRotate {
@@ -7,7 +7,7 @@ export class AutoRotate {
 
 export const AutorotatePlugin = (app: App) =>
   app.registerComponent(AutoRotate).onStart((app) => {
-    const query = app.query([Transform, AutoRotate])
+    const query = app.query([Transform3D, AutoRotate])
 
     app.onUpdate((dt: number) => {
       for (const [_, transform, autorotate] of query) {

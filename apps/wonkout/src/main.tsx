@@ -2,7 +2,7 @@ import { Input, InputPlugin } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
 import { RigidBody } from "@bigby/plugin-physics3d"
 import { ThreePlugin } from "@bigby/plugin-three"
-import { App, TickerPlugin, Transform, TransformsPlugin } from "bigby"
+import { App, TickerPlugin, Transform3D, TransformsPlugin } from "bigby"
 import * as THREE from "three"
 import "./index.css"
 
@@ -15,7 +15,7 @@ class ConstantVelocity {
 const setupScene = (app: App) => {
   /* Camera */
   app.add([
-    new Transform([0, 0, 15]),
+    new Transform3D([0, 0, 15]),
     new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
@@ -25,10 +25,10 @@ const setupScene = (app: App) => {
   ])
 
   /* Lights */
-  app.add([new Transform([0, 0, 0]), new THREE.AmbientLight(0xffffff, 0.2)])
+  app.add([new Transform3D([0, 0, 0]), new THREE.AmbientLight(0xffffff, 0.2)])
 
   app.add([
-    new Transform([10, 20, 30]),
+    new Transform3D([10, 20, 30]),
     new THREE.DirectionalLight(0xffffff, 0.8)
   ])
 }
@@ -45,7 +45,7 @@ const setupPlayer = (app: App) => {
 
     new Physics.BoxCollider([5, 1, 1]),
 
-    new Transform([0, -8.5, 0]),
+    new Transform3D([0, -8.5, 0]),
 
     new THREE.Mesh(
       new THREE.BoxGeometry(5, 1, 1),
@@ -91,7 +91,7 @@ const setupBricks = (app: App) => {
           .onCollisionStart((other) => {
             console.log("OH NO")
           }),
-        new Transform([x * 3, y * 2 + 2, 0]),
+        new Transform3D([x * 3, y * 2 + 2, 0]),
 
         new THREE.Mesh(geometry, material)
       ])
@@ -104,7 +104,7 @@ const setupWalls = (app: App) => {
   app.add([
     new Physics.StaticBody(),
     new Physics.BoxCollider([25, 1, 1]).setDensity(0),
-    new Transform([0, 8.5, 0]),
+    new Transform3D([0, 8.5, 0]),
     new THREE.Mesh(
       new THREE.BoxGeometry(24, 1, 1),
       new THREE.MeshStandardMaterial({ color: "#999" })
@@ -115,7 +115,7 @@ const setupWalls = (app: App) => {
   app.add([
     new Physics.StaticBody(),
     new Physics.BoxCollider([1, 21, 1]).setDensity(0),
-    new Transform([-12.5, 0, 0]),
+    new Transform3D([-12.5, 0, 0]),
     new THREE.Mesh(
       new THREE.BoxGeometry(1, 18, 1),
       new THREE.MeshStandardMaterial({ color: "#999" })
@@ -126,7 +126,7 @@ const setupWalls = (app: App) => {
   app.add([
     new Physics.StaticBody(),
     new Physics.BoxCollider([1, 21, 1]).setDensity(0),
-    new Transform([+12.5, 0, 0]),
+    new Transform3D([+12.5, 0, 0]),
     new THREE.Mesh(
       new THREE.BoxGeometry(1, 18, 1),
       new THREE.MeshStandardMaterial({ color: "#999" })
@@ -137,7 +137,7 @@ const setupWalls = (app: App) => {
   app.add([
     new Physics.StaticBody(),
     new Physics.BoxCollider([27, 1, 1]).setDensity(0),
-    new Transform([0, -9.5, 0])
+    new Transform3D([0, -9.5, 0])
   ])
 }
 
@@ -145,7 +145,7 @@ const setupBall = (app: App) => {
   /* Ball */
   const ball = app.add([
     new Physics.DynamicBody().setEnabledTranslations(true, true, false),
-    new Transform([0, -5, 0]),
+    new Transform3D([0, -5, 0]),
     new Physics.BallCollider(0.5).setDensity(1),
     new ConstantVelocity(10),
     new THREE.Mesh(
