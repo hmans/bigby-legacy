@@ -182,14 +182,12 @@ importers:
       '@bigby/core': workspace:^0.10.1
       '@bigby/math': workspace:^0.10.1
       '@types/three': ^0.146.0
-      postprocessing: ^6.29.1
       three: ^0.147.0
     dependencies:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
     devDependencies:
       '@types/three': 0.146.0
-      postprocessing: 6.29.1_three@0.147.0
       three: 0.147.0
 
   packages/bigby-plugin-ticker:
@@ -5179,6 +5177,7 @@ packages:
       three: '>= 0.125.0 < 0.147.0'
     dependencies:
       three: 0.147.0
+    dev: false
 
   /preferred-pm/3.0.3:
     resolution: {integrity: sha512-+wZgbxNES/KlJs9q40F/1sfOd/j7f1O9JaHcW5Dsn3aUUOZg3L2bjpVUcKV2jvtElYfoTuQiNeMfQJ4kwUAhCQ==}
