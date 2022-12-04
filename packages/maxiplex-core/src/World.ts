@@ -84,6 +84,12 @@ export class World {
     return true
   }
 
+  getSingletonComponent<T extends Component>(ctor: Constructor<T>) {
+    this.assertRegisteredComponent(ctor)
+    /* TODO: optimize this! */
+    return this.query([ctor]).first?.get(ctor)
+  }
+
   requireComponent(...query: Constructor<Component>[]) {
     query.forEach((ctor) => this.assertRegisteredComponent(ctor))
     return this

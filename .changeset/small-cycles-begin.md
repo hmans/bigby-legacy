@@ -1,0 +1,5 @@
+---
+"@maxiplex/core": patch
+---
+
+`getSingletonComponent`

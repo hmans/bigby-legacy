@@ -249,6 +249,27 @@ describe(World, () => {
     })
   })
 
+  describe("getSingletonComponent", () => {
+    it("returns the singleton component", () => {
+      const world = createWorldWithComponents()
+
+      const singleton = new Position()
+      world.add([singleton])
+
+      expect(world.getSingletonComponent(Position)).toBe(singleton)
+    })
+
+    it("returns undefined if no entity with the component can be found", () => {
+      const world = createWorldWithComponents()
+      expect(world.getSingletonComponent(Position)).toBeUndefined()
+    })
+
+    it("throws an error when the given component has not been registered first", () => {
+      const world = new World()
+      expect(() => world.getSingletonComponent(Position)).toThrow()
+    })
+  })
+
   describe("query", () => {
     it("creates a Query object", () => {
       const world = createWorldWithComponents()
