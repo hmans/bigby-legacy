@@ -1,64 +1,24 @@
-import { World } from "@bigby/ecs"
-import {
-  OnLoadCallback,
-  Plugin,
-  OnStartCallback,
-  OnStopCallback,
-  OnUpdateCallback
-} from "./types"
+import { Event } from "@bigby/event"
+import { App as MaxiplexApp } from "./MaxiplexApp"
+import { OnUpdateCallback } from "./types"
 
-export type BaseEntity = {}
+export class App extends MaxiplexApp {
+  onEarlyUpdateCallbacks = new Event<number>()
+  onLateUpdateCallbacks = new Event<number>()
+  onRenderCallbacks = new Event<number>()
 
-export class App extends World {
-  systems = new Array<OnUpdateCallback>()
-  initializers = new Array<OnLoadCallback>()
-  startupSystems = new Array<OnStartCallback>()
-  stopCallbacks = new Array<OnStopCallback>()
-
-  constructor() {
-    console.log("🐝 Bigby Initializing")
-    super()
-  }
-
-  use(plugin: Plugin): App {
-    return plugin(this as any)
-  }
-
-  onLoad(system: OnLoadCallback) {
-    this.initializers.push(system)
+  onEarlyUpdate(callback: OnUpdateCallback) {
+    this.onEarlyUpdateCallbacks.add(callback)
     return this
   }
 
-  onStart(system: OnStartCallback) {
-    this.startupSystems.push(system)
+  onLateUpdate(callback: OnUpdateCallback) {
+    this.onLateUpdateCallbacks.add(callback)
     return this
   }
 
-  onUpdate(system: OnUpdateCallback) {
-    this.systems.push(system)
-    return this
-  }
-
-  onStop(callback: OnStopCallback) {
-    this.stopCallbacks.push(callback)
-    return this
-  }
-
-  async start() {
-    console.log("✅ Starting App")
-
-    /* Execute and wait for initializers to complete */
-    await Promise.all(this.initializers.map((system) => system()))
-
-    /* Execute and wait for startupSystems to complete */
-    await Promise.all(this.startupSystems.map((system) => system(this)))
-
-    return this
-  }
-
-  stop() {
-    console.log("⛔ Stopping App")
-    this.stopCallbacks.forEach((callback) => callback(this))
+  onRender(callback: OnUpdateCallback) {
+    this.onRenderCallbacks.add(callback)
     return this
   }
 }

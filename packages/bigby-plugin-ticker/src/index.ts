@@ -16,7 +16,10 @@ export const TickerPlugin = (app: App) => {
       lastTime = time
 
       /* Update systems */
-      app.systems.forEach((system) => system(dt))
+      app.onEarlyUpdateCallbacks.emit(dt)
+      app.onUpdateCallbacks.emit(dt)
+      app.onLateUpdateCallbacks.emit(dt)
+      app.onRenderCallbacks.emit(dt)
     }
 
     animate()

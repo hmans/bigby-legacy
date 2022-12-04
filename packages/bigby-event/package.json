@@ -1,14 +1,14 @@
 {
-  "name": "@bigby/ecs",
+  "name": "@bigby/event",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
     "url": "https://hmans.co"
   },
-  "description": "Make games, learn things.",
+  "description": "Bigby Event implementation.",
   "version": "0.10.1",
-  "main": "dist/bigby-ecs.cjs.js",
-  "module": "dist/bigby-ecs.esm.js",
+  "main": "dist/bigby-event.cjs.js",
+  "module": "dist/bigby-event.esm.js",
   "files": [
     "dist/**",
     "LICENSE",
@@ -25,11 +25,5 @@
       "@babel/preset-env",
       "@babel/preset-typescript"
     ]
-  },
-  "devDependencies": {
-    "ts-toolbelt": "^9.6.0"
-  },
-  "dependencies": {
-    "@bigby/event": "workspace:^0.10.1"
   }
 }

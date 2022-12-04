@@ -13,22 +13,20 @@ export class Transform {
   ) {}
 }
 
-export function TransformsSystem(app: App) {
-  const withTransform = app.query([Transform])
-
-  return () => {
-    for (const [_, transform] of withTransform) {
-      if (!transform.autoUpdate) return
-
-      mat4.fromRotationTranslationScale(
-        transform.matrix,
-        transform.quaternion,
-        transform.position,
-        transform.scale
-      )
-    }
-  }
-}
-
 export const TransformsPlugin = (app: App) =>
-  app.registerComponent(Transform).onUpdate(TransformsSystem(app))
+  app.registerComponent(Transform).onStart((app) => {
+    const withTransform = app.query([Transform])
+
+    app.onRender(() => {
+      for (const [_, transform] of withTransform) {
+        if (!transform.autoUpdate) return
+
+        mat4.fromRotationTranslationScale(
+          transform.matrix,
+          transform.quaternion,
+          transform.position,
+          transform.scale
+        )
+      }
+    })
+  })

@@ -59,7 +59,7 @@ export const ThreePlugin = (app: App) =>
       })
 
       /* Render every frame using the active camera if we have one */
-      app.onUpdate(() => {
+      app.onRender(() => {
         if (activeCamera) renderer.render(scene, activeCamera)
       })
 
