@@ -28,8 +28,8 @@ export const Ball = (app: App) =>
 
     /* Light */
     app.add([
-      new Transform3D([0, 0, 0]),
-      make(THREE.PointLight, ["hotpink", 1, 10], { castShadow: true }),
+      new Transform3D([0, 0, -0.5]),
+      make(THREE.PointLight, ["hotpink", 3, 10], { castShadow: true }),
       make(Parent3D, [ball.get(THREE.Object3D)!])
     ])
 
