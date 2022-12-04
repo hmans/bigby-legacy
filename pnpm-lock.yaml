@@ -235,6 +235,14 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
+  packages/maxiplex:
+    specifiers:
+      '@maxiplex/core': workspace:^0.10.1
+      add: ^2.0.6
+    dependencies:
+      '@maxiplex/core': link:../maxiplex-core
+      add: 2.0.6
+
   packages/maxiplex-core:
     specifiers:
       '@bigby/event': workspace:^0.10.1
