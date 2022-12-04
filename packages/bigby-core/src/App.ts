@@ -1,6 +1,5 @@
 import { Event } from "@bigby/event"
-import { App as MaxiplexApp } from "./MaxiplexApp"
-import { OnUpdateCallback } from "./types"
+import { App as MaxiplexApp, OnUpdateCallback } from "@maxiplex/core"
 
 export class App extends MaxiplexApp {
   onEarlyUpdateCallbacks = new Event<number>()

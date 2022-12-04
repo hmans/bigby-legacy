@@ -1,3 +1,4 @@
+export * from "./App"
 export * from "./Entity"
 export * from "./Query"
 export * from "./types"
