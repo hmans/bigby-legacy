@@ -14,6 +14,7 @@ import {
 import * as THREE from "three"
 import { Color } from "three"
 import "./index.css"
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 
 class Player {}
 
@@ -110,35 +111,32 @@ const setupPlayer = (app: App) => {
 }
 
 const setupBricks = (app: App) => {
-  const material = new THREE.MeshPhysicalMaterial({
-    color: "orange",
-    metalness: 0.1,
-    roughness: 0
-  })
-  const geometry = new THREE.BoxGeometry(2, 1, 1)
-  const activeMaterial = new THREE.MeshStandardMaterial({ color: "#fff" })
+  const loader = new GLTFLoader()
 
-  /* Bricks */
-  for (let x = -3; x <= 3; x++) {
-    for (let y = -2; y <= 2; y++) {
-      app.add([
-        new Physics.DynamicBody().setEnabledTranslations(true, true, false),
+  loader.load("/models/wonkout_brick.gltf", (gltf) => {
+    const activeMaterial = new THREE.MeshStandardMaterial({ color: "#fff" })
 
-        new Physics.BoxCollider([2, 1, 1])
-          .setDensity(2)
-          .onCollisionStart((other) => {
-            console.log("OH NO")
-          }),
-        new Transform3D([x * 3, y * 2 + 2, 0]),
+    /* Bricks */
+    for (let x = -3; x <= 3; x++) {
+      for (let y = -2; y <= 2; y++) {
+        app.add([
+          new Physics.DynamicBody().setEnabledTranslations(true, true, false),
 
-        make(THREE.Mesh, {
-          material,
-          geometry,
-          receiveShadow: true
-        })
-      ])
+          new Physics.BoxCollider([2, 1, 1])
+            .setDensity(2)
+            .onCollisionStart((other) => {
+              console.log("OH NO")
+            }),
+          new Transform3D([x * 3, y * 2 + 2, 0]),
+
+          apply(gltf.scene.children[0].clone(), {
+            castShadow: true
+            // receiveShadow: true
+          })
+        ])
+      }
     }
-  }
+  })
 }
 
 const setupWalls = (app: App) => {
