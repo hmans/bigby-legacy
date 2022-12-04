@@ -3,6 +3,10 @@ import * as THREE from "three"
 
 export * from "./helpers"
 
+export class Parent3D {
+  constructor(public parent: THREE.Object3D) {}
+}
+
 export class ThreePluginState {
   renderer: THREE.WebGLRenderer
   scene: THREE.Scene
@@ -36,6 +40,7 @@ export const ThreePlugin = (app: App) => {
   app.registerComponent(THREE.Object3D)
   app.registerComponent(THREE.Camera)
   app.registerComponent(ThreePluginState)
+  app.registerComponent(Parent3D)
 
   const state = new ThreePluginState()
   app.add([state])
@@ -87,6 +92,24 @@ export const ThreePlugin = (app: App) => {
         )
         object3d.scale.set(scale[0], scale[1], scale[2])
       }
+    })
+  })
+
+  /* Custom Parenting */
+  app.onStart((app) => {
+    const parentedQuery = app.query([Parent3D, THREE.Object3D])
+
+    parentedQuery.onEntityAdded.add((entity) => {
+      const parent = entity.get(Parent3D)!.parent
+      const object = entity.get(THREE.Object3D)!
+      parent.add(object)
+      console.log("Yay parenting!", object, parent)
+    })
+
+    parentedQuery.onEntityRemoved.add((entity) => {
+      const parent = entity.get(Parent3D)!.parent
+      const object = entity.get(THREE.Object3D)!
+      parent.remove(object)
     })
   })
 

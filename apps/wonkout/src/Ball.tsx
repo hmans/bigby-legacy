@@ -1,5 +1,6 @@
 import * as Physics from "@bigby/plugin-physics3d"
-import { App, apply, Transform3D } from "bigby"
+import { Parent3D } from "@bigby/plugin-three"
+import { App, apply, make, Transform3D } from "bigby"
 import * as THREE from "three"
 import { ConstantVelocity } from "./ConstantVelocityPlugin"
 
@@ -23,6 +24,13 @@ export const Ball = (app: App) =>
         ),
         { castShadow: true }
       )
+    ])
+
+    /* Light */
+    app.add([
+      new Transform3D([0, 0, 0]),
+      make(THREE.PointLight, ["hotpink", 1, 10], { castShadow: true }),
+      make(Parent3D, [ball.get(THREE.Object3D)!])
     ])
 
     /* I don't have the APIs yet, so please don't look at this */
