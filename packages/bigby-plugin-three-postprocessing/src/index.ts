@@ -1,9 +1,11 @@
 import { App } from "@bigby/core"
 import { ThreePluginState } from "@bigby/plugin-three"
 import {
+  BlendFunction,
   BloomEffect,
   EffectComposer,
   EffectPass,
+  NoiseEffect,
   RenderPass,
   SMAAEffect,
   ToneMappingEffect,
@@ -48,11 +50,17 @@ export const ThreePostprocessingPlugin = (app: App) => {
         )
       )
 
+      const effect = new NoiseEffect({
+        blendFunction: BlendFunction.COLOR_DODGE
+      })
+      effect.blendMode.opacity.value = 0.045
+
       composer.addPass(
         new EffectPass(
           camera,
           new ToneMappingEffect({ mode: ToneMappingMode.REINHARD2_ADAPTIVE }),
-          new SMAAEffect()
+          new SMAAEffect(),
+          effect
         )
       )
     })
