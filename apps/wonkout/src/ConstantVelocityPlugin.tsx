@@ -18,7 +18,7 @@ export const ConstantVelocityPlugin = (app: App) =>
           const rb = rigidbody.raw!
           const vel = rb.linvel()
           const speed = Math.sqrt(vel.x * vel.x + vel.y * vel.y + vel.z * vel.z)
-          const ratio = v.velocity / speed
+          const ratio = speed !== 0 ? v.velocity / speed : 1
 
           if (ratio > 1)
             rb.setLinvel(

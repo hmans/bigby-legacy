@@ -8,13 +8,13 @@ export const Ball = (app: App) =>
   app.onStart((app) => {
     /* Ball */
     const ball = app.add([
+      new Transform3D([0, -5.5, 0]),
+
       new Physics.DynamicBody((desc) =>
         desc.enabledTranslations(true, true, false)
       ),
-
-      new Transform3D([0, -5, 0]),
       new Physics.BallCollider(0.3).setDensity(1),
-      new ConstantVelocity(5),
+      new ConstantVelocity(10),
 
       make(THREE.Mesh, [], {
         geometry: new THREE.IcosahedronGeometry(0.4, 0),
@@ -37,6 +37,6 @@ export const Ball = (app: App) =>
     const rb = ball.get(Physics.DynamicBody)!.raw!
     const coll = ball.get(Physics.BallCollider)!.raw!
     rb.setLinearDamping(0)
-    rb.applyImpulse({ x: 0, y: 10, z: 0 }, true)
+    // rb.applyImpulse({ x: 0, y: 5, z: 0 }, true)
     coll.setRestitution(1)
   })
