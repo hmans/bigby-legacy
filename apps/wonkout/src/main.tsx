@@ -31,7 +31,7 @@ const make = <C extends Constructor<any>>(
   { args, ...props }: MakeProps<C>
 ): InstanceType<C> => {
   // @ts-ignore
-  const instance = new ctor(...args)
+  const instance = args ? new ctor(...args) : new ctor()
   return apply(instance, props)
 }
 
