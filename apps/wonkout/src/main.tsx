@@ -2,6 +2,7 @@ import { Input, InputPlugin } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
 import { RigidBody } from "@bigby/plugin-physics3d"
 import { ThreePlugin } from "@bigby/plugin-three"
+import { ThreePostprocessingPlugin } from "@bigby/plugin-three-postprocessing"
 import { App, TickerPlugin, Transform3D, TransformsPlugin } from "bigby"
 import * as THREE from "three"
 import "./index.css"
@@ -49,7 +50,11 @@ const setupPlayer = (app: App) => {
 
     new THREE.Mesh(
       new THREE.BoxGeometry(5, 1, 1),
-      new THREE.MeshStandardMaterial({ color: "hotpink" })
+      new THREE.MeshStandardMaterial({
+        color: "hotpink",
+        emissive: "hotpink",
+        emissiveIntensity: 1
+      })
     )
   ])
 
@@ -150,7 +155,9 @@ const setupBall = (app: App) => {
     new ConstantVelocity(10),
     new THREE.Mesh(
       new THREE.IcosahedronGeometry(0.6, 0),
-      new THREE.MeshStandardMaterial({ color: "white" })
+      new THREE.MeshStandardMaterial({
+        color: new THREE.Color("white").multiplyScalar(2)
+      })
     )
   ])
 
@@ -197,6 +204,7 @@ const app = new App()
   .use(TickerPlugin)
   .use(TransformsPlugin)
   .use(ThreePlugin)
+  .use(ThreePostprocessingPlugin)
   .use(InputPlugin)
   .use(Physics.Plugin({ gravity: [0, 0, 0] }))
   .use(ConstantVelocityPlugin)

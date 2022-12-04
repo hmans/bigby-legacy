@@ -1,8 +1,14 @@
 import { App, Transform3D } from "@bigby/core"
 import * as THREE from "three"
 
-class ThreePluginState {
-  renderer = new THREE.WebGLRenderer({ antialias: true })
+export class ThreePluginState {
+  renderer = new THREE.WebGLRenderer({
+    powerPreference: "high-performance",
+    antialias: false,
+    stencil: false,
+    depth: false
+  })
+
   scene = new THREE.Scene()
   camera?: THREE.Camera
   render = true
