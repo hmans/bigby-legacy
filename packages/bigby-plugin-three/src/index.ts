@@ -63,7 +63,27 @@ export const ThreePlugin = (app: App) =>
         if (activeCamera) renderer.render(scene, activeCamera)
       })
 
+      /* Resize the renderer when the window resizes */
+      const onResize = () => {
+        renderer.setSize(window.innerWidth, window.innerHeight)
+
+        if (activeCamera instanceof THREE.PerspectiveCamera) {
+          activeCamera.aspect = window.innerWidth / window.innerHeight
+          activeCamera.updateProjectionMatrix()
+        } else if (activeCamera instanceof THREE.OrthographicCamera) {
+          activeCamera.left = -window.innerWidth / 2
+          activeCamera.right = window.innerWidth / 2
+          activeCamera.top = window.innerHeight / 2
+          activeCamera.bottom = -window.innerHeight / 2
+          activeCamera.updateProjectionMatrix()
+        }
+      }
+
+      window.addEventListener("resize", onResize)
+
       app.onStop(() => {
+        window.removeEventListener("resize", onResize)
+
         console.debug("Disposing renderer")
         document.body.removeChild(renderer.domElement)
         renderer.dispose()
