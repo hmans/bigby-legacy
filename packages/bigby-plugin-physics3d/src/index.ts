@@ -5,26 +5,28 @@ import { ColliderHandle, RigidBodyDesc } from "@dimforge/rapier3d-compat"
 import { quat, vec3 } from "gl-matrix"
 
 export abstract class RigidBody {
-  abstract desc: RigidBodyDesc
+  desc: RigidBodyDesc = undefined!
   raw?: RAPIER.RigidBody
 
-  setEnabledTranslations(...enabled: [boolean, boolean, boolean]) {
-    this.desc.enabledTranslations(...enabled)
-    return this
-  }
+  protected abstract initialize(): void
 
-  setEnabledRotations(...enabled: [boolean, boolean, boolean]) {
-    this.desc.enabledRotations(...enabled)
+  constructor(fun?: (desc: RigidBodyDesc) => void) {
+    this.initialize()
+    fun?.(this.desc)
     return this
   }
 }
 
 export class DynamicBody extends RigidBody {
-  desc = RAPIER.RigidBodyDesc.dynamic()
+  protected initialize(): void {
+    this.desc = RAPIER.RigidBodyDesc.dynamic()
+  }
 }
 
 export class StaticBody extends RigidBody {
-  desc = RAPIER.RigidBodyDesc.fixed()
+  protected initialize(): void {
+    this.desc = RAPIER.RigidBodyDesc.fixed()
+  }
 }
 
 export abstract class Collider {
@@ -116,9 +118,6 @@ export const Plugin =
             z: transform.quaternion[2],
             w: transform.quaternion[3]
           })
-
-          desc.setLinearDamping(0.5)
-          desc.setAngularDamping(0.5)
 
           rigidbody.raw = world.createRigidBody(desc)
         })

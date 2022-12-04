@@ -16,11 +16,15 @@ export const Player = (app: App) => {
       new PlayerComponent(),
       new Input(),
 
-      new Physics.DynamicBody()
-        .setEnabledRotations(false, false, true)
-        .setEnabledTranslations(true, true, false),
+      new Physics.DynamicBody((desc) =>
+        desc
+          .enabledRotations(false, false, true)
+          .enabledTranslations(true, true, false)
+          .setLinearDamping(5)
+          .setAngularDamping(3)
+      ),
 
-      new Physics.BoxCollider([5, 1, 1]),
+      new Physics.BoxCollider([5, 1, 1]).setDensity(10),
 
       new Transform3D([0, -8.5, 0]),
 
@@ -41,10 +45,10 @@ export const Player = (app: App) => {
         rb.resetTorques(false)
 
         /* Move */
-        rb.applyImpulse({ x: move.x * 2, y: move.y * 2, z: 0 }, true)
+        rb.applyImpulse({ x: move.x * 30, y: move.y * 30, z: 0 }, true)
 
         /* Rotate */
-        rb.applyTorqueImpulse({ x: 0, y: 0, z: aim.x * -1 }, true)
+        rb.applyTorqueImpulse({ x: 0, y: 0, z: aim.x * -10 }, true)
       }
     })
   })

@@ -12,7 +12,12 @@ export const Bricks = (app: App) =>
         app.add([
           new Transform3D([x * 3, y * 2 + 2, 0]),
 
-          new Physics.DynamicBody().setEnabledTranslations(true, true, false),
+          new Physics.DynamicBody((body) =>
+            body
+              .enabledTranslations(true, true, false)
+              .setLinearDamping(1)
+              .setAngularDamping(1)
+          ),
 
           new Physics.BoxCollider([2, 1, 1])
             .setDensity(2)

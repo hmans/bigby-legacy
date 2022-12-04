@@ -7,7 +7,10 @@ export const Ball = (app: App) =>
   app.onStart((app) => {
     /* Ball */
     const ball = app.add([
-      new Physics.DynamicBody().setEnabledTranslations(true, true, false),
+      new Physics.DynamicBody((desc) =>
+        desc.enabledTranslations(true, true, false)
+      ),
+
       new Transform3D([0, -5, 0]),
       new Physics.BallCollider(0.5).setDensity(1),
       new ConstantVelocity(10),
