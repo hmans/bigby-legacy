@@ -5,7 +5,7 @@ export type OnLoadCallback<A extends App> = (app: A) => void | Promise<void>
 
 export type OnStartCallback<A extends App> = (app: A) => void | Promise<void>
 
-export type OnUpdateCallback = (dt: number) => void
+export type TickerCallback = (dt: number) => void
 
 export type OnStopCallback<A extends App> = (app: A) => void
 
@@ -16,7 +16,7 @@ export type BaseEntity = {}
 export class App extends World {
   onLoadCallbacks = new Array<OnLoadCallback<typeof this>>()
   onStartCallbacks = new Array<OnStartCallback<typeof this>>()
-  onUpdateCallbacks = new EventDispatcher<number>()
+  onTickCallbacks = new EventDispatcher<number>()
   onStopCallbacks = new EventDispatcher<typeof this>()
 
   constructor() {
@@ -38,8 +38,8 @@ export class App extends World {
     return this
   }
 
-  onUpdate(callback: OnUpdateCallback) {
-    this.onUpdateCallbacks.add(callback)
+  onTick(callback: TickerCallback) {
+    this.onTickCallbacks.add(callback)
     return this
   }
 

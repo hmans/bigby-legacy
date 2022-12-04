@@ -3,8 +3,15 @@ import { clamp } from "@bigby/math"
 
 export const TickerPlugin = (app: App) => {
   return app.onStart((app) => {
-    let lastTime = performance.now()
+    /* Add system that invokes our own callbacks */
+    app.onTick((dt) => {
+      app.onEarlyUpdateCallbacks.emit(dt)
+      app.onLateUpdateCallbacks.emit(dt)
+      app.onUpdateCallbacks.emit(dt)
+      app.onRenderCallbacks.emit(dt)
+    })
 
+    let lastTime = performance.now()
     let running = true
 
     const animate = () => {
@@ -16,10 +23,7 @@ export const TickerPlugin = (app: App) => {
       lastTime = time
 
       /* Update systems */
-      app.onEarlyUpdateCallbacks.emit(dt)
-      app.onUpdateCallbacks.emit(dt)
-      app.onLateUpdateCallbacks.emit(dt)
-      app.onRenderCallbacks.emit(dt)
+      app.onTickCallbacks.emit(dt)
     }
 
     animate()
