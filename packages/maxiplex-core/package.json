@@ -1,5 +1,5 @@
 {
-  "name": "maxiplex",
+  "name": "@maxiplex/core",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
@@ -7,8 +7,8 @@
   },
   "description": "The big brother to Miniplex.",
   "version": "0.10.1",
-  "main": "dist/maxiplex.cjs.js",
-  "module": "dist/maxiplex.esm.js",
+  "main": "dist/maxiplex-core.cjs.js",
+  "module": "dist/maxiplex-core.esm.js",
   "files": [
     "dist/**",
     "LICENSE",

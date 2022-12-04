@@ -235,7 +235,7 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
-  packages/maxiplex:
+  packages/maxiplex-core:
     specifiers:
       '@bigby/event': workspace:^0.10.1
       ts-toolbelt: ^9.6.0
