@@ -1,0 +1,35 @@
+{
+  "name": "maxiplex",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "The big brother to Miniplex.",
+  "version": "0.10.1",
+  "main": "dist/maxiplex.cjs.js",
+  "module": "dist/maxiplex.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "build": "preconstruct build",
+    "test": "jest --passWithNoTests"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-typescript"
+    ]
+  },
+  "devDependencies": {
+    "ts-toolbelt": "^9.6.0"
+  },
+  "dependencies": {
+    "@bigby/event": "workspace:^0.10.1"
+  }
+}

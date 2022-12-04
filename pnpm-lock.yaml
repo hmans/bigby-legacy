@@ -158,6 +158,9 @@ importers:
     devDependencies:
       ts-toolbelt: 9.6.0
 
+  packages/bigby-event:
+    specifiers: {}
+
   packages/bigby-math:
     specifiers:
       gl-matrix: ^3.4.3
@@ -231,6 +234,15 @@ importers:
       '@bigby/ecs': link:../bigby-ecs
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+
+  packages/maxiplex:
+    specifiers:
+      '@bigby/event': workspace:^0.10.1
+      ts-toolbelt: ^9.6.0
+    dependencies:
+      '@bigby/event': link:../bigby-event
+    devDependencies:
+      ts-toolbelt: 9.6.0
 
 packages:
 
