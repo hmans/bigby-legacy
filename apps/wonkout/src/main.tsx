@@ -16,15 +16,12 @@ import { Color } from "three"
 import "./index.css"
 
 /* TODO: extract this into maxiplex */
-const apply = <C extends object>(component: C, props: Partial<C>) => {
-  Object.assign(component, props)
-  return component
+const apply = <T extends object>(object: T, props: Partial<T>) => {
+  Object.assign(object, props)
+  return object
 }
 
-const component = <C extends object>(
-  ctor: Constructor<C>,
-  props: Partial<C>
-): C => {
+const make = <T extends object>(ctor: Constructor<T>, props: Partial<T>): T => {
   // @ts-ignore
   const instance = new ctor()
   return apply(instance, props)
@@ -70,8 +67,8 @@ const setupScene = (app: App) => {
 
 const setupFloor = (app: App) => {
   app.add([
-    component(Transform3D, { position: [0, 0, -2] }),
-    component(THREE.Mesh, {
+    make(Transform3D, { position: [0, 0, -2] }),
+    make(THREE.Mesh, {
       receiveShadow: true,
       geometry: new THREE.PlaneGeometry(100, 100),
       material: new THREE.MeshStandardMaterial({ color: "#555" })
@@ -93,7 +90,7 @@ const setupPlayer = (app: App) => {
 
     new Transform3D([0, -8.5, 0]),
 
-    component(THREE.Mesh, {
+    make(THREE.Mesh, {
       geometry: new THREE.BoxGeometry(5, 1, 1),
       material: new THREE.MeshStandardMaterial({
         color: new Color("hotpink").multiplyScalar(1.3)
@@ -159,7 +156,7 @@ const setupWalls = (app: App) => {
     new Physics.StaticBody(),
     new Physics.BoxCollider([24, 1, height]).setDensity(0),
     new Transform3D([0, 8.5, 0]),
-    component(THREE.Mesh, {
+    make(THREE.Mesh, {
       geometry: new THREE.BoxGeometry(24, 1, height),
       material: new THREE.MeshStandardMaterial({ color: "#999" }),
       castShadow: true
