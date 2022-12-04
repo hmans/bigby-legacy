@@ -5,13 +5,11 @@ import { ThreePlugin } from "@bigby/plugin-three"
 import { ThreePostprocessingPlugin } from "@bigby/plugin-three-postprocessing"
 import {
   App,
-  Component,
   Constructor,
   TickerPlugin,
   Transform3D,
   TransformsPlugin
 } from "bigby"
-import { vec3 } from "gl-matrix"
 import * as THREE from "three"
 import { Color } from "three"
 import "./index.css"
@@ -77,7 +75,7 @@ const setupScene = (app: App) => {
 
 const setupFloor = (app: App) => {
   app.add([
-    make(Transform3D, { position: [0, 0, -2], args: [vec3.create()] }),
+    make(Transform3D, { position: [0, 0, -2] }),
     make(THREE.Mesh, {
       receiveShadow: true,
       geometry: new THREE.PlaneGeometry(100, 100),
