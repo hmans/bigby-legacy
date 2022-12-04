@@ -51,7 +51,7 @@ const setupScene = (app: App) => {
 
   {
     const light = new THREE.DirectionalLight(0xffffff, 0.2)
-    app.add([new Transform3D([20, 80, 100]), light])
+    app.add([new Transform3D([50, 80, 100]), light])
 
     light.castShadow = true
 
@@ -68,7 +68,7 @@ const setupScene = (app: App) => {
 
 const setupFloor = (app: App) => {
   app.add([
-    component(Transform3D, { position: [0, 0, -1] }),
+    component(Transform3D, { position: [0, 0, -2] }),
     component(THREE.Mesh, {
       receiveShadow: true,
       geometry: new THREE.PlaneGeometry(100, 100),
@@ -125,7 +125,7 @@ const setupPlayer = (app: App) => {
 }
 
 const setupBricks = (app: App) => {
-  const material = new THREE.MeshStandardMaterial({ color: "#99c" })
+  const material = new THREE.MeshStandardMaterial({ color: "orange" })
   const geometry = new THREE.BoxGeometry(2, 1, 1)
   const activeMaterial = new THREE.MeshStandardMaterial({ color: "#fff" })
 
@@ -153,13 +153,14 @@ const setupBricks = (app: App) => {
 }
 
 const setupWalls = (app: App) => {
+  const height = 4
   /* North Wall */
   app.add([
     new Physics.StaticBody(),
-    new Physics.BoxCollider([25, 1, 1]).setDensity(0),
+    new Physics.BoxCollider([24, 1, height]).setDensity(0),
     new Transform3D([0, 8.5, 0]),
     component(THREE.Mesh, {
-      geometry: new THREE.BoxGeometry(24, 1, 1),
+      geometry: new THREE.BoxGeometry(24, 1, height),
       material: new THREE.MeshStandardMaterial({ color: "#999" }),
       castShadow: true
     })
@@ -168,11 +169,11 @@ const setupWalls = (app: App) => {
   /* West Wall */
   app.add([
     new Physics.StaticBody(),
-    new Physics.BoxCollider([1, 21, 1]).setDensity(0),
+    new Physics.BoxCollider([1, 18, height]).setDensity(0),
     new Transform3D([-12.5, 0, 0]),
     apply(
       new THREE.Mesh(
-        new THREE.BoxGeometry(1, 18, 1),
+        new THREE.BoxGeometry(1, 18, height),
         new THREE.MeshStandardMaterial({ color: "#999" })
       ),
       { castShadow: true }
@@ -182,11 +183,11 @@ const setupWalls = (app: App) => {
   /* East Wall */
   app.add([
     new Physics.StaticBody(),
-    new Physics.BoxCollider([1, 21, 1]).setDensity(0),
+    new Physics.BoxCollider([1, 18, height]).setDensity(0),
     new Transform3D([+12.5, 0, 0]),
     apply(
       new THREE.Mesh(
-        new THREE.BoxGeometry(1, 18, 1),
+        new THREE.BoxGeometry(1, 18, height),
         new THREE.MeshStandardMaterial({ color: "#999" })
       ),
       { castShadow: true }
