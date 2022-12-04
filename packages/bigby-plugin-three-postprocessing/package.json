@@ -1,0 +1,43 @@
+{
+  "name": "@bigby/plugin-three-postprocessing",
+  "author": {
+    "name": "Hendrik Mans",
+    "email": "hendrik@mans.de",
+    "url": "https://hmans.co"
+  },
+  "description": "Three.js Postprocessing for Bigby.",
+  "version": "0.10.1",
+  "main": "dist/bigby-plugin-three-postprocessing.cjs.js",
+  "module": "dist/bigby-plugin-three-postprocessing.esm.js",
+  "files": [
+    "dist/**",
+    "LICENSE",
+    "README.md"
+  ],
+  "license": "MIT",
+  "sideEffects": false,
+  "scripts": {
+    "build": "preconstruct build",
+    "test": "jest --passWithNoTests"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-typescript"
+    ]
+  },
+  "devDependencies": {
+    "@bigby/plugin-three": "workspace:^0.10.1",
+    "@types/three": "^0.146.0",
+    "postprocessing": "^6.29.1",
+    "three": "^0.147.0"
+  },
+  "dependencies": {
+    "@bigby/core": "workspace:^0.10.1"
+  },
+  "peerDependencies": {
+    "@bigby/plugin-three": "workspace:^0.10.1",
+    "postprocessing": "^6.29.1",
+    "three": "^0.147.0"
+  }
+}

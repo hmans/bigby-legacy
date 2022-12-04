@@ -1,26 +1,53 @@
 import { App, Transform3D } from "@bigby/core"
 import * as THREE from "three"
 
+export class ThreePluginState {
+  renderer: THREE.WebGLRenderer
+  scene: THREE.Scene
+  camera?: THREE.Camera
+  render = true
+
+  constructor({ render = true }: { render?: boolean } = {}) {
+    this.renderer = new THREE.WebGLRenderer({
+      powerPreference: "high-performance",
+      antialias: false,
+      stencil: false,
+      depth: false
+    })
+
+    this.renderer.shadowMap.enabled = true
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    this.renderer.outputEncoding = THREE.LinearEncoding
+
+    this.scene = new THREE.Scene()
+
+    this.render = render
+  }
+}
+
 export const ThreePlugin = (app: App) => {
   app.requireComponent(Transform3D)
   app.registerComponent(THREE.Object3D)
   app.registerComponent(THREE.Camera)
+  app.registerComponent(ThreePluginState)
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true })
-  const scene = new THREE.Scene()
+  const state = new ThreePluginState()
+  app.add([state])
+
+  const { renderer, scene } = state
 
   /* Renderer & Canvas */
   app.onStart((app) => {
     /* Create our renderer */
     renderer.setSize(window.innerWidth, window.innerHeight)
     document.body.appendChild(renderer.domElement)
+  })
 
-    app.onStop(() => {
-      console.debug("Disposing renderer")
-      document.body.removeChild(renderer.domElement)
-      renderer.dispose()
-      renderer.forceContextLoss()
-    })
+  app.onStop(() => {
+    console.debug("Disposing renderer")
+    document.body.removeChild(renderer.domElement)
+    renderer.dispose()
+    renderer.forceContextLoss()
   })
 
   /* Scene Objects */
@@ -74,7 +101,10 @@ export const ThreePlugin = (app: App) => {
 
     /* Render every frame using the active camera if we have one */
     app.onRender(() => {
-      if (activeCamera) renderer.render(scene, activeCamera)
+      if (!state.render) return
+      if (!activeCamera) return
+
+      renderer.render(scene, activeCamera)
     })
 
     /* Resize the renderer when the window resizes */

@@ -2,8 +2,17 @@ import { Input, InputPlugin } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
 import { RigidBody } from "@bigby/plugin-physics3d"
 import { ThreePlugin } from "@bigby/plugin-three"
-import { App, TickerPlugin, Transform3D, TransformsPlugin } from "bigby"
+import { ThreePostprocessingPlugin } from "@bigby/plugin-three-postprocessing"
+import {
+  App,
+  apply,
+  make,
+  TickerPlugin,
+  Transform3D,
+  TransformsPlugin
+} from "bigby"
 import * as THREE from "three"
+import { Color } from "three"
 import "./index.css"
 
 class Player {}
@@ -25,11 +34,33 @@ const setupScene = (app: App) => {
   ])
 
   /* Lights */
-  app.add([new Transform3D([0, 0, 0]), new THREE.AmbientLight(0xffffff, 0.2)])
+  app.add([new Transform3D([0, 0, 0]), new THREE.AmbientLight(0xffffff, 1)])
 
+  {
+    const light = new THREE.DirectionalLight(0xffffff, 0.2)
+    app.add([new Transform3D([50, 80, 100]), light])
+
+    light.castShadow = true
+
+    const { shadow } = light
+    shadow.bias = 0.0001
+    shadow.camera.left = -15
+    shadow.camera.right = 15
+    shadow.camera.top = 15
+    shadow.camera.bottom = -15
+    shadow.mapSize.width = 1024
+    shadow.mapSize.height = 1024
+  }
+}
+
+const setupFloor = (app: App) => {
   app.add([
-    new Transform3D([10, 20, 30]),
-    new THREE.DirectionalLight(0xffffff, 0.8)
+    make(Transform3D, { position: [0, 0, -2] }),
+    make(THREE.Mesh, {
+      receiveShadow: true,
+      geometry: new THREE.PlaneGeometry(100, 100),
+      material: new THREE.MeshStandardMaterial({ color: "#555" })
+    })
   ])
 }
 
@@ -47,10 +78,13 @@ const setupPlayer = (app: App) => {
 
     new Transform3D([0, -8.5, 0]),
 
-    new THREE.Mesh(
-      new THREE.BoxGeometry(5, 1, 1),
-      new THREE.MeshStandardMaterial({ color: "hotpink" })
-    )
+    make(THREE.Mesh, {
+      geometry: new THREE.BoxGeometry(5, 1, 1),
+      material: new THREE.MeshStandardMaterial({
+        color: new Color("hotpink").multiplyScalar(1.3)
+      }),
+      castShadow: true
+    })
   ])
 
   const playerQuery = app.query([Player])
@@ -76,13 +110,17 @@ const setupPlayer = (app: App) => {
 }
 
 const setupBricks = (app: App) => {
-  const material = new THREE.MeshStandardMaterial({ color: "#99c" })
+  const material = new THREE.MeshStandardMaterial({ color: "orange" })
   const geometry = new THREE.BoxGeometry(2, 1, 1)
   const activeMaterial = new THREE.MeshStandardMaterial({ color: "#fff" })
 
   /* Bricks */
   for (let x = -3; x <= 3; x++) {
     for (let y = -2; y <= 2; y++) {
+      const mesh = new THREE.Mesh(geometry, material)
+      mesh.castShadow = true
+      mesh.receiveShadow = true
+
       app.add([
         new Physics.DynamicBody().setEnabledTranslations(true, true, false),
 
@@ -93,43 +131,51 @@ const setupBricks = (app: App) => {
           }),
         new Transform3D([x * 3, y * 2 + 2, 0]),
 
-        new THREE.Mesh(geometry, material)
+        mesh
       ])
     }
   }
 }
 
 const setupWalls = (app: App) => {
+  const height = 4
   /* North Wall */
   app.add([
     new Physics.StaticBody(),
-    new Physics.BoxCollider([25, 1, 1]).setDensity(0),
+    new Physics.BoxCollider([24, 1, height]).setDensity(0),
     new Transform3D([0, 8.5, 0]),
-    new THREE.Mesh(
-      new THREE.BoxGeometry(24, 1, 1),
-      new THREE.MeshStandardMaterial({ color: "#999" })
-    )
+    make(THREE.Mesh, {
+      geometry: new THREE.BoxGeometry(24, 1, height),
+      material: new THREE.MeshStandardMaterial({ color: "#999" }),
+      castShadow: true
+    })
   ])
 
   /* West Wall */
   app.add([
     new Physics.StaticBody(),
-    new Physics.BoxCollider([1, 21, 1]).setDensity(0),
+    new Physics.BoxCollider([1, 18, height]).setDensity(0),
     new Transform3D([-12.5, 0, 0]),
-    new THREE.Mesh(
-      new THREE.BoxGeometry(1, 18, 1),
-      new THREE.MeshStandardMaterial({ color: "#999" })
+    apply(
+      new THREE.Mesh(
+        new THREE.BoxGeometry(1, 18, height),
+        new THREE.MeshStandardMaterial({ color: "#999" })
+      ),
+      { castShadow: true }
     )
   ])
 
   /* East Wall */
   app.add([
     new Physics.StaticBody(),
-    new Physics.BoxCollider([1, 21, 1]).setDensity(0),
+    new Physics.BoxCollider([1, 18, height]).setDensity(0),
     new Transform3D([+12.5, 0, 0]),
-    new THREE.Mesh(
-      new THREE.BoxGeometry(1, 18, 1),
-      new THREE.MeshStandardMaterial({ color: "#999" })
+    apply(
+      new THREE.Mesh(
+        new THREE.BoxGeometry(1, 18, height),
+        new THREE.MeshStandardMaterial({ color: "#999" })
+      ),
+      { castShadow: true }
     )
   ])
 
@@ -148,9 +194,14 @@ const setupBall = (app: App) => {
     new Transform3D([0, -5, 0]),
     new Physics.BallCollider(0.5).setDensity(1),
     new ConstantVelocity(10),
-    new THREE.Mesh(
-      new THREE.IcosahedronGeometry(0.6, 0),
-      new THREE.MeshStandardMaterial({ color: "white" })
+    apply(
+      new THREE.Mesh(
+        new THREE.IcosahedronGeometry(0.6, 0),
+        new THREE.MeshStandardMaterial({
+          color: new THREE.Color("white").multiplyScalar(2)
+        })
+      ),
+      { castShadow: true }
     )
   ])
 
@@ -187,6 +238,7 @@ const Wonkynoid = (app: App) =>
     .registerComponent(ConstantVelocity)
     .onStart((app) => {
       setupScene(app)
+      setupFloor(app)
       setupWalls(app)
       setupPlayer(app)
       setupBricks(app)
@@ -197,6 +249,7 @@ const app = new App()
   .use(TickerPlugin)
   .use(TransformsPlugin)
   .use(ThreePlugin)
+  .use(ThreePostprocessingPlugin)
   .use(InputPlugin)
   .use(Physics.Plugin({ gravity: [0, 0, 0] }))
   .use(ConstantVelocityPlugin)

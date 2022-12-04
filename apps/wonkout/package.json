@@ -12,7 +12,9 @@
     "@bigby/plugin-input": "workspace:^0.10.1",
     "@bigby/plugin-physics3d": "workspace:^0.10.2",
     "@bigby/plugin-three": "workspace:^0.10.1",
+    "@bigby/plugin-three-postprocessing": "workspace:^0.10.1",
     "bigby": "workspace:^0.10.2",
+    "postprocessing": "^6.29.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "three": "^0.147.0"
