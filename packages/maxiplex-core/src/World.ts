@@ -1,7 +1,19 @@
 import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import { Entity } from "./Entity"
 import { Query } from "./Query"
-import { Component, Constructor, ComponentQuery } from "./types"
+import { Component, ComponentQuery, Constructor } from "./types"
+
+export type OnLoadCallback<A extends World> = (app: A) => void | Promise<void>
+
+export type OnStartCallback<A extends World> = (app: A) => void | Promise<void>
+
+export type TickerCallback = (dt: number) => void
+
+export type OnStopCallback<A extends World> = (app: A) => void
+
+export type Plugin<A extends World> = (app: A) => A
+
+export type BaseEntity = {}
 
 export class World {
   constructor() {}
@@ -12,6 +24,11 @@ export class World {
   onEntityAdded = new EventDispatcher<Entity>()
   onEntityRemoved = new EventDispatcher<Entity>()
   onEntityUpdated = new EventDispatcher<Entity>()
+
+  onLoadCallbacks = new Array<OnLoadCallback<typeof this>>()
+  onStartCallbacks = new Array<OnStartCallback<typeof this>>()
+  onTickCallbacks = new EventDispatcher<number>()
+  onStopCallbacks = new EventDispatcher<typeof this>()
 
   protected queries = new Map<string, Query<any>>()
 
@@ -123,5 +140,47 @@ export class World {
     }
 
     return this.queries.get(key)!
+  }
+
+  use(plugin: Plugin<typeof this>) {
+    return plugin(this as any)
+  }
+
+  onLoad(callback: OnLoadCallback<typeof this>) {
+    this.onLoadCallbacks.push(callback)
+    return this
+  }
+
+  onStart(callback: OnStartCallback<typeof this>) {
+    this.onStartCallbacks.push(callback)
+    return this
+  }
+
+  onTick(callback: TickerCallback) {
+    this.onTickCallbacks.add(callback)
+    return this
+  }
+
+  onStop(callback: OnStopCallback<typeof this>) {
+    this.onStopCallbacks.add(callback)
+    return this
+  }
+
+  async start() {
+    console.log("✅ Starting App")
+
+    /* Execute and wait for initializers to complete */
+    await Promise.all(this.onLoadCallbacks.map((callback) => callback(this)))
+
+    /* Execute and wait for startupSystems to complete */
+    await Promise.all(this.onStartCallbacks.map((callback) => callback(this)))
+
+    return this
+  }
+
+  stop() {
+    console.log("⛔ Stopping App")
+    this.onStopCallbacks.emit(this)
+    return this
   }
 }

@@ -1,3 +1,3 @@
-export * from "./transforms"
+export * from "@maxiplex/core"
 export * from "./App"
-export type { Component, Constructor } from "@maxiplex/core"
+export * from "./transforms"

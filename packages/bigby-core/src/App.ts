@@ -1,13 +1,15 @@
 import { EventDispatcher } from "@maxiplex/event-dispatcher"
-import { App as MaxiplexApp, TickerCallback } from "@maxiplex/core"
+import { World, TickerCallback } from "@maxiplex/core"
 
-export class App extends MaxiplexApp {
+export class App extends World {
   onEarlyUpdateCallbacks = new EventDispatcher<number>()
   onUpdateCallbacks = new EventDispatcher<number>()
   onLateUpdateCallbacks = new EventDispatcher<number>()
   onRenderCallbacks = new EventDispatcher<number>()
 
   constructor() {
+    console.log("🐝 Bigby Initializing")
+
     super()
 
     this.onTick((dt) => {

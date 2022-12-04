@@ -5,7 +5,8 @@ import { ThreePlugin } from "@bigby/plugin-three"
 import { ThreePostprocessingPlugin } from "@bigby/plugin-three-postprocessing"
 import {
   App,
-  Constructor,
+  apply,
+  make,
   TickerPlugin,
   Transform3D,
   TransformsPlugin
@@ -13,27 +14,6 @@ import {
 import * as THREE from "three"
 import { Color } from "three"
 import "./index.css"
-
-/* TODO: extract this into maxiplex */
-type ApplyProps<T> = Partial<T>
-
-const apply = <T extends object>(object: T, props: ApplyProps<T>) => {
-  Object.assign(object, props)
-  return object
-}
-
-type MakeProps<C extends Constructor<any>> = ApplyProps<InstanceType<C>> & {
-  args?: ConstructorParameters<C>
-}
-
-const make = <C extends Constructor<any>>(
-  ctor: C,
-  { args, ...props }: MakeProps<C>
-): InstanceType<C> => {
-  // @ts-ignore
-  const instance = args ? new ctor(...args) : new ctor()
-  return apply(instance, props)
-}
 
 class Player {}
 
