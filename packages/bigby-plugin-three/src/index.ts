@@ -2,18 +2,25 @@ import { App, Transform3D } from "@bigby/core"
 import * as THREE from "three"
 
 export class ThreePluginState {
-  renderer = new THREE.WebGLRenderer({
-    powerPreference: "high-performance",
-    antialias: false,
-    stencil: false,
-    depth: false
-  })
-
-  scene = new THREE.Scene()
+  renderer: THREE.WebGLRenderer
+  scene: THREE.Scene
   camera?: THREE.Camera
   render = true
 
   constructor({ render = true }: { render?: boolean } = {}) {
+    this.renderer = new THREE.WebGLRenderer({
+      powerPreference: "high-performance",
+      antialias: false,
+      stencil: false,
+      depth: false
+    })
+
+    this.renderer.shadowMap.enabled = true
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    this.renderer.outputEncoding = THREE.LinearEncoding
+
+    this.scene = new THREE.Scene()
+
     this.render = render
   }
 }
