@@ -12,6 +12,7 @@ import {
   TransformsPlugin
 } from "bigby"
 import * as THREE from "three"
+import { Color } from "three"
 import "./index.css"
 
 /* TODO: extract this into maxiplex */
@@ -95,9 +96,7 @@ const setupPlayer = (app: App) => {
     component(THREE.Mesh, {
       geometry: new THREE.BoxGeometry(5, 1, 1),
       material: new THREE.MeshStandardMaterial({
-        color: "hotpink",
-        emissive: "hotpink",
-        emissiveIntensity: 0.8
+        color: new Color("hotpink").multiplyScalar(1.3)
       }),
       castShadow: true
     })
