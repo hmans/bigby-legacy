@@ -6,7 +6,6 @@ import {
   EffectPass,
   RenderPass,
   SMAAEffect,
-  SSAOEffect,
   ToneMappingEffect,
   ToneMappingMode
 } from "postprocessing"
