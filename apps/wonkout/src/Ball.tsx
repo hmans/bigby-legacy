@@ -13,23 +13,25 @@ export const Ball = (app: App) =>
       ),
 
       new Transform3D([0, -5, 0]),
-      new Physics.BallCollider(0.5).setDensity(1),
+      new Physics.BallCollider(0.3).setDensity(1),
       new ConstantVelocity(10),
-      apply(
-        new THREE.Mesh(
-          new THREE.IcosahedronGeometry(0.6, 0),
-          new THREE.MeshStandardMaterial({
-            color: new THREE.Color("white").multiplyScalar(2)
-          })
-        ),
-        { castShadow: true }
-      )
+
+      make(THREE.Mesh, [], {
+        geometry: new THREE.IcosahedronGeometry(0.4, 0),
+        material: make(THREE.MeshStandardMaterial, [], {
+          color: new THREE.Color("white").multiplyScalar(2),
+          side: THREE.BackSide
+        }),
+        castShadow: true
+      })
     ])
 
     /* Light */
     app.add([
-      new Transform3D([0, 0, -0.5]),
-      make(THREE.PointLight, ["hotpink", 3, 10], { castShadow: true }),
+      new Transform3D(),
+      make(THREE.PointLight, ["hotpink", 3, 10], {
+        castShadow: true
+      }),
       make(Parent3D, [ball.get(THREE.Object3D)!])
     ])
 
