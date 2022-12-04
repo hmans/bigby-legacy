@@ -14,7 +14,7 @@ export const Ball = (app: App) =>
 
       new Transform3D([0, -5, 0]),
       new Physics.BallCollider(0.3).setDensity(1),
-      new ConstantVelocity(10),
+      new ConstantVelocity(5),
 
       make(THREE.Mesh, [], {
         geometry: new THREE.IcosahedronGeometry(0.4, 0),
@@ -28,10 +28,8 @@ export const Ball = (app: App) =>
 
     /* Light */
     app.add([
-      new Transform3D(),
-      make(THREE.PointLight, ["hotpink", 3, 10], {
-        castShadow: true
-      }),
+      make(Transform3D),
+      make(THREE.PointLight, ["hotpink", 3, 10], { castShadow: true }),
       make(Parent3D, [ball.get(THREE.Object3D)!])
     ])
 

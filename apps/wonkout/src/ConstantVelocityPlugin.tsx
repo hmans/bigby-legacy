@@ -20,10 +20,11 @@ export const ConstantVelocityPlugin = (app: App) =>
           const speed = Math.sqrt(vel.x * vel.x + vel.y * vel.y + vel.z * vel.z)
           const ratio = v.velocity / speed
 
-          rb.setLinvel(
-            { x: vel.x * ratio, y: vel.y * ratio, z: vel.z * ratio },
-            true
-          )
+          if (ratio > 1)
+            rb.setLinvel(
+              { x: vel.x * ratio, y: vel.y * ratio, z: vel.z * ratio },
+              true
+            )
         }
       })
     })
