@@ -1,7 +1,7 @@
 import { App, Transform3D } from "@bigby/core"
 import * as THREE from "three"
 
-class ThreeRenderer {
+class Component {
   renderer = new THREE.WebGLRenderer({ antialias: true })
   scene = new THREE.Scene()
   camera?: THREE.Camera
@@ -11,9 +11,9 @@ export const ThreePlugin = (app: App) => {
   app.requireComponent(Transform3D)
   app.registerComponent(THREE.Object3D)
   app.registerComponent(THREE.Camera)
-  app.registerComponent(ThreeRenderer)
+  app.registerComponent(Component)
 
-  const comp = new ThreeRenderer()
+  const comp = new Component()
   app.add([comp])
 
   const { renderer, scene } = comp
