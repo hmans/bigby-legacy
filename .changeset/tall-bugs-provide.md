@@ -1,6 +1,6 @@
 ---
 "@bigby/core": minor
-"@bigby/ecs": minor
+"@maxiplex/core": minor
 "@bigby/plugin-input": minor
 "@bigby/plugin-physics3d": minor
 "@bigby/plugin-three": minor

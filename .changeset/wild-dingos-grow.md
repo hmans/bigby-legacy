@@ -1,6 +1,6 @@
 ---
 "@bigby/core": minor
-"@bigby/ecs": minor
+"@maxiplex/core": minor
 "@bigby/event": minor
 ---
 

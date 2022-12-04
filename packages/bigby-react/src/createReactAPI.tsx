@@ -1,5 +1,5 @@
 import { App } from "@bigby/core"
-import { Component, Constructor, Entity } from "@bigby/ecs"
+import { Component, Constructor, Entity } from "@maxiplex/core"
 import React, {
   createContext,
   forwardRef,

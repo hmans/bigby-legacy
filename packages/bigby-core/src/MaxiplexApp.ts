@@ -1,4 +1,4 @@
-import { World } from "@bigby/ecs"
+import { World } from "@maxiplex/core"
 import { Event } from "@bigby/event"
 import {
   OnLoadCallback,

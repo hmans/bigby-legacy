@@ -27,9 +27,9 @@
     ]
   },
   "dependencies": {
-    "@bigby/ecs": "workspace:^0.10.1",
     "@bigby/event": "workspace:^0.10.1",
     "@bigby/math": "workspace:^0.10.1",
+    "@maxiplex/core": "workspace:^0.10.1",
     "gl-matrix": "^3.4.3"
   }
 }

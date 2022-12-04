@@ -1,5 +1,5 @@
 export * from "@bigby/core"
-export * from "@bigby/ecs"
 export * from "@bigby/math"
 export * from "@bigby/plugin-ticker"
+export * from "@maxiplex/core"
 export * from "./plugins"
