@@ -1,14 +1,14 @@
 {
-  "name": "@bigby/plugin-ticker",
+  "name": "maxiplex",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
     "url": "https://hmans.co"
   },
-  "description": "A requestAnimationFrame-based ticker for Bigby applications.",
+  "description": "The bigger brother to Miniplex.",
   "version": "0.10.1",
-  "main": "dist/bigby-plugin-ticker.cjs.js",
-  "module": "dist/bigby-plugin-ticker.esm.js",
+  "main": "dist/maxiplex.cjs.js",
+  "module": "dist/maxiplex.esm.js",
   "files": [
     "dist/**",
     "LICENSE",
@@ -27,7 +27,7 @@
     ]
   },
   "dependencies": {
-    "@bigby/core": "workspace:^0.10.1",
-    "@bigby/math": "workspace:^0.10.1"
+    "@maxiplex/core": "workspace:^0.10.1",
+    "add": "^2.0.6"
   }
 }

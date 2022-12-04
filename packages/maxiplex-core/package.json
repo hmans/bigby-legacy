@@ -1,14 +1,14 @@
 {
-  "name": "@bigby/ecs",
+  "name": "@maxiplex/core",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
     "url": "https://hmans.co"
   },
-  "description": "Make games, learn things.",
+  "description": "The big brother to Miniplex.",
   "version": "0.10.1",
-  "main": "dist/bigby-ecs.cjs.js",
-  "module": "dist/bigby-ecs.esm.js",
+  "main": "dist/maxiplex-core.cjs.js",
+  "module": "dist/maxiplex-core.esm.js",
   "files": [
     "dist/**",
     "LICENSE",
@@ -30,6 +30,6 @@
     "ts-toolbelt": "^9.6.0"
   },
   "dependencies": {
-    "@bigby/event": "workspace:^0.10.1"
+    "@maxiplex/event-dispatcher": "workspace:^0.10.1"
   }
 }

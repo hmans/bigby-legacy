@@ -1,5 +1,5 @@
 ---
-"@bigby/ecs": minor
+"@maxiplex/core": minor
 ---
 
 The signature of `query.iterate` has been changed to now pass a flat list of the entity and its components into the callback:

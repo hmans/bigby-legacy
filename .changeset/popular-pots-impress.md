@@ -1,5 +1,5 @@
 ---
-"@bigby/ecs": patch
+"@maxiplex/core": patch
 ---
 
 Now exporting `Query` and `Entity`.

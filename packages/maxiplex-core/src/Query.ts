@@ -1,4 +1,4 @@
-import { Event } from "@bigby/event"
+import { Event } from "@maxiplex/event-dispatcher"
 import { Entity } from "./Entity"
 import { Component, ComponentQuery } from "./index"
 import { World } from "./World"

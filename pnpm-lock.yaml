@@ -126,37 +126,28 @@ importers:
   packages/bigby:
     specifiers:
       '@bigby/core': workspace:^0.10.1
-      '@bigby/ecs': workspace:^0.10.1
       '@bigby/math': workspace:^0.10.1
       '@bigby/plugin-ticker': workspace:^0.10.1
+      '@maxiplex/core': workspace:^0.10.1
       gl-matrix: ^3.4.3
     dependencies:
       '@bigby/core': link:../bigby-core
-      '@bigby/ecs': link:../bigby-ecs
       '@bigby/math': link:../bigby-math
       '@bigby/plugin-ticker': link:../bigby-plugin-ticker
+      '@maxiplex/core': link:../maxiplex-core
       gl-matrix: 3.4.3
 
   packages/bigby-core:
     specifiers:
-      '@bigby/ecs': workspace:^0.10.1
-      '@bigby/event': workspace:^0.10.1
       '@bigby/math': workspace:^0.10.1
+      '@maxiplex/core': workspace:^0.10.1
+      '@maxiplex/event-dispatcher': workspace:^0.10.1
       gl-matrix: ^3.4.3
     dependencies:
-      '@bigby/ecs': link:../bigby-ecs
-      '@bigby/event': link:../bigby-event
       '@bigby/math': link:../bigby-math
+      '@maxiplex/core': link:../maxiplex-core
+      '@maxiplex/event-dispatcher': link:../maxiplex-event-dispatcher
       gl-matrix: 3.4.3
-
-  packages/bigby-ecs:
-    specifiers:
-      '@bigby/event': workspace:^0.10.1
-      ts-toolbelt: ^9.6.0
-    dependencies:
-      '@bigby/event': link:../bigby-event
-    devDependencies:
-      ts-toolbelt: 9.6.0
 
   packages/bigby-math:
     specifiers:
@@ -220,7 +211,7 @@ importers:
   packages/bigby-react:
     specifiers:
       '@bigby/core': workspace:^0.10.1
-      '@bigby/ecs': workspace:^0.10.1
+      '@maxiplex/core': workspace:^0.10.1
       react: ^18.2.0
       react-dom: ^18.2.0
       react-merge-refs: ^1.1.0
@@ -228,9 +219,29 @@ importers:
       react-merge-refs: 1.1.0
     devDependencies:
       '@bigby/core': link:../bigby-core
-      '@bigby/ecs': link:../bigby-ecs
+      '@maxiplex/core': link:../maxiplex-core
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+
+  packages/maxiplex:
+    specifiers:
+      '@maxiplex/core': workspace:^0.10.1
+      add: ^2.0.6
+    dependencies:
+      '@maxiplex/core': link:../maxiplex-core
+      add: 2.0.6
+
+  packages/maxiplex-core:
+    specifiers:
+      '@maxiplex/event-dispatcher': workspace:^0.10.1
+      ts-toolbelt: ^9.6.0
+    dependencies:
+      '@maxiplex/event-dispatcher': link:../maxiplex-event-dispatcher
+    devDependencies:
+      ts-toolbelt: 9.6.0
+
+  packages/maxiplex-event-dispatcher:
+    specifiers: {}
 
 packages:
 
