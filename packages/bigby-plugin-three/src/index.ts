@@ -1,26 +1,35 @@
 import { App, Transform3D } from "@bigby/core"
 import * as THREE from "three"
 
+class ThreeRenderer {
+  renderer = new THREE.WebGLRenderer({ antialias: true })
+  scene = new THREE.Scene()
+  camera?: THREE.Camera
+}
+
 export const ThreePlugin = (app: App) => {
   app.requireComponent(Transform3D)
   app.registerComponent(THREE.Object3D)
   app.registerComponent(THREE.Camera)
+  app.registerComponent(ThreeRenderer)
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true })
-  const scene = new THREE.Scene()
+  const comp = new ThreeRenderer()
+  app.add([comp])
+
+  const { renderer, scene } = comp
 
   /* Renderer & Canvas */
   app.onStart((app) => {
     /* Create our renderer */
     renderer.setSize(window.innerWidth, window.innerHeight)
     document.body.appendChild(renderer.domElement)
+  })
 
-    app.onStop(() => {
-      console.debug("Disposing renderer")
-      document.body.removeChild(renderer.domElement)
-      renderer.dispose()
-      renderer.forceContextLoss()
-    })
+  app.onStop(() => {
+    console.debug("Disposing renderer")
+    document.body.removeChild(renderer.domElement)
+    renderer.dispose()
+    renderer.forceContextLoss()
   })
 
   /* Scene Objects */
