@@ -110,17 +110,17 @@ const setupPlayer = (app: App) => {
 }
 
 const setupBricks = (app: App) => {
-  const material = new THREE.MeshStandardMaterial({ color: "orange" })
+  const material = new THREE.MeshPhysicalMaterial({
+    color: "orange",
+    metalness: 0.1,
+    roughness: 0
+  })
   const geometry = new THREE.BoxGeometry(2, 1, 1)
   const activeMaterial = new THREE.MeshStandardMaterial({ color: "#fff" })
 
   /* Bricks */
   for (let x = -3; x <= 3; x++) {
     for (let y = -2; y <= 2; y++) {
-      const mesh = new THREE.Mesh(geometry, material)
-      mesh.castShadow = true
-      mesh.receiveShadow = true
-
       app.add([
         new Physics.DynamicBody().setEnabledTranslations(true, true, false),
 
@@ -131,7 +131,11 @@ const setupBricks = (app: App) => {
           }),
         new Transform3D([x * 3, y * 2 + 2, 0]),
 
-        mesh
+        make(THREE.Mesh, {
+          material,
+          geometry,
+          receiveShadow: true
+        })
       ])
     }
   }
