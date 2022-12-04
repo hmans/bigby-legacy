@@ -1,4 +1,4 @@
-import { Event } from "@maxiplex/event-dispatcher"
+import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import { Entity } from "./Entity"
 import { Query } from "./Query"
 import { Component, Constructor, ComponentQuery } from "./types"
@@ -9,9 +9,9 @@ export class World {
   entities = new Array<Entity>()
   protected registeredComponents = new Set<Component>()
 
-  onEntityAdded = new Event<Entity>()
-  onEntityRemoved = new Event<Entity>()
-  onEntityUpdated = new Event<Entity>()
+  onEntityAdded = new EventDispatcher<Entity>()
+  onEntityRemoved = new EventDispatcher<Entity>()
+  onEntityUpdated = new EventDispatcher<Entity>()
 
   protected queries = new Map<string, Query<any>>()
 

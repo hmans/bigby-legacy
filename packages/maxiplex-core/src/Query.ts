@@ -1,4 +1,4 @@
-import { Event } from "@maxiplex/event-dispatcher"
+import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import { Entity } from "./Entity"
 import { Component, ComponentQuery } from "./index"
 import { World } from "./World"
@@ -31,8 +31,8 @@ export class Query<Q extends readonly Component[]> {
   entities = new Array<Entity>()
   components = new Map<Entity, Q>()
 
-  onEntityAdded = new Event<Entity>()
-  onEntityRemoved = new Event<Entity>()
+  onEntityAdded = new EventDispatcher<Entity>()
+  onEntityRemoved = new EventDispatcher<Entity>()
 
   get first() {
     return this.entities[0]

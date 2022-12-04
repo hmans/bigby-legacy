@@ -1,21 +1,21 @@
-import { Event } from "../src"
+import { EventDispatcher } from "../src"
 
-describe("Event", () => {
+describe("EventDispatcher", () => {
   it("creates a new event", () => {
-    const event = new Event()
+    const event = new EventDispatcher()
     expect(event).toBeDefined()
   })
 
   describe("add", () => {
     it("adds a listener to the event", () => {
-      const event = new Event()
+      const event = new EventDispatcher()
       const listener = jest.fn()
       event.add(listener)
       expect(event.listeners.size).toBe(1)
     })
 
     it("returns a function that will remove the listener again", () => {
-      const event = new Event()
+      const event = new EventDispatcher()
       const listener = jest.fn()
       const remove = event.add(listener)
       expect(event.listeners.size).toBe(1)
@@ -26,7 +26,7 @@ describe("Event", () => {
 
   describe("remove", () => {
     it("removes a listener from the event", () => {
-      const event = new Event()
+      const event = new EventDispatcher()
       const listener = jest.fn()
       event.add(listener)
       expect(event.listeners.size).toBe(1)
@@ -37,7 +37,7 @@ describe("Event", () => {
 
   describe("emit", () => {
     it("emits an event", () => {
-      const event = new Event<string>()
+      const event = new EventDispatcher<string>()
       const listener = jest.fn()
       event.add(listener)
       event.emit("test")
@@ -47,7 +47,7 @@ describe("Event", () => {
 
   describe("clear", () => {
     it("clears all listeners from the event", () => {
-      const event = new Event()
+      const event = new EventDispatcher()
       const listener = jest.fn()
       event.add(listener)
       expect(event.listeners.size).toBe(1)

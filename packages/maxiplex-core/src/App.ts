@@ -1,4 +1,4 @@
-import { Event } from "@maxiplex/event-dispatcher"
+import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import { World } from "./World"
 
 export type OnLoadCallback<A extends App> = (app: A) => void | Promise<void>
@@ -16,8 +16,8 @@ export type BaseEntity = {}
 export class App extends World {
   onLoadCallbacks = new Array<OnLoadCallback<typeof this>>()
   onStartCallbacks = new Array<OnStartCallback<typeof this>>()
-  onUpdateCallbacks = new Event<number>()
-  onStopCallbacks = new Event<typeof this>()
+  onUpdateCallbacks = new EventDispatcher<number>()
+  onStopCallbacks = new EventDispatcher<typeof this>()
 
   constructor() {
     console.log("🐝 Bigby Initializing")
