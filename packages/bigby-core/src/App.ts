@@ -7,6 +7,17 @@ export class App extends MaxiplexApp {
   onLateUpdateCallbacks = new EventDispatcher<number>()
   onRenderCallbacks = new EventDispatcher<number>()
 
+  constructor() {
+    super()
+
+    this.onTick((dt) => {
+      this.onEarlyUpdateCallbacks.emit(dt)
+      this.onLateUpdateCallbacks.emit(dt)
+      this.onUpdateCallbacks.emit(dt)
+      this.onRenderCallbacks.emit(dt)
+    })
+  }
+
   onEarlyUpdate(callback: TickerCallback) {
     this.onEarlyUpdateCallbacks.add(callback)
     return this

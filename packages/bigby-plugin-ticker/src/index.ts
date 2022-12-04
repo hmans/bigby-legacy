@@ -1,16 +1,8 @@
 import { App } from "@bigby/core"
 import { clamp } from "@bigby/math"
 
-export const TickerPlugin = (app: App) => {
-  return app.onStart((app) => {
-    /* Add system that invokes our own callbacks */
-    app.onTick((dt) => {
-      app.onEarlyUpdateCallbacks.emit(dt)
-      app.onLateUpdateCallbacks.emit(dt)
-      app.onUpdateCallbacks.emit(dt)
-      app.onRenderCallbacks.emit(dt)
-    })
-
+export const TickerPlugin = (app: App) =>
+  app.onStart((app) => {
     let lastTime = performance.now()
     let running = true
 
@@ -32,4 +24,3 @@ export const TickerPlugin = (app: App) => {
       running = false
     })
   })
-}
