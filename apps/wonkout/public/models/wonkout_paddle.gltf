@@ -89,7 +89,7 @@
         {
             "bufferView" : 0,
             "componentType" : 5126,
-            "count" : 384,
+            "count" : 1552,
             "max" : [
                 2.5,
                 0.5750504732131958,
@@ -105,45 +105,45 @@
         {
             "bufferView" : 1,
             "componentType" : 5126,
-            "count" : 384,
+            "count" : 1552,
             "type" : "VEC3"
         },
         {
             "bufferView" : 2,
             "componentType" : 5126,
-            "count" : 384,
+            "count" : 1552,
             "type" : "VEC2"
         },
         {
             "bufferView" : 3,
             "componentType" : 5123,
-            "count" : 588,
+            "count" : 2196,
             "type" : "SCALAR"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 4608,
+            "byteLength" : 18624,
             "byteOffset" : 0,
             "target" : 34962
         },
         {
             "buffer" : 0,
-            "byteLength" : 4608,
-            "byteOffset" : 4608,
+            "byteLength" : 18624,
+            "byteOffset" : 18624,
             "target" : 34962
         },
         {
             "buffer" : 0,
-            "byteLength" : 3072,
-            "byteOffset" : 9216,
+            "byteLength" : 12416,
+            "byteOffset" : 37248,
             "target" : 34962
         },
         {
             "buffer" : 0,
-            "byteLength" : 1176,
-            "byteOffset" : 12288,
+            "byteLength" : 4392,
+            "byteOffset" : 49664,
             "target" : 34963
         }
     ],
@@ -155,7 +155,7 @@
     ],
     "buffers" : [
         {
-            "byteLength" : 13464,
+            "byteLength" : 54056,
             "uri" : "wonkout_paddle.bin"
         }
     ]
