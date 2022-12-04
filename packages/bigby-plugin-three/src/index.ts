@@ -5,6 +5,11 @@ class ThreePluginState {
   renderer = new THREE.WebGLRenderer({ antialias: true })
   scene = new THREE.Scene()
   camera?: THREE.Camera
+  render = true
+
+  constructor({ render = true }: { render?: boolean } = {}) {
+    this.render = render
+  }
 }
 
 export const ThreePlugin = (app: App) => {
@@ -83,7 +88,10 @@ export const ThreePlugin = (app: App) => {
 
     /* Render every frame using the active camera if we have one */
     app.onRender(() => {
-      if (activeCamera) renderer.render(scene, activeCamera)
+      if (!state.render) return
+      if (!activeCamera) return
+
+      renderer.render(scene, activeCamera)
     })
 
     /* Resize the renderer when the window resizes */
