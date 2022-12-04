@@ -11,19 +11,29 @@ import {
   Transform3D,
   TransformsPlugin
 } from "bigby"
+import { vec3 } from "gl-matrix"
 import * as THREE from "three"
 import { Color } from "three"
 import "./index.css"
 
 /* TODO: extract this into maxiplex */
-const apply = <T extends object>(object: T, props: Partial<T>) => {
+type ApplyProps<T> = Partial<T>
+
+const apply = <T extends object>(object: T, props: ApplyProps<T>) => {
   Object.assign(object, props)
   return object
 }
 
-const make = <T extends object>(ctor: Constructor<T>, props: Partial<T>): T => {
+type MakeProps<C extends Constructor<any>> = ApplyProps<InstanceType<C>> & {
+  args?: ConstructorParameters<C>
+}
+
+const make = <C extends Constructor<any>>(
+  ctor: C,
+  { args, ...props }: MakeProps<C>
+): InstanceType<C> => {
   // @ts-ignore
-  const instance = new ctor()
+  const instance = new ctor(...args)
   return apply(instance, props)
 }
 
@@ -67,7 +77,7 @@ const setupScene = (app: App) => {
 
 const setupFloor = (app: App) => {
   app.add([
-    make(Transform3D, { position: [0, 0, -2] }),
+    make(Transform3D, { position: [0, 0, -2], args: [vec3.create()] }),
     make(THREE.Mesh, {
       receiveShadow: true,
       geometry: new THREE.PlaneGeometry(100, 100),
