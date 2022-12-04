@@ -13,10 +13,7 @@ export type BaseEntity = {}
 export class App extends World {
   onLoadCallbacks = new Array<OnLoadCallback>()
   onStartCallbacks = new Array<OnStartCallback>()
-  onEarlyUpdateCallbacks = new Event<number>()
   onUpdateCallbacks = new Event<number>()
-  onLateUpdateCallbacks = new Event<number>()
-  onRenderCallbacks = new Event<number>()
   onStopCallbacks = new Event<App>()
 
   constructor() {
@@ -38,23 +35,8 @@ export class App extends World {
     return this
   }
 
-  onEarlyUpdate(callback: OnUpdateCallback) {
-    this.onEarlyUpdateCallbacks.add(callback)
-    return this
-  }
-
   onUpdate(callback: OnUpdateCallback) {
     this.onUpdateCallbacks.add(callback)
-    return this
-  }
-
-  onLateUpdate(callback: OnUpdateCallback) {
-    this.onLateUpdateCallbacks.add(callback)
-    return this
-  }
-
-  onRender(callback: OnUpdateCallback) {
-    this.onRenderCallbacks.add(callback)
     return this
   }
 
