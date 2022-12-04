@@ -50,9 +50,9 @@ export const ThreePostprocessingPlugin = (app: App) => {
       composer.addPass(
         new EffectPass(
           camera,
-          new ToneMappingEffect({ mode: ToneMappingMode.ACES_FILMIC })
-        ),
-        new SMAAEffect()
+          new ToneMappingEffect({ mode: ToneMappingMode.REINHARD2_ADAPTIVE }),
+          new SMAAEffect()
+        )
       )
     })
 
