@@ -1,14 +1,14 @@
 {
-  "name": "@bigby/event",
+  "name": "@maxiplex/event-dispatcher",
   "author": {
     "name": "Hendrik Mans",
     "email": "hendrik@mans.de",
     "url": "https://hmans.co"
   },
-  "description": "Bigby Event implementation.",
+  "description": "Maxiplex event dispatcher.",
   "version": "0.10.1",
-  "main": "dist/bigby-event.cjs.js",
-  "module": "dist/bigby-event.esm.js",
+  "main": "dist/maxiplex-event-dispatcher.cjs.js",
+  "module": "dist/maxiplex-event-dispatcher.esm.js",
   "files": [
     "dist/**",
     "LICENSE",

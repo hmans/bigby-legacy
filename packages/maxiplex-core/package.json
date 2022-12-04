@@ -30,6 +30,6 @@
     "ts-toolbelt": "^9.6.0"
   },
   "dependencies": {
-    "@bigby/event": "workspace:^0.10.1"
+    "@maxiplex/event-dispatcher": "workspace:^0.10.1"
   }
 }

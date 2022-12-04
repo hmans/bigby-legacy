@@ -139,18 +139,15 @@ importers:
 
   packages/bigby-core:
     specifiers:
-      '@bigby/event': workspace:^0.10.1
       '@bigby/math': workspace:^0.10.1
       '@maxiplex/core': workspace:^0.10.1
+      '@maxiplex/event-dispatcher': workspace:^0.10.1
       gl-matrix: ^3.4.3
     dependencies:
-      '@bigby/event': link:../bigby-event
       '@bigby/math': link:../bigby-math
       '@maxiplex/core': link:../maxiplex-core
+      '@maxiplex/event-dispatcher': link:../maxiplex-event-dispatcher
       gl-matrix: 3.4.3
-
-  packages/bigby-event:
-    specifiers: {}
 
   packages/bigby-math:
     specifiers:
@@ -236,12 +233,15 @@ importers:
 
   packages/maxiplex-core:
     specifiers:
-      '@bigby/event': workspace:^0.10.1
+      '@maxiplex/event-dispatcher': workspace:^0.10.1
       ts-toolbelt: ^9.6.0
     dependencies:
-      '@bigby/event': link:../bigby-event
+      '@maxiplex/event-dispatcher': link:../maxiplex-event-dispatcher
     devDependencies:
       ts-toolbelt: 9.6.0
+
+  packages/maxiplex-event-dispatcher:
+    specifiers: {}
 
 packages:
 

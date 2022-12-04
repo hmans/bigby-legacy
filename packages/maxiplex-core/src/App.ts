@@ -1,4 +1,4 @@
-import { Event } from "@bigby/event"
+import { Event } from "@maxiplex/event-dispatcher"
 import { World } from "./World"
 
 export type OnLoadCallback<A extends App> = (app: A) => void | Promise<void>

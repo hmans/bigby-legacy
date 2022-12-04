@@ -1,4 +1,4 @@
-import { Event } from "@bigby/event"
+import { Event } from "@maxiplex/event-dispatcher"
 import { App as MaxiplexApp, OnUpdateCallback } from "@maxiplex/core"
 
 export class App extends MaxiplexApp {

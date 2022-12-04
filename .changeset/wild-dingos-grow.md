@@ -1,7 +1,7 @@
 ---
 "@bigby/core": minor
 "@maxiplex/core": minor
-"@bigby/event": minor
+"@maxiplex/event-dispatcher": minor
 ---
 
-Now using `@bigby/event` instead of `@hmans/event`.
+Now using `@maxiplex/event-dispatcher` instead of `@hmans/event`.
