@@ -1,24 +1,15 @@
-import { Input, InputPlugin } from "@bigby/plugin-input"
+import { InputPlugin } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
 import { RigidBody } from "@bigby/plugin-physics3d"
-import { loadGLTF, ThreePlugin } from "@bigby/plugin-three"
+import { ThreePlugin } from "@bigby/plugin-three"
 import { ThreePostprocessingPlugin } from "@bigby/plugin-three-postprocessing"
-import {
-  App,
-  apply,
-  make,
-  TickerPlugin,
-  Transform3D,
-  TransformsPlugin
-} from "bigby"
+import { App, apply, TickerPlugin, Transform3D, TransformsPlugin } from "bigby"
 import * as THREE from "three"
-import { Color } from "three"
 import { Bricks } from "./Bricks"
 import { Floor } from "./Floor"
 import "./index.css"
+import { Player, PlayerComponent } from "./Player"
 import { Walls } from "./Walls"
-
-class Player {}
 
 class ConstantVelocity {
   constructor(public velocity: number) {}
@@ -54,47 +45,6 @@ const setupScene = (app: App) => {
     shadow.mapSize.width = 1024
     shadow.mapSize.height = 1024
   }
-}
-
-const setupPlayer = async (app: App) => {
-  const gltf = await loadGLTF("/models/wonkout_paddle.gltf")
-
-  /* Player */
-  app.add([
-    new Player(),
-    new Input(),
-
-    new Physics.DynamicBody()
-      .setEnabledRotations(false, false, true)
-      .setEnabledTranslations(true, true, false),
-
-    new Physics.BoxCollider([5, 1, 1]),
-
-    new Transform3D([0, -8.5, 0]),
-
-    apply(gltf.scene.children[0]!.clone(), { castShadow: true })
-  ])
-
-  const playerQuery = app.query([Player])
-
-  app.onUpdate(() => {
-    const player = playerQuery.first
-
-    if (player) {
-      const { move, aim } = player.get(Input)!
-      const rigidbody = player.get(Physics.RigidBody)!
-
-      const rb = rigidbody.raw!
-      rb.resetForces(false)
-      rb.resetTorques(false)
-
-      /* Move */
-      rb.applyImpulse({ x: move.x * 2, y: move.y * 2, z: 0 }, true)
-
-      /* Rotate */
-      rb.applyTorqueImpulse({ x: 0, y: 0, z: aim.x * -1 }, true)
-    }
-  })
 }
 
 const setupBall = (app: App) => {
@@ -144,14 +94,13 @@ const ConstantVelocityPlugin = (app: App) =>
 
 const Wonkynoid = (app: App) =>
   app
-    .registerComponent(Player)
     .registerComponent(ConstantVelocity)
     .use(Bricks)
     .use(Floor)
     .use(Walls)
+    .use(Player)
     .onStart((app) => {
       setupScene(app)
-      setupPlayer(app)
       setupBall(app)
     })
 
