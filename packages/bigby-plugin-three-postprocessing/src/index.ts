@@ -42,8 +42,8 @@ export const ThreePostprocessingPlugin = (app: App) => {
           camera,
           new BloomEffect({
             mipmapBlur: true,
-            luminanceThreshold: 0.9,
-            intensity: 3
+            luminanceThreshold: 1,
+            intensity: 2
           })
         )
       )

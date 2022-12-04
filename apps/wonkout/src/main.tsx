@@ -1,7 +1,7 @@
 import { Input, InputPlugin } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
 import { RigidBody } from "@bigby/plugin-physics3d"
-import { ThreePlugin } from "@bigby/plugin-three"
+import { loadGLTF, ThreePlugin } from "@bigby/plugin-three"
 import { ThreePostprocessingPlugin } from "@bigby/plugin-three-postprocessing"
 import {
   App,
@@ -56,7 +56,9 @@ const setupScene = (app: App) => {
   }
 }
 
-const setupPlayer = (app: App) => {
+const setupPlayer = async (app: App) => {
+  const gltf = await loadGLTF("/models/wonkout_paddle.gltf")
+
   /* Player */
   app.add([
     new Player(),
@@ -70,13 +72,7 @@ const setupPlayer = (app: App) => {
 
     new Transform3D([0, -8.5, 0]),
 
-    make(THREE.Mesh, [], {
-      geometry: new THREE.BoxGeometry(5, 1, 1),
-      material: new THREE.MeshStandardMaterial({
-        color: new Color("hotpink").multiplyScalar(1.3)
-      }),
-      castShadow: true
-    })
+    apply(gltf.scene.children[0]!.clone(), { castShadow: true })
   ])
 
   const playerQuery = app.query([Player])
