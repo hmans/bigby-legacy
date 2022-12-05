@@ -32,12 +32,10 @@ app.add([
   new THREE.DirectionalLight(0xffffff, 1),
 ])
 
+const mesh = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshStandardMaterial({ color: "hotpink" })
+)
+
 /* Rotating cube */
-app.add([
-  new AutoRotate(new Vector3(1, 2, 3)),
-  new Transform3D(),
-  new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshStandardMaterial({ color: "hotpink" })
-  ),
-])
+app.add([new AutoRotate(new Vector3(1, 2, 3)), new Transform3D(), mesh])
