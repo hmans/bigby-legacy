@@ -187,4 +187,61 @@ export class Matrix4 implements IMatrix4 {
 
     return out
   }
+
+  static targetTo(
+    out: IMatrix4,
+    eye: IVector3,
+    target: IVector3,
+    up: IVector3
+  ) {
+    let eyex = eye.x,
+      eyey = eye.y,
+      eyez = eye.z,
+      upx = up.x,
+      upy = up.y,
+      upz = up.z
+
+    let z0 = eyex - target.x,
+      z1 = eyey - target.y,
+      z2 = eyez - target.z
+
+    let len = z0 * z0 + z1 * z1 + z2 * z2
+    if (len > 0) {
+      len = 1 / Math.sqrt(len)
+      z0 *= len
+      z1 *= len
+      z2 *= len
+    }
+
+    let x0 = upy * z2 - upz * z1,
+      x1 = upz * z0 - upx * z2,
+      x2 = upx * z1 - upy * z0
+
+    len = x0 * x0 + x1 * x1 + x2 * x2
+    if (len > 0) {
+      len = 1 / Math.sqrt(len)
+      x0 *= len
+      x1 *= len
+      x2 *= len
+    }
+
+    out.elements[0] = x0
+    out.elements[1] = x1
+    out.elements[2] = x2
+    out.elements[3] = 0
+    out.elements[4] = z1 * x2 - z2 * x1
+    out.elements[5] = z2 * x0 - z0 * x2
+    out.elements[6] = z0 * x1 - z1 * x0
+    out.elements[7] = 0
+    out.elements[8] = z0
+    out.elements[9] = z1
+    out.elements[10] = z2
+    out.elements[11] = 0
+    out.elements[12] = eyex
+    out.elements[13] = eyey
+    out.elements[14] = eyez
+    out.elements[15] = 1
+
+    return out
+  }
 }

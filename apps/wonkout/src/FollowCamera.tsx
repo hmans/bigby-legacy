@@ -20,7 +20,7 @@ export function FollowCameraPlugin(app: App) {
       const targetTransform = target.get(Transform3D)!
       const cameraTransform = camera.get(Transform3D)!
 
-      Matrix4.lookAt(
+      Matrix4.targetTo(
         mat4,
         cameraTransform.position,
         targetTransform.position,
