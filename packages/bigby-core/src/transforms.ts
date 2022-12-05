@@ -19,17 +19,17 @@ export class Transform3D implements ITransform3D {
   position: IVector3
   quaternion: IQuaternion
   scale: IVector3
+  matrix: IMatrix4
 
   autoUpdate = true
-
-  readonly matrix = new Matrix4()
 
   constructor(
     position: IVector3 | [number, number, number] = new Vector3(),
     quaternion:
       | IQuaternion
       | [number, number, number, number] = new Quaternion(),
-    scale: IVector3 | [number, number, number] = new Vector3(1, 1, 1)
+    scale: IVector3 | [number, number, number] = new Vector3(1, 1, 1),
+    matrix: IMatrix4 = new Matrix4()
   ) {
     this.position = Array.isArray(position)
       ? new Vector3(...position)
@@ -40,6 +40,14 @@ export class Transform3D implements ITransform3D {
       : quaternion
 
     this.scale = Array.isArray(scale) ? new Vector3(...scale) : scale
+
+    this.matrix = matrix
+
+    this.updateMatrix()
+  }
+
+  updateMatrix() {
+    Matrix4.compose(this.matrix, this.position, this.quaternion, this.scale)
   }
 }
 
@@ -50,13 +58,7 @@ export const TransformsPlugin = (app: App) =>
     app.onRender(() => {
       for (const [_, transform] of withTransform) {
         if (!transform.autoUpdate) return
-
-        Matrix4.compose(
-          transform.matrix,
-          transform.position,
-          transform.quaternion,
-          transform.scale
-        )
+        transform.updateMatrix()
       }
     })
   })
