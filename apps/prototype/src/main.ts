@@ -8,7 +8,6 @@ import {
   TransformsPlugin,
   Vector3,
 } from "bigby"
-import { vec3 } from "gl-matrix"
 import * as THREE from "three"
 import "./style.css"
 
