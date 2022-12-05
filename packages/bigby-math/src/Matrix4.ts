@@ -1,3 +1,6 @@
+import { IQuaternion } from "./Quaternion"
+import { IVector3 } from "./Vector3"
+
 export class Matrix4 {
   protected _m00 = 0
   protected _m01 = 0
@@ -216,6 +219,52 @@ export class Matrix4 {
     this.m31 = m31
     this.m32 = m32
     this.m33 = m33
+    return this
+  }
+
+  compose(position: IVector3, quaternion: IQuaternion, scale: IVector3) {
+    const { x, y, z, w } = quaternion
+
+    const x2 = x + x,
+      y2 = y + y,
+      z2 = z + z
+
+    const xx = x * x2,
+      xy = x * y2,
+      xz = x * z2
+
+    const yy = y * y2,
+      yz = y * z2,
+      zz = z * z2
+
+    const wx = w * x2,
+      wy = w * y2,
+      wz = w * z2
+
+    const sx = scale.x,
+      sy = scale.y,
+      sz = scale.z
+
+    this.m00 = (1 - (yy + zz)) * sx
+    this.m01 = (xy + wz) * sx
+    this.m02 = (xz - wy) * sx
+    this.m03 = 0
+
+    this.m10 = (xy - wz) * sy
+    this.m11 = (1 - (xx + zz)) * sy
+    this.m12 = (yz + wx) * sy
+    this.m13 = 0
+
+    this.m20 = (xz + wy) * sz
+    this.m21 = (yz - wx) * sz
+    this.m22 = (1 - (xx + yy)) * sz
+    this.m23 = 0
+
+    this.m30 = position.x
+    this.m31 = position.y
+    this.m32 = position.z
+    this.m33 = 1
+
     return this
   }
 }

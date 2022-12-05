@@ -1,4 +1,11 @@
-export class Quaternion {
+export interface IQuaternion {
+  x: number
+  y: number
+  z: number
+  w: number
+}
+
+export class Quaternion implements IQuaternion {
   protected _x = 0
   protected _y = 0
   protected _z = 0

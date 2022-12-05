@@ -1,4 +1,10 @@
-export class Vector3 {
+export interface IVector3 {
+  x: number
+  y: number
+  z: number
+}
+
+export class Vector3 implements IVector3 {
   protected _x = 0
   protected _y = 0
   protected _z = 0
