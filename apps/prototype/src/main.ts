@@ -49,5 +49,5 @@ app.add([new Transform3D(), new THREE.AmbientLight(0xffffff, 0.2)])
     new THREE.MeshStandardMaterial({ color: "hotpink" })
   )
 
-  app.add([new AutoRotate(new Vector3(vec3.fromValues(1, 2, 3))), mesh])
+  app.add([new AutoRotate(new Vector3(1, 2, 3)), mesh])
 }

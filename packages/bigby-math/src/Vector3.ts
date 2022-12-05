@@ -1,5 +1,3 @@
-import { vec3 } from "gl-matrix"
-
 export interface IVector3 {
   x: number
   y: number
@@ -7,30 +5,38 @@ export interface IVector3 {
 }
 
 export class Vector3 implements IVector3 {
-  constructor(public raw = vec3.create()) {}
+  protected _x = 0
+  protected _y = 0
+  protected _z = 0
+
+  constructor(x = 0, y = 0, z = 0) {
+    this._x = x
+    this._y = y
+    this._z = z
+  }
 
   get x() {
-    return this.raw[0]
+    return this._x
   }
 
   get y() {
-    return this.raw[1]
+    return this._y
   }
 
   get z() {
-    return this.raw[2]
+    return this._z
   }
 
   set x(value: number) {
-    this.raw[0] = value
+    this._x = value
   }
 
   set y(value: number) {
-    this.raw[1] = value
+    this._y = value
   }
 
   set z(value: number) {
-    this.raw[2] = value
+    this._z = value
   }
 
   static set(target: IVector3, x = 0, y = 0, z = 0) {
