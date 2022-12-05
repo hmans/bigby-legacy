@@ -83,14 +83,14 @@ export const ThreePlugin = (app: App) => {
         { position, quaternion, scale },
         object3d
       ] of sceneObjects) {
-        object3d.position.set(position[0], position[1], position[2])
+        object3d.position.set(position.x, position.y, position.z)
         object3d.quaternion.set(
-          quaternion[0],
-          quaternion[1],
-          quaternion[2],
-          quaternion[3]
+          quaternion.x,
+          quaternion.y,
+          quaternion.z,
+          quaternion.w
         )
-        object3d.scale.set(scale[0], scale[1], scale[2])
+        object3d.scale.set(scale.x, scale.y, scale.z)
       }
     })
   })

@@ -1,15 +1,15 @@
-import { mat4, quat, vec3 } from "gl-matrix"
+import { Matrix4, Quaternion, Vector3 } from "@bigby/math"
 import { App } from "./App"
 
 export class Transform3D {
   autoUpdate = true
 
-  readonly matrix = mat4.create()
+  readonly matrix = new Matrix4()
 
   constructor(
-    public readonly position = vec3.create(),
-    public readonly quaternion = quat.create(),
-    public readonly scale = vec3.set(vec3.create(), 1, 1, 1)
+    public readonly position = new Vector3(),
+    public readonly quaternion = new Quaternion(),
+    public readonly scale = new Vector3(1, 1, 1)
   ) {}
 }
 
@@ -21,10 +21,9 @@ export const TransformsPlugin = (app: App) =>
       for (const [_, transform] of withTransform) {
         if (!transform.autoUpdate) return
 
-        mat4.fromRotationTranslationScale(
-          transform.matrix,
-          transform.quaternion,
+        transform.matrix.compose(
           transform.position,
+          transform.quaternion,
           transform.scale
         )
       }
