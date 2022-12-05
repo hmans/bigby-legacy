@@ -1,8 +1,7 @@
 import { App, Transform3D } from "@bigby/core"
-import { clamp } from "@bigby/math"
+import { clamp, Quaternion, Vector3 } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { ColliderHandle, RigidBodyDesc } from "@dimforge/rapier3d-compat"
-import { quat, vec3 } from "gl-matrix"
 
 export abstract class RigidBody {
   desc: RigidBodyDesc = undefined!
@@ -49,7 +48,7 @@ export abstract class Collider {
 export class BoxCollider extends Collider {
   descriptor: RAPIER.ColliderDesc
 
-  constructor(size: vec3 = [1, 1, 1]) {
+  constructor(size: [number, number, number] = [1, 1, 1]) {
     super()
 
     this.descriptor = RAPIER.ColliderDesc.cuboid(
@@ -74,7 +73,7 @@ export class BallCollider extends Collider {
 }
 
 export const Plugin =
-  ({ gravity = [0, -9.81, 0] }: { gravity?: vec3 } = {}) =>
+  ({ gravity = [0, -9.81, 0] }: { gravity?: [number, number, number] } = {}) =>
   (app: App) =>
     app
       /* Make sure this component is known to the app. We'll need it! */
@@ -107,16 +106,16 @@ export const Plugin =
           const rigidbody = entity.get(RigidBody)!
 
           desc.setTranslation(
-            transform.position[0],
-            transform.position[1],
-            transform.position[2]
+            transform.position.x,
+            transform.position.y,
+            transform.position.z
           )
 
           desc.setRotation({
-            x: transform.quaternion[0],
-            y: transform.quaternion[1],
-            z: transform.quaternion[2],
-            w: transform.quaternion[3]
+            x: transform.quaternion.x,
+            y: transform.quaternion.y,
+            z: transform.quaternion.z,
+            w: transform.quaternion.w
           })
 
           rigidbody.raw = world.createRigidBody(desc)
@@ -166,10 +165,10 @@ export const Plugin =
           /* Transfer physics transforms to the transform component */
           for (const [_, transform, rigidbody] of rigidbodyQuery) {
             const position = rigidbody.raw!.translation()
-            vec3.set(transform.position, position.x, position.y, position.z)
+            Vector3.set(transform.position, position.x, position.y, position.z)
 
             const rotation = rigidbody.raw!.rotation()
-            quat.set(
+            Quaternion.set(
               transform.quaternion,
               rotation.x,
               rotation.y,

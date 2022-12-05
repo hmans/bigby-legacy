@@ -45,13 +45,13 @@ export class Quaternion implements IQuaternion {
     this._w = v
   }
 
-  set(x = 0, y = 0, z = 0, w = 1) {
-    this.x = x
-    this.y = y
-    this.z = z
-    this.w = w
+  static set(target: IQuaternion, x = 0, y = 0, z = 0, w = 1) {
+    target.x = x
+    target.y = y
+    target.z = z
+    target.w = w
 
-    return this
+    return target
   }
 
   static rotateX(quat: IQuaternion, rad: number) {
