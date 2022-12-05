@@ -71,4 +71,36 @@ export class Quaternion implements IQuaternion {
 
     return this
   }
+
+  rotateY(rad: number) {
+    const { x, y, z, w } = this
+
+    rad *= 0.5
+
+    const by = Math.sin(rad)
+    const bw = Math.cos(rad)
+
+    this.x = x * bw - z * by
+    this.y = y * bw + w * by
+    this.z = z * bw + x * by
+    this.w = w * bw - y * by
+
+    return this
+  }
+
+  rotateZ(rad: number) {
+    const { x, y, z, w } = this
+
+    rad *= 0.5
+
+    const bz = Math.sin(rad)
+    const bw = Math.cos(rad)
+
+    this.x = x * bw + y * bz
+    this.y = y * bw - x * bz
+    this.z = z * bw + w * bz
+    this.w = w * bw - z * bz
+
+    return this
+  }
 }
