@@ -39,6 +39,26 @@ export class Vector3 implements IVector3 {
     this._z = value
   }
 
+  static magnitude(v: IVector3) {
+    return Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z)
+  }
+
+  static normalize(target: IVector3, v: IVector3) {
+    const magnitude = Vector3.magnitude(v)
+
+    if (magnitude > 0) {
+      target.x = v.x / magnitude
+      target.y = v.y / magnitude
+      target.z = v.z / magnitude
+    } else {
+      target.x = 0
+      target.y = 0
+      target.z = 0
+    }
+
+    return target
+  }
+
   static set(target: IVector3, x = 0, y = 0, z = 0) {
     target.x = x
     target.y = y
