@@ -78,10 +78,12 @@ export const ThreePlugin = (app: App) => {
         object3d.position.copy(transform.position as THREE.Vector3)
         object3d.quaternion.copy(transform.quaternion as THREE.Quaternion)
         object3d.scale.copy(transform.scale as THREE.Vector3)
+        object3d.matrix.copy(transform.matrix as THREE.Matrix4)
 
         transform.position = object3d.position
         transform.quaternion = object3d.quaternion
         transform.scale = object3d.scale
+        transform.matrix = object3d.matrix
       } else {
         /* Otherwise, create a transform for it! */
         app.addComponent(
@@ -89,7 +91,8 @@ export const ThreePlugin = (app: App) => {
           new Transform3D(
             object3d.position,
             object3d.quaternion,
-            object3d.scale
+            object3d.scale,
+            object3d.matrix
           )
         )
       }
