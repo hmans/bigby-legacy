@@ -16,15 +16,31 @@ export interface ITransform3D {
 }
 
 export class Transform3D implements ITransform3D {
+  position: IVector3
+  quaternion: IQuaternion
+  scale: IVector3
+
   autoUpdate = true
 
   readonly matrix = new Matrix4()
 
   constructor(
-    public position: IVector3 = new Vector3(),
-    public quaternion: IQuaternion = new Quaternion(),
-    public scale: IVector3 = new Vector3(1, 1, 1)
-  ) {}
+    position: IVector3 | [number, number, number] = new Vector3(),
+    quaternion:
+      | IQuaternion
+      | [number, number, number, number] = new Quaternion(),
+    scale: IVector3 | [number, number, number] = new Vector3(1, 1, 1)
+  ) {
+    this.position = Array.isArray(position)
+      ? new Vector3(...position)
+      : position
+
+    this.quaternion = Array.isArray(quaternion)
+      ? new Quaternion(...quaternion)
+      : quaternion
+
+    this.scale = Array.isArray(scale) ? new Vector3(...scale) : scale
+  }
 }
 
 export const TransformsPlugin = (app: App) =>
