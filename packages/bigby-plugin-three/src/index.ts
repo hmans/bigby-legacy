@@ -73,7 +73,6 @@ export const ThreePlugin = (app: App) => {
 
       /* If the entity already has a Transform3D, let's mutate it */
       const transform = entity.get(Transform3D)
-
       if (transform) {
         object3d.position.copy(transform.position as THREE.Vector3)
         object3d.quaternion.copy(transform.quaternion as THREE.Quaternion)
@@ -88,6 +87,7 @@ export const ThreePlugin = (app: App) => {
         /* Otherwise, create a transform for it! */
         app.addComponent(
           entity,
+
           new Transform3D(
             object3d.position,
             object3d.quaternion,

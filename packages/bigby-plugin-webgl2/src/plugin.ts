@@ -1,7 +1,6 @@
 import { App, Transform3D } from "@bigby/core"
 import { mat3, mat4 } from "gl-matrix"
 import { Camera } from "./Camera"
-import { Material } from "./Material"
 import { Mesh } from "./Mesh"
 
 function RenderingSystem(app: App) {

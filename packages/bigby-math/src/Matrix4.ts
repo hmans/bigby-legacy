@@ -1,7 +1,6 @@
+import { EPSILON } from "./constants"
 import { IQuaternion } from "./Quaternion"
 import { IVector3 } from "./Vector3"
-
-export const EPSILON = 0.000001
 
 export interface IMatrix4 {
   elements: Float32Array | number[]

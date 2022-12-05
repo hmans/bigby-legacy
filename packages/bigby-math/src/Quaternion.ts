@@ -1,4 +1,5 @@
-import { EPSILON, IMatrix4 } from "./Matrix4"
+import { EPSILON } from "./constants"
+import { IMatrix4 } from "./Matrix4"
 
 export interface IQuaternion {
   x: number
