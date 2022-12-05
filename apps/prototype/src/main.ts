@@ -20,22 +20,33 @@ const app = new App()
 await app.start()
 
 /* Camera */
-app.add([
-  new Transform3D(new Vector3(0, 0, 10)),
-  new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000),
-])
+{
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  )
 
+  camera.position.z = 10
+
+  app.add([camera])
+}
 /* Lights */
 app.add([new Transform3D(), new THREE.AmbientLight(0xffffff, 0.2)])
-app.add([
-  new Transform3D(new Vector3(10, 20, 30)),
-  new THREE.DirectionalLight(0xffffff, 1),
-])
 
-const mesh = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshStandardMaterial({ color: "hotpink" })
-)
+{
+  const dlight = new THREE.DirectionalLight(0xffffff, 1)
+  dlight.position.set(10, 20, 30)
+  app.add([dlight])
+}
 
 /* Rotating cube */
-app.add([new AutoRotate(new Vector3(1, 2, 3)), new Transform3D(), mesh])
+{
+  const mesh = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshStandardMaterial({ color: "hotpink" })
+  )
+
+  app.add([new AutoRotate(new Vector3().set(1, 2, 3)), mesh])
+}
