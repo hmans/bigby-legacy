@@ -11,9 +11,7 @@ export class Quaternion implements IQuaternion {
   protected _z = 0
   protected _w = 0
 
-  constructor(x = 0, y = 0, z = 0, w = 1) {
-    this.set(x, y, z, w)
-  }
+  constructor() {}
 
   get x() {
     return this._x

@@ -9,9 +9,7 @@ export class Vector3 implements IVector3 {
   protected _y = 0
   protected _z = 0
 
-  constructor(x = 0, y = 0, z = 0) {
-    this.set(x, y, z)
-  }
+  constructor() {}
 
   get x() {
     return this._x
