@@ -17,12 +17,7 @@ export function FollowCameraPlugin(app: App) {
       const targetTransform = target.get(Transform3D)!
       const cameraTransform = camera.get(Transform3D)!
 
-      Vector3.set(
-        cameraTransform.position,
-        targetTransform.position.x,
-        targetTransform.position.y,
-        cameraTransform.position.z
-      )
+      /* TODO: Rotate quaternion to look at target */
     }
   })
 
