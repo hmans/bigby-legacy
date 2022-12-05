@@ -1,7 +1,14 @@
-import { Matrix4, Quaternion, Vector3 } from "@bigby/math"
+import { IMatrix4, IVector3, Matrix4, Quaternion, Vector3 } from "@bigby/math"
 import { App } from "./App"
 
-export class Transform3D {
+export interface ITransform3D {
+  position: IVector3
+  quaternion: Quaternion
+  scale: IVector3
+  matrix: IMatrix4
+}
+
+export class Transform3D implements ITransform3D {
   autoUpdate = true
 
   readonly matrix = new Matrix4()
