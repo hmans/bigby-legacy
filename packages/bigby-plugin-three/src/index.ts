@@ -64,34 +64,26 @@ export const ThreePlugin = (app: App) => {
   /* Scene Objects */
   app.onStart((app) => {
     /* Query the world for Three.js scene objects */
-    const sceneObjects = app.query([Transform3D, THREE.Object3D])
+    const sceneObjects = app.query([THREE.Object3D])
 
     /* When an entity with a scene object appears, add it to the Three.js scene */
     sceneObjects.onEntityAdded.add((entity) => {
-      scene.add(entity.get(THREE.Object3D)!)
+      const object3d = entity.get(THREE.Object3D)!
+      scene.add(object3d)
+
+      /* And create a transform for it */
+      app.addComponent(
+        entity,
+        new Transform3D(object3d.position, object3d.quaternion, object3d.scale)
+      )
     })
 
     /* When an entity with a scene object disappears, remove it from the Three.js scene */
     sceneObjects.onEntityRemoved.add((entity) => {
       scene.remove(entity.get(THREE.Object3D)!)
-    })
 
-    /* Every frame, copy the transform data over to the Three.js objects */
-    app.onUpdate(() => {
-      for (const [
-        _,
-        { position, quaternion, scale },
-        object3d
-      ] of sceneObjects) {
-        object3d.position.set(position.x, position.y, position.z)
-        object3d.quaternion.set(
-          quaternion.x,
-          quaternion.y,
-          quaternion.z,
-          quaternion.w
-        )
-        object3d.scale.set(scale.x, scale.y, scale.z)
-      }
+      /* And remove the transform */
+      app.removeComponent(entity, Transform3D)
     })
   })
 

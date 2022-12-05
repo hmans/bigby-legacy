@@ -1,5 +1,5 @@
 import { App, Transform3D } from "@bigby/core"
-import { Vector3 } from "@bigby/math"
+import { Quaternion, Vector3 } from "@bigby/math"
 
 export class AutoRotate {
   constructor(public velocity = new Vector3()) {}
@@ -11,9 +11,9 @@ export const AutorotatePlugin = (app: App) =>
 
     app.onUpdate((dt: number) => {
       for (const [_, transform, autorotate] of query) {
-        transform.quaternion.rotateX(autorotate.velocity.x * dt)
-        transform.quaternion.rotateY(autorotate.velocity.y * dt)
-        transform.quaternion.rotateZ(autorotate.velocity.z * dt)
+        Quaternion.rotateX(transform.quaternion, autorotate.velocity.x * dt)
+        Quaternion.rotateY(transform.quaternion, autorotate.velocity.y * dt)
+        Quaternion.rotateZ(transform.quaternion, autorotate.velocity.z * dt)
       }
     })
   })
