@@ -55,50 +55,62 @@ export class Quaternion implements IQuaternion {
   }
 
   rotateX(rad: number) {
-    const { x, y, z, w } = this
+    return Quaternion.rotateX(this, rad)
+  }
+
+  rotateY(rad: number) {
+    return Quaternion.rotateY(this, rad)
+  }
+
+  rotateZ(rad: number) {
+    return Quaternion.rotateZ(this, rad)
+  }
+
+  static rotateX(quat: IQuaternion, rad: number) {
+    const { x, y, z, w } = quat
 
     rad *= 0.5
 
     const bx = Math.sin(rad)
     const bw = Math.cos(rad)
 
-    this.x = x * bw + w * bx
-    this.y = y * bw + z * bx
-    this.z = z * bw - y * bx
-    this.w = w * bw - x * bx
+    quat.x = x * bw + w * bx
+    quat.y = y * bw + z * bx
+    quat.z = z * bw - y * bx
+    quat.w = w * bw - x * bx
 
-    return this
+    return quat
   }
 
-  rotateY(rad: number) {
-    const { x, y, z, w } = this
+  static rotateY(quat: IQuaternion, rad: number) {
+    const { x, y, z, w } = quat
 
     rad *= 0.5
 
     const by = Math.sin(rad)
     const bw = Math.cos(rad)
 
-    this.x = x * bw - z * by
-    this.y = y * bw + w * by
-    this.z = z * bw + x * by
-    this.w = w * bw - y * by
+    quat.x = x * bw - z * by
+    quat.y = y * bw + w * by
+    quat.z = z * bw + x * by
+    quat.w = w * bw - y * by
 
-    return this
+    return quat
   }
 
-  rotateZ(rad: number) {
-    const { x, y, z, w } = this
+  static rotateZ(quat: IQuaternion, rad: number) {
+    const { x, y, z, w } = quat
 
     rad *= 0.5
 
     const bz = Math.sin(rad)
     const bw = Math.cos(rad)
 
-    this.x = x * bw + y * bz
-    this.y = y * bw - x * bz
-    this.z = z * bw + w * bz
-    this.w = w * bw - z * bz
+    quat.x = x * bw + y * bz
+    quat.y = y * bw - x * bz
+    quat.z = z * bw + w * bz
+    quat.w = w * bw - z * bz
 
-    return this
+    return quat
   }
 }
