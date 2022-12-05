@@ -1,3 +1,5 @@
+import { vec3 } from "gl-matrix"
+
 export interface IVector3 {
   x: number
   y: number
@@ -5,103 +7,99 @@ export interface IVector3 {
 }
 
 export class Vector3 implements IVector3 {
-  protected _x = 0
-  protected _y = 0
-  protected _z = 0
-
-  constructor() {}
+  constructor(public raw = vec3.create()) {}
 
   get x() {
-    return this._x
+    return this.raw[0]
   }
 
   get y() {
-    return this._y
+    return this.raw[1]
   }
 
   get z() {
-    return this._z
+    return this.raw[2]
   }
 
   set x(value: number) {
-    this._x = value
+    this.raw[0] = value
   }
 
   set y(value: number) {
-    this._y = value
+    this.raw[1] = value
   }
 
   set z(value: number) {
-    this._z = value
+    this.raw[2] = value
   }
 
-  set(x = 0, y = 0, z = 0) {
-    this.x = x
-    this.y = y
-    this.z = z
-    return this
+  static set(target: IVector3, x = 0, y = 0, z = 0) {
+    target.x = x
+    target.y = y
+    target.z = z
+    return target
   }
 
-  copy(v: IVector3) {
-    this.x = v.x
-    this.y = v.y
-    this.z = v.z
-    return this
+  static copy(target: IVector3, s: IVector3) {
+    target.x = s.x
+    target.y = s.y
+    target.z = s.z
+    return target
   }
 
-  add(v: IVector3) {
-    this.x += v.x
-    this.y += v.y
-    this.z += v.z
-    return this
+  static add(target: IVector3, v: IVector3) {
+    target.x += v.x
+    target.y += v.y
+    target.z += v.z
+    return target
   }
 
-  addScalar(v: number) {
-    this.x += v
-    this.y += v
-    this.z += v
-    return this
+  static addScalar(target: IVector3, v: number) {
+    target.x += v
+    target.y += v
+    target.z += v
+    return target
   }
 
-  subtract(v: IVector3) {
-    this.x -= v.x
-    this.y -= v.y
-    this.z -= v.z
-    return this
+  static subtract(target: IVector3, v: IVector3) {
+    target.x -= v.x
+    target.y -= v.y
+    target.z -= v.z
+    return target
   }
 
-  subtractScalar(v: number) {
-    this.x -= v
-    this.y -= v
-    this.z -= v
-    return this
+  static subtractScalar(target: IVector3, v: number) {
+    target.x -= v
+    target.y -= v
+    target.z -= v
+    return target
   }
 
-  multiply(v: IVector3) {
-    this.x *= v.x
-    this.y *= v.y
-    this.z *= v.z
-    return this
+  static multiply(target: IVector3, v: IVector3) {
+    target.x *= v.x
+    target.y *= v.y
+    target.z *= v.z
+    return target
   }
 
-  multiplyScalar(v: number) {
-    this.x *= v
-    this.y *= v
-    this.z *= v
-    return this
+  static multiplyScalar(target: IVector3, v: number) {
+    target.x *= v
+    target.y *= v
+    target.z *= v
+    return target
   }
 
-  divide(v: IVector3) {
-    this.x /= v.x
-    this.y /= v.y
-    this.z /= v.z
-    return this
+  static divide(target: IVector3, v: IVector3) {
+    target.x /= v.x
+    target.y /= v.y
+    target.z /= v.z
+    return target
   }
 
-  divideScalar(scalar: number) {
-    this.x /= scalar
-    this.y /= scalar
-    this.z /= scalar
-    return this
+  static divideScalar(target: IVector3, scalar: number) {
+    target.x /= scalar
+    target.y /= scalar
+    target.z /= scalar
+    return target
   }
 }
