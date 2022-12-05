@@ -4,7 +4,7 @@ import { IVector3 } from "./Vector3"
 export const EPSILON = 0.000001
 
 export interface IMatrix4 {
-  elements: Float32Array
+  elements: Float32Array | number[]
 }
 
 export class Matrix4 implements IMatrix4 {
