@@ -11,7 +11,7 @@ export class Quaternion implements IQuaternion {
   protected _z = 0
   protected _w = 0
 
-  constructor(x = 0, y = 0, z = 0, w = 0) {
+  constructor(x = 0, y = 0, z = 0, w = 1) {
     this.set(x, y, z, w)
   }
 
@@ -47,11 +47,28 @@ export class Quaternion implements IQuaternion {
     this._w = v
   }
 
-  set(x = 0, y = 0, z = 0, w = 0) {
+  set(x = 0, y = 0, z = 0, w = 1) {
     this.x = x
     this.y = y
     this.z = z
     this.w = w
+
+    return this
+  }
+
+  rotateX(rad: number) {
+    const { x, y, z, w } = this
+
+    rad *= 0.5
+
+    const bx = Math.sin(rad)
+    const bw = Math.cos(rad)
+
+    this.x = x * bw + w * bx
+    this.y = y * bw + z * bx
+    this.z = z * bw - y * bx
+    this.w = w * bw - x * bx
+
     return this
   }
 }
