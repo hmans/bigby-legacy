@@ -34,7 +34,7 @@ app.add([
 
 /* Rotating cube */
 app.add([
-  // new AutoRotate([1, 2, 3]),
+  new AutoRotate(new Vector3(1, 2, 3)),
   new Transform3D(),
   new THREE.Mesh(
     new THREE.BoxGeometry(1, 1, 1),

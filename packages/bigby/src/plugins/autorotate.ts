@@ -1,8 +1,8 @@
 import { App, Transform3D } from "@bigby/core"
-import { quat, vec3 } from "gl-matrix"
+import { Vector3 } from "@bigby/math"
 
 export class AutoRotate {
-  constructor(public velocity = vec3.create()) {}
+  constructor(public velocity = new Vector3()) {}
 }
 
 export const AutorotatePlugin = (app: App) =>
@@ -11,21 +11,21 @@ export const AutorotatePlugin = (app: App) =>
 
     app.onUpdate((dt: number) => {
       for (const [_, transform, autorotate] of query) {
-        quat.rotateX(
-          transform.quaternion,
-          transform.quaternion,
-          autorotate.velocity[0] * dt
-        )
-        quat.rotateY(
-          transform.quaternion,
-          transform.quaternion,
-          autorotate.velocity[1] * dt
-        )
-        quat.rotateZ(
-          transform.quaternion,
-          transform.quaternion,
-          autorotate.velocity[2] * dt
-        )
+        // quat.rotateX(
+        //   transform.quaternion,
+        //   transform.quaternion,
+        //   autorotate.velocity[0] * dt
+        // )
+        // quat.rotateY(
+        //   transform.quaternion,
+        //   transform.quaternion,
+        //   autorotate.velocity[1] * dt
+        // )
+        // quat.rotateZ(
+        //   transform.quaternion,
+        //   transform.quaternion,
+        //   autorotate.velocity[2] * dt
+        // )
       }
     })
   })
