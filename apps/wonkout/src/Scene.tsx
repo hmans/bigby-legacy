@@ -5,7 +5,7 @@ export const Scene = (app: App) =>
   app.onStart((app) => {
     /* Camera */
     app.add([
-      new Transform3D([0, 0, 15]),
+      new Transform3D([0, 0, 25]),
       new THREE.PerspectiveCamera(
         75,
         window.innerWidth / window.innerHeight,
