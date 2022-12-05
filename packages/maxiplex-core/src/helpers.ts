@@ -7,6 +7,11 @@ export const apply = <T extends object>(object: T, props: ApplyProps<T>) => {
   return object
 }
 
+export const setup = <T extends object>(object: T, fun: (object: T) => any) => {
+  fun(object)
+  return object
+}
+
 export type MakeProps<C extends Constructor<any>> = ApplyProps<
   InstanceType<C>
 > & {
@@ -16,11 +21,14 @@ export type MakeProps<C extends Constructor<any>> = ApplyProps<
 export const make = <C extends Constructor<any>>(
   ctor: C,
   args?: ConstructorParameters<C>,
-  props: MakeProps<C> = {}
+  props: MakeProps<C> = {},
+  fun?: (object: InstanceType<C>) => void
 ): InstanceType<C> => {
   // @ts-ignore
   const instance = args ? new ctor(...args) : new ctor()
-  return apply(instance, props)
+  const applied = apply(instance, props)
+  fun?.(applied)
+  return applied
 }
 
 export const c = make
