@@ -21,9 +21,9 @@ export class Transform3D implements ITransform3D {
   readonly matrix = new Matrix4()
 
   constructor(
-    public readonly position: IVector3 = new Vector3(),
-    public readonly quaternion: IQuaternion = new Quaternion(),
-    public readonly scale: IVector3 = new Vector3(1, 1, 1)
+    public position: IVector3 = new Vector3(),
+    public quaternion: IQuaternion = new Quaternion(),
+    public scale: IVector3 = new Vector3(1, 1, 1)
   ) {}
 }
 
