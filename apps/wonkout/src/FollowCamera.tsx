@@ -10,25 +10,33 @@ export function FollowCameraPlugin(app: App) {
   const cameraQuery = app.query([Transform3D, FollowCamera])
   const targetQuery = app.query([Transform3D, CameraTarget])
 
-  const mat4 = new Matrix4()
+  const _mat4 = new Matrix4()
+  const _quat = new Quaternion()
 
   app.onLateUpdate((dt) => {
     const camera = cameraQuery.first
     const target = targetQuery.first
 
     if (camera && target) {
+      /* Nope, I don't really want to fetch these every frame */
       const targetTransform = target.get(Transform3D)!
       const cameraTransform = camera.get(Transform3D)!
 
       Matrix4.targetTo(
-        mat4,
+        _mat4,
         cameraTransform.position,
         targetTransform.position,
         new Vector3(0, 1, 0)
       )
 
-      /* Set quaternion from rotation matrix */
-      Quaternion.setFromRotationMatrix(cameraTransform.quaternion, mat4)
+      Quaternion.setFromRotationMatrix(_quat, _mat4)
+
+      Quaternion.slerp(
+        cameraTransform.quaternion,
+        cameraTransform.quaternion,
+        _quat,
+        0.01
+      )
     }
   })
 

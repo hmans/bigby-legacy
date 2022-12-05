@@ -7,7 +7,7 @@ export const Floor = (app: App) =>
       make(Transform3D, [[0, 0, -2]]),
       make(THREE.Mesh, [], {
         receiveShadow: true,
-        geometry: new THREE.PlaneGeometry(100, 100),
+        geometry: new THREE.PlaneGeometry(1000, 1000),
         material: new THREE.MeshStandardMaterial({ color: "#555" })
       })
     ])

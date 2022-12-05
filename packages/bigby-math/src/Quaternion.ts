@@ -1,4 +1,4 @@
-import { IMatrix4 } from "./Matrix4"
+import { EPSILON, IMatrix4 } from "./Matrix4"
 
 export interface IQuaternion {
   x: number
@@ -153,5 +153,46 @@ export class Quaternion implements IQuaternion {
     }
 
     return this
+  }
+
+  static slerp(out: IQuaternion, a: IQuaternion, b: IQuaternion, t: number) {
+    let ax = a.x,
+      ay = a.y,
+      az = a.z,
+      aw = a.w
+
+    let bx = b.x,
+      by = b.y,
+      bz = b.z,
+      bw = b.w
+
+    let omega, cosom, sinom, scale0, scale1
+
+    cosom = ax * bx + ay * by + az * bz + aw * bw
+
+    if (cosom < 0.0) {
+      cosom = -cosom
+      bx = -bx
+      by = -by
+      bz = -bz
+      bw = -bw
+    }
+
+    if (1.0 - cosom > EPSILON) {
+      omega = Math.acos(cosom)
+      sinom = Math.sin(omega)
+      scale0 = Math.sin((1.0 - t) * omega) / sinom
+      scale1 = Math.sin(t * omega) / sinom
+    } else {
+      scale0 = 1.0 - t
+      scale1 = t
+    }
+
+    out.x = scale0 * ax + scale1 * bx
+    out.y = scale0 * ay + scale1 * by
+    out.z = scale0 * az + scale1 * bz
+    out.w = scale0 * aw + scale1 * bw
+
+    return out
   }
 }
