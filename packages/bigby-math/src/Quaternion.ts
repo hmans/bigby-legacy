@@ -54,18 +54,6 @@ export class Quaternion implements IQuaternion {
     return this
   }
 
-  rotateX(rad: number) {
-    return Quaternion.rotateX(this, rad)
-  }
-
-  rotateY(rad: number) {
-    return Quaternion.rotateY(this, rad)
-  }
-
-  rotateZ(rad: number) {
-    return Quaternion.rotateZ(this, rad)
-  }
-
   static rotateX(quat: IQuaternion, rad: number) {
     const { x, y, z, w } = quat
 

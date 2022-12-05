@@ -35,7 +35,8 @@ export const TransformsPlugin = (app: App) =>
       for (const [_, transform] of withTransform) {
         if (!transform.autoUpdate) return
 
-        transform.matrix.compose(
+        Matrix4.compose(
+          transform.matrix,
           transform.position,
           transform.quaternion,
           transform.scale
