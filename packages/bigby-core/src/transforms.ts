@@ -1,9 +1,16 @@
-import { IMatrix4, IVector3, Matrix4, Quaternion, Vector3 } from "@bigby/math"
+import {
+  IMatrix4,
+  IQuaternion,
+  IVector3,
+  Matrix4,
+  Quaternion,
+  Vector3
+} from "@bigby/math"
 import { App } from "./App"
 
 export interface ITransform3D {
   position: IVector3
-  quaternion: Quaternion
+  quaternion: IQuaternion
   scale: IVector3
   matrix: IMatrix4
 }
@@ -14,9 +21,9 @@ export class Transform3D implements ITransform3D {
   readonly matrix = new Matrix4()
 
   constructor(
-    public readonly position = new Vector3(),
-    public readonly quaternion = new Quaternion(),
-    public readonly scale = new Vector3(1, 1, 1)
+    public readonly position: IVector3 = new Vector3(),
+    public readonly quaternion: IQuaternion = new Quaternion(),
+    public readonly scale: IVector3 = new Vector3().set(1, 1, 1)
   ) {}
 }
 
