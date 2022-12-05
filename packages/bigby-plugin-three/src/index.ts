@@ -112,7 +112,6 @@ export const ThreePlugin = (app: App) => {
       const parent = entity.get(Parent3D)!.parent
       const object = entity.get(THREE.Object3D)!
       parent.add(object)
-      console.log("Yay parenting!", object, parent)
     })
 
     parentedQuery.onEntityRemoved.add((entity) => {
