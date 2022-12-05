@@ -44,14 +44,14 @@ export class Vector3 implements IVector3 {
     return this
   }
 
-  copy(v: Vector3) {
+  copy(v: IVector3) {
     this.x = v.x
     this.y = v.y
     this.z = v.z
     return this
   }
 
-  add(v: Vector3) {
+  add(v: IVector3) {
     this.x += v.x
     this.y += v.y
     this.z += v.z
@@ -65,7 +65,7 @@ export class Vector3 implements IVector3 {
     return this
   }
 
-  subtract(v: Vector3) {
+  subtract(v: IVector3) {
     this.x -= v.x
     this.y -= v.y
     this.z -= v.z
@@ -79,7 +79,7 @@ export class Vector3 implements IVector3 {
     return this
   }
 
-  multiply(v: Vector3) {
+  multiply(v: IVector3) {
     this.x *= v.x
     this.y *= v.y
     this.z *= v.z
@@ -93,7 +93,7 @@ export class Vector3 implements IVector3 {
     return this
   }
 
-  divide(v: Vector3) {
+  divide(v: IVector3) {
     this.x /= v.x
     this.y /= v.y
     this.z /= v.z

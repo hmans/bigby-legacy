@@ -1,4 +1,11 @@
-export class Vector4 {
+export interface IVector4 {
+  x: number
+  y: number
+  z: number
+  w: number
+}
+
+export class Vector4 implements IVector4 {
   protected _x = 0
   protected _y = 0
   protected _z = 0
@@ -48,7 +55,7 @@ export class Vector4 {
     return this
   }
 
-  copy(v: Vector4) {
+  copy(v: IVector4) {
     this.x = v.x
     this.y = v.y
     this.z = v.z
@@ -56,7 +63,7 @@ export class Vector4 {
     return this
   }
 
-  add(v: Vector4) {
+  add(v: IVector4) {
     this.x += v.x
     this.y += v.y
     this.z += v.z
@@ -72,7 +79,7 @@ export class Vector4 {
     return this
   }
 
-  subtract(v: Vector4) {
+  subtract(v: IVector4) {
     this.x -= v.x
     this.y -= v.y
     this.z -= v.z
@@ -88,7 +95,7 @@ export class Vector4 {
     return this
   }
 
-  multiply(v: Vector4) {
+  multiply(v: IVector4) {
     this.x *= v.x
     this.y *= v.y
     this.z *= v.z
@@ -104,7 +111,7 @@ export class Vector4 {
     return this
   }
 
-  divide(v: Vector4) {
+  divide(v: IVector4) {
     this.x /= v.x
     this.y /= v.y
     this.z /= v.z

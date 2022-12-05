@@ -33,13 +33,13 @@ export class Vector2 implements IVector2 {
     return this
   }
 
-  copy(vec2: Vector2) {
+  copy(vec2: IVector2) {
     this.x = vec2.x
     this.y = vec2.y
     return this
   }
 
-  add(vec2: Vector2) {
+  add(vec2: IVector2) {
     this.x += vec2.x
     this.y += vec2.y
     return this
@@ -51,7 +51,7 @@ export class Vector2 implements IVector2 {
     return this
   }
 
-  subtract(vec2: Vector2) {
+  subtract(vec2: IVector2) {
     this.x -= vec2.x
     this.y -= vec2.y
     return this
@@ -63,7 +63,7 @@ export class Vector2 implements IVector2 {
     return this
   }
 
-  multiply(vec2: Vector2) {
+  multiply(vec2: IVector2) {
     this.x *= vec2.x
     this.y *= vec2.y
     return this
@@ -75,7 +75,7 @@ export class Vector2 implements IVector2 {
     return this
   }
 
-  divide(vec2: Vector2) {
+  divide(vec2: IVector2) {
     this.x /= vec2.x
     this.y /= vec2.y
     return this
