@@ -1,4 +1,9 @@
-export class Vector2 {
+export interface IVector2 {
+  x: number
+  y: number
+}
+
+export class Vector2 implements IVector2 {
   protected _x = 0
   protected _y = 0
 
