@@ -1,6 +1,9 @@
 import { App, Matrix4, Quaternion, Transform3D, Vector3 } from "bigby"
 
-export class FollowCamera {}
+export class FollowCamera {
+  delta = 0.01
+}
+
 export class CameraTarget {}
 
 export function FollowCameraPlugin(app: App) {
@@ -21,7 +24,9 @@ export function FollowCameraPlugin(app: App) {
       /* Nope, I don't really want to fetch these every frame */
       const targetTransform = target.get(Transform3D)!
       const cameraTransform = camera.get(Transform3D)!
+      const follow = camera.get(FollowCamera)!
 
+      /* Make a rotation matrix */
       Matrix4.targetTo(
         _mat4,
         cameraTransform.position,
@@ -29,13 +34,15 @@ export function FollowCameraPlugin(app: App) {
         new Vector3(0, 1, 0)
       )
 
+      /* Extract the rotation from the matrix */
       Quaternion.setFromRotationMatrix(_quat, _mat4)
 
+      /* Apply the rotation to the camera, but interpolate */
       Quaternion.slerp(
         cameraTransform.quaternion,
         cameraTransform.quaternion,
         _quat,
-        0.01
+        follow.delta
       )
     }
   })
