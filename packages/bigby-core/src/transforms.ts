@@ -6,6 +6,7 @@ import {
   Quaternion,
   Vector3
 } from "@bigby/math"
+import { vec3 } from "gl-matrix"
 import { App } from "./App"
 
 export interface ITransform3D {
@@ -23,7 +24,7 @@ export class Transform3D implements ITransform3D {
   constructor(
     public readonly position: IVector3 = new Vector3(),
     public readonly quaternion: IQuaternion = new Quaternion(),
-    public readonly scale: IVector3 = new Vector3().set(1, 1, 1)
+    public readonly scale: IVector3 = new Vector3(vec3.fromValues(1, 1, 1))
   ) {}
 }
 
