@@ -40,7 +40,11 @@ export class Vector3 implements IVector3 {
   }
 
   static magnitude(v: IVector3) {
-    return Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z)
+    return Math.sqrt(Vector3.magnitudeSquared(v))
+  }
+
+  static magnitudeSquared(v: IVector3) {
+    return v.x * v.x + v.y * v.y + v.z * v.z
   }
 
   static normalize(target: IVector3, v: IVector3) {
@@ -141,5 +145,25 @@ export class Vector3 implements IVector3 {
 
   static dot(target: IVector3, v: IVector3) {
     return target.x * v.x + target.y * v.y + target.z * v.z
+  }
+
+  static distance(target: IVector3, v: IVector3) {
+    return Math.sqrt(Vector3.distanceSquared(target, v))
+  }
+
+  static distanceSquared(target: IVector3, v: IVector3) {
+    const x = target.x - v.x
+    const y = target.y - v.y
+    const z = target.z - v.z
+
+    return x * x + y * y + z * z
+  }
+
+  static lerp(target: IVector3, a: IVector3, b: IVector3, alpha: number) {
+    target.x = a.x + (b.x - a.x) * alpha
+    target.y = a.y + (b.y - a.y) * alpha
+    target.z = a.z + (b.z - a.z) * alpha
+
+    return target
   }
 }

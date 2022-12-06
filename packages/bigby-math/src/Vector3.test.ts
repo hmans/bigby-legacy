@@ -207,3 +207,39 @@ describe(Vector3.cross, () => {
     expect(result).toBe(v1)
   })
 })
+
+describe(Vector3.magnitude, () => {
+  it("returns the magnitude of a vector", () => {
+    const v = new Vector3(1, 2, 3)
+    const result = Vector3.magnitude(v)
+    expect(result).toBe(Math.sqrt(14))
+  })
+})
+
+describe(Vector3.magnitudeSquared, () => {
+  it("returns the squared magnitude of a vector", () => {
+    const v = new Vector3(1, 2, 3)
+    const result = Vector3.magnitudeSquared(v)
+    expect(result).toBe(14)
+  })
+})
+
+describe(Vector3.lerp, () => {
+  it("returns the linear interpolation between two vectors", () => {
+    const a = new Vector3(1, 2, 3)
+    const b = new Vector3(4, 5, 6)
+    const v = new Vector3()
+    const result = Vector3.lerp(v, a, b, 0.5)
+    expect(v.x).toBe(2.5)
+    expect(v.y).toBe(3.5)
+    expect(v.z).toBe(4.5)
+  })
+
+  it("returns the target vector", () => {
+    const a = new Vector3(1, 2, 3)
+    const b = new Vector3(4, 5, 6)
+    const v = new Vector3()
+    const result = Vector3.lerp(v, a, b, 0.5)
+    expect(result).toBe(v)
+  })
+})
