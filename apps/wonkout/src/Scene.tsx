@@ -5,7 +5,7 @@ import { FollowCamera } from "./FollowCamera"
 export const Scene = (app: App) =>
   app.onStart((app) => {
     /* Camera */
-    app.add([
+    app.spawn([
       make(FollowCamera, { delta: 0.01 }),
       setup(
         new THREE.PerspectiveCamera(
@@ -19,12 +19,12 @@ export const Scene = (app: App) =>
     ])
 
     /* Lights */
-    app.add([new THREE.AmbientLight(0xffffff, 1)])
+    app.spawn([new THREE.AmbientLight(0xffffff, 1)])
 
     {
       const light = new THREE.DirectionalLight(0xffffff, 0.2)
       light.position.set(50, 80, 100)
-      app.add([light])
+      app.spawn([light])
 
       light.castShadow = true
 

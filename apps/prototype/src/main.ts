@@ -26,7 +26,7 @@ const app = new App().use(TickerPlugin).use(ThreePlugin).use(AutorotatePlugin)
 await app.start()
 
 /* Camera */
-app.add([
+app.spawn([
   make(THREE.PerspectiveCamera, {
     fov: 75,
     aspect: window.innerWidth / window.innerHeight,
@@ -40,9 +40,9 @@ app.add([
 ])
 
 /* Lights */
-app.add([make(THREE.AmbientLight, { intensity: 0.2 })])
+app.spawn([make(THREE.AmbientLight, { intensity: 0.2 })])
 
-app.add([
+app.spawn([
   make(THREE.DirectionalLight, {
     intensity: 1,
     position: [10, 20, 30],
@@ -50,7 +50,7 @@ app.add([
 ])
 
 /* Rotating cube */
-app.add([
+app.spawn([
   make(AutoRotate, { velocity: [1, 2, 3] }),
   make(THREE.Mesh, {
     geometry: make(THREE.BoxGeometry),

@@ -13,7 +13,7 @@ export const Player = (app: App) => {
     const gltf = await loadGLTF("/models/wonkout_paddle.gltf")
 
     /* Player */
-    app.add([
+    app.spawn([
       new PlayerComponent(),
       new Input(),
 

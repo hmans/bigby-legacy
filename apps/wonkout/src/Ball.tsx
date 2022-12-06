@@ -8,7 +8,7 @@ import { CameraTarget } from "./FollowCamera"
 export const Ball = (app: App) =>
   app.onStart((app) => {
     /* Ball */
-    const ball = app.add([
+    const ball = app.spawn([
       new CameraTarget(),
 
       new Physics.DynamicBody((desc) =>
@@ -29,7 +29,7 @@ export const Ball = (app: App) =>
     ])
 
     /* Light */
-    app.add([
+    app.spawn([
       make(THREE.PointLight, { args: ["hotpink", 3, 10], castShadow: true }),
       make(Parent3D, { parent: ball.get(THREE.Object3D) })
     ])

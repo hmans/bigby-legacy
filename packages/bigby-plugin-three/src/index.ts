@@ -1,6 +1,5 @@
 import { App } from "@bigby/core"
 import * as THREE from "three"
-import { Object3D } from "three"
 
 export * from "./helpers"
 
@@ -43,7 +42,7 @@ export const ThreePlugin = (app: App) => {
   app.registerComponent(Parent3D)
 
   const state = new ThreePluginState()
-  app.add([state])
+  app.spawn([state])
 
   const { renderer, scene } = state
 

@@ -6,7 +6,7 @@ export const Walls = (app: App) =>
   app.onStart((app) => {
     const height = 4
     /* North Wall */
-    app.add([
+    app.spawn([
       new Physics.StaticBody(),
       new Physics.BoxCollider([24, 1, height]).setDensity(0),
       make(THREE.Mesh, {
@@ -18,7 +18,7 @@ export const Walls = (app: App) =>
     ])
 
     /* West Wall */
-    app.add([
+    app.spawn([
       new Physics.StaticBody(),
       new Physics.BoxCollider([1, 18, height]).setDensity(0),
       make(THREE.Mesh, {
@@ -30,7 +30,7 @@ export const Walls = (app: App) =>
     ])
 
     /* East Wall */
-    app.add([
+    app.spawn([
       new Physics.StaticBody(),
       new Physics.BoxCollider([1, 18, height]).setDensity(0),
       make(THREE.Mesh, {
@@ -42,7 +42,7 @@ export const Walls = (app: App) =>
     ])
 
     /* South (Death) Wall */
-    app.add([
+    app.spawn([
       new Physics.StaticBody(),
       new Physics.BoxCollider([27, 1, 1]).setDensity(0),
       make(THREE.Object3D, {
