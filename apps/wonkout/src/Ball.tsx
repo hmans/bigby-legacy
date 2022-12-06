@@ -1,6 +1,6 @@
 import * as Physics from "@bigby/plugin-physics3d"
 import { Parent3D } from "@bigby/plugin-three"
-import { App, apply, make, Transform3D } from "bigby"
+import { App, make } from "bigby"
 import * as THREE from "three"
 import { ConstantVelocity } from "./ConstantVelocityPlugin"
 import { CameraTarget } from "./FollowCamera"
@@ -9,7 +9,6 @@ export const Ball = (app: App) =>
   app.onStart((app) => {
     /* Ball */
     const ball = app.add([
-      new Transform3D([0, -5.5, 0]),
       new CameraTarget(),
 
       new Physics.DynamicBody((desc) =>
@@ -24,13 +23,13 @@ export const Ball = (app: App) =>
           color: new THREE.Color("white").multiplyScalar(2),
           side: THREE.BackSide
         }),
-        castShadow: true
+        castShadow: true,
+        setup: ({ position }) => position.set(0, -5.5, 0)
       })
     ])
 
     /* Light */
     app.add([
-      make(Transform3D),
       make(THREE.PointLight, { args: ["hotpink", 3, 10], castShadow: true }),
       make(Parent3D, { parent: ball.get(THREE.Object3D) })
     ])

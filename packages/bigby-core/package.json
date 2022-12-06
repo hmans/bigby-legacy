@@ -29,7 +29,12 @@
   "dependencies": {
     "@bigby/math": "workspace:^0.10.1",
     "@maxiplex/core": "workspace:^0.10.1",
-    "@maxiplex/event-dispatcher": "workspace:^0.10.1",
-    "gl-matrix": "^3.4.3"
+    "@maxiplex/event-dispatcher": "workspace:^0.10.1"
+  },
+  "devDependencies": {
+    "three": "^0.147.0"
+  },
+  "peerDependencies": {
+    "three": "^0.147.0"
   }
 }

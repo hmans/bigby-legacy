@@ -14,6 +14,7 @@ importers:
       '@types/node': ^18.11.10
       '@types/react': ^18.0.26
       '@types/react-dom': ^18.0.9
+      '@types/three': ^0.146.0
       jest: ^29.3.1
       jest-environment-jsdom: ^29.3.1
       jest-progress-bar-reporter: ^1.0.25
@@ -32,6 +33,7 @@ importers:
       '@types/node': 18.11.10
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.9
+      '@types/three': 0.146.0
       jest: 29.3.1_@types+node@18.11.10
       jest-environment-jsdom: 29.3.1
       jest-progress-bar-reporter: 1.0.25
@@ -135,51 +137,43 @@ importers:
       '@bigby/math': workspace:^0.10.1
       '@bigby/plugin-ticker': workspace:^0.10.1
       '@maxiplex/core': workspace:^0.10.1
-      gl-matrix: ^3.4.3
     dependencies:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
       '@bigby/plugin-ticker': link:../bigby-plugin-ticker
       '@maxiplex/core': link:../maxiplex-core
-      gl-matrix: 3.4.3
 
   packages/bigby-core:
     specifiers:
       '@bigby/math': workspace:^0.10.1
       '@maxiplex/core': workspace:^0.10.1
       '@maxiplex/event-dispatcher': workspace:^0.10.1
-      gl-matrix: ^3.4.3
+      three: ^0.147.0
     dependencies:
       '@bigby/math': link:../bigby-math
       '@maxiplex/core': link:../maxiplex-core
       '@maxiplex/event-dispatcher': link:../maxiplex-event-dispatcher
-      gl-matrix: 3.4.3
+    devDependencies:
+      three: 0.147.0
 
   packages/bigby-math:
-    specifiers:
-      gl-matrix: ^3.4.3
-    dependencies:
-      gl-matrix: 3.4.3
+    specifiers: {}
 
   packages/bigby-plugin-input:
     specifiers:
       '@bigby/core': workspace:^0.10.1
-      '@bigby/math': workspace:^0.10.1
     dependencies:
       '@bigby/core': link:../bigby-core
-      '@bigby/math': link:../bigby-math
 
   packages/bigby-plugin-physics3d:
     specifiers:
       '@bigby/core': workspace:^0.10.1
       '@bigby/math': workspace:^0.10.1
       '@dimforge/rapier3d-compat': ^0.10.0
-      gl-matrix: ^3.4.3
     dependencies:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
       '@dimforge/rapier3d-compat': 0.10.0
-      gl-matrix: 3.4.3
 
   packages/bigby-plugin-three:
     specifiers:
@@ -216,18 +210,6 @@ importers:
     dependencies:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
-
-  packages/bigby-plugin-webgl2:
-    specifiers:
-      '@bigby/core': workspace:^0.10.1
-      '@shader-composer/core': 0.0.0-canary-20221130162026
-      '@shader-composer/noise': 0.0.0-canary-20221130162026
-      gl-matrix: ^3.4.3
-    dependencies:
-      '@bigby/core': link:../bigby-core
-      '@shader-composer/core': 0.0.0-canary-20221130162026
-      '@shader-composer/noise': 0.0.0-canary-20221130162026_7gypnbji454pyfw2v4ngh44fra
-      gl-matrix: 3.4.3
 
   packages/bigby-react:
     specifiers:
@@ -2243,20 +2225,6 @@ packages:
       rollup: 2.79.1
     dev: true
 
-  /@shader-composer/core/0.0.0-canary-20221130162026:
-    resolution: {integrity: sha512-5wT1Dno27fgy79/qDlheqacLjVngXTz71GeqazkRYNiS/k13NylOGAYgd/ePNLxdtCbZsjPcZJ/vxd7nFzbH5w==}
-    dependencies:
-      fp-ts: 2.13.1
-    dev: false
-
-  /@shader-composer/noise/0.0.0-canary-20221130162026_7gypnbji454pyfw2v4ngh44fra:
-    resolution: {integrity: sha512-l3kDml/Z3ND3zVNDzv0SEu1tRL3b/jFImSmkWpHHO6aRq4qnbesJ86HCVmnU3cQUGh59NFbrraOQg6uqBXLweg==}
-    peerDependencies:
-      '@shader-composer/core': 0.0.0-canary-20221130162026
-    dependencies:
-      '@shader-composer/core': 0.0.0-canary-20221130162026
-    dev: false
-
   /@sinclair/typebox/0.24.51:
     resolution: {integrity: sha512-1P1OROm/rdubP5aFDSZQILU0vrLCJ4fvHt6EoqHEM+2D/G5MK3bIaymUKLit8Js9gbns5UyJnkP/TZROLw4tUA==}
     dev: true
@@ -3645,10 +3613,6 @@ packages:
       combined-stream: 1.0.8
       mime-types: 2.1.35
     dev: true
-
-  /fp-ts/2.13.1:
-    resolution: {integrity: sha512-0eu5ULPS2c/jsa1lGFneEFFEdTbembJv8e4QKXeVJ3lm/5hyve06dlKZrpxmMwJt6rYen7sxmHHK2CLaXvWuWQ==}
-    dev: false
 
   /fs-extra/7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}

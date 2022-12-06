@@ -28,6 +28,7 @@ export const createReactAPI = (app: App) => {
       const entity = useCurrentEntity()
 
       /* Create our component instance. */
+      // @ts-ignore
       const [componentInstance] = useState(() => new ctor())
 
       /* Add the component to the entity. */

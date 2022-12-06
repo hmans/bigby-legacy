@@ -1,6 +1,7 @@
 import * as Physics from "@bigby/plugin-physics3d"
 import { loadGLTF } from "@bigby/plugin-three"
-import { App, apply, Transform3D } from "bigby"
+import { App, apply, setup } from "bigby"
+import { Object3D } from "three"
 
 export const Bricks = (app: App) =>
   app.onStart(async (app) => {
@@ -10,8 +11,6 @@ export const Bricks = (app: App) =>
     for (let x = -3; x <= 3; x++) {
       for (let y = -2; y <= 2; y++) {
         app.add([
-          new Transform3D([x * 3, y * 2 + 2, 0]),
-
           new Physics.DynamicBody((body) =>
             body
               .enabledTranslations(true, true, false)
@@ -25,10 +24,13 @@ export const Bricks = (app: App) =>
               console.log("OH NO")
             }),
 
-          apply(gltf.scene.children[0].clone(), {
-            castShadow: true,
-            receiveShadow: false
-          })
+          setup(
+            apply(gltf.scene.children[0].clone(), {
+              castShadow: true,
+              receiveShadow: false
+            }),
+            (obj: Object3D) => obj.position.set(x * 3, y * 2 + 2, 0)
+          )
         ])
       }
     }

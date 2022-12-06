@@ -27,7 +27,6 @@
     ]
   },
   "dependencies": {
-    "@bigby/core": "workspace:^0.10.1",
-    "@bigby/math": "workspace:^0.10.1"
+    "@bigby/core": "workspace:^0.10.1"
   }
 }

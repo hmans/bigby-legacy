@@ -1,39 +1,59 @@
 import { ThreePlugin } from "@bigby/plugin-three"
-import {
-  App,
-  AutoRotate,
-  AutorotatePlugin,
-  TickerPlugin,
-  Transform3D,
-  TransformsPlugin,
-  Vector3,
-} from "bigby"
+import { App, make, TickerPlugin } from "bigby"
 import * as THREE from "three"
+import { Object3D, Vector3 } from "three"
 import "./style.css"
 
-const app = new App()
-  .use(TickerPlugin)
-  .use(TransformsPlugin)
-  .use(ThreePlugin)
-  .use(AutorotatePlugin)
+class AutoRotate {
+  constructor(public velocity = new Vector3()) {}
+}
+
+export const AutorotatePlugin = (app: App) =>
+  app.registerComponent(AutoRotate).onStart((app) => {
+    const query = app.query([Object3D, AutoRotate])
+
+    app.onUpdate((dt: number) => {
+      for (const [_, transform, autorotate] of query) {
+        transform.rotation.x += autorotate.velocity.x * dt
+        transform.rotation.y += autorotate.velocity.y * dt
+        transform.rotation.z += autorotate.velocity.z * dt
+      }
+    })
+  })
+
+const app = new App().use(TickerPlugin).use(ThreePlugin).use(AutorotatePlugin)
 
 await app.start()
 
 /* Camera */
 app.add([
-  new Transform3D([0, 0, 5]),
-  new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000),
+  make(THREE.PerspectiveCamera, {
+    fov: 75,
+    aspect: window.innerWidth / window.innerHeight,
+    near: 0.1,
+    far: 1000,
+    position: [0, 0, 5],
+    setup: (camera) => {
+      camera.updateProjectionMatrix()
+    },
+  }),
 ])
 
 /* Lights */
-app.add([new THREE.AmbientLight(0xffffff, 0.2)])
-app.add([new Transform3D([10, 20, 30]), new THREE.DirectionalLight(0xffffff, 1)])
+app.add([make(THREE.AmbientLight, { intensity: 0.2 })])
+
+app.add([
+  make(THREE.DirectionalLight, {
+    intensity: 1,
+    position: [10, 20, 30],
+  }),
+])
 
 /* Rotating cube */
 app.add([
-  new AutoRotate(new Vector3(1, 2, 3)),
-  new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshStandardMaterial({ color: "hotpink" })
-  ),
+  make(AutoRotate, { velocity: [1, 2, 3] }),
+  make(THREE.Mesh, {
+    geometry: make(THREE.BoxGeometry),
+    material: make(THREE.MeshStandardMaterial, { color: "hotpink" }),
+  }),
 ])
