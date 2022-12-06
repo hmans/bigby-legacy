@@ -20,7 +20,7 @@ export const Bricks = (app: App) =>
           new Physics.BoxCollider([2, 1, 1])
             .setDensity(2)
             .onCollisionStart((other) => {
-              console.log("OH NO")
+              console.log("OH NO", other)
             }),
 
           apply(gltf.scene.children[0].clone(), {
