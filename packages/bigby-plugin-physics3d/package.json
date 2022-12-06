@@ -29,7 +29,6 @@
   "dependencies": {
     "@bigby/core": "workspace:^0.10.1",
     "@bigby/math": "workspace:^0.10.1",
-    "@dimforge/rapier3d-compat": "^0.10.0",
-    "gl-matrix": "^3.4.3"
+    "@dimforge/rapier3d-compat": "^0.10.0"
   }
 }

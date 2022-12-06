@@ -1,8 +1,25 @@
 import { ThreePlugin } from "@bigby/plugin-three"
-import { App, AutoRotate, AutorotatePlugin, setup, TickerPlugin } from "bigby"
+import { App, setup, TickerPlugin } from "bigby"
 import * as THREE from "three"
-import { Vector3 } from "three"
+import { Object3D, Vector3 } from "three"
 import "./style.css"
+
+class AutoRotate {
+  constructor(public velocity = new Vector3()) {}
+}
+
+export const AutorotatePlugin = (app: App) =>
+  app.registerComponent(AutoRotate).onStart((app) => {
+    const query = app.query([Object3D, AutoRotate])
+
+    app.onUpdate((dt: number) => {
+      for (const [_, transform, autorotate] of query) {
+        transform.rotation.x += autorotate.velocity.x * dt
+        transform.rotation.y += autorotate.velocity.y * dt
+        transform.rotation.z += autorotate.velocity.z * dt
+      }
+    })
+  })
 
 const app = new App().use(TickerPlugin).use(ThreePlugin).use(AutorotatePlugin)
 

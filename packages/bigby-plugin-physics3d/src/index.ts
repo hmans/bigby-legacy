@@ -1,8 +1,7 @@
-import { App } from "@bigby/core"
+import { App, Object3D } from "@bigby/core"
 import { clamp } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { ColliderHandle, RigidBodyDesc } from "@dimforge/rapier3d-compat"
-import { Object3D } from "three"
 
 export abstract class RigidBody {
   desc: RigidBodyDesc = undefined!
