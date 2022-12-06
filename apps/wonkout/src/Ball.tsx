@@ -3,12 +3,14 @@ import { Parent3D } from "@bigby/plugin-three"
 import { App, apply, make, Transform3D } from "bigby"
 import * as THREE from "three"
 import { ConstantVelocity } from "./ConstantVelocityPlugin"
+import { CameraTarget } from "./FollowCamera"
 
 export const Ball = (app: App) =>
   app.onStart((app) => {
     /* Ball */
     const ball = app.add([
       new Transform3D([0, -5.5, 0]),
+      new CameraTarget(),
 
       new Physics.DynamicBody((desc) =>
         desc.enabledTranslations(true, true, false)

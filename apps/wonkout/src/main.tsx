@@ -7,6 +7,7 @@ import { Ball } from "./Ball"
 import { Bricks } from "./Bricks"
 import { ConstantVelocityPlugin } from "./ConstantVelocityPlugin"
 import { Floor } from "./Floor"
+import { FollowCameraPlugin } from "./FollowCamera"
 import "./index.css"
 import { Player } from "./Player"
 import { Scene } from "./Scene"
@@ -23,6 +24,7 @@ const app = new App()
   .use(InputPlugin)
   .use(Physics.Plugin({ gravity: [0, 0, 0] }))
   .use(ConstantVelocityPlugin)
+  .use(FollowCameraPlugin)
   .use(Wonkynoid)
 
 app.start()

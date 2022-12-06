@@ -1,17 +1,19 @@
-import { App, Transform3D } from "bigby"
+import { App, make, Transform3D } from "bigby"
 import * as THREE from "three"
+import { FollowCamera } from "./FollowCamera"
 
 export const Scene = (app: App) =>
   app.onStart((app) => {
     /* Camera */
     app.add([
-      new Transform3D([0, 0, 25]),
-      new THREE.PerspectiveCamera(
+      make(FollowCamera, [], { delta: 0.01 }),
+      make(Transform3D, [[0, 0, 20]]),
+      make(THREE.PerspectiveCamera, [
         75,
         window.innerWidth / window.innerHeight,
         0.1,
         1000
-      )
+      ])
     ])
 
     /* Lights */

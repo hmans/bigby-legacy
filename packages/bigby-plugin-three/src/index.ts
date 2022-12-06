@@ -64,34 +64,43 @@ export const ThreePlugin = (app: App) => {
   /* Scene Objects */
   app.onStart((app) => {
     /* Query the world for Three.js scene objects */
-    const sceneObjects = app.query([Transform3D, THREE.Object3D])
+    const sceneObjects = app.query([THREE.Object3D])
 
     /* When an entity with a scene object appears, add it to the Three.js scene */
     sceneObjects.onEntityAdded.add((entity) => {
-      scene.add(entity.get(THREE.Object3D)!)
+      const object3d = entity.get(THREE.Object3D)!
+      scene.add(object3d)
+
+      /* If the entity already has a Transform3D, let's mutate it */
+      const transform = entity.get(Transform3D)
+      if (transform) {
+        object3d.position.copy(transform.position as THREE.Vector3)
+        object3d.quaternion.copy(transform.quaternion as THREE.Quaternion)
+        object3d.scale.copy(transform.scale as THREE.Vector3)
+        object3d.matrix.copy(transform.matrix as THREE.Matrix4)
+
+        transform.position = object3d.position
+        transform.quaternion = object3d.quaternion
+        transform.scale = object3d.scale
+        transform.matrix = object3d.matrix
+      } else {
+        /* Otherwise, create a transform for it! */
+        app.addComponent(
+          entity,
+
+          new Transform3D(
+            object3d.position,
+            object3d.quaternion,
+            object3d.scale,
+            object3d.matrix
+          )
+        )
+      }
     })
 
     /* When an entity with a scene object disappears, remove it from the Three.js scene */
     sceneObjects.onEntityRemoved.add((entity) => {
       scene.remove(entity.get(THREE.Object3D)!)
-    })
-
-    /* Every frame, copy the transform data over to the Three.js objects */
-    app.onUpdate(() => {
-      for (const [
-        _,
-        { position, quaternion, scale },
-        object3d
-      ] of sceneObjects) {
-        object3d.position.set(position[0], position[1], position[2])
-        object3d.quaternion.set(
-          quaternion[0],
-          quaternion[1],
-          quaternion[2],
-          quaternion[3]
-        )
-        object3d.scale.set(scale[0], scale[1], scale[2])
-      }
     })
   })
 
@@ -103,7 +112,6 @@ export const ThreePlugin = (app: App) => {
       const parent = entity.get(Parent3D)!.parent
       const object = entity.get(THREE.Object3D)!
       parent.add(object)
-      console.log("Yay parenting!", object, parent)
     })
 
     parentedQuery.onEntityRemoved.add((entity) => {
