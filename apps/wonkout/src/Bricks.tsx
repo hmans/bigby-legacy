@@ -1,7 +1,6 @@
 import * as Physics from "@bigby/plugin-physics3d"
 import { loadGLTF } from "@bigby/plugin-three"
-import { App, apply, setup } from "bigby"
-import { Object3D } from "three"
+import { App, apply } from "bigby"
 
 export const Bricks = (app: App) =>
   app.onStart(async (app) => {
@@ -24,13 +23,11 @@ export const Bricks = (app: App) =>
               console.log("OH NO")
             }),
 
-          setup(
-            apply(gltf.scene.children[0].clone(), {
-              castShadow: true,
-              receiveShadow: false
-            }),
-            (obj: Object3D) => obj.position.set(x * 3, y * 2 + 2, 0)
-          )
+          apply(gltf.scene.children[0].clone(), {
+            castShadow: true,
+            receiveShadow: false,
+            position: [x * 3, y * 2 + 2, 0]
+          })
         ])
       }
     }
