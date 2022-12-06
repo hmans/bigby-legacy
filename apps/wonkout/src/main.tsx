@@ -2,7 +2,7 @@ import { InputPlugin } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
 import { ThreePlugin } from "@bigby/plugin-three"
 import { ThreePostprocessingPlugin } from "@bigby/plugin-three-postprocessing"
-import { App, TickerPlugin, TransformsPlugin } from "bigby"
+import { App, TickerPlugin } from "bigby"
 import { Ball } from "./Ball"
 import { Bricks } from "./Bricks"
 import { ConstantVelocityPlugin } from "./ConstantVelocityPlugin"
@@ -18,7 +18,6 @@ const Wonkynoid = (app: App) =>
 
 const app = new App()
   .use(TickerPlugin)
-  .use(TransformsPlugin)
   .use(ThreePlugin)
   .use(ThreePostprocessingPlugin)
   .use(InputPlugin)

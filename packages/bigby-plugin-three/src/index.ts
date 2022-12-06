@@ -1,5 +1,6 @@
-import { App, Transform3D } from "@bigby/core"
+import { App } from "@bigby/core"
 import * as THREE from "three"
+import { Object3D } from "three"
 
 export * from "./helpers"
 
@@ -36,7 +37,6 @@ export class ThreePluginState {
 }
 
 export const ThreePlugin = (app: App) => {
-  app.requireComponent(Transform3D)
   app.registerComponent(THREE.Object3D)
   app.registerComponent(THREE.Camera)
   app.registerComponent(ThreePluginState)
@@ -70,30 +70,6 @@ export const ThreePlugin = (app: App) => {
     sceneObjects.onEntityAdded.add((entity) => {
       const object3d = entity.get(THREE.Object3D)!
       scene.add(object3d)
-
-      /* If the entity already has a Transform3D, let's mutate it */
-      const transform = entity.get(Transform3D)
-      if (transform) {
-        object3d.position.copy(transform.position)
-        object3d.rotation.copy(transform.rotation)
-        object3d.scale.copy(transform.scale)
-
-        transform.position = object3d.position
-        transform.quaternion = object3d.quaternion
-        transform.scale = object3d.scale
-      } else {
-        /* Otherwise, create a transform for it! */
-        app.addComponent(
-          entity,
-
-          new Transform3D(
-            object3d.position,
-            object3d.rotation,
-            object3d.scale,
-            object3d.quaternion
-          )
-        )
-      }
     })
 
     /* When an entity with a scene object disappears, remove it from the Three.js scene */

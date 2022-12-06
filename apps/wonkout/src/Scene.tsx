@@ -1,4 +1,4 @@
-import { App, make, Transform3D } from "bigby"
+import { App, make, setup } from "bigby"
 import * as THREE from "three"
 import { FollowCamera } from "./FollowCamera"
 
@@ -7,21 +7,24 @@ export const Scene = (app: App) =>
     /* Camera */
     app.add([
       make(FollowCamera, { delta: 0.01 }),
-      new Transform3D([0, 0, 20]),
-      new THREE.PerspectiveCamera(
-        75,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
+      setup(
+        new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        ),
+        ({ position }) => position.set(0, 0, 20)
       )
     ])
 
     /* Lights */
-    app.add([new Transform3D([0, 0, 0]), new THREE.AmbientLight(0xffffff, 1)])
+    app.add([new THREE.AmbientLight(0xffffff, 1)])
 
     {
       const light = new THREE.DirectionalLight(0xffffff, 0.2)
-      app.add([new Transform3D([50, 80, 100]), light])
+      light.position.set(50, 80, 100)
+      app.add([light])
 
       light.castShadow = true
 

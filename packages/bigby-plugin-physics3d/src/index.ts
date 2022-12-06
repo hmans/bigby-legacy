@@ -1,7 +1,8 @@
-import { App, Transform3D } from "@bigby/core"
+import { App } from "@bigby/core"
 import { clamp } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { ColliderHandle, RigidBodyDesc } from "@dimforge/rapier3d-compat"
+import { Object3D } from "three"
 
 export abstract class RigidBody {
   desc: RigidBodyDesc = undefined!
@@ -77,7 +78,7 @@ export const Plugin =
   (app: App) =>
     app
       /* Make sure this component is known to the app. We'll need it! */
-      .requireComponent(Transform3D)
+      .requireComponent(Object3D)
 
       /* Let the app know which components we will be adding. */
       .registerComponent(RigidBody)
@@ -96,13 +97,13 @@ export const Plugin =
 
         /* ... */
 
-        const rigidbodyQuery = app.query([Transform3D, RigidBody])
+        const rigidbodyQuery = app.query([Object3D, RigidBody])
 
         /* Create new RAPIER rigidbodies when entities appear */
         rigidbodyQuery.onEntityAdded.add((entity) => {
           let desc = entity.get(RigidBody)!.desc
 
-          const transform = entity.get(Transform3D)!
+          const transform = entity.get(Object3D)!
           const rigidbody = entity.get(RigidBody)!
 
           desc.setTranslation(

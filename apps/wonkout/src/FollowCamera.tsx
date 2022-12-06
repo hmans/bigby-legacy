@@ -1,4 +1,4 @@
-import { App, Transform3D } from "bigby"
+import { App } from "bigby"
 import { Matrix4, Object3D, Quaternion } from "three"
 
 export class FollowCamera {
@@ -12,7 +12,7 @@ export function FollowCameraPlugin(app: App) {
   app.registerComponent(FollowCamera)
 
   const cameraQuery = app.query([Object3D, FollowCamera])
-  const targetQuery = app.query([Transform3D, CameraTarget])
+  const targetQuery = app.query([Object3D, CameraTarget])
 
   const _mat4 = new Matrix4()
   const _quat = new Quaternion()
@@ -23,7 +23,7 @@ export function FollowCameraPlugin(app: App) {
 
     if (camera && target) {
       /* Nope, I don't really want to fetch these every frame */
-      const targetTransform = target.get(Transform3D)!
+      const targetObj = target.get(Object3D)!
       const cameraObj = camera.get(Object3D)!
       const followCamera = camera.get(FollowCamera)!
 
@@ -31,7 +31,7 @@ export function FollowCameraPlugin(app: App) {
         _quat.setFromRotationMatrix(
           _mat4
             .copy(cameraObj.matrix)
-            .lookAt(cameraObj.position, targetTransform.position, cameraObj.up)
+            .lookAt(cameraObj.position, targetObj.position, cameraObj.up)
         ),
         followCamera.delta
       )
