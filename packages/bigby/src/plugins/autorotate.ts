@@ -11,7 +11,9 @@ export const AutorotatePlugin = (app: App) =>
 
     app.onUpdate((dt: number) => {
       for (const [_, transform, autorotate] of query) {
-        /* TODO */
+        transform.rotation.x += autorotate.velocity.x * dt
+        transform.rotation.y += autorotate.velocity.y * dt
+        transform.rotation.z += autorotate.velocity.z * dt
       }
     })
   })

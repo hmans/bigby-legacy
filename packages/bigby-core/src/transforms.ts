@@ -1,50 +1,28 @@
 import { App } from "./App"
-import { Vector3, Quaternion, Matrix4 } from "three"
+import { Vector3, Quaternion, Matrix4, Euler } from "three"
 
 export class Transform3D {
   position: Vector3
   quaternion: Quaternion
+  rotation: Euler
   scale: Vector3
-  matrix: Matrix4
-
-  autoUpdate = true
 
   constructor(
     position: Vector3 | [number, number, number] = new Vector3(),
-    quaternion:
-      | Quaternion
-      | [number, number, number, number] = new Quaternion(),
+    rotation: Euler | [number, number, number] = new Euler(),
     scale: Vector3 | [number, number, number] = new Vector3(1, 1, 1),
-    matrix = new Matrix4()
+    quaternion = new Quaternion()
   ) {
     this.position = Array.isArray(position)
       ? new Vector3(...position)
       : position
 
-    this.quaternion = Array.isArray(quaternion)
-      ? new Quaternion(...quaternion)
-      : quaternion
+    this.rotation = Array.isArray(rotation) ? new Euler(...rotation) : rotation
 
     this.scale = Array.isArray(scale) ? new Vector3(...scale) : scale
 
-    this.matrix = matrix
-
-    this.updateMatrix()
-  }
-
-  updateMatrix() {
-    this.matrix.compose(this.position, this.quaternion, this.scale)
+    this.quaternion = quaternion
   }
 }
 
-export const TransformsPlugin = (app: App) =>
-  app.registerComponent(Transform3D).onStart((app) => {
-    const withTransform = app.query([Transform3D])
-
-    app.onRender(() => {
-      for (const [_, transform] of withTransform) {
-        if (!transform.autoUpdate) return
-        transform.updateMatrix()
-      }
-    })
-  })
+export const TransformsPlugin = (app: App) => app.registerComponent(Transform3D)
