@@ -20,6 +20,7 @@ export class World {
 
   entities = new Array<Entity>()
   protected registeredComponents = new Set<Component>()
+  protected registeredPlugins = new Set<Plugin<typeof this>>()
 
   onEntityAdded = new EventDispatcher<Entity>()
   onEntityRemoved = new EventDispatcher<Entity>()
@@ -143,7 +144,13 @@ export class World {
   }
 
   use(plugin: Plugin<typeof this>) {
-    return plugin(this as any)
+    if (this.registeredPlugins.has(plugin)) return this
+
+    /* Register and initialize the plugin */
+    this.registeredPlugins.add(plugin)
+    plugin(this)
+
+    return this
   }
 
   onLoad(callback: OnLoadCallback<typeof this>) {
