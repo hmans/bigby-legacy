@@ -20,8 +20,7 @@ export type MakeProps<C extends Constructor<any>> = ApplyProps<
 
 export const make = <C extends Constructor<any>>(
   ctor: C,
-  args?: ConstructorParameters<C>,
-  props: MakeProps<C> = {},
+  { args, ...props }: MakeProps<C> = {},
   fun?: (object: InstanceType<C>) => void
 ): InstanceType<C> => {
   // @ts-ignore

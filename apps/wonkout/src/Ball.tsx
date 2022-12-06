@@ -18,9 +18,9 @@ export const Ball = (app: App) =>
       new Physics.BallCollider(0.3).setDensity(1),
       new ConstantVelocity(10),
 
-      make(THREE.Mesh, [], {
+      make(THREE.Mesh, {
         geometry: new THREE.IcosahedronGeometry(0.4, 0),
-        material: make(THREE.MeshStandardMaterial, [], {
+        material: make(THREE.MeshStandardMaterial, {
           color: new THREE.Color("white").multiplyScalar(2),
           side: THREE.BackSide
         }),
@@ -31,8 +31,8 @@ export const Ball = (app: App) =>
     /* Light */
     app.add([
       make(Transform3D),
-      make(THREE.PointLight, ["hotpink", 3, 10], { castShadow: true }),
-      make(Parent3D, [ball.get(THREE.Object3D)!])
+      make(THREE.PointLight, { args: ["hotpink", 3, 10], castShadow: true }),
+      make(Parent3D, { parent: ball.get(THREE.Object3D) })
     ])
 
     /* I don't have the APIs yet, so please don't look at this */

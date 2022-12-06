@@ -10,7 +10,7 @@ export const Walls = (app: App) =>
       new Physics.StaticBody(),
       new Physics.BoxCollider([24, 1, height]).setDensity(0),
       new Transform3D([0, 8.5, 0]),
-      make(THREE.Mesh, [], {
+      make(THREE.Mesh, {
         geometry: new THREE.BoxGeometry(24, 1, height),
         material: new THREE.MeshStandardMaterial({ color: "#999" }),
         castShadow: true

@@ -6,14 +6,14 @@ export const Scene = (app: App) =>
   app.onStart((app) => {
     /* Camera */
     app.add([
-      make(FollowCamera, [], { delta: 0.01 }),
-      make(Transform3D, [[0, 0, 20]]),
-      make(THREE.PerspectiveCamera, [
+      make(FollowCamera, { delta: 0.01 }),
+      new Transform3D([0, 0, 20]),
+      new THREE.PerspectiveCamera(
         75,
         window.innerWidth / window.innerHeight,
         0.1,
         1000
-      ])
+      )
     ])
 
     /* Lights */
