@@ -53,61 +53,61 @@ export class Quaternion implements IQuaternion {
     this._w = v
   }
 
-  static set(target: IQuaternion, x = 0, y = 0, z = 0, w = 1) {
-    target.x = x
-    target.y = y
-    target.z = z
-    target.w = w
+  static set(out: IQuaternion, x = 0, y = 0, z = 0, w = 1) {
+    out.x = x
+    out.y = y
+    out.z = z
+    out.w = w
 
-    return target
+    return out
   }
 
-  static rotateX(quat: IQuaternion, rad: number) {
-    const { x, y, z, w } = quat
+  static rotateX(out: IQuaternion, q: IQuaternion, rad: number) {
+    const { x, y, z, w } = q
 
     rad *= 0.5
 
     const bx = Math.sin(rad)
     const bw = Math.cos(rad)
 
-    quat.x = x * bw + w * bx
-    quat.y = y * bw + z * bx
-    quat.z = z * bw - y * bx
-    quat.w = w * bw - x * bx
+    out.x = x * bw + w * bx
+    out.y = y * bw + z * bx
+    out.z = z * bw - y * bx
+    out.w = w * bw - x * bx
 
-    return quat
+    return out
   }
 
-  static rotateY(quat: IQuaternion, rad: number) {
-    const { x, y, z, w } = quat
+  static rotateY(out: IQuaternion, q: IQuaternion, rad: number) {
+    const { x, y, z, w } = q
 
     rad *= 0.5
 
     const by = Math.sin(rad)
     const bw = Math.cos(rad)
 
-    quat.x = x * bw - z * by
-    quat.y = y * bw + w * by
-    quat.z = z * bw + x * by
-    quat.w = w * bw - y * by
+    out.x = x * bw - z * by
+    out.y = y * bw + w * by
+    out.z = z * bw + x * by
+    out.w = w * bw - y * by
 
-    return quat
+    return out
   }
 
-  static rotateZ(quat: IQuaternion, rad: number) {
-    const { x, y, z, w } = quat
+  static rotateZ(out: IQuaternion, q: IQuaternion, rad: number) {
+    const { x, y, z, w } = q
 
     rad *= 0.5
 
     const bz = Math.sin(rad)
     const bw = Math.cos(rad)
 
-    quat.x = x * bw + y * bz
-    quat.y = y * bw - x * bz
-    quat.z = z * bw + w * bz
-    quat.w = w * bw - z * bz
+    out.x = x * bw + y * bz
+    out.y = y * bw - x * bz
+    out.z = z * bw + w * bz
+    out.w = w * bw - z * bz
 
-    return quat
+    return out
   }
 
   static setFromRotationMatrix(out: IQuaternion, m: IMatrix4) {
