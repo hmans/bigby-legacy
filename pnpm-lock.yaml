@@ -156,10 +156,7 @@ importers:
       gl-matrix: 3.4.3
 
   packages/bigby-math:
-    specifiers:
-      gl-matrix: ^3.4.3
-    dependencies:
-      gl-matrix: 3.4.3
+    specifiers: {}
 
   packages/bigby-plugin-input:
     specifiers:
