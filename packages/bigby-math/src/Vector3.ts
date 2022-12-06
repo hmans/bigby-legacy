@@ -47,132 +47,133 @@ export class Vector3 implements IVector3 {
     return v.x * v.x + v.y * v.y + v.z * v.z
   }
 
-  static normalize(target: IVector3, v: IVector3 = target) {
+  static normalize(out: IVector3, v: IVector3) {
     const magnitude = Vector3.magnitude(v)
 
     if (magnitude > 0) {
-      target.x = v.x / magnitude
-      target.y = v.y / magnitude
-      target.z = v.z / magnitude
+      out.x = v.x / magnitude
+      out.y = v.y / magnitude
+      out.z = v.z / magnitude
     } else {
-      target.x = 0
-      target.y = 0
-      target.z = 0
+      out.x = 0
+      out.y = 0
+      out.z = 0
     }
 
-    return target
+    return out
   }
 
-  static set(target: IVector3, x = 0, y = 0, z = 0) {
-    target.x = x
-    target.y = y
-    target.z = z
-    return target
+  static set(out: IVector3, x = 0, y = 0, z = 0) {
+    out.x = x
+    out.y = y
+    out.z = z
+    return out
   }
 
-  static copy(target: IVector3, s: IVector3) {
-    target.x = s.x
-    target.y = s.y
-    target.z = s.z
-    return target
+  static copy(out: IVector3, s: IVector3) {
+    out.x = s.x
+    out.y = s.y
+    out.z = s.z
+    return out
   }
 
-  static add(target: IVector3, v: IVector3) {
-    target.x += v.x
-    target.y += v.y
-    target.z += v.z
-    return target
+  static add(out: IVector3, v: IVector3) {
+    out.x += v.x
+    out.y += v.y
+    out.z += v.z
+    return out
   }
 
-  static addScalar(target: IVector3, v: number) {
-    target.x += v
-    target.y += v
-    target.z += v
-    return target
+  static addScalar(out: IVector3, v: number) {
+    out.x += v
+    out.y += v
+    out.z += v
+    return out
   }
 
-  static subtract(target: IVector3, v: IVector3) {
-    target.x -= v.x
-    target.y -= v.y
-    target.z -= v.z
-    return target
+  static subtract(out: IVector3, v: IVector3) {
+    out.x -= v.x
+    out.y -= v.y
+    out.z -= v.z
+    return out
   }
 
-  static subtractScalar(target: IVector3, v: number) {
-    target.x -= v
-    target.y -= v
-    target.z -= v
-    return target
+  static subtractScalar(out: IVector3, v: number) {
+    out.x -= v
+    out.y -= v
+    out.z -= v
+    return out
   }
 
-  static multiply(target: IVector3, v: IVector3) {
-    target.x *= v.x
-    target.y *= v.y
-    target.z *= v.z
-    return target
+  static multiply(out: IVector3, v: IVector3) {
+    out.x *= v.x
+    out.y *= v.y
+    out.z *= v.z
+    return out
   }
 
-  static multiplyScalar(target: IVector3, v: number) {
-    target.x *= v
-    target.y *= v
-    target.z *= v
-    return target
+  static multiplyScalar(out: IVector3, v: number) {
+    out.x *= v
+    out.y *= v
+    out.z *= v
+    return out
   }
 
-  static divide(target: IVector3, v: IVector3) {
-    target.x /= v.x
-    target.y /= v.y
-    target.z /= v.z
-    return target
+  static divide(out: IVector3, v: IVector3) {
+    out.x /= v.x
+    out.y /= v.y
+    out.z /= v.z
+    return out
   }
 
-  static divideScalar(target: IVector3, scalar: number) {
-    target.x /= scalar
-    target.y /= scalar
-    target.z /= scalar
-    return target
+  static divideScalar(out: IVector3, scalar: number) {
+    out.x /= scalar
+    out.y /= scalar
+    out.z /= scalar
+    return out
   }
 
-  static cross(target: IVector3, a: IVector3, b: IVector3) {
+  static cross(out: IVector3, a: IVector3, b: IVector3) {
     const ax = a.x
     const ay = a.y
     const az = a.z
+
     const bx = b.x
     const by = b.y
     const bz = b.z
 
-    target.x = ay * bz - az * by
-    target.y = az * bx - ax * bz
-    target.z = ax * by - ay * bx
+    out.x = ay * bz - az * by
+    out.y = az * bx - ax * bz
+    out.z = ax * by - ay * bx
 
-    return target
+    return out
   }
 
   static dot(a: IVector3, b: IVector3) {
     return a.x * b.x + a.y * b.y + a.z * b.z
   }
 
-  static distance(target: IVector3, v: IVector3) {
-    return Math.sqrt(Vector3.distanceSquared(target, v))
+  static distance(a: IVector3, b: IVector3) {
+    return Math.sqrt(Vector3.distanceSquared(a, b))
   }
 
-  static distanceSquared(target: IVector3, v: IVector3) {
-    const x = target.x - v.x
-    const y = target.y - v.y
-    const z = target.z - v.z
+  static distanceSquared(a: IVector3, b: IVector3) {
+    const x = a.x - b.x
+    const y = a.y - b.y
+    const z = a.z - b.z
 
     return x * x + y * y + z * z
   }
 
-  static lerp(target: IVector3, a: IVector3, b: IVector3, alpha: number) {
-    target.x = a.x + (b.x - a.x) * alpha
-    target.y = a.y + (b.y - a.y) * alpha
-    target.z = a.z + (b.z - a.z) * alpha
+  static lerp(out: IVector3, a: IVector3, b: IVector3, alpha: number) {
+    out.x = a.x + (b.x - a.x) * alpha
+    out.y = a.y + (b.y - a.y) * alpha
+    out.z = a.z + (b.z - a.z) * alpha
 
-    return target
+    return out
   }
 
-  static equals(target: IVector3, v: IVector3) {
-    return target.x === v.x && target.y === v.y && target.z === v.z
+  static equals(a: IVector3, b: IVector3) {
+    return a.x === b.x && a.y === b.y && a.z === b.z
   }
 }
