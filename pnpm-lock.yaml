@@ -137,26 +137,22 @@ importers:
       '@bigby/math': workspace:^0.10.1
       '@bigby/plugin-ticker': workspace:^0.10.1
       '@maxiplex/core': workspace:^0.10.1
-      gl-matrix: ^3.4.3
     dependencies:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
       '@bigby/plugin-ticker': link:../bigby-plugin-ticker
       '@maxiplex/core': link:../maxiplex-core
-      gl-matrix: 3.4.3
 
   packages/bigby-core:
     specifiers:
       '@bigby/math': workspace:^0.10.1
       '@maxiplex/core': workspace:^0.10.1
       '@maxiplex/event-dispatcher': workspace:^0.10.1
-      gl-matrix: ^3.4.3
       three: ^0.147.0
     dependencies:
       '@bigby/math': link:../bigby-math
       '@maxiplex/core': link:../maxiplex-core
       '@maxiplex/event-dispatcher': link:../maxiplex-event-dispatcher
-      gl-matrix: 3.4.3
     devDependencies:
       three: 0.147.0
 
@@ -166,10 +162,8 @@ importers:
   packages/bigby-plugin-input:
     specifiers:
       '@bigby/core': workspace:^0.10.1
-      '@bigby/math': workspace:^0.10.1
     dependencies:
       '@bigby/core': link:../bigby-core
-      '@bigby/math': link:../bigby-math
 
   packages/bigby-plugin-physics3d:
     specifiers:
