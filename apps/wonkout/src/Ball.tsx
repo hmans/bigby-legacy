@@ -1,6 +1,6 @@
 import * as Physics from "@bigby/plugin-physics3d"
 import { Parent3D } from "@bigby/plugin-three"
-import { App, apply, make, Transform3D } from "bigby"
+import { App, make, Transform3D } from "bigby"
 import * as THREE from "three"
 import { ConstantVelocity } from "./ConstantVelocityPlugin"
 import { CameraTarget } from "./FollowCamera"
