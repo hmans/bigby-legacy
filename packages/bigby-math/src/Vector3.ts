@@ -128,4 +128,18 @@ export class Vector3 implements IVector3 {
     target.z /= scalar
     return target
   }
+
+  static cross(target: IVector3, v: IVector3) {
+    const { x, y, z } = target
+
+    target.x = y * v.z - z * v.y
+    target.y = z * v.x - x * v.z
+    target.z = x * v.y - y * v.x
+
+    return target
+  }
+
+  static dot(target: IVector3, v: IVector3) {
+    return target.x * v.x + target.y * v.y + target.z * v.z
+  }
 }
