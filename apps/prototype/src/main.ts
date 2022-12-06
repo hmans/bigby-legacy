@@ -1,5 +1,5 @@
 import { ThreePlugin } from "@bigby/plugin-three"
-import { App, setup, TickerPlugin } from "bigby"
+import { App, make, setup, TickerPlugin } from "bigby"
 import * as THREE from "three"
 import { Object3D, Vector3 } from "three"
 import "./style.css"
@@ -27,13 +27,14 @@ await app.start()
 
 /* Camera */
 app.add([
-  setup(
-    new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    ),
+  make(
+    THREE.PerspectiveCamera,
+    {
+      fov: 75,
+      aspect: window.innerWidth / window.innerHeight,
+      near: 0.1,
+      far: 1000,
+    },
     (camera) => {
       camera.position.set(0, 0, 5)
     }
