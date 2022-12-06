@@ -33,7 +33,7 @@ export class World {
 
   protected queries = new Map<string, Query<any>>()
 
-  add(components: Component[]) {
+  spawn(components: Component[]) {
     /* Check all given components if they've been registered with us */
     components.forEach((component) => {
       this.assertRegisteredComponent(component.constructor)
@@ -50,7 +50,7 @@ export class World {
     return entity
   }
 
-  remove(entity: Entity) {
+  destroy(entity: Entity) {
     /* Remove entity */
     const index = this.entities.indexOf(entity)
     if (index !== -1) {

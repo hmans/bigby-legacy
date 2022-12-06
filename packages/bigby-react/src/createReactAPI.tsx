@@ -48,7 +48,7 @@ export const createReactAPI = (app: App) => {
 
   const Entity = forwardRef<Entity, { children?: ReactNode }>(
     ({ children }, ref) => {
-      const [entity] = useState(() => app.add([]))
+      const [entity] = useState(() => app.spawn([]))
 
       useImperativeHandle(ref, () => entity)
 

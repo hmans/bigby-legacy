@@ -34,7 +34,7 @@ describe(World, () => {
     })
   })
 
-  describe("add", () => {
+  describe("spawn", () => {
     it("creates an entity with the given components", () => {
       const world = createWorldWithComponents()
 
@@ -42,7 +42,7 @@ describe(World, () => {
       const velocity = new Velocity()
       const health = new Health()
 
-      const entity = world.add([position, velocity, health])
+      const entity = world.spawn([position, velocity, health])
 
       expect(entity).toBeDefined()
       expect(entity.components[0]).toBe(position)
@@ -59,7 +59,7 @@ describe(World, () => {
 
       const query = world.query([Position, Velocity])
 
-      const entity = world.add([position, velocity, health])
+      const entity = world.spawn([position, velocity, health])
 
       expect(query.entities).toContain(entity)
       expect(query.components.get(entity)).toEqual([position, velocity])
@@ -67,18 +67,18 @@ describe(World, () => {
 
     it("throws an error if any of the given components has not been registered previously", () => {
       const world = new World()
-      expect(() => world.add([new Position()])).toThrow()
+      expect(() => world.spawn([new Position()])).toThrow()
     })
   })
 
-  describe("remove", () => {
+  describe("destroy", () => {
     it("removes the entity from the world", () => {
       const world = createWorldWithComponents()
 
-      const entity = world.add([new Position()])
+      const entity = world.spawn([new Position()])
       expect(world.entities).toHaveLength(1)
 
-      world.remove(entity)
+      world.destroy(entity)
       expect(world.entities).toHaveLength(0)
     })
 
@@ -91,12 +91,12 @@ describe(World, () => {
 
       const query = world.query([Position, Velocity])
 
-      const entity = world.add([position, velocity, health])
+      const entity = world.spawn([position, velocity, health])
 
       expect(query.entities).toContain(entity)
       expect(query.components.get(entity)).toEqual([position, velocity])
 
-      world.remove(entity)
+      world.destroy(entity)
 
       expect(query.entities).not.toContain(entity)
       expect(query.components.get(entity)).toBeUndefined()
@@ -109,10 +109,10 @@ describe(World, () => {
       world.registerComponent(Position)
 
       /* Using this component will not throw an error */
-      expect(() => world.add([new Position()])).not.toThrow()
+      expect(() => world.spawn([new Position()])).not.toThrow()
 
       /* Using another component will throw an error. */
-      expect(() => world.add([new Velocity()])).toThrow()
+      expect(() => world.spawn([new Velocity()])).toThrow()
     })
 
     it("works with child classes", () => {
@@ -122,7 +122,7 @@ describe(World, () => {
       const world = new World()
       world.registerComponent(A)
 
-      expect(() => world.add([new B()])).not.toThrow()
+      expect(() => world.spawn([new B()])).not.toThrow()
     })
   })
 
@@ -131,7 +131,7 @@ describe(World, () => {
       const world = createWorldWithComponents()
 
       const position = new Position()
-      const entity = world.add([position])
+      const entity = world.spawn([position])
       expect(entity.components).toEqual([position])
 
       const velocity = new Velocity()
@@ -148,7 +148,7 @@ describe(World, () => {
 
       const query = world.query([Position, Velocity])
 
-      const entity = world.add([position, health])
+      const entity = world.spawn([position, health])
 
       expect(query.entities).not.toContain(entity)
 
@@ -161,7 +161,7 @@ describe(World, () => {
     it("emits the onEntityUpdated event", () => {
       const world = createWorldWithComponents()
 
-      const entity = world.add([new Position()])
+      const entity = world.spawn([new Position()])
 
       const spy = jest.fn()
       world.onEntityUpdated.add(spy)
@@ -172,21 +172,21 @@ describe(World, () => {
     it("returns true if the component was added successfully", () => {
       const world = createWorldWithComponents()
 
-      const entity = world.add([new Position()])
+      const entity = world.spawn([new Position()])
       expect(world.addComponent(entity, new Velocity())).toBe(true)
     })
 
     it("returns false when the entity already has a component of the same type", () => {
       const world = createWorldWithComponents()
 
-      const entity = world.add([new Position()])
+      const entity = world.spawn([new Position()])
       expect(world.addComponent(entity, new Position())).toBe(false)
     })
 
     it("throws an error when the given component has not been registered first", () => {
       const world = new World()
 
-      const entity = world.add([])
+      const entity = world.spawn([])
       expect(() => world.addComponent(entity, new Health())).toThrow()
     })
   })
@@ -197,7 +197,7 @@ describe(World, () => {
 
       const position = new Position()
       const velocity = new Velocity()
-      const entity = world.add([position, velocity])
+      const entity = world.spawn([position, velocity])
       expect(entity.components).toEqual([position, velocity])
 
       world.removeComponent(entity, velocity)
@@ -209,7 +209,7 @@ describe(World, () => {
 
       const position = new Position()
       const velocity = new Velocity()
-      const entity = world.add([position, velocity])
+      const entity = world.spawn([position, velocity])
       expect(entity.components).toEqual([position, velocity])
 
       world.removeComponent(entity, Velocity)
@@ -226,7 +226,7 @@ describe(World, () => {
 
         const query = world.query([Position, Velocity])
 
-        const entity = world.add([position, velocity, health])
+        const entity = world.spawn([position, velocity, health])
 
         expect(query.entities).toContain(entity)
         expect(query.components.get(entity)).toEqual([position, velocity])
@@ -239,7 +239,7 @@ describe(World, () => {
 
       it("emits the onEntityUpdated event when a component has been removed successfully", () => {
         const world = createWorldWithComponents()
-        const entity = world.add([new Position(), new Velocity()])
+        const entity = world.spawn([new Position(), new Velocity()])
         const spy = jest.fn()
 
         world.onEntityUpdated.add(spy)
@@ -250,7 +250,7 @@ describe(World, () => {
 
       it("returns true", () => {
         const world = createWorldWithComponents()
-        const entity = world.add([new Position(), new Velocity()])
+        const entity = world.spawn([new Position(), new Velocity()])
         expect(world.removeComponent(entity, Velocity)).toBe(true)
       })
     })
@@ -258,7 +258,7 @@ describe(World, () => {
     describe("when it doesn't remove a component", () => {
       it("does not emit the event", () => {
         const world = createWorldWithComponents()
-        const entity = world.add([new Position()])
+        const entity = world.spawn([new Position()])
         const spy = jest.fn()
 
         world.onEntityUpdated.add(spy)
@@ -269,7 +269,7 @@ describe(World, () => {
 
       it("returns false", () => {
         const world = createWorldWithComponents()
-        const entity = world.add([new Position()])
+        const entity = world.spawn([new Position()])
         expect(world.removeComponent(entity, Velocity)).toBe(false)
       })
     })
@@ -280,7 +280,7 @@ describe(World, () => {
       const world = createWorldWithComponents()
 
       const singleton = new Position()
-      world.add([singleton])
+      world.spawn([singleton])
 
       expect(world.getSingletonComponent(Position)).toBe(singleton)
     })

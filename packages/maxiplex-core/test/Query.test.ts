@@ -5,7 +5,7 @@ describe(Query, () => {
   it("queries the world for entities that have a specific set of components", () => {
     const world = createWorldWithComponents()
 
-    const entity = world.add([new Position(), new Velocity()])
+    const entity = world.spawn([new Position(), new Velocity()])
 
     const moving = new Query(world, [Position, Velocity])
     expect(moving.entities).toEqual([entity])
@@ -18,7 +18,7 @@ describe(Query, () => {
     it("loops over all entities contained in the query", () => {
       const world = createWorldWithComponents()
 
-      world.add([new Position(), new Velocity()])
+      world.spawn([new Position(), new Velocity()])
 
       const moving = new Query(world, [Position, Velocity])
       moving.iterate((entity, position, velocity) => {
@@ -33,8 +33,8 @@ describe(Query, () => {
     it("iterates over contained entities in reverse", () => {
       const world = createWorldWithComponents()
 
-      const entity1 = world.add([new Position(), new Velocity()])
-      const entity2 = world.add([new Position(), new Velocity()])
+      const entity1 = world.spawn([new Position(), new Velocity()])
+      const entity2 = world.spawn([new Position(), new Velocity()])
       const moving = new Query(world, [Position, Velocity])
 
       expect([...moving]).toEqual([
