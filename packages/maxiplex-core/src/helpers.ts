@@ -1,13 +1,47 @@
+import { Color, ColorRepresentation, Vector3 } from "three"
 import { Constructor } from "./types"
 
-export type ApplyProps<T> = Partial<T>
+export type ApplyProps<T> = Partial<{
+  [K in keyof T]: T[K] extends Color
+    ? ColorRepresentation
+    : T[K] extends Vector3
+    ? Vector3 | [number, number, number]
+    : T[K]
+}>
 
 export const apply = <T extends object>(
   object: T,
   props: ApplyProps<T>,
   fun?: (object: T) => any
 ) => {
-  Object.assign(object, props)
+  for (const key in props) {
+    const o = object[key] as any
+    const value = props[key] as any
+
+    /* Use setScalar if available */
+    if (o?.setScalar && typeof value === "number") {
+      o.setScalar(value)
+      continue
+    }
+
+    /* Use copy if available */
+    if (o?.copy && o.constructor === value.constructor) {
+      o.copy(value)
+      continue
+    }
+
+    /* Use set if available */
+    if (o?.set) {
+      Array.isArray(value) ? o.set(...value) : o.set(value)
+      continue
+    }
+
+    if (key in object) {
+      // @ts-ignore
+      object[key] = props[key]
+    }
+  }
+
   fun?.(object)
   return object
 }

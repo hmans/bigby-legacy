@@ -34,21 +34,20 @@ app.add([
       aspect: window.innerWidth / window.innerHeight,
       near: 0.1,
       far: 1000,
+      position: [0, 0, 5],
     },
     (camera) => {
-      camera.position.set(0, 0, 5)
       camera.updateProjectionMatrix()
     }
   ),
 ])
 
 /* Lights */
-app.add([new THREE.AmbientLight(0xffffff, 0.2)])
+app.add([make(THREE.AmbientLight, { intensity: 0.2 })])
 app.add([
   make(THREE.DirectionalLight, {
-    color: new Color(0xffffff),
     intensity: 1,
-    setup: (light) => light.position.set(10, 20, 30),
+    position: [10, 20, 30],
   }),
 ])
 
