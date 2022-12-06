@@ -60,6 +60,15 @@ describe(Vector3.addScalar, () => {
   })
 })
 
+describe(Vector3.angle, () => {
+  it("returns the angle between two vectors", () => {
+    const v1 = new Vector3(1, 0, 0)
+    const v2 = new Vector3(0, 1, 0)
+    const angle = Vector3.angle(v1, v2)
+    expect(angle).toBe(Math.PI / 2)
+  })
+})
+
 describe(Vector3.subtract, () => {
   it("subtracts two vectors, mutating the first vector", () => {
     const v1 = new Vector3(1, 2, 3)

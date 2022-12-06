@@ -39,6 +39,18 @@ export class Vector3 implements IVector3 {
     this._z = value
   }
 
+  static angle(a: IVector3, b: IVector3) {
+    const denominator = Math.sqrt(
+      Vector3.magnitudeSquared(a) * Vector3.magnitudeSquared(b)
+    )
+
+    if (denominator > 0) {
+      return Math.acos(Vector3.dot(a, b) / denominator)
+    } else {
+      return 0
+    }
+  }
+
   static magnitude(v: IVector3) {
     return Math.sqrt(Vector3.magnitudeSquared(v))
   }
