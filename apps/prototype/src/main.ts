@@ -1,7 +1,7 @@
 import { ThreePlugin } from "@bigby/plugin-three"
-import { App, make, setup, TickerPlugin } from "bigby"
+import { App, make, TickerPlugin } from "bigby"
 import * as THREE from "three"
-import { Color, Object3D, Vector3 } from "three"
+import { Object3D, Vector3 } from "three"
 import "./style.css"
 
 class AutoRotate {
@@ -27,19 +27,16 @@ await app.start()
 
 /* Camera */
 app.add([
-  make(
-    THREE.PerspectiveCamera,
-    {
-      fov: 75,
-      aspect: window.innerWidth / window.innerHeight,
-      near: 0.1,
-      far: 1000,
-      position: [0, 0, 5],
-    },
-    (camera) => {
+  make(THREE.PerspectiveCamera, {
+    fov: 75,
+    aspect: window.innerWidth / window.innerHeight,
+    near: 0.1,
+    far: 1000,
+    position: [0, 0, 5],
+    setup: (camera) => {
       camera.updateProjectionMatrix()
-    }
-  ),
+    },
+  }),
 ])
 
 /* Lights */
