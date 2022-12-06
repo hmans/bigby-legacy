@@ -1,10 +1,13 @@
 import { Input } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
 import { loadGLTF } from "@bigby/plugin-three"
-import { App, apply, setup } from "bigby"
+import { App, apply, make, setup } from "bigby"
 import { Object3D } from "three"
 
-export class PlayerComponent {}
+export class PlayerComponent {
+  thrust = 50
+  angularThrust = 10
+}
 
 export const Player = (app: App) => {
   app.registerComponent(PlayerComponent)
@@ -14,8 +17,12 @@ export const Player = (app: App) => {
 
     /* Player */
     app.spawn([
-      new PlayerComponent(),
-      new Input(),
+      make(PlayerComponent, {
+        thrust: 40,
+        angularThrust: 15
+      }),
+
+      make(Input),
 
       new Physics.DynamicBody((desc) =>
         desc
@@ -41,16 +48,17 @@ export const Player = (app: App) => {
       if (player) {
         const { move, aim } = player.get(Input)!
         const rigidbody = player.get(Physics.RigidBody)!
+        const { thrust, angularThrust } = player.get(PlayerComponent)!
 
         const rb = rigidbody.raw!
         rb.resetForces(false)
         rb.resetTorques(false)
 
         /* Move */
-        rb.applyImpulse({ x: move.x * 30, y: move.y * 30, z: 0 }, true)
+        rb.applyImpulse({ x: move.x * thrust, y: move.y * thrust, z: 0 }, true)
 
         /* Rotate */
-        rb.applyTorqueImpulse({ x: 0, y: 0, z: aim.x * -10 }, true)
+        rb.applyTorqueImpulse({ x: 0, y: 0, z: aim.x * -angularThrust }, true)
       }
     })
   })
