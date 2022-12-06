@@ -143,8 +143,8 @@ export class Vector3 implements IVector3 {
     return target
   }
 
-  static dot(target: IVector3, v: IVector3) {
-    return target.x * v.x + target.y * v.y + target.z * v.z
+  static dot(a: IVector3, b: IVector3) {
+    return a.x * b.x + a.y * b.y + a.z * b.z
   }
 
   static distance(target: IVector3, v: IVector3) {
