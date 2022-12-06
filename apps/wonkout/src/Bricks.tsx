@@ -26,8 +26,8 @@ export const Bricks = (app: App) =>
             }),
 
           apply(gltf.scene.children[0].clone(), {
-            castShadow: true
-            // receiveShadow: true  // this makes the bricks appear unlit?!
+            castShadow: true,
+            receiveShadow: false
           })
         ])
       }
