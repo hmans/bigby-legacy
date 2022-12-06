@@ -9,11 +9,7 @@ export type ApplyProps<T> = Partial<{
     : T[K]
 }>
 
-export const apply = <T extends object>(
-  object: T,
-  props: ApplyProps<T>,
-  fun?: (object: T) => any
-) => {
+export const apply = <T extends object>(object: T, props: ApplyProps<T>) => {
   for (const key in props) {
     const o = object[key] as any
     const value = props[key] as any
@@ -42,7 +38,6 @@ export const apply = <T extends object>(
     }
   }
 
-  fun?.(object)
   return object
 }
 
