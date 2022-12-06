@@ -44,6 +44,7 @@ app.add([
 
 /* Lights */
 app.add([make(THREE.AmbientLight, { intensity: 0.2 })])
+
 app.add([
   make(THREE.DirectionalLight, {
     intensity: 1,
@@ -53,9 +54,9 @@ app.add([
 
 /* Rotating cube */
 app.add([
-  new AutoRotate(new Vector3(1, 2, 3)),
-  new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshStandardMaterial({ color: "hotpink" })
-  ),
+  make(AutoRotate, { velocity: [1, 2, 3] }),
+  make(THREE.Mesh, {
+    geometry: make(THREE.BoxGeometry),
+    material: make(THREE.MeshStandardMaterial, { color: "hotpink" }),
+  }),
 ])
