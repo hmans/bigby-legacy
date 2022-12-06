@@ -1,7 +1,7 @@
 import { ThreePlugin } from "@bigby/plugin-three"
 import { App, make, setup, TickerPlugin } from "bigby"
 import * as THREE from "three"
-import { Object3D, Vector3 } from "three"
+import { Color, Object3D, Vector3 } from "three"
 import "./style.css"
 
 class AutoRotate {
@@ -37,6 +37,7 @@ app.add([
     },
     (camera) => {
       camera.position.set(0, 0, 5)
+      camera.updateProjectionMatrix()
     }
   ),
 ])
@@ -44,9 +45,11 @@ app.add([
 /* Lights */
 app.add([new THREE.AmbientLight(0xffffff, 0.2)])
 app.add([
-  setup(new THREE.DirectionalLight(0xffffff, 1), (light) =>
-    light.position.set(10, 20, 30)
-  ),
+  make(THREE.DirectionalLight, {
+    color: new Color(0xffffff),
+    intensity: 1,
+    setup: (light) => light.position.set(10, 20, 30),
+  }),
 ])
 
 /* Rotating cube */
