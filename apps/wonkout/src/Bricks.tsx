@@ -10,7 +10,7 @@ export const Bricks = (app: App) =>
     /* Bricks */
     for (let x = -3; x <= 3; x++) {
       for (let y = -2; y <= 2; y++) {
-        app.add([
+        app.spawn([
           new Physics.DynamicBody((body) =>
             body
               .enabledTranslations(true, true, false)
