@@ -36,7 +36,7 @@
     "@bigby/core": "workspace:^0.10.1"
   },
   "peerDependencies": {
-    "@bigby/plugin-three": "workspace:^0.10.1",
+    "@bigby/plugin-three": "workspace:>=0.10.1",
     "postprocessing": "^6.29.1",
     "three": "^0.147.0"
   }
