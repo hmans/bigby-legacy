@@ -34,10 +34,10 @@ export const Player = (app: App) => {
 
       new Physics.BoxCollider([5, 1, 1]).setDensity(10),
 
-      setup(
-        apply(gltf.scene.children[0]!.clone(), { castShadow: true }),
-        (obj: Object3D) => obj.position.set(0, -8.5, 0)
-      )
+      apply(gltf.scene.children[0]!.clone(), {
+        castShadow: true,
+        position: [0, -7, 0]
+      })
     ])
 
     const playerQuery = app.query([PlayerComponent])

@@ -1,4 +1,4 @@
-import { App, Object3D } from "@bigby/core"
+import { App, Entity, Object3D } from "@bigby/core"
 import { clamp } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { ColliderHandle, RigidBodyDesc } from "@dimforge/rapier3d-compat"
@@ -32,15 +32,21 @@ export abstract class Collider {
   raw?: RAPIER.Collider
   abstract descriptor: RAPIER.ColliderDesc
 
-  _onCollisionStart?: (other: Collider) => void
+  _onCollisionStart?: (other: Entity) => void
+  _onCollisionEnd?: (other: Entity) => void
 
   setDensity(density: number) {
     this.descriptor.setDensity(density)
     return this
   }
 
-  onCollisionStart(fn: (other: Collider) => void) {
+  onCollisionStart(fn: (other: Entity) => void) {
     this._onCollisionStart = (other) => fn(other)
+    return this
+  }
+
+  onCollisionEnd(fn: (other: Entity) => void) {
+    this._onCollisionEnd = (other) => fn(other)
     return this
   }
 }
@@ -121,11 +127,19 @@ export const Plugin =
           rigidbody.raw = world.createRigidBody(desc)
         })
 
+        /* Remove rigidbodies from the world */
+        rigidbodyQuery.onEntityRemoved.add((entity) => {
+          const rigidbody = entity.get(RigidBody)!
+          world.removeRigidBody(rigidbody.raw!)
+        })
+
         /* Create new RAPIER colliders when entities appear */
         const colliderQuery = app.query([RigidBody, Collider])
 
         /* Wire up colliders to their rigidbodies */
         const collidersToComponent = new Map<ColliderHandle, Collider>()
+        const collidersToEntity = new Map<ColliderHandle, Entity>()
+
         colliderQuery.onEntityAdded.add((entity) => {
           const rigidbody = entity.get(RigidBody)!
           const collider = entity.get(Collider)!
@@ -136,11 +150,14 @@ export const Plugin =
           )
 
           collidersToComponent.set(collider.raw.handle, collider)
+          collidersToEntity.set(collider.raw.handle, entity)
         })
 
         colliderQuery.onEntityRemoved.add((entity) => {
           const collider = entity.get(Collider)!
+
           collidersToComponent.delete(collider.raw!.handle)
+          collidersToEntity.delete(collider.raw!.handle)
         })
 
         const eventQueue = new RAPIER.EventQueue(true)
@@ -154,10 +171,16 @@ export const Plugin =
           eventQueue.drainCollisionEvents((handle1, handle2, started) => {
             const collider1 = collidersToComponent.get(handle1)
             const collider2 = collidersToComponent.get(handle2)
+            const entity1 = collidersToEntity.get(handle1)!
+            const entity2 = collidersToEntity.get(handle2)!
 
             if (collider1 && collider2) {
               if (started) {
-                collider1._onCollisionStart?.(collider2)
+                collider1._onCollisionStart?.(entity2)
+                collider2._onCollisionStart?.(entity1)
+              } else {
+                collider1._onCollisionEnd?.(entity2)
+                collider2._onCollisionEnd?.(entity1)
               }
             }
           })

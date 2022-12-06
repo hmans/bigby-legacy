@@ -2,6 +2,7 @@ import * as Physics from "@bigby/plugin-physics3d"
 import { Parent3D } from "@bigby/plugin-three"
 import { App, make } from "bigby"
 import * as THREE from "three"
+import { Brick } from "./Bricks"
 import { ConstantVelocity } from "./ConstantVelocityPlugin"
 import { CameraTarget } from "./FollowCamera"
 
@@ -14,7 +15,19 @@ export const Ball = (app: App) =>
       new Physics.DynamicBody((desc) =>
         desc.enabledTranslations(true, true, false)
       ),
-      new Physics.BallCollider(0.3).setDensity(1),
+
+      new Physics.BallCollider(0.3).setDensity(1).onCollisionEnd((other) => {
+        const brick = other.get(Brick)
+
+        if (brick) {
+          brick.health--
+
+          if (brick.health <= 0) {
+            app.destroy(other)
+          }
+        }
+      }),
+
       new ConstantVelocity(10),
 
       make(THREE.Mesh, {
