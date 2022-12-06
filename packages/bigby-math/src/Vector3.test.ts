@@ -191,20 +191,14 @@ describe(Vector3.dot, () => {
 
 describe(Vector3.cross, () => {
   it("returns the cross product of two vectors", () => {
-    const v1 = new Vector3(1, 2, 3)
-    const v2 = new Vector3(4, 5, 6)
-    const result = Vector3.cross(v1, v2)
-    expect(result.x).toBe(-3)
-    expect(result.y).toBe(6)
-    expect(result.z).toBe(-3)
-  })
-
-  it("returns the target vector", () => {
-    const v1 = new Vector3(1, 2, 3)
-    const v2 = new Vector3(4, 5, 6)
-    const result = Vector3.cross(v1, v2)
-
-    expect(result).toBe(v1)
+    const v = new Vector3()
+    const a = new Vector3(1, 2, 3)
+    const b = new Vector3(4, 5, 6)
+    const result = Vector3.cross(v, a, b)
+    expect(result).toBe(v)
+    expect(v.x).toBe(-3)
+    expect(v.y).toBe(6)
+    expect(v.z).toBe(-3)
   })
 })
 

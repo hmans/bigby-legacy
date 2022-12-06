@@ -133,12 +133,17 @@ export class Vector3 implements IVector3 {
     return target
   }
 
-  static cross(target: IVector3, v: IVector3) {
-    const { x, y, z } = target
+  static cross(target: IVector3, a: IVector3, b: IVector3) {
+    const ax = a.x
+    const ay = a.y
+    const az = a.z
+    const bx = b.x
+    const by = b.y
+    const bz = b.z
 
-    target.x = y * v.z - z * v.y
-    target.y = z * v.x - x * v.z
-    target.z = x * v.y - y * v.x
+    target.x = ay * bz - az * by
+    target.y = az * bx - ax * bz
+    target.z = ax * by - ay * bx
 
     return target
   }
