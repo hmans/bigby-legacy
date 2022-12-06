@@ -1,5 +1,5 @@
+import { Euler, Quaternion, Vector3 } from "three"
 import { App } from "./App"
-import { Vector3, Quaternion, Matrix4, Euler } from "three"
 
 export class Transform3D {
   position: Vector3
