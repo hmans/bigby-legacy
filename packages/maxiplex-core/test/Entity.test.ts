@@ -13,6 +13,5 @@ describe(Entity, () => {
     const entity = world.spawn()
     entity.add(new Position(0, 0))
     expect(entity.get(Position)).toBeInstanceOf(Position)
-    expect(world.query([Position])).toEqual([entity])
   })
 })

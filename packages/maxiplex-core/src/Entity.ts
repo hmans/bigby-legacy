@@ -1,5 +1,5 @@
-import { World } from "."
-import { Component, Constructor } from "./types"
+import type { World } from "./World"
+import type { Component, Constructor } from "./types"
 
 export class Entity {
   components = new Array<Component>()
