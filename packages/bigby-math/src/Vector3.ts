@@ -51,6 +51,10 @@ export class Vector3 implements IVector3 {
     }
   }
 
+  static clone(v: IVector3) {
+    return new Vector3(v.x, v.y, v.z)
+  }
+
   static magnitude(v: IVector3) {
     return Math.sqrt(Vector3.magnitudeSquared(v))
   }
@@ -82,66 +86,66 @@ export class Vector3 implements IVector3 {
     return out
   }
 
-  static copy(out: IVector3, s: IVector3) {
-    out.x = s.x
-    out.y = s.y
-    out.z = s.z
+  static copy(out: IVector3, a: IVector3) {
+    out.x = a.x
+    out.y = a.y
+    out.z = a.z
     return out
   }
 
-  static add(out: IVector3, v: IVector3) {
-    out.x += v.x
-    out.y += v.y
-    out.z += v.z
+  static add(out: IVector3, a: IVector3) {
+    out.x += a.x
+    out.y += a.y
+    out.z += a.z
     return out
   }
 
-  static addScalar(out: IVector3, v: number) {
-    out.x += v
-    out.y += v
-    out.z += v
+  static addScalar(out: IVector3, a: number) {
+    out.x += a
+    out.y += a
+    out.z += a
     return out
   }
 
-  static subtract(out: IVector3, v: IVector3) {
-    out.x -= v.x
-    out.y -= v.y
-    out.z -= v.z
+  static subtract(out: IVector3, a: IVector3) {
+    out.x -= a.x
+    out.y -= a.y
+    out.z -= a.z
     return out
   }
 
-  static subtractScalar(out: IVector3, v: number) {
-    out.x -= v
-    out.y -= v
-    out.z -= v
+  static subtractScalar(out: IVector3, a: number) {
+    out.x -= a
+    out.y -= a
+    out.z -= a
     return out
   }
 
-  static multiply(out: IVector3, v: IVector3) {
-    out.x *= v.x
-    out.y *= v.y
-    out.z *= v.z
+  static multiply(out: IVector3, a: IVector3) {
+    out.x *= a.x
+    out.y *= a.y
+    out.z *= a.z
     return out
   }
 
-  static multiplyScalar(out: IVector3, v: number) {
-    out.x *= v
-    out.y *= v
-    out.z *= v
+  static multiplyScalar(out: IVector3, a: number) {
+    out.x *= a
+    out.y *= a
+    out.z *= a
     return out
   }
 
-  static divide(out: IVector3, v: IVector3) {
-    out.x /= v.x
-    out.y /= v.y
-    out.z /= v.z
+  static divide(out: IVector3, a: IVector3) {
+    out.x /= a.x
+    out.y /= a.y
+    out.z /= a.z
     return out
   }
 
-  static divideScalar(out: IVector3, scalar: number) {
-    out.x /= scalar
-    out.y /= scalar
-    out.z /= scalar
+  static divideScalar(out: IVector3, a: number) {
+    out.x /= a
+    out.y /= a
+    out.z /= a
     return out
   }
 
@@ -177,10 +181,10 @@ export class Vector3 implements IVector3 {
     return x * x + y * y + z * z
   }
 
-  static lerp(out: IVector3, a: IVector3, b: IVector3, alpha: number) {
-    out.x = a.x + (b.x - a.x) * alpha
-    out.y = a.y + (b.y - a.y) * alpha
-    out.z = a.z + (b.z - a.z) * alpha
+  static lerp(out: IVector3, a: IVector3, b: IVector3, t: number) {
+    out.x = a.x + (b.x - a.x) * t
+    out.y = a.y + (b.y - a.y) * t
+    out.z = a.z + (b.z - a.z) * t
 
     return out
   }

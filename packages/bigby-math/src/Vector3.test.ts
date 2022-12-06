@@ -69,6 +69,17 @@ describe(Vector3.angle, () => {
   })
 })
 
+describe(Vector3.clone, () => {
+  it("clones a vector", () => {
+    const v = new Vector3(1, 2, 3)
+    const result = Vector3.clone(v)
+    expect(result).not.toBe(v)
+    expect(result.x).toBe(1)
+    expect(result.y).toBe(2)
+    expect(result.z).toBe(3)
+  })
+})
+
 describe(Vector3.subtract, () => {
   it("subtracts two vectors, mutating the first vector", () => {
     const v1 = new Vector3(1, 2, 3)
