@@ -47,7 +47,7 @@ export class Vector3 implements IVector3 {
     return v.x * v.x + v.y * v.y + v.z * v.z
   }
 
-  static normalize(target: IVector3, v: IVector3) {
+  static normalize(target: IVector3, v: IVector3 = target) {
     const magnitude = Vector3.magnitude(v)
 
     if (magnitude > 0) {
@@ -165,5 +165,9 @@ export class Vector3 implements IVector3 {
     target.z = a.z + (b.z - a.z) * alpha
 
     return target
+  }
+
+  static equals(target: IVector3, v: IVector3) {
+    return target.x === v.x && target.y === v.y && target.z === v.z
   }
 }

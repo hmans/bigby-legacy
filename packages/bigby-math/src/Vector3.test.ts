@@ -243,3 +243,19 @@ describe(Vector3.lerp, () => {
     expect(result).toBe(v)
   })
 })
+
+describe(Vector3.normalize, () => {
+  it("normalizes a vector, mutating the vector", () => {
+    const v = new Vector3(1, 2, 3)
+    Vector3.normalize(v, v)
+    expect(v.x).toBe(1 / Math.sqrt(14))
+    expect(v.y).toBe(2 / Math.sqrt(14))
+    expect(v.z).toBe(3 / Math.sqrt(14))
+  })
+
+  it("returns the vector", () => {
+    const v = new Vector3(1, 2, 3)
+    const result = Vector3.normalize(v, v)
+    expect(result).toBe(v)
+  })
+})
