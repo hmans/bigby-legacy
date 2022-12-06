@@ -11,9 +11,23 @@ export const AutorotatePlugin = (app: App) =>
 
     app.onUpdate((dt: number) => {
       for (const [_, transform, autorotate] of query) {
-        Quaternion.rotateX(transform.quaternion, autorotate.velocity.x * dt)
-        Quaternion.rotateY(transform.quaternion, autorotate.velocity.y * dt)
-        Quaternion.rotateZ(transform.quaternion, autorotate.velocity.z * dt)
+        Quaternion.rotateX(
+          transform.quaternion,
+          transform.quaternion,
+          autorotate.velocity.x * dt
+        )
+
+        Quaternion.rotateY(
+          transform.quaternion,
+          transform.quaternion,
+          autorotate.velocity.y * dt
+        )
+
+        Quaternion.rotateZ(
+          transform.quaternion,
+          transform.quaternion,
+          autorotate.velocity.z * dt
+        )
       }
     })
   })
