@@ -1,5 +1,5 @@
 import { App, Transform3D } from "@bigby/core"
-import { clamp, Quaternion, Vector3 } from "@bigby/math"
+import { clamp } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { ColliderHandle, RigidBodyDesc } from "@dimforge/rapier3d-compat"
 
@@ -165,11 +165,11 @@ export const Plugin =
           /* Transfer physics transforms to the transform component */
           for (const [_, transform, rigidbody] of rigidbodyQuery) {
             const position = rigidbody.raw!.translation()
-            Vector3.set(transform.position, position.x, position.y, position.z)
+
+            transform.position.set(position.x, position.y, position.z)
 
             const rotation = rigidbody.raw!.rotation()
-            Quaternion.set(
-              transform.quaternion,
+            transform.quaternion.set(
               rotation.x,
               rotation.y,
               rotation.z,

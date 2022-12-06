@@ -1,35 +1,21 @@
-import {
-  IMatrix4,
-  IQuaternion,
-  IVector3,
-  Matrix4,
-  Quaternion,
-  Vector3
-} from "@bigby/math"
 import { App } from "./App"
+import { Vector3, Quaternion, Matrix4 } from "three"
 
-export interface ITransform3D {
-  position: IVector3
-  quaternion: IQuaternion
-  scale: IVector3
-  matrix: IMatrix4
-}
-
-export class Transform3D implements ITransform3D {
-  position: IVector3
-  quaternion: IQuaternion
-  scale: IVector3
-  matrix: IMatrix4
+export class Transform3D {
+  position: Vector3
+  quaternion: Quaternion
+  scale: Vector3
+  matrix: Matrix4
 
   autoUpdate = true
 
   constructor(
-    position: IVector3 | [number, number, number] = new Vector3(),
+    position: Vector3 | [number, number, number] = new Vector3(),
     quaternion:
-      | IQuaternion
+      | Quaternion
       | [number, number, number, number] = new Quaternion(),
-    scale: IVector3 | [number, number, number] = new Vector3(1, 1, 1),
-    matrix: IMatrix4 = new Matrix4()
+    scale: Vector3 | [number, number, number] = new Vector3(1, 1, 1),
+    matrix = new Matrix4()
   ) {
     this.position = Array.isArray(position)
       ? new Vector3(...position)
@@ -47,7 +33,7 @@ export class Transform3D implements ITransform3D {
   }
 
   updateMatrix() {
-    Matrix4.compose(this.matrix, this.position, this.quaternion, this.scale)
+    this.matrix.compose(this.position, this.quaternion, this.scale)
   }
 }
 

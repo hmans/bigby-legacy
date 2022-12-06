@@ -6,9 +6,9 @@ import {
   TickerPlugin,
   Transform3D,
   TransformsPlugin,
-  Vector3,
 } from "bigby"
 import * as THREE from "three"
+import { Vector3 } from "three"
 import "./style.css"
 
 const app = new App()
