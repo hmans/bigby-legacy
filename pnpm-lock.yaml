@@ -176,12 +176,10 @@ importers:
       '@bigby/core': workspace:^0.10.1
       '@bigby/math': workspace:^0.10.1
       '@dimforge/rapier3d-compat': ^0.10.0
-      gl-matrix: ^3.4.3
     dependencies:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
       '@dimforge/rapier3d-compat': 0.10.0
-      gl-matrix: 3.4.3
 
   packages/bigby-plugin-three:
     specifiers:
