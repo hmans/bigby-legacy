@@ -1,7 +1,7 @@
 import { EventDispatcher } from "@maxiplex/event-dispatcher"
-import { Entity } from "./Entity"
-import { Component, ComponentQuery } from "./index"
-import { World } from "./World"
+import type { Entity } from "./Entity"
+import type { Component, ComponentQuery } from "./types"
+import type { World } from "./World"
 
 export class Query<Q extends readonly Component[]> {
   /* Custom iterator that iterates over all entities in reverse order. */

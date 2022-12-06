@@ -1,4 +1,4 @@
-import { World } from "../src"
+import { World } from "../src/World"
 import { Query } from "../src/Query"
 import { Position, Velocity, Health, createWorldWithComponents } from "./common"
 

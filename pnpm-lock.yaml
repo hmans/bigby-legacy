@@ -17,7 +17,6 @@ importers:
       '@types/three': ^0.146.0
       jest: ^29.3.1
       jest-environment-jsdom: ^29.3.1
-      jest-progress-bar-reporter: ^1.0.25
       rimraf: ^3.0.2
       ts-jest: ^29.0.3
       turbo: ^1.6.3
@@ -36,7 +35,6 @@ importers:
       '@types/three': 0.146.0
       jest: 29.3.1_@types+node@18.11.10
       jest-environment-jsdom: 29.3.1
-      jest-progress-bar-reporter: 1.0.25
       rimraf: 3.0.2
       ts-jest: 29.0.3_gruvivcimsmdfhnjphbo3uejz4
       turbo: 1.6.3
@@ -2871,14 +2869,6 @@ packages:
       supports-color: 5.5.0
     dev: true
 
-  /chalk/4.1.1:
-    resolution: {integrity: sha512-diHzdDKxcU+bAsUboHLPEDQiw0qEe0qd7SYUn3HgcFlWgbDcfLGswOHYeGrHKzG9z6UYf01d9VFMfZxPM1xZSg==}
-    engines: {node: '>=10'}
-    dependencies:
-      ansi-styles: 4.3.0
-      supports-color: 7.2.0
-    dev: true
-
   /chalk/4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
     engines: {node: '>=10'}
@@ -4400,14 +4390,6 @@ packages:
       jest-resolve: 29.3.1
     dev: true
 
-  /jest-progress-bar-reporter/1.0.25:
-    resolution: {integrity: sha512-iFWtsl0j+OeHeMCu5fXL8pSN3h06NQlG/UPpcuO2PP2C+hr81K397+Mh34rU3GgA9kQga6ctu7gfOEOgUlKFug==}
-    dependencies:
-      chalk: 4.1.1
-      moment: 2.29.4
-      progress: 2.0.3
-    dev: true
-
   /jest-regex-util/29.2.0:
     resolution: {integrity: sha512-6yXn0kg2JXzH30cr2NlThF+70iuO/3irbaB4mh5WyqNIvLLP+B6sFdluO1/1RJmslyh/f9osnefECflHvTbwVA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -4914,10 +4896,6 @@ packages:
     engines: {node: '>= 8.0.0'}
     dev: true
 
-  /moment/2.29.4:
-    resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
-    dev: true
-
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
     dev: true
@@ -5209,11 +5187,6 @@ packages:
       '@jest/schemas': 29.0.0
       ansi-styles: 5.2.0
       react-is: 18.2.0
-    dev: true
-
-  /progress/2.0.3:
-    resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
-    engines: {node: '>=0.4.0'}
     dev: true
 
   /prompts/2.4.2:

@@ -33,14 +33,14 @@ export class World {
 
   protected queries = new Map<string, Query<any>>()
 
-  spawn(components: Component[]) {
+  spawn(components: Component[] = []) {
     /* Check all given components if they've been registered with us */
     components.forEach((component) => {
       this.assertRegisteredComponent(component.constructor)
     })
 
     /* Create a new entity */
-    const entity = new Entity()
+    const entity = new Entity(this)
     entity.components.push(...components)
 
     /* Add the entity to the world */
