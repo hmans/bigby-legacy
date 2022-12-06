@@ -13,7 +13,8 @@ export const Walls = (app: App) =>
         geometry: new THREE.BoxGeometry(24, 1, height),
         material: new THREE.MeshStandardMaterial({ color: "#999" }),
         castShadow: true,
-        setup: ({ position }) => position.set(0, 8.5, 0)
+        receiveShadow: true,
+        position: [0, 8.5, 0]
       })
     ])
 
@@ -25,7 +26,8 @@ export const Walls = (app: App) =>
         geometry: new THREE.BoxGeometry(1, 18, height),
         material: new THREE.MeshStandardMaterial({ color: "#999" }),
         castShadow: true,
-        setup: ({ position }) => position.set(-12.5, 0, 0)
+        receiveShadow: true,
+        position: [-12.5, 0, 0]
       })
     ])
 
@@ -37,16 +39,22 @@ export const Walls = (app: App) =>
         geometry: new THREE.BoxGeometry(1, 18, height),
         material: new THREE.MeshStandardMaterial({ color: "#999" }),
         castShadow: true,
-        setup: ({ position }) => position.set(12.5, 0, 0)
+        receiveShadow: true,
+        position: [12.5, 0, 0]
       })
     ])
 
     /* South (Death) Wall */
+    /* North Wall */
     app.spawn([
       new Physics.StaticBody(),
-      new Physics.BoxCollider([27, 1, 1]).setDensity(0),
-      make(THREE.Object3D, {
-        setup: ({ position }) => position.set(0, -9.5, 0)
+      new Physics.BoxCollider([24, 1, height]).setDensity(0),
+      make(THREE.Mesh, {
+        geometry: new THREE.BoxGeometry(24, 1, height),
+        material: new THREE.MeshStandardMaterial({ color: "#999" }),
+        castShadow: true,
+        receiveShadow: true,
+        position: [0, -8.5, 0]
       })
     ])
   })
