@@ -7,4 +7,4 @@
 "@maxiplex/core": minor
 ---
 
-Introduced linear algebra primitives to `@bigby/math` and used them to make `Transform3D` compatible with third-party libraries like Three.js.
+Moving everything a little closer to Three.js, in order to vastly improve the approachability of this library.
