@@ -111,7 +111,7 @@ export const ThreePlugin = (app: App) => {
 
     /* Render every frame using the active camera if we have one */
     app.spawn([
-      new System(() => {
+      new System(app, () => {
         if (!state.render) return
         if (!activeCamera) return
 

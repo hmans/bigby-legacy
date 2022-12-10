@@ -14,11 +14,18 @@ app.use(AnimationFrameTicker())
 app.use(ThreePlugin)
 await app.start()
 
-class HelloSystem extends System {
-  tick(dt: number) {}
+class DummySystem extends System {
+  meshes = this.app.query([Mesh])
+
+  tick(dt: number) {
+    for (const [_, mesh] of this.meshes) {
+      mesh.rotation.x += dt
+      mesh.rotation.y += dt
+    }
+  }
 }
 
-app.spawn([HelloSystem, EarlyUpdate])
+app.spawn([new DummySystem(app), EarlyUpdate])
 
 app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
 
