@@ -13,12 +13,15 @@ export class ThreePluginState {
   camera?: THREE.Camera
   render = true
 
-  constructor({ render = true }: { render?: boolean } = {}) {
+  constructor({
+    render = true,
+    antialias = true
+  }: { render?: boolean; antialias?: boolean } = {}) {
     this.render = render
 
     this.renderer = new THREE.WebGLRenderer({
       powerPreference: "high-performance",
-      antialias: false,
+      antialias,
       stencil: false,
       depth: false
     })
