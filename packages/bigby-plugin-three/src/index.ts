@@ -66,13 +66,13 @@ export const ThreePlugin = (app: App) => {
     const sceneObjects = app.query([THREE.Object3D])
 
     /* When an entity with a scene object appears, add it to the Three.js scene */
-    sceneObjects.onEntityAdded.add((entity) => {
+    sceneObjects.onEntityAdded((entity) => {
       const object3d = entity.get(THREE.Object3D)!
       scene.add(object3d)
     })
 
     /* When an entity with a scene object disappears, remove it from the Three.js scene */
-    sceneObjects.onEntityRemoved.add((entity) => {
+    sceneObjects.onEntityRemoved((entity) => {
       scene.remove(entity.get(THREE.Object3D)!)
     })
   })
@@ -81,13 +81,13 @@ export const ThreePlugin = (app: App) => {
   app.onStart((app) => {
     const parentedQuery = app.query([Parent3D, THREE.Object3D])
 
-    parentedQuery.onEntityAdded.add((entity) => {
+    parentedQuery.onEntityAdded((entity) => {
       const parent = entity.get(Parent3D)!.parent
       const object = entity.get(THREE.Object3D)!
       parent.add(object)
     })
 
-    parentedQuery.onEntityRemoved.add((entity) => {
+    parentedQuery.onEntityRemoved((entity) => {
       const parent = entity.get(Parent3D)!.parent
       const object = entity.get(THREE.Object3D)!
       parent.remove(object)
@@ -100,13 +100,13 @@ export const ThreePlugin = (app: App) => {
     const cameras = app.query([THREE.Camera])
 
     /* When a new camera appears, register it as the main camera */
-    cameras.onEntityAdded.add((entity) => {
+    cameras.onEntityAdded((entity) => {
       console.log("camera added", entity)
       activeCamera = entity.get(THREE.Camera)
     })
 
     /* When a camera disappears and it's our active camera, disable it */
-    cameras.onEntityRemoved.add((entity) => {
+    cameras.onEntityRemoved((entity) => {
       if (entity.get(THREE.Camera) === activeCamera) activeCamera = undefined
     })
 

@@ -1,22 +1,22 @@
-export type Listener<P> = (payload: P) => void
+export type EventListener<P> = (payload: P) => void
 
 export class EventDispatcher<P = void> {
-  listeners = new Set<Listener<P>>()
+  listeners = new Set<EventListener<P>>()
 
   constructor() {
     this.emit = this.emit.bind(this)
   }
 
-  clear() {
+  clearListeners() {
     this.listeners.clear()
   }
 
-  add(listener: Listener<P>) {
+  addListener(listener: EventListener<P>) {
     this.listeners.add(listener)
-    return () => this.remove(listener)
+    return () => this.removeListener(listener)
   }
 
-  remove(listener: Listener<P>) {
+  removeListener(listener: EventListener<P>) {
     this.listeners.delete(listener)
   }
 

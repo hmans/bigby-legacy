@@ -174,7 +174,7 @@ describe(World, () => {
       const entity = world.spawn([new Position()])
 
       const spy = jest.fn()
-      world.onEntityUpdated.add(spy)
+      world.onEntityUpdated.addListener(spy)
       world.addComponent(entity, new Velocity())
       expect(spy).toHaveBeenCalledWith(entity)
     })
@@ -252,7 +252,7 @@ describe(World, () => {
         const entity = world.spawn([new Position(), new Velocity()])
         const spy = jest.fn()
 
-        world.onEntityUpdated.add(spy)
+        world.onEntityUpdated.addListener(spy)
         world.removeComponent(entity, Velocity)
 
         expect(spy).toHaveBeenCalledWith(entity)
@@ -271,7 +271,7 @@ describe(World, () => {
         const entity = world.spawn([new Position()])
         const spy = jest.fn()
 
-        world.onEntityUpdated.add(spy)
+        world.onEntityUpdated.addListener(spy)
         world.removeComponent(entity, Velocity)
 
         expect(spy).not.toHaveBeenCalled()
