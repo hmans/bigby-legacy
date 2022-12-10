@@ -1,59 +1,47 @@
-import { ThreePlugin } from "@bigby/plugin-three"
-import { App, make, TickerPlugin } from "bigby"
-import * as THREE from "three"
-import { Object3D, Vector3 } from "three"
+import { App, TickerPlugin } from "bigby"
 import "./style.css"
 
-class AutoRotate {
-  constructor(public velocity = new Vector3()) {}
+/* Plugin */
+
+abstract class System {
+  abstract tick(dt: number): void
 }
 
-export const AutorotatePlugin = (app: App) =>
-  app.registerComponent(AutoRotate).onStart((app) => {
-    const query = app.query([Object3D, AutoRotate])
+abstract class Update {}
 
-    app.onUpdate((dt: number) => {
-      for (const [_, transform, autorotate] of query) {
-        transform.rotation.x += autorotate.velocity.x * dt
-        transform.rotation.y += autorotate.velocity.y * dt
-        transform.rotation.z += autorotate.velocity.z * dt
+class EarlyUpdate extends Update {}
+class NormalUpdate extends Update {}
+class LateUpdate extends Update {}
+class RenderUpdate extends Update {}
+
+const Systems = (stages: typeof Update[]) => (app: App) => {
+  app.registerComponent(System)
+  app.registerComponent(Update)
+
+  const queries = stages.map((stage) => app.query([System, stage]))
+
+  const tick = (dt: number) => {
+    for (const query of queries) {
+      for (const [_, system] of query) {
+        system.tick(dt)
       }
-    })
-  })
+    }
+  }
 
-const app = new App().use(TickerPlugin).use(ThreePlugin).use(AutorotatePlugin)
+  app.onTick(tick)
+}
 
-await app.start()
+/* App */
 
-/* Camera */
-app.spawn([
-  make(THREE.PerspectiveCamera, {
-    fov: 75,
-    aspect: window.innerWidth / window.innerHeight,
-    near: 0.1,
-    far: 1000,
-    position: [0, 0, 5],
-    setup: (camera) => {
-      camera.updateProjectionMatrix()
-    },
-  }),
-])
+const app = new App()
+app.use(TickerPlugin)
+app.use(Systems([EarlyUpdate, NormalUpdate, LateUpdate, RenderUpdate]))
+app.start()
 
-/* Lights */
-app.spawn([make(THREE.AmbientLight, { intensity: 0.2 })])
+class HelloSystem extends System {
+  tick(dt: number) {
+    console.log("hello!")
+  }
+}
 
-app.spawn([
-  make(THREE.DirectionalLight, {
-    intensity: 1,
-    position: [10, 20, 30],
-  }),
-])
-
-/* Rotating cube */
-app.spawn([
-  make(AutoRotate, { velocity: [1, 2, 3] }),
-  make(THREE.Mesh, {
-    geometry: make(THREE.BoxGeometry),
-    material: make(THREE.MeshStandardMaterial, { color: "hotpink" }),
-  }),
-])
+app.spawn([new HelloSystem(), new EarlyUpdate()])
