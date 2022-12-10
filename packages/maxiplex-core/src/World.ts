@@ -7,8 +7,6 @@ export type OnLoadCallback<A extends World> = (app: A) => void | Promise<void>
 
 export type OnStartCallback<A extends World> = (app: A) => void | Promise<void>
 
-export type TickerCallback = (dt: number) => void
-
 export type OnStopCallback<A extends World> = (app: A) => void
 
 export type Plugin<A extends World> = (app: A) => A | void
@@ -28,7 +26,6 @@ export class World {
 
   onLoadCallbacks = new Array<OnLoadCallback<typeof this>>()
   onStartCallbacks = new Array<OnStartCallback<typeof this>>()
-  onTickCallbacks = new EventDispatcher<number>()
   onStopCallbacks = new EventDispatcher<typeof this>()
 
   protected queries = new Map<string, Query<any>>()
@@ -160,11 +157,6 @@ export class World {
 
   onStart(callback: OnStartCallback<typeof this>) {
     this.onStartCallbacks.push(callback)
-    return this
-  }
-
-  onTick(callback: TickerCallback) {
-    this.onTickCallbacks.add(callback)
     return this
   }
 
