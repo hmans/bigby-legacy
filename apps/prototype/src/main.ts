@@ -1,4 +1,4 @@
-import { AnimationFrameTicker, App, EarlyUpdate, make, System } from "bigby"
+import { AnimationFrameTicker, App, make, System } from "bigby"
 import {
   DirectionalLight,
   IcosahedronGeometry,
