@@ -7,6 +7,7 @@ export class App extends World {
     super()
 
     console.log("🐝 Bigby Initializing")
+
     this.registerComponent(System)
     this.registerComponent(UpdateStage)
   }
