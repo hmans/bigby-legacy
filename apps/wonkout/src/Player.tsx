@@ -1,8 +1,7 @@
 import { Input } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
 import { loadGLTF } from "@bigby/plugin-three"
-import { App, apply, make, setup } from "bigby"
-import { Object3D } from "three"
+import { App, apply, make, System } from "bigby"
 
 export class PlayerComponent {
   thrust = 50
@@ -42,25 +41,30 @@ export const Player = (app: App) => {
 
     const playerQuery = app.query([PlayerComponent])
 
-    app.onUpdate(() => {
-      const player = playerQuery.first
+    app.spawn([
+      new System(app, () => {
+        const player = playerQuery.first
 
-      if (player) {
-        const { move, aim } = player.get(Input)!
-        const rigidbody = player.get(Physics.RigidBody)!
-        const { thrust, angularThrust } = player.get(PlayerComponent)!
+        if (player) {
+          const { move, aim } = player.get(Input)!
+          const rigidbody = player.get(Physics.RigidBody)!
+          const { thrust, angularThrust } = player.get(PlayerComponent)!
 
-        const rb = rigidbody.raw!
-        rb.resetForces(false)
-        rb.resetTorques(false)
+          const rb = rigidbody.raw!
+          rb.resetForces(false)
+          rb.resetTorques(false)
 
-        /* Move */
-        rb.applyImpulse({ x: move.x * thrust, y: move.y * thrust, z: 0 }, true)
+          /* Move */
+          rb.applyImpulse(
+            { x: move.x * thrust, y: move.y * thrust, z: 0 },
+            true
+          )
 
-        /* Rotate */
-        rb.applyTorqueImpulse({ x: 0, y: 0, z: aim.x * -angularThrust }, true)
-      }
-    })
+          /* Rotate */
+          rb.applyTorqueImpulse({ x: 0, y: 0, z: aim.x * -angularThrust }, true)
+        }
+      })
+    ])
   })
   return app
 }

@@ -1,4 +1,4 @@
-import { App } from "@bigby/core"
+import { App, RenderUpdate, System } from "@bigby/core"
 import { ThreePluginState } from "@bigby/plugin-three"
 import {
   BlendFunction,
@@ -65,9 +65,12 @@ export const ThreePostprocessingPlugin = (app: App) => {
       )
     })
 
-    app.onRender(() => {
-      composer.render()
-    })
+    app.spawn([
+      RenderUpdate,
+      new System(app, () => {
+        composer.render()
+      })
+    ])
   })
 
   return app

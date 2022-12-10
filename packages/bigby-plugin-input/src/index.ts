@@ -1,4 +1,4 @@
-import { App } from "@bigby/core"
+import { App, EarlyUpdate, System } from "@bigby/core"
 
 export class Input {
   move = {
@@ -30,15 +30,18 @@ export function InputPlugin(app: App) {
     })
   })
 
-  app.onEarlyUpdate(() => {
-    for (const [_, input] of entities) {
-      input.move.x = isPressed("KeyD") - isPressed("KeyA")
-      input.move.y = isPressed("KeyW") - isPressed("KeyS")
+  app.spawn([
+    EarlyUpdate,
+    new System(app, () => {
+      for (const [_, input] of entities) {
+        input.move.x = isPressed("KeyD") - isPressed("KeyA")
+        input.move.y = isPressed("KeyW") - isPressed("KeyS")
 
-      input.aim.x = isPressed("ArrowRight") - isPressed("ArrowLeft")
-      input.aim.y = isPressed("ArrowUp") - isPressed("ArrowDown")
-    }
-  })
+        input.aim.x = isPressed("ArrowRight") - isPressed("ArrowLeft")
+        input.aim.y = isPressed("ArrowUp") - isPressed("ArrowDown")
+      }
+    })
+  ])
 
   return app
 }

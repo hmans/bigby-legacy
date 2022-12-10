@@ -1,4 +1,4 @@
-import { App, Entity, Object3D } from "@bigby/core"
+import { App, Entity, FixedUpdate, Object3D, System } from "@bigby/core"
 import { clamp } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { ColliderHandle, RigidBodyDesc } from "@dimforge/rapier3d-compat"
@@ -162,45 +162,48 @@ export const Plugin =
 
         const eventQueue = new RAPIER.EventQueue(true)
 
-        app.onUpdate((dt: number) => {
-          /* Simulate physics world */
-          world.timestep = clamp(dt, 0.01, 0.2)
-          world.step(eventQueue)
+        app.spawn([
+          FixedUpdate,
+          new System(app, (dt: number) => {
+            /* Simulate physics world */
+            world.timestep = clamp(dt, 0.01, 0.2)
+            world.step(eventQueue)
 
-          /* Check collisions */
-          eventQueue.drainCollisionEvents((handle1, handle2, started) => {
-            const collider1 = collidersToComponent.get(handle1)
-            const collider2 = collidersToComponent.get(handle2)
-            const entity1 = collidersToEntity.get(handle1)!
-            const entity2 = collidersToEntity.get(handle2)!
+            /* Check collisions */
+            eventQueue.drainCollisionEvents((handle1, handle2, started) => {
+              const collider1 = collidersToComponent.get(handle1)
+              const collider2 = collidersToComponent.get(handle2)
+              const entity1 = collidersToEntity.get(handle1)!
+              const entity2 = collidersToEntity.get(handle2)!
 
-            if (collider1 && collider2) {
-              if (started) {
-                collider1._onCollisionStart?.(entity2)
-                collider2._onCollisionStart?.(entity1)
-              } else {
-                collider1._onCollisionEnd?.(entity2)
-                collider2._onCollisionEnd?.(entity1)
+              if (collider1 && collider2) {
+                if (started) {
+                  collider1._onCollisionStart?.(entity2)
+                  collider2._onCollisionStart?.(entity1)
+                } else {
+                  collider1._onCollisionEnd?.(entity2)
+                  collider2._onCollisionEnd?.(entity1)
+                }
               }
+            })
+
+            /* Transfer physics transforms to the transform component */
+            for (const [_, transform, rigidbody] of rigidbodyQuery) {
+              const position = rigidbody.raw!.translation()
+
+              transform.position.set(position.x, position.y, position.z)
+
+              const rotation = rigidbody.raw!.rotation()
+              transform.quaternion.set(
+                rotation.x,
+                rotation.y,
+                rotation.z,
+                rotation.w
+              )
+
+              /* Reset forces */
+              rigidbody.raw!.resetForces(true)
             }
           })
-
-          /* Transfer physics transforms to the transform component */
-          for (const [_, transform, rigidbody] of rigidbodyQuery) {
-            const position = rigidbody.raw!.translation()
-
-            transform.position.set(position.x, position.y, position.z)
-
-            const rotation = rigidbody.raw!.rotation()
-            transform.quaternion.set(
-              rotation.x,
-              rotation.y,
-              rotation.z,
-              rotation.w
-            )
-
-            /* Reset forces */
-            rigidbody.raw!.resetForces(true)
-          }
-        })
+        ])
       })
