@@ -101,7 +101,6 @@ export const ThreePlugin = (app: App) => {
 
     /* When a new camera appears, register it as the main camera */
     cameras.onEntityAdded((entity) => {
-      console.log("camera added", entity)
       activeCamera = entity.get(THREE.Camera)
     })
 
@@ -113,7 +112,6 @@ export const ThreePlugin = (app: App) => {
     /* Render every frame using the active camera if we have one */
     app.spawn([
       new System(() => {
-        console.log("hello", state.render, activeCamera)
         if (!state.render) return
         if (!activeCamera) return
 
