@@ -1,8 +1,8 @@
-import { App, EarlyUpdate, System, TickerPlugin } from "bigby"
+import { AnimationFrameTicker, App, EarlyUpdate, System } from "bigby"
 import "./style.css"
 
 const app = new App()
-app.use(TickerPlugin())
+app.use(AnimationFrameTicker())
 app.start()
 
 class HelloSystem extends System {

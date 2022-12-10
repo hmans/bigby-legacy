@@ -5,3 +5,11 @@ export class FixedUpdate extends UpdateStage {}
 export class NormalUpdate extends UpdateStage {}
 export class LateUpdate extends UpdateStage {}
 export class RenderUpdate extends UpdateStage {}
+
+export const DEFAULT_STAGES = [
+  EarlyUpdate,
+  FixedUpdate,
+  NormalUpdate,
+  LateUpdate,
+  RenderUpdate
+]

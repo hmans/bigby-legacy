@@ -1,25 +1,13 @@
 import {
   App,
   Constructor,
-  EarlyUpdate,
-  FixedUpdate,
-  LateUpdate,
-  NormalUpdate,
-  RenderUpdate,
+  DEFAULT_STAGES,
   System,
   UpdateStage
 } from "@bigby/core"
 import { clamp } from "@bigby/math"
 
-export const DEFAULT_STAGES = [
-  EarlyUpdate,
-  FixedUpdate,
-  NormalUpdate,
-  LateUpdate,
-  RenderUpdate
-]
-
-export const TickerPlugin =
+export const AnimationFrameTicker =
   (stages: Constructor<UpdateStage>[] = DEFAULT_STAGES) =>
   (app: App) =>
     app.onStart((app) => {
