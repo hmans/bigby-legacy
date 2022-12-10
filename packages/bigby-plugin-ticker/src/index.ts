@@ -1,26 +1,52 @@
-import { App } from "@bigby/core"
+import {
+  App,
+  Constructor,
+  EarlyUpdate,
+  FixedUpdate,
+  LateUpdate,
+  NormalUpdate,
+  RenderUpdate,
+  System,
+  UpdateStage
+} from "@bigby/core"
 import { clamp } from "@bigby/math"
 
-export const TickerPlugin = (app: App) =>
-  app.onStart((app) => {
-    let lastTime = performance.now()
-    let running = true
+export const DEFAULT_STAGES = [
+  EarlyUpdate,
+  FixedUpdate,
+  NormalUpdate,
+  LateUpdate,
+  RenderUpdate
+]
 
-    const animate = () => {
-      if (running) requestAnimationFrame(animate)
+export const TickerPlugin =
+  (stages: Constructor<UpdateStage>[] = DEFAULT_STAGES) =>
+  (app: App) =>
+    app.onStart((app) => {
+      let lastTime = performance.now()
+      let running = true
 
-      /* Calculate delta time */
-      const time = performance.now()
-      const dt = clamp((time - lastTime) / 1000, 0, 0.2)
-      lastTime = time
+      const queries = stages.map((stage) => app.query([System, stage]))
 
-      /* Update systems */
-      app.onTickCallbacks.emit(dt)
-    }
+      const animate = () => {
+        if (running) requestAnimationFrame(animate)
 
-    animate()
+        /* Calculate delta time */
+        const time = performance.now()
+        const dt = clamp((time - lastTime) / 1000, 0, 0.2)
+        lastTime = time
 
-    app.onStop(() => {
-      running = false
+        /* Update systems */
+        for (const query of queries) {
+          for (const [_, system] of query) {
+            system.tick(dt)
+          }
+        }
+      }
+
+      animate()
+
+      app.onStop(() => {
+        running = false
+      })
     })
-  })
