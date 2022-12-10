@@ -10,7 +10,7 @@ export function SystemsPlugin(app: App) {
 
   /* If a system is spawned without an update stage, assign it to the
   normal update. */
-  systems.onEntityAdded((entity) => {
+  systems.onEntityAdded.add((entity) => {
     if (!entity.get(UpdateStage)) {
       entity.add(NormalUpdate)
     }

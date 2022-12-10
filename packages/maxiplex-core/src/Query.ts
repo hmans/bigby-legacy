@@ -31,8 +31,8 @@ export class Query<Q extends readonly Component[]> {
   entities = new Array<Entity>()
   components = new Map<Entity, Q>()
 
-  protected onEntityAddedEvent = new EventDispatcher<Entity>()
-  protected onEntityRemovedEvent = new EventDispatcher<Entity>()
+  onEntityAdded = new EventDispatcher<Entity>()
+  onEntityRemoved = new EventDispatcher<Entity>()
 
   get first() {
     return this.entities[0]
@@ -43,16 +43,23 @@ export class Query<Q extends readonly Component[]> {
       this.evaluate(entity)
     }
 
-    world.onEntityAdded.addListener((entity) => {
+    world.onEntityAdded.add((entity) => {
       this.evaluate(entity)
     })
 
-    world.onEntityUpdated.addListener((entity) => {
+    world.onEntityUpdated.add((entity) => {
       this.evaluate(entity)
     })
 
-    world.onEntityRemoved.addListener((entity) => {
+    world.onEntityRemoved.add((entity) => {
       this.remove(entity)
+    })
+
+    /* Whenever a listener is added to onEntityAdded, make sure we also run it on all existing entities */
+    this.onEntityAdded.onEntityAdded.add((listener) => {
+      for (const entity of this.entities) {
+        listener(entity)
+      }
     })
   }
 
@@ -60,21 +67,6 @@ export class Query<Q extends readonly Component[]> {
     for (const result of this) {
       fun(...result)
     }
-  }
-
-  onEntityAdded(listener: EventListener<Entity>) {
-    /* Call listener for all existing entities */
-    for (const entity of this.entities) {
-      listener(entity)
-    }
-
-    this.onEntityAddedEvent.addListener(listener)
-    return () => this.onEntityAddedEvent.removeListener(listener)
-  }
-
-  onEntityRemoved(listener: EventListener<Entity>) {
-    this.onEntityRemovedEvent.addListener(listener)
-    return () => this.onEntityRemovedEvent.removeListener(listener)
   }
 
   evaluate(entity: Entity) {
@@ -92,7 +84,7 @@ export class Query<Q extends readonly Component[]> {
     if (wants && !has) {
       this.entities.push(entity)
       this.components.set(entity, subentity as unknown as Q)
-      this.onEntityAddedEvent.emit(entity)
+      this.onEntityAdded.emit(entity)
     } else if (!wants && has) {
       this.remove(entity)
     }
@@ -103,7 +95,7 @@ export class Query<Q extends readonly Component[]> {
     if (index !== -1) {
       this.entities.splice(index, 1)
       this.components.delete(entity)
-      this.onEntityRemovedEvent.emit(entity)
+      this.onEntityRemoved.emit(entity)
     }
   }
 }

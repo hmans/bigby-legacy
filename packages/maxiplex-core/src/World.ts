@@ -165,7 +165,7 @@ export class World {
   }
 
   onStop(callback: OnStopCallback<typeof this>) {
-    this.onStopCallbacks.addListener(callback)
+    this.onStopCallbacks.add(callback)
     return this
   }
 

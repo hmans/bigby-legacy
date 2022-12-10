@@ -25,5 +25,8 @@
       "@babel/preset-env",
       "@babel/preset-typescript"
     ]
+  },
+  "dependencies": {
+    "@miniplex/bucket": "2.0.0-beta.3"
   }
 }
