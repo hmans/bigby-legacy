@@ -25,7 +25,7 @@ class DummySystem extends System {
   }
 }
 
-app.spawn([new DummySystem(app), EarlyUpdate])
+app.spawn([new DummySystem(app)])
 
 app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
 

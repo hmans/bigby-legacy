@@ -1,5 +1,6 @@
 import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import { Entity } from "./Entity"
+import { processComponent } from "./helpers"
 import { Query } from "./Query"
 import { Component, ComponentQuery, Constructor } from "./types"
 
@@ -32,9 +33,7 @@ export class World {
 
   spawn(components: (Component | Constructor<Component>)[] = []) {
     /* Instantiate components where only the constructor was given */
-    const processed = components.map((c) =>
-      typeof c === "function" ? new c() : c
-    )
+    const processed = components.map(processComponent)
 
     /* Check all given components if they've been registered with us */
     processed.forEach((component) => {

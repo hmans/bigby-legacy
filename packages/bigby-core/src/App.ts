@@ -1,14 +1,10 @@
 import { World } from "@maxiplex/core"
-import { System } from "./System"
-import { UpdateStage } from "./UpdateStage"
+import { SystemsPlugin } from "./SystemsPlugin"
 
 export class App extends World {
   constructor() {
     super()
-
     console.log("🐝 Bigby Initializing")
-
-    this.registerComponent(System)
-    this.registerComponent(UpdateStage)
+    this.use(SystemsPlugin)
   }
 }
