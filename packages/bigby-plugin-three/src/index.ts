@@ -1,4 +1,4 @@
-import { App } from "@bigby/core"
+import { App, RenderUpdate, System } from "@bigby/core"
 import * as THREE from "three"
 
 export * from "./helpers"
@@ -101,6 +101,7 @@ export const ThreePlugin = (app: App) => {
 
     /* When a new camera appears, register it as the main camera */
     cameras.onEntityAdded.add((entity) => {
+      console.log("camera added", entity)
       activeCamera = entity.get(THREE.Camera)
     })
 
@@ -110,12 +111,17 @@ export const ThreePlugin = (app: App) => {
     })
 
     /* Render every frame using the active camera if we have one */
-    app.onRender(() => {
-      if (!state.render) return
-      if (!activeCamera) return
+    app.spawn([
+      new System(() => {
+        console.log("hello", state.render, activeCamera)
+        if (!state.render) return
+        if (!activeCamera) return
 
-      renderer.render(scene, activeCamera)
-    })
+        renderer.render(scene, activeCamera)
+      }),
+
+      new RenderUpdate()
+    ])
 
     /* Resize the renderer when the window resizes */
     const onResize = () => {

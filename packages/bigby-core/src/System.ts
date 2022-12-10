@@ -1,3 +1,9 @@
-export abstract class System {
-  abstract tick(dt: number): void
+export type SystemCallback = (dt: number) => any
+
+export class System {
+  constructor(public callback: SystemCallback) {}
+
+  tick(dt: number) {
+    return this.callback(dt)
+  }
 }
