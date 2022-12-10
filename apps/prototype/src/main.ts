@@ -11,4 +11,4 @@ class HelloSystem extends System {
   }
 }
 
-app.spawn([new HelloSystem(), new EarlyUpdate()])
+app.spawn([HelloSystem, EarlyUpdate])

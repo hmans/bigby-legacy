@@ -30,15 +30,20 @@ export class World {
 
   protected queries = new Map<string, Query<any>>()
 
-  spawn(components: Component[] = []) {
+  spawn(components: (Component | Constructor<Component>)[] = []) {
+    /* Instantiate components where only the constructor was given */
+    const processed = components.map((c) =>
+      typeof c === "function" ? new c() : c
+    )
+
     /* Check all given components if they've been registered with us */
-    components.forEach((component) => {
+    processed.forEach((component) => {
       this.assertRegisteredComponent(component.constructor)
     })
 
     /* Create a new entity */
     const entity = new Entity(this)
-    entity.components.push(...components)
+    entity.components.push(...processed)
 
     /* Add the entity to the world */
     this.entities.push(entity)

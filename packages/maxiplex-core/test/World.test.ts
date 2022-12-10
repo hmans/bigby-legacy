@@ -50,6 +50,16 @@ describe(World, () => {
       expect(entity.components[2]).toBe(health)
     })
 
+    it("accepts the constructors and will automatically instantiate them", () => {
+      const world = createWorldWithComponents()
+
+      const entity = world.spawn([Position, Velocity, Health])
+
+      expect(entity.components[0]).toBeInstanceOf(Position)
+      expect(entity.components[1]).toBeInstanceOf(Velocity)
+      expect(entity.components[2]).toBeInstanceOf(Health)
+    })
+
     it("adds the entity to all relevant queries", () => {
       const world = createWorldWithComponents()
 
