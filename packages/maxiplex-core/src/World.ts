@@ -11,7 +11,7 @@ export type TickerCallback = (dt: number) => void
 
 export type OnStopCallback<A extends World> = (app: A) => void
 
-export type Plugin<A extends World> = (app: A) => A
+export type Plugin<A extends World> = (app: A) => A | void
 
 export type BaseEntity = {}
 
@@ -148,9 +148,9 @@ export class World {
 
     /* Register and initialize the plugin */
     this.registeredPlugins.add(plugin)
-    plugin(this)
+    const result = plugin(this)
 
-    return this
+    return result || this
   }
 
   onLoad(callback: OnLoadCallback<typeof this>) {
