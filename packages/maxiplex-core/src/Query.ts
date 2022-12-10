@@ -56,6 +56,7 @@ export class Query<Q extends readonly Component[]> {
     })
 
     /* Whenever a listener is added to onEntityAdded, make sure we also run it on all existing entities */
+    /* TODO: this should be baked into `Bucket`! */
     this.onEntityAdded.onEntityAdded.add((listener) => {
       for (const entity of this.entities) {
         listener(entity)
