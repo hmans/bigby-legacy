@@ -9,11 +9,13 @@ import {
 import { ThreePlugin } from "../../../packages/bigby-plugin-three/src"
 import "./style.css"
 
+/* Set up the application */
 const app = new App()
 app.use(AnimationFrameTicker())
 app.use(ThreePlugin)
 
-class DummySystem extends System {
+/* Add a silly little system, just for fun */
+class RotatesAllMeshesSystem extends System {
   meshes = this.app.query([Mesh])
 
   tick(dt: number) {
@@ -24,8 +26,9 @@ class DummySystem extends System {
   }
 }
 
-app.spawn([new DummySystem(app)])
+app.spawn([new RotatesAllMeshesSystem(app)])
 
+/* Set up the scene */
 app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
 
 app.spawn([
@@ -42,4 +45,5 @@ app.spawn([
   }),
 ])
 
-await app.start()
+/* Let's go */
+app.start()
