@@ -14,19 +14,14 @@ const app = new App()
 app.use(AnimationFrameTicker())
 app.use(ThreePlugin)
 
-/* Add a silly little system, just for fun */
-class RotatesAllMeshesSystem extends System {
-  meshes = this.app.query([Mesh])
+const meshes = app.query([Mesh])
 
-  tick(dt: number) {
-    for (const [_, mesh] of this.meshes) {
-      mesh.rotation.x += dt
-      mesh.rotation.y += dt
-    }
+app.addSystem((dt) => {
+  for (const [_, mesh] of meshes) {
+    mesh.rotation.x += dt
+    mesh.rotation.y += dt
   }
-}
-
-app.spawn([new RotatesAllMeshesSystem(app)])
+})
 
 /* Set up the scene */
 app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
