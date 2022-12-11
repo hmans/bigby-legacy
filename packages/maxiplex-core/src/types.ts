@@ -8,4 +8,6 @@ export type ComponentQuery<C extends Component> = Function.Narrow<{
 
 export type Constructor<T> =
   | (abstract new (...args: any[]) => T)
-  | (new (...args: any[]) => T)
+  | NonAbstractConstructor<T>
+
+export type NonAbstractConstructor<T> = new (...args: any[]) => T
