@@ -2,10 +2,14 @@ import { App } from "./App"
 
 export type SystemCallback = (dt: number) => any
 
-export class System {
-  constructor(public app: App, public callback?: SystemCallback) {}
+export interface System {
+  onEarlyUpdate?(dt: number): void
+  onFixedUpdate?(dt: number): void
+  onUpdate?(dt: number): void
+  onLateUpdate?(dt: number): void
+  onRender?(dt: number): void
+}
 
-  tick(dt: number) {
-    return this.callback?.(dt)
-  }
+export abstract class System {
+  constructor(public app: App) {}
 }

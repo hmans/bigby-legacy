@@ -1,40 +1,34 @@
-import {
-  App,
-  Constructor,
-  DEFAULT_STAGES,
-  System,
-  UpdateStage
-} from "@bigby/core"
+import { App, System } from "@bigby/core"
 import { clamp } from "@bigby/math"
 
-export const AnimationFrameTicker =
-  (stages: Constructor<UpdateStage>[] = DEFAULT_STAGES) =>
-  (app: App) =>
-    app.onStart((app) => {
-      let lastTime = performance.now()
-      let running = true
+export const AnimationFrameTicker = (app: App) =>
+  app.onStart((app) => {
+    let lastTime = performance.now()
+    let running = true
 
-      const queries = stages.map((stage) => app.query([System, stage]))
+    const systems = app.query([System])
 
-      const animate = () => {
-        if (running) requestAnimationFrame(animate)
+    const animate = () => {
+      if (running) requestAnimationFrame(animate)
 
-        /* Calculate delta time */
-        const time = performance.now()
-        const dt = clamp((time - lastTime) / 1000, 0, 0.2)
-        lastTime = time
+      /* Calculate delta time */
+      const time = performance.now()
+      const dt = clamp((time - lastTime) / 1000, 0, 0.2)
+      lastTime = time
 
-        /* Update systems */
-        for (const query of queries) {
-          for (const [_, system] of query) {
-            system.tick(dt)
-          }
-        }
+      /* Update systems */
+      for (const [_, system] of systems) {
+        system.onEarlyUpdate?.(dt)
+        system.onFixedUpdate?.(dt)
+        system.onUpdate?.(dt)
+        system.onLateUpdate?.(dt)
+        system.onRender?.(dt)
       }
+    }
 
-      animate()
+    animate()
 
-      app.onStop(() => {
-        running = false
-      })
+    app.onStop(() => {
+      running = false
     })
+  })

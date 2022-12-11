@@ -11,17 +11,22 @@ import "./style.css"
 
 /* Set up the application */
 const app = new App()
-app.use(AnimationFrameTicker())
+app.use(AnimationFrameTicker)
 app.use(ThreePlugin)
 
-const meshes = app.query([Mesh])
+/* Add a silly little system, just for fun */
+class RotatesAllMeshesSystem extends System {
+  meshes = this.app.query([Mesh])
 
-app.addSystem((dt) => {
-  for (const [_, mesh] of meshes) {
-    mesh.rotation.x += dt
-    mesh.rotation.y += dt
+  onUpdate(dt: number) {
+    for (const [_, mesh] of this.meshes) {
+      mesh.rotation.x += dt
+      mesh.rotation.y += dt
+    }
   }
-})
+}
+
+app.spawn([new RotatesAllMeshesSystem(app)])
 
 /* Set up the scene */
 app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
