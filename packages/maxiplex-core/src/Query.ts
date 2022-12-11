@@ -1,4 +1,4 @@
-import { EventDispatcher, EventListener } from "@maxiplex/event-dispatcher"
+import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import type { Entity } from "./Entity"
 import type { Component, ComponentQuery } from "./types"
 import type { World } from "./World"
