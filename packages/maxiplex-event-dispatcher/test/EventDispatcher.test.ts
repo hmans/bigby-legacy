@@ -10,17 +10,8 @@ describe("EventDispatcher", () => {
     it("adds a listener to the event", () => {
       const event = new EventDispatcher()
       const listener = jest.fn()
-      event.addListener(listener)
-      expect(event.listeners.size).toBe(1)
-    })
-
-    it("returns a function that will remove the listener again", () => {
-      const event = new EventDispatcher()
-      const listener = jest.fn()
-      const remove = event.addListener(listener)
-      expect(event.listeners.size).toBe(1)
-      remove()
-      expect(event.listeners.size).toBe(0)
+      event.add(listener)
+      expect(event.size).toBe(1)
     })
   })
 
@@ -28,10 +19,10 @@ describe("EventDispatcher", () => {
     it("removes a listener from the event", () => {
       const event = new EventDispatcher()
       const listener = jest.fn()
-      event.addListener(listener)
-      expect(event.listeners.size).toBe(1)
-      event.removeListener(listener)
-      expect(event.listeners.size).toBe(0)
+      event.add(listener)
+      expect(event.size).toBe(1)
+      event.remove(listener)
+      expect(event.size).toBe(0)
     })
   })
 
@@ -39,7 +30,7 @@ describe("EventDispatcher", () => {
     it("emits an event", () => {
       const event = new EventDispatcher<string>()
       const listener = jest.fn()
-      event.addListener(listener)
+      event.add(listener)
       event.emit("test")
       expect(listener).toHaveBeenCalledWith("test")
     })
@@ -49,10 +40,10 @@ describe("EventDispatcher", () => {
     it("clears all listeners from the event", () => {
       const event = new EventDispatcher()
       const listener = jest.fn()
-      event.addListener(listener)
-      expect(event.listeners.size).toBe(1)
-      event.clearListeners()
-      expect(event.listeners.size).toBe(0)
+      event.add(listener)
+      expect(event.size).toBe(1)
+      event.clear()
+      expect(event.size).toBe(0)
     })
   })
 })
