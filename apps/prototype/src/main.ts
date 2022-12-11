@@ -1,4 +1,4 @@
-import { AnimationFrameTicker, App, make, System } from "bigby"
+import { AnimationFrameTicker, App, apply, make, System } from "bigby"
 import {
   DirectionalLight,
   IcosahedronGeometry,
@@ -16,17 +16,19 @@ app.use(ThreePlugin)
 
 /* Add a silly little system, just for fun */
 class RotatesAllMeshesSystem extends System {
-  meshes = this.app.query([Mesh])
+  speed = 1
+
+  protected meshes = this.app.query([Mesh])
 
   onUpdate(dt: number) {
     for (const [_, mesh] of this.meshes) {
-      mesh.rotation.x += dt
-      mesh.rotation.y += dt
+      mesh.rotation.x += dt * this.speed
+      mesh.rotation.y += dt * this.speed
     }
   }
 }
 
-app.spawn([new RotatesAllMeshesSystem(app)])
+app.spawn([apply(new RotatesAllMeshesSystem(app), { speed: 5 })])
 
 /* Set up the scene */
 app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
