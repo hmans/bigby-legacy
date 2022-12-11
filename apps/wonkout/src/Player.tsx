@@ -41,8 +41,8 @@ export const Player = (app: App) => {
 
     const playerQuery = app.query([PlayerComponent])
 
-    app.spawn([
-      new System(app, () => {
+    class PlayerSystem extends System {
+      onUpdate(dt: number): void {
         const player = playerQuery.first
 
         if (player) {
@@ -63,8 +63,10 @@ export const Player = (app: App) => {
           /* Rotate */
           rb.applyTorqueImpulse({ x: 0, y: 0, z: aim.x * -angularThrust }, true)
         }
-      })
-    ])
+      }
+    }
+
+    app.spawn([new PlayerSystem(app)])
   })
   return app
 }

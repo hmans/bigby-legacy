@@ -1,5 +1,5 @@
-import { App, RenderUpdate, System } from "@bigby/core"
-import { ThreePluginState } from "@bigby/plugin-three"
+import { App, System } from "@bigby/core"
+import { ThreeSystem } from "@bigby/plugin-three"
 import {
   BlendFunction,
   BloomEffect,
@@ -14,15 +14,12 @@ import {
 import * as THREE from "three"
 
 export const ThreePostprocessingPlugin = (app: App) => {
-  /* Make sure the Three.js plugin is loaded */
-  app.requireComponent(ThreePluginState)
-
   const cameraQuery = app.query([THREE.Camera])
 
   /* When the application starts, disable the Three.js plugin's render loop
   so we can instead implement our own */
   app.onStart(() => {
-    const three = app.getSingletonComponent(ThreePluginState)
+    const three = app.getSingletonComponent(ThreeSystem)
 
     if (!three)
       throw new Error("Couldn't find any entity with ThreePluginState")
@@ -65,12 +62,13 @@ export const ThreePostprocessingPlugin = (app: App) => {
       )
     })
 
-    app.spawn([
-      RenderUpdate,
-      new System(app, () => {
+    class ThreePostprocessingSystem extends System {
+      onRender(dt: number): void {
         composer.render()
-      })
-    ])
+      }
+    }
+
+    app.spawn([new ThreePostprocessingSystem(app)])
   })
 
   return app

@@ -17,7 +17,7 @@ const Wonkynoid = (app: App) =>
   app.use(Bricks).use(Floor).use(Walls).use(Player).use(Scene).use(Ball)
 
 const app = new App()
-  .use(AnimationFrameTicker())
+  .use(AnimationFrameTicker)
   .use(ThreePlugin)
   .use(ThreePostprocessingPlugin)
   .use(InputPlugin)

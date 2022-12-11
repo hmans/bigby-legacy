@@ -1,4 +1,4 @@
-import { App, Entity, FixedUpdate, Object3D, System } from "@bigby/core"
+import { App, Entity, Object3D, System } from "@bigby/core"
 import { clamp } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { ColliderHandle, RigidBodyDesc } from "@dimforge/rapier3d-compat"
@@ -162,9 +162,8 @@ export const Plugin =
 
         const eventQueue = new RAPIER.EventQueue(true)
 
-        app.spawn([
-          FixedUpdate,
-          new System(app, (dt: number) => {
+        class PhysicsSystem extends System {
+          onFixedUpdate(dt: number): void {
             /* Simulate physics world */
             world.timestep = clamp(dt, 0.01, 0.2)
             world.step(eventQueue)
@@ -204,6 +203,8 @@ export const Plugin =
               /* Reset forces */
               rigidbody.raw!.resetForces(true)
             }
-          })
-        ])
+          }
+        }
+
+        app.spawn([new PhysicsSystem(app)])
       })

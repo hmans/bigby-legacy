@@ -1,4 +1,4 @@
-import { App, EarlyUpdate, System } from "@bigby/core"
+import { App, System } from "@bigby/core"
 
 export class Input {
   move = {
@@ -12,36 +12,37 @@ export class Input {
   }
 }
 
-export function InputPlugin(app: App) {
-  app.registerComponent(Input)
+export class InputSystem extends System {
+  protected keys = new Set<string>()
+  protected entities = this.app.query([Input])
 
-  const keys = new Set<string>()
-  const entities = app.query([Input])
+  isPressed = (key: string) => (this.keys.has(key) ? 1 : 0)
 
-  const isPressed = (key: string) => (keys.has(key) ? 1 : 0)
-
-  app.onStart(() => {
+  onStart() {
     document.addEventListener("keydown", (e) => {
-      keys.add(e.code)
+      this.keys.add(e.code)
     })
 
     document.addEventListener("keyup", (e) => {
-      keys.delete(e.code)
+      this.keys.delete(e.code)
     })
-  })
+  }
 
-  app.spawn([
-    EarlyUpdate,
-    new System(app, () => {
-      for (const [_, input] of entities) {
-        input.move.x = isPressed("KeyD") - isPressed("KeyA")
-        input.move.y = isPressed("KeyW") - isPressed("KeyS")
+  onEarlyUpdate() {
+    for (const [_, input] of this.entities) {
+      input.move.x = this.isPressed("KeyD") - this.isPressed("KeyA")
+      input.move.y = this.isPressed("KeyW") - this.isPressed("KeyS")
 
-        input.aim.x = isPressed("ArrowRight") - isPressed("ArrowLeft")
-        input.aim.y = isPressed("ArrowUp") - isPressed("ArrowDown")
-      }
-    })
-  ])
+      input.aim.x = this.isPressed("ArrowRight") - this.isPressed("ArrowLeft")
+      input.aim.y = this.isPressed("ArrowUp") - this.isPressed("ArrowDown")
+    }
+  }
+}
+
+export function InputPlugin(app: App) {
+  app.registerComponent(Input)
+
+  app.spawn([new InputSystem(app)])
 
   return app
 }

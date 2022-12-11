@@ -7,7 +7,7 @@ export class Parent3D {
   constructor(public parent: THREE.Object3D) {}
 }
 
-class ThreeSystem extends System {
+export class ThreeSystem extends System {
   renderer: THREE.WebGLRenderer
   scene: THREE.Scene
   camera?: THREE.Camera
