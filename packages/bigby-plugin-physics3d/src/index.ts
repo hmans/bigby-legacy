@@ -83,8 +83,7 @@ class PhysicsSystem extends System {
   eventQueue = new RAPIER.EventQueue(true)
 
   /* Create new RAPIER colliders when entities appear */
-  colliderQuery = this.app.query([RigidBody, Collider])
-  rigidbodyQuery = this.app.query([Object3D, RigidBody])
+  rigidbodyQuery = this.app.query([Object3D, RigidBody, Collider])
 
   /* Wire up colliders to their rigidbodies */
   collidersToComponent = new Map<ColliderHandle, Collider>()
@@ -125,16 +124,8 @@ class PhysicsSystem extends System {
       })
 
       rigidbody.raw = this.world.createRigidBody(desc)
-    })
 
-    /* Remove rigidbodies from the world */
-    this.rigidbodyQuery.onEntityRemoved.add((entity) => {
-      const rigidbody = entity.get(RigidBody)!
-      this.world.removeRigidBody(rigidbody.raw!)
-    })
-
-    this.colliderQuery.onEntityAdded.add((entity) => {
-      const rigidbody = entity.get(RigidBody)!
+      /* Also register collider */
       const collider = entity.get(Collider)!
 
       collider.raw = this.world.createCollider(
@@ -146,11 +137,14 @@ class PhysicsSystem extends System {
       this.collidersToEntity.set(collider.raw.handle, entity)
     })
 
-    this.colliderQuery.onEntityRemoved.add((entity) => {
+    /* Remove rigidbodies from the world */
+    this.rigidbodyQuery.onEntityRemoved.add((entity) => {
+      const rigidbody = entity.get(RigidBody)!
       const collider = entity.get(Collider)!
 
       this.collidersToComponent.delete(collider.raw!.handle)
       this.collidersToEntity.delete(collider.raw!.handle)
+      this.world.removeRigidBody(rigidbody.raw!)
     })
   }
 
@@ -180,7 +174,6 @@ class PhysicsSystem extends System {
     /* Transfer physics transforms to the transform component */
     for (const [_, transform, rigidbody] of this.rigidbodyQuery) {
       const position = rigidbody.raw!.translation()
-
       transform.position.set(position.x, position.y, position.z)
 
       const rotation = rigidbody.raw!.rotation()
@@ -208,5 +201,5 @@ export const Plugin =
 
       /* Let's go! */
       .onStart((app) => {
-        app.spawn([new PhysicsSystem(app)])
+        app.spawn([new PhysicsSystem(app, { gravity })])
       })
