@@ -6,14 +6,12 @@ import { SystemsPlugin } from "./SystemsPlugin"
 export type Plugin<A extends App> = (app: A) => A | void
 
 export type OnLoadCallback<A extends App> = (app: A) => void | Promise<void>
-
 export type OnStartCallback<A extends App> = (app: A) => void | Promise<void>
-
 export type OnStopCallback<A extends App> = (app: A) => void
 
 export class App extends World {
-  onLoadCallbacks = new Array<OnLoadCallback<typeof this>>()
-  onStartCallbacks = new Array<OnStartCallback<typeof this>>()
+  onLoadCallbacks = new EventDispatcher<typeof this>()
+  onStartCallbacks = new EventDispatcher<typeof this>()
   onStopCallbacks = new EventDispatcher<typeof this>()
 
   protected registeredPlugins = new Set<Plugin<typeof this>>()
@@ -45,12 +43,12 @@ export class App extends World {
   }
 
   onLoad(callback: OnLoadCallback<typeof this>) {
-    this.onLoadCallbacks.push(callback)
+    this.onLoadCallbacks.add(callback)
     return this
   }
 
   onStart(callback: OnStartCallback<typeof this>) {
-    this.onStartCallbacks.push(callback)
+    this.onStartCallbacks.add(callback)
     return this
   }
 
@@ -63,10 +61,10 @@ export class App extends World {
     console.log("✅ Starting App")
 
     /* Execute and wait for initializers to complete */
-    await Promise.all(this.onLoadCallbacks.map((callback) => callback(this)))
+    await this.onLoadCallbacks.emitAsync(this)
 
     /* Execute and wait for startupSystems to complete */
-    await Promise.all(this.onStartCallbacks.map((callback) => callback(this)))
+    await this.onStartCallbacks.emitAsync(this)
 
     return this
   }

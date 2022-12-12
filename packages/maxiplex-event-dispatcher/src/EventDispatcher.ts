@@ -8,4 +8,10 @@ export class EventDispatcher<P = void> extends Bucket<EventListener<P>> {
       listener(payload)
     }
   }
+
+  emitAsync(payload: P) {
+    return Promise.all(
+      Array.from(this.entities).map((listener) => listener(payload))
+    )
+  }
 }
