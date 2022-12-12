@@ -61,7 +61,7 @@ class PlayerSystem extends System {
   }
 }
 
-export const Player = (app: App) =>
-  app.registerComponent(PlayerComponent).onStart(async (app) => {
-    app.spawn([new PlayerSystem(app)])
-  })
+export const Player = (app: App) => {
+  app.registerComponent(PlayerComponent)
+  app.addSystem(PlayerSystem)
+}

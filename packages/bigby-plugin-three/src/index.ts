@@ -42,7 +42,7 @@ export class ThreeSystem extends System {
     this.scene = new THREE.Scene()
   }
 
-  onResize = () => {
+  onResize() {
     this.renderer.setSize(window.innerWidth, window.innerHeight)
 
     if (this.camera instanceof THREE.PerspectiveCamera) {
@@ -74,6 +74,8 @@ export class ThreeSystem extends System {
     cameras.onEntityRemoved.add((entity) => {
       if (entity.get(THREE.Camera) === this.camera) this.camera = undefined
     })
+
+    this.onResize = this.onResize.bind(this)
 
     window.addEventListener("resize", this.onResize)
 

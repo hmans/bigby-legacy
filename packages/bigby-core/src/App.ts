@@ -49,11 +49,20 @@ export class App extends World {
     return this
   }
 
+  onResize = () => {
+    for (const [_, system] of this.systems) {
+      system.onResize?.()
+    }
+  }
+
   async start() {
     console.log("✅ Starting App")
 
+    window.addEventListener("resize", this.onResize)
+
     /* Start all systems */
-    for (const [_, system] of this.systems) {
+    /* We need to reverse here because it's important that we need to initialize systems in the order that they were added */
+    for (const [_, system] of [...this.systems].reverse()) {
       system.onStart?.()
     }
 
@@ -62,6 +71,8 @@ export class App extends World {
 
   stop() {
     console.log("⛔ Stopping App")
+
+    window.removeEventListener("resize", this.onResize)
 
     /* Stop all systems */
     for (const [_, system] of this.systems) {

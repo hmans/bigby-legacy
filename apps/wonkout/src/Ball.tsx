@@ -1,15 +1,15 @@
 import * as Physics from "@bigby/plugin-physics3d"
 import { Parent3D } from "@bigby/plugin-three"
-import { App, make } from "bigby"
+import { App, make, System } from "bigby"
 import * as THREE from "three"
 import { Brick } from "./Bricks"
 import { ConstantVelocity } from "./ConstantVelocityPlugin"
 import { CameraTarget } from "./FollowCamera"
 
-export const Ball = (app: App) =>
-  app.onStart((app) => {
+export class BallSystem extends System {
+  onStart() {
     /* Ball */
-    const ball = app.spawn([
+    const ball = this.app.spawn([
       new CameraTarget(),
 
       new Physics.DynamicBody((desc) =>
@@ -23,7 +23,7 @@ export const Ball = (app: App) =>
           brick.health--
 
           if (brick.health <= 0) {
-            app.destroy(other)
+            this.app.destroy(other)
           }
         }
       }),
@@ -42,15 +42,20 @@ export const Ball = (app: App) =>
     ])
 
     /* Light */
-    app.spawn([
+    this.app.spawn([
       make(THREE.PointLight, { args: ["hotpink", 3, 10], castShadow: true }),
       make(Parent3D, { parent: ball.get(THREE.Object3D) })
     ])
 
     /* I don't have the APIs yet, so please don't look at this */
-    const rb = ball.get(Physics.DynamicBody)!.raw!
-    const coll = ball.get(Physics.BallCollider)!.raw!
-    rb.setLinearDamping(0)
-    // rb.applyImpulse({ x: 0, y: 5, z: 0 }, true)
-    coll.setRestitution(1)
-  })
+    console.log(ball.components)
+    // const rb = ball.get(Physics.DynamicBody)!.raw!
+    // const coll = ball.get(Physics.BallCollider)!.raw!
+    // console.log(rb, ball)
+    // rb.setLinearDamping(0)
+    // // rb.applyImpulse({ x: 0, y: 5, z: 0 }, true)
+    // coll.setRestitution(1)
+  }
+}
+
+export const Ball = (app: App) => app.addSystem(BallSystem)

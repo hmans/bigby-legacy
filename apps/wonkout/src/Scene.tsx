@@ -1,11 +1,11 @@
-import { App, make, setup } from "bigby"
+import { App, make, setup, System } from "bigby"
 import * as THREE from "three"
 import { FollowCamera } from "./FollowCamera"
 
-export const Scene = (app: App) =>
-  app.onStart((app) => {
+export class SceneSystem extends System {
+  onStart() {
     /* Camera */
-    app.spawn([
+    this.app.spawn([
       make(FollowCamera, { delta: 0.01 }),
       setup(
         new THREE.PerspectiveCamera(
@@ -19,12 +19,12 @@ export const Scene = (app: App) =>
     ])
 
     /* Lights */
-    app.spawn([new THREE.AmbientLight(0xffffff, 1)])
+    this.app.spawn([new THREE.AmbientLight(0xffffff, 1)])
 
     {
       const light = new THREE.DirectionalLight(0xffffff, 0.2)
       light.position.set(50, 80, 100)
-      app.spawn([light])
+      this.app.spawn([light])
 
       light.castShadow = true
 
@@ -37,4 +37,7 @@ export const Scene = (app: App) =>
       shadow.mapSize.width = 1024
       shadow.mapSize.height = 1024
     }
-  })
+  }
+}
+
+export const Scene = (app: App) => app.addSystem(SceneSystem)

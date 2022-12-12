@@ -13,30 +13,30 @@ import {
 } from "postprocessing"
 import * as THREE from "three"
 
-export const ThreePostprocessingPlugin = (app: App) => {
-  const cameraQuery = app.query([THREE.Camera])
+export class ThreePostProcessing extends System {
+  composer?: EffectComposer
 
-  /* When the application starts, disable the Three.js plugin's render loop
-  so we can instead implement our own */
-  app.onStart(() => {
-    const three = app.getSingletonComponent(ThreeSystem)
+  cameraQuery = this.app.query([THREE.Camera])
+
+  onStart(): void {
+    const three = this.app.getSingletonComponent(ThreeSystem)
 
     if (!three)
       throw new Error("Couldn't find any entity with ThreePluginState")
 
     three.render = false
 
-    const composer = new EffectComposer(three.renderer, {
+    this.composer = new EffectComposer(three.renderer, {
       frameBufferType: THREE.HalfFloatType
     })
 
-    cameraQuery.onEntityAdded.add((entity) => {
-      composer.reset()
+    this.cameraQuery.onEntityAdded.add((entity) => {
+      this.composer!.reset()
       const camera = entity.get(THREE.Camera)!
 
-      composer.addPass(new RenderPass(three.scene, camera))
+      this.composer!.addPass(new RenderPass(three.scene, camera))
 
-      composer.addPass(
+      this.composer!.addPass(
         new EffectPass(
           camera,
           new BloomEffect({
@@ -52,7 +52,7 @@ export const ThreePostprocessingPlugin = (app: App) => {
       })
       effect.blendMode.opacity.value = 0.045
 
-      composer.addPass(
+      this.composer!.addPass(
         new EffectPass(
           camera,
           new ToneMappingEffect({ mode: ToneMappingMode.REINHARD2_ADAPTIVE }),
@@ -61,15 +61,19 @@ export const ThreePostprocessingPlugin = (app: App) => {
         )
       )
     })
+  }
 
-    class ThreePostprocessingSystem extends System {
-      onRender(dt: number): void {
-        composer.render()
-      }
-    }
+  onRender(dt: number): void {
+    this.composer?.render()
+  }
 
-    app.spawn([new ThreePostprocessingSystem(app)])
-  })
+  onResize(): void {
+    this.composer?.setSize(window.innerWidth, window.innerHeight)
+  }
 
-  return app
+  onStop(): void {}
+}
+
+export function ThreePostprocessingPlugin(app: App) {
+  app.addSystem(ThreePostProcessing)
 }

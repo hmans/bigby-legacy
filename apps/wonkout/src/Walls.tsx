@@ -1,15 +1,15 @@
 import * as Physics from "@bigby/plugin-physics3d"
-import { App, make } from "bigby"
+import { App, make, System } from "bigby"
 import * as THREE from "three"
 
-export const Walls = (app: App) =>
-  app.onStart((app) => {
+class WallsSystem extends System {
+  onStart(): void {
     const height = 4
 
     const material = new THREE.MeshStandardMaterial({ color: "#999" })
 
     /* North Wall */
-    app.spawn([
+    this.app.spawn([
       new Physics.StaticBody(),
       new Physics.BoxCollider([24, 1, height]).setDensity(0),
       make(THREE.Mesh, {
@@ -22,7 +22,7 @@ export const Walls = (app: App) =>
     ])
 
     /* West Wall */
-    app.spawn([
+    this.app.spawn([
       new Physics.StaticBody(),
       new Physics.BoxCollider([1, 18, height]).setDensity(0),
       make(THREE.Mesh, {
@@ -35,7 +35,7 @@ export const Walls = (app: App) =>
     ])
 
     /* East Wall */
-    app.spawn([
+    this.app.spawn([
       new Physics.StaticBody(),
       new Physics.BoxCollider([1, 18, height]).setDensity(0),
       make(THREE.Mesh, {
@@ -49,7 +49,7 @@ export const Walls = (app: App) =>
 
     /* South (Death) Wall */
     /* North Wall */
-    app.spawn([
+    this.app.spawn([
       new Physics.StaticBody(),
       new Physics.BoxCollider([24, 1, height]).setDensity(0),
       make(THREE.Mesh, {
@@ -60,4 +60,7 @@ export const Walls = (app: App) =>
         position: [0, -8.5, 0]
       })
     ])
-  })
+  }
+}
+
+export const Walls = (app: App) => app.addSystem(WallsSystem)

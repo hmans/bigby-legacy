@@ -102,7 +102,7 @@ class PhysicsSystem extends System {
     })
   }
 
-  onStart(): void {
+  async onStart() {
     /* Create new RAPIER rigidbodies when entities appear */
     this.rigidbodyQuery.onEntityAdded.add((entity) => {
       let desc = entity.get(RigidBody)!.desc
@@ -185,9 +185,13 @@ class PhysicsSystem extends System {
   }
 }
 
+export async function InitPhysics() {
+  return await RAPIER.init()
+}
+
 export const Plugin =
   ({ gravity = [0, -9.81, 0] }: { gravity?: [number, number, number] } = {}) =>
-  (app: App) =>
+  (app: App) => {
     app
       /* Make sure this component is known to the app. We'll need it! */
       .requireComponent(Object3D)
@@ -196,10 +200,5 @@ export const Plugin =
       .registerComponent(RigidBody)
       .registerComponent(Collider)
 
-      /* Initialize Rapier (the physics engine) */
-      .onLoad(RAPIER.init)
-
-      /* Let's go! */
-      .onStart((app) => {
-        app.spawn([new PhysicsSystem(app, { gravity })])
-      })
+      .spawn([new PhysicsSystem(app, { gravity })])
+  }

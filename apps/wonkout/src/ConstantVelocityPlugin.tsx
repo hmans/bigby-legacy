@@ -5,7 +5,7 @@ export class ConstantVelocity {
   constructor(public velocity: number) {}
 }
 
-class ConstantVelocitySystem extends System {
+export class ConstantVelocitySystem extends System {
   protected query = this.app.query([ConstantVelocity, RigidBody])
 
   onEarlyUpdate(dt: number): void {
@@ -28,6 +28,4 @@ export const ConstantVelocityPlugin = (app: App) =>
   app
     .requireComponent(RigidBody)
     .registerComponent(ConstantVelocity)
-    .onStart((app) => {
-      app.spawn([new ConstantVelocitySystem(app)])
-    })
+    .addSystem(ConstantVelocitySystem)

@@ -1,19 +1,19 @@
 import * as Physics from "@bigby/plugin-physics3d"
 import { loadGLTF } from "@bigby/plugin-three"
-import { App, apply } from "bigby"
+import { App, apply, System } from "bigby"
 
 export class Brick {
   health = 1
 }
 
-export const Bricks = (app: App) =>
-  app.registerComponent(Brick).onStart(async (app) => {
+class BricksSystem extends System {
+  async onStart() {
     const gltf = await loadGLTF("/models/wonkout_brick.gltf")
 
     /* Bricks */
     for (let x = -3; x <= 3; x++) {
       for (let y = -2; y <= 2; y++) {
-        app.spawn([
+        this.app.spawn([
           new Brick(),
 
           new Physics.DynamicBody((body) =>
@@ -33,4 +33,10 @@ export const Bricks = (app: App) =>
         ])
       }
     }
-  })
+  }
+}
+
+export const Bricks = (app: App) => {
+  app.registerComponent(Brick)
+  app.addSystem(BricksSystem)
+}

@@ -10,6 +10,7 @@ export interface System {
   onLateUpdate?(dt: number): void
   onRender?(dt: number): void
   onStop?(): void
+  onResize?(): void
 }
 
 export abstract class System {

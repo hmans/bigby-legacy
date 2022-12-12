@@ -69,6 +69,6 @@ function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
-await wait(1000)
+// await wait(1000)
 
-app.stop()
+// app.stop()
