@@ -1,5 +1,5 @@
 import { createReactAPI } from "@bigby/react"
-import { App, TickerPlugin } from "bigby"
+import { App, AnimationFrameTicker } from "bigby"
 
 /* A stupid simple class that can act as a component: */
 export class FrameCount {
@@ -7,7 +7,7 @@ export class FrameCount {
 }
 
 export const app = new App()
-  .use(TickerPlugin)
+  .use(AnimationFrameTicker)
 
   /* Write a system that operates on Framecount */
   .onStart((app) => {
