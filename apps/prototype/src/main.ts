@@ -1,59 +1,51 @@
-import { ThreePlugin } from "@bigby/plugin-three"
-import { App, make, TickerPlugin } from "bigby"
-import * as THREE from "three"
-import { Object3D, Vector3 } from "three"
+import { AnimationFrameTicker, App, apply, make, System } from "bigby"
+import {
+  DirectionalLight,
+  IcosahedronGeometry,
+  Mesh,
+  MeshStandardMaterial,
+  PerspectiveCamera,
+} from "three"
+import { ThreePlugin } from "../../../packages/bigby-plugin-three/src"
 import "./style.css"
 
-class AutoRotate {
-  constructor(public velocity = new Vector3()) {}
+/* Set up the application */
+const app = new App()
+app.use(AnimationFrameTicker)
+app.use(ThreePlugin)
+
+/* Add a silly little system, just for fun */
+class RotatesAllMeshesSystem extends System {
+  speed = 1
+
+  protected meshes = this.app.query([Mesh])
+
+  onUpdate(dt: number) {
+    for (const [_, mesh] of this.meshes) {
+      mesh.rotation.x += dt * this.speed
+      mesh.rotation.y += dt * this.speed
+    }
+  }
 }
 
-export const AutorotatePlugin = (app: App) =>
-  app.registerComponent(AutoRotate).onStart((app) => {
-    const query = app.query([Object3D, AutoRotate])
+app.addSystem(RotatesAllMeshesSystem, { speed: -3 })
 
-    app.onUpdate((dt: number) => {
-      for (const [_, transform, autorotate] of query) {
-        transform.rotation.x += autorotate.velocity.x * dt
-        transform.rotation.y += autorotate.velocity.y * dt
-        transform.rotation.z += autorotate.velocity.z * dt
-      }
-    })
-  })
+/* Set up the scene */
+app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
 
-const app = new App().use(TickerPlugin).use(ThreePlugin).use(AutorotatePlugin)
-
-await app.start()
-
-/* Camera */
 app.spawn([
-  make(THREE.PerspectiveCamera, {
-    fov: 75,
-    aspect: window.innerWidth / window.innerHeight,
-    near: 0.1,
-    far: 1000,
+  make(PerspectiveCamera, {
+    args: [75, window.innerWidth / window.innerHeight, 0.1, 1000],
     position: [0, 0, 5],
-    setup: (camera) => {
-      camera.updateProjectionMatrix()
-    },
   }),
 ])
-
-/* Lights */
-app.spawn([make(THREE.AmbientLight, { intensity: 0.2 })])
 
 app.spawn([
-  make(THREE.DirectionalLight, {
-    intensity: 1,
-    position: [10, 20, 30],
+  make(Mesh, {
+    geometry: make(IcosahedronGeometry),
+    material: make(MeshStandardMaterial),
   }),
 ])
 
-/* Rotating cube */
-app.spawn([
-  make(AutoRotate, { velocity: [1, 2, 3] }),
-  make(THREE.Mesh, {
-    geometry: make(THREE.BoxGeometry),
-    material: make(THREE.MeshStandardMaterial, { color: "hotpink" }),
-  }),
-])
+/* Let's go */
+app.start()

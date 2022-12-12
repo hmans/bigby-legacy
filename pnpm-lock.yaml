@@ -242,7 +242,10 @@ importers:
       ts-toolbelt: 9.6.0
 
   packages/maxiplex-event-dispatcher:
-    specifiers: {}
+    specifiers:
+      '@miniplex/bucket': 2.0.0-beta.3
+    dependencies:
+      '@miniplex/bucket': 2.0.0-beta.3
 
 packages:
 
@@ -1745,6 +1748,10 @@ packages:
     dev: true
     optional: true
 
+  /@hmans/event/0.2.0:
+    resolution: {integrity: sha512-VrDaUafGrcT2yuC59yTxpxT7KsWoST6zNd/JdATgU4y/jEHghL5yqY9sNftNajo5VpzJkF9XxwxBixz6UlGNfg==}
+    dev: false
+
   /@istanbuljs/load-nyc-config/1.1.0:
     resolution: {integrity: sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ==}
     engines: {node: '>=8'}
@@ -2038,6 +2045,12 @@ packages:
       globby: 11.1.0
       read-yaml-file: 1.1.0
     dev: true
+
+  /@miniplex/bucket/2.0.0-beta.3:
+    resolution: {integrity: sha512-RlRE37GQbhE1fvlowiZE4F2sI7FGvoT2OBDYyvl6mDrdxIQYLGn2nHGhOKCGRGp11PlmqBsBEMGJpY1g3HS7SQ==}
+    dependencies:
+      '@hmans/event': 0.2.0
+    dev: false
 
   /@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}

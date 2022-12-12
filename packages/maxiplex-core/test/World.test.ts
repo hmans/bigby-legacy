@@ -8,32 +8,6 @@ describe(World, () => {
     expect(world).toBeInstanceOf(World)
   })
 
-  describe("use", () => {
-    it("executes the given function, passing itself to it", () => {
-      const world = new World()
-      const fn = jest.fn()
-      world.use(fn)
-      expect(fn).toHaveBeenCalledWith(world)
-    })
-
-    it("returns itself", () => {
-      const world = new World()
-      const fn = jest.fn()
-      const result = world.use(fn)
-      expect(result).toBe(world)
-    })
-
-    describe("if the plugin was already used previously", () => {
-      it("does not execute the given function", () => {
-        const world = new World()
-        const fn = jest.fn()
-        world.use(fn)
-        world.use(fn)
-        expect(fn).toHaveBeenCalledTimes(1)
-      })
-    })
-  })
-
   describe("spawn", () => {
     it("creates an entity with the given components", () => {
       const world = createWorldWithComponents()
@@ -48,6 +22,16 @@ describe(World, () => {
       expect(entity.components[0]).toBe(position)
       expect(entity.components[1]).toBe(velocity)
       expect(entity.components[2]).toBe(health)
+    })
+
+    it("accepts the constructors and will automatically instantiate them", () => {
+      const world = createWorldWithComponents()
+
+      const entity = world.spawn([Position, Velocity, Health])
+
+      expect(entity.components[0]).toBeInstanceOf(Position)
+      expect(entity.components[1]).toBeInstanceOf(Velocity)
+      expect(entity.components[2]).toBeInstanceOf(Health)
     })
 
     it("adds the entity to all relevant queries", () => {

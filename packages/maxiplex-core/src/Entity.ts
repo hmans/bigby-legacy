@@ -1,5 +1,6 @@
 import type { World } from "./World"
 import type { Component, Constructor } from "./types"
+import { processComponent } from "./helpers"
 
 export class Entity {
   components = new Array<Component>()
@@ -10,8 +11,8 @@ export class Entity {
     return this.components.find((c) => c instanceof type)
   }
 
-  add(component: Component) {
-    return this.world.addComponent(this, component)
+  add(component: Component | Constructor<Component>) {
+    return this.world.addComponent(this, processComponent(component))
   }
 
   remove(type: Constructor<any>): boolean

@@ -1,17 +1,8 @@
 import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import { Entity } from "./Entity"
+import { processComponent } from "./helpers"
 import { Query } from "./Query"
 import { Component, ComponentQuery, Constructor } from "./types"
-
-export type OnLoadCallback<A extends World> = (app: A) => void | Promise<void>
-
-export type OnStartCallback<A extends World> = (app: A) => void | Promise<void>
-
-export type TickerCallback = (dt: number) => void
-
-export type OnStopCallback<A extends World> = (app: A) => void
-
-export type Plugin<A extends World> = (app: A) => A | void
 
 export type BaseEntity = {}
 
@@ -20,28 +11,25 @@ export class World {
 
   entities = new Array<Entity>()
   protected registeredComponents = new Set<Component>()
-  protected registeredPlugins = new Set<Plugin<typeof this>>()
 
   onEntityAdded = new EventDispatcher<Entity>()
   onEntityRemoved = new EventDispatcher<Entity>()
   onEntityUpdated = new EventDispatcher<Entity>()
 
-  onLoadCallbacks = new Array<OnLoadCallback<typeof this>>()
-  onStartCallbacks = new Array<OnStartCallback<typeof this>>()
-  onTickCallbacks = new EventDispatcher<number>()
-  onStopCallbacks = new EventDispatcher<typeof this>()
-
   protected queries = new Map<string, Query<any>>()
 
-  spawn(components: Component[] = []) {
+  spawn(components: (Component | Constructor<Component>)[] = []) {
+    /* Instantiate components where only the constructor was given */
+    const processed = components.map(processComponent)
+
     /* Check all given components if they've been registered with us */
-    components.forEach((component) => {
+    processed.forEach((component) => {
       this.assertRegisteredComponent(component.constructor)
     })
 
     /* Create a new entity */
     const entity = new Entity(this)
-    entity.components.push(...components)
+    entity.components.push(...processed)
 
     /* Add the entity to the world */
     this.entities.push(entity)
@@ -141,53 +129,5 @@ export class World {
     }
 
     return this.queries.get(key)!
-  }
-
-  use(plugin: Plugin<typeof this>) {
-    if (this.registeredPlugins.has(plugin)) return this
-
-    /* Register and initialize the plugin */
-    this.registeredPlugins.add(plugin)
-    const result = plugin(this)
-
-    return result || this
-  }
-
-  onLoad(callback: OnLoadCallback<typeof this>) {
-    this.onLoadCallbacks.push(callback)
-    return this
-  }
-
-  onStart(callback: OnStartCallback<typeof this>) {
-    this.onStartCallbacks.push(callback)
-    return this
-  }
-
-  onTick(callback: TickerCallback) {
-    this.onTickCallbacks.add(callback)
-    return this
-  }
-
-  onStop(callback: OnStopCallback<typeof this>) {
-    this.onStopCallbacks.add(callback)
-    return this
-  }
-
-  async start() {
-    console.log("✅ Starting App")
-
-    /* Execute and wait for initializers to complete */
-    await Promise.all(this.onLoadCallbacks.map((callback) => callback(this)))
-
-    /* Execute and wait for startupSystems to complete */
-    await Promise.all(this.onStartCallbacks.map((callback) => callback(this)))
-
-    return this
-  }
-
-  stop() {
-    console.log("⛔ Stopping App")
-    this.onStopCallbacks.emit(this)
-    return this
   }
 }

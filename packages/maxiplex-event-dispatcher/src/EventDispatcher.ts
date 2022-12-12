@@ -1,28 +1,17 @@
-export type Listener<P> = (payload: P) => void
+import { Bucket } from "@miniplex/bucket"
 
-export class EventDispatcher<P = void> {
-  listeners = new Set<Listener<P>>()
+export type EventListener<P> = (payload: P) => void
 
-  constructor() {
-    this.emit = this.emit.bind(this)
-  }
-
-  clear() {
-    this.listeners.clear()
-  }
-
-  add(listener: Listener<P>) {
-    this.listeners.add(listener)
-    return () => this.remove(listener)
-  }
-
-  remove(listener: Listener<P>) {
-    this.listeners.delete(listener)
-  }
-
+export class EventDispatcher<P = void> extends Bucket<EventListener<P>> {
   emit(payload: P) {
-    for (const listener of this.listeners) {
+    for (const listener of this.entities) {
       listener(payload)
     }
+  }
+
+  emitAsync(payload: P) {
+    return Promise.all(
+      Array.from(this.entities).map((listener) => listener(payload))
+    )
   }
 }
