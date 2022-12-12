@@ -8,32 +8,6 @@ describe(World, () => {
     expect(world).toBeInstanceOf(World)
   })
 
-  describe("use", () => {
-    it("executes the given function, passing itself to it", () => {
-      const world = new World()
-      const fn = jest.fn()
-      world.use(fn)
-      expect(fn).toHaveBeenCalledWith(world)
-    })
-
-    it("returns itself", () => {
-      const world = new World()
-      const fn = jest.fn()
-      const result = world.use(fn)
-      expect(result).toBe(world)
-    })
-
-    describe("if the plugin was already used previously", () => {
-      it("does not execute the given function", () => {
-        const world = new World()
-        const fn = jest.fn()
-        world.use(fn)
-        world.use(fn)
-        expect(fn).toHaveBeenCalledTimes(1)
-      })
-    })
-  })
-
   describe("spawn", () => {
     it("creates an entity with the given components", () => {
       const world = createWorldWithComponents()
