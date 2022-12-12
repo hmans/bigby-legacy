@@ -3,7 +3,7 @@ import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import { System } from "./System"
 import { SystemsPlugin } from "./SystemsPlugin"
 
-export type Plugin<A extends App> = (app: A) => A | void
+export type Plugin = (app: App) => App | void
 
 export type OnLoadCallback<A extends App> = (app: A) => void | Promise<void>
 export type OnStartCallback<A extends App> = (app: A) => void | Promise<void>
@@ -21,7 +21,7 @@ export class App extends World {
   onLateUpdateCallbacks = new EventDispatcher<number>()
   onRenderCallbacks = new EventDispatcher<number>()
 
-  protected registeredPlugins = new Set<Plugin<typeof this>>()
+  protected registeredPlugins = new Set<Plugin>()
 
   constructor() {
     super()
@@ -29,7 +29,7 @@ export class App extends World {
     this.use(SystemsPlugin)
   }
 
-  use(plugin: Plugin<typeof this>) {
+  use(plugin: Plugin) {
     if (this.registeredPlugins.has(plugin)) return this
 
     /* Register and initialize the plugin */
@@ -49,17 +49,17 @@ export class App extends World {
     return this
   }
 
-  onLoad(callback: OnLoadCallback<typeof this>) {
+  onLoad(callback: OnLoadCallback<App>) {
     this.onLoadCallbacks.add(callback)
     return this
   }
 
-  onStart(callback: OnStartCallback<typeof this>) {
+  onStart(callback: OnStartCallback<App>) {
     this.onStartCallbacks.add(callback)
     return this
   }
 
-  onStop(callback: OnStopCallback<typeof this>) {
+  onStop(callback: OnStopCallback<App>) {
     this.onStopCallbacks.add(callback)
     return this
   }
