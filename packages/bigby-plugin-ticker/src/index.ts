@@ -1,4 +1,4 @@
-import { App, System } from "@bigby/core"
+import { App, DEFAULT_STAGES } from "@bigby/core"
 import { clamp } from "@bigby/math"
 
 export const AnimationFrameTicker = (app: App) =>
@@ -15,11 +15,9 @@ export const AnimationFrameTicker = (app: App) =>
       lastTime = time
 
       /* Invoke app update callbacks */
-      app.onEarlyUpdateCallbacks.emit(dt)
-      app.onFixedUpdateCallbacks.emit(dt)
-      app.onUpdateCallbacks.emit(dt)
-      app.onLateUpdateCallbacks.emit(dt)
-      app.onRenderCallbacks.emit(dt)
+      for (const stage of DEFAULT_STAGES) {
+        app[stage].emit(dt)
+      }
     }
 
     animate()

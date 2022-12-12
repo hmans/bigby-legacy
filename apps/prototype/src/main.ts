@@ -1,4 +1,4 @@
-import { AnimationFrameTicker, App, apply, make, System } from "bigby"
+import { AnimationFrameTicker, App, make, System } from "bigby"
 import {
   DirectionalLight,
   IcosahedronGeometry,
@@ -28,7 +28,7 @@ class RotatesAllMeshesSystem extends System {
   }
 }
 
-app.addSystem(RotatesAllMeshesSystem, { speed: -3 })
+app.addSystem(RotatesAllMeshesSystem, { speed: 1 })
 
 /* Set up the scene */
 app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
