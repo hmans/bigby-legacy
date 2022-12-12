@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "The big brother to Miniplex.",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "main": "dist/maxiplex-core.cjs.js",
   "module": "dist/maxiplex-core.esm.js",
   "files": [
@@ -30,6 +30,6 @@
     "ts-toolbelt": "^9.6.0"
   },
   "dependencies": {
-    "@maxiplex/event-dispatcher": "workspace:^0.10.1"
+    "@maxiplex/event-dispatcher": "workspace:^0.11.0"
   }
 }

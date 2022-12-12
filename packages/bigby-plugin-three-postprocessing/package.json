@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "Three.js Postprocessing for Bigby.",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "main": "dist/bigby-plugin-three-postprocessing.cjs.js",
   "module": "dist/bigby-plugin-three-postprocessing.esm.js",
   "files": [
@@ -27,16 +27,16 @@
     ]
   },
   "devDependencies": {
-    "@bigby/plugin-three": "workspace:^0.10.1",
+    "@bigby/plugin-three": "workspace:^0.11.0",
     "@types/three": "^0.146.0",
     "postprocessing": "^6.29.1",
     "three": "^0.147.0"
   },
   "dependencies": {
-    "@bigby/core": "workspace:^0.10.1"
+    "@bigby/core": "workspace:^0.11.0"
   },
   "peerDependencies": {
-    "@bigby/plugin-three": "workspace:>=0.10.1",
+    "@bigby/plugin-three": "workspace:>=0.11.0",
     "postprocessing": "^6.29.1",
     "three": "^0.147.0"
   }

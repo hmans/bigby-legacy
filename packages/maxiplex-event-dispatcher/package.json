@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "Maxiplex event dispatcher.",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "main": "dist/maxiplex-event-dispatcher.cjs.js",
   "module": "dist/maxiplex-event-dispatcher.esm.js",
   "files": [

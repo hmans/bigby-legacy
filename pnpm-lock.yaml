@@ -42,10 +42,10 @@ importers:
 
   apps/prototype:
     specifiers:
-      '@bigby/plugin-three': workspace:^0.10.1
+      '@bigby/plugin-three': workspace:^0.11.0
       '@types/three': ^0.146.0
       add: ^2.0.6
-      bigby: workspace:^0.10.2
+      bigby: workspace:^0.11.0
       gl-matrix: ^3.4.3
       randomish: ^0.1.6
       three: ^0.147.0
@@ -69,12 +69,12 @@ importers:
 
   apps/react-playground:
     specifiers:
-      '@bigby/react': workspace:^0.10.1
+      '@bigby/react': workspace:^0.11.0
       '@react-three/fiber': ^8.9.1
       '@types/react': ^18.0.26
       '@types/react-dom': ^18.0.8
       '@vitejs/plugin-react': ^2.2.0
-      bigby: workspace:^0.10.2
+      bigby: workspace:^0.11.0
       react: ^18.2.0
       react-dom: ^18.2.0
       three: ^0.147.0
@@ -96,15 +96,15 @@ importers:
 
   apps/wonkout:
     specifiers:
-      '@bigby/plugin-input': workspace:^0.10.1
-      '@bigby/plugin-physics3d': workspace:^0.10.2
-      '@bigby/plugin-three': workspace:^0.10.1
-      '@bigby/plugin-three-postprocessing': workspace:^0.10.1
+      '@bigby/plugin-input': workspace:^0.11.0
+      '@bigby/plugin-physics3d': workspace:^0.11.0
+      '@bigby/plugin-three': workspace:^0.11.0
+      '@bigby/plugin-three-postprocessing': workspace:^0.11.0
       '@types/react': ^18.0.26
       '@types/react-dom': ^18.0.8
       '@types/three': ^0.146.0
       '@vitejs/plugin-react': ^2.2.0
-      bigby: workspace:^0.10.2
+      bigby: workspace:^0.11.0
       postprocessing: ^6.29.1
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -131,10 +131,10 @@ importers:
 
   packages/bigby:
     specifiers:
-      '@bigby/core': workspace:^0.10.1
-      '@bigby/math': workspace:^0.10.1
-      '@bigby/plugin-ticker': workspace:^0.10.1
-      '@maxiplex/core': workspace:^0.10.1
+      '@bigby/core': workspace:^0.11.0
+      '@bigby/math': workspace:^0.11.0
+      '@bigby/plugin-ticker': workspace:^0.11.0
+      '@maxiplex/core': workspace:^0.11.0
     dependencies:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
@@ -143,9 +143,9 @@ importers:
 
   packages/bigby-core:
     specifiers:
-      '@bigby/math': workspace:^0.10.1
-      '@maxiplex/core': workspace:^0.10.1
-      '@maxiplex/event-dispatcher': workspace:^0.10.1
+      '@bigby/math': workspace:^0.11.0
+      '@maxiplex/core': workspace:^0.11.0
+      '@maxiplex/event-dispatcher': workspace:^0.11.0
       three: ^0.147.0
     dependencies:
       '@bigby/math': link:../bigby-math
@@ -159,14 +159,14 @@ importers:
 
   packages/bigby-plugin-input:
     specifiers:
-      '@bigby/core': workspace:^0.10.1
+      '@bigby/core': workspace:^0.11.0
     dependencies:
       '@bigby/core': link:../bigby-core
 
   packages/bigby-plugin-physics3d:
     specifiers:
-      '@bigby/core': workspace:^0.10.1
-      '@bigby/math': workspace:^0.10.1
+      '@bigby/core': workspace:^0.11.0
+      '@bigby/math': workspace:^0.11.0
       '@dimforge/rapier3d-compat': ^0.10.0
     dependencies:
       '@bigby/core': link:../bigby-core
@@ -175,8 +175,8 @@ importers:
 
   packages/bigby-plugin-three:
     specifiers:
-      '@bigby/core': workspace:^0.10.1
-      '@bigby/math': workspace:^0.10.1
+      '@bigby/core': workspace:^0.11.0
+      '@bigby/math': workspace:^0.11.0
       '@types/three': ^0.146.0
       three: ^0.147.0
     dependencies:
@@ -188,8 +188,8 @@ importers:
 
   packages/bigby-plugin-three-postprocessing:
     specifiers:
-      '@bigby/core': workspace:^0.10.1
-      '@bigby/plugin-three': workspace:^0.10.1
+      '@bigby/core': workspace:^0.11.0
+      '@bigby/plugin-three': workspace:^0.11.0
       '@types/three': ^0.146.0
       postprocessing: ^6.29.1
       three: ^0.147.0
@@ -203,16 +203,16 @@ importers:
 
   packages/bigby-plugin-ticker:
     specifiers:
-      '@bigby/core': workspace:^0.10.1
-      '@bigby/math': workspace:^0.10.1
+      '@bigby/core': workspace:^0.11.0
+      '@bigby/math': workspace:^0.11.0
     dependencies:
       '@bigby/core': link:../bigby-core
       '@bigby/math': link:../bigby-math
 
   packages/bigby-react:
     specifiers:
-      '@bigby/core': workspace:^0.10.1
-      '@maxiplex/core': workspace:^0.10.1
+      '@bigby/core': workspace:^0.11.0
+      '@maxiplex/core': workspace:^0.11.0
       react: ^18.2.0
       react-dom: ^18.2.0
       react-merge-refs: ^1.1.0
@@ -226,7 +226,7 @@ importers:
 
   packages/maxiplex:
     specifiers:
-      '@maxiplex/core': workspace:^0.10.1
+      '@maxiplex/core': workspace:^0.11.0
       add: ^2.0.6
     dependencies:
       '@maxiplex/core': link:../maxiplex-core
@@ -234,7 +234,7 @@ importers:
 
   packages/maxiplex-core:
     specifiers:
-      '@maxiplex/event-dispatcher': workspace:^0.10.1
+      '@maxiplex/event-dispatcher': workspace:^0.11.0
       ts-toolbelt: ^9.6.0
     dependencies:
       '@maxiplex/event-dispatcher': link:../maxiplex-event-dispatcher

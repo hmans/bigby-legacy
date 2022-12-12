@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "The bigger brother to Miniplex.",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "main": "dist/maxiplex.cjs.js",
   "module": "dist/maxiplex.esm.js",
   "files": [
@@ -27,7 +27,7 @@
     ]
   },
   "dependencies": {
-    "@maxiplex/core": "workspace:^0.10.1",
+    "@maxiplex/core": "workspace:^0.11.0",
     "add": "^2.0.6"
   }
 }

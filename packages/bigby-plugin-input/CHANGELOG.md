@@ -1,6 +1,11 @@
-# @bigby/ticker
+# @bigby/plugin-input
 
 ## 0.11.0
+
+### Minor Changes
+
+- 1a49332: New ECS! Oh no!
+- 456e101: `App` now extends `World`, so there is no longer an `app.world`.
 
 ### Patch Changes
 
@@ -15,25 +20,3 @@
 - Updated dependencies [c9f264d]
 - Updated dependencies [d743a6c]
   - @bigby/core@0.11.0
-  - @bigby/math@0.11.0
-
-## 0.10.1
-
-### Patch Changes
-
-- Force version bump.
-- Updated dependencies
-  - @bigby/core@0.10.1
-  - @bigby/math@0.10.1
-
-## 0.9.0
-
-### Minor Changes
-
-- 1529fe6: Let's go!
-
-### Patch Changes
-
-- Updated dependencies [1529fe6]
-  - @bigby/core@0.9.0
-  - @bigby/math@0.9.0

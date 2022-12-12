@@ -1,5 +1,12 @@
 # @bigby/math
 
+## 0.11.0
+
+### Minor Changes
+
+- 49de4db: Moving everything a little closer to Three.js, in order to vastly improve the approachability of this library.
+- 3c97ed3: Introduced linear algebra primitives to `@bigby/math` and used them to make `Transform3D` compatible with third-party libraries like Three.js.
+
 ## 0.10.1
 
 ### Patch Changes

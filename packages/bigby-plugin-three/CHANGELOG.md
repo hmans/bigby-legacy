@@ -1,10 +1,9 @@
-# @bigby/physics3d
+# @bigby/plugin-three
 
 ## 0.11.0
 
 ### Minor Changes
 
-- 1a49332: New ECS! Oh no!
 - 49de4db: Moving everything a little closer to Three.js, in order to vastly improve the approachability of this library.
 - 3c97ed3: Introduced linear algebra primitives to `@bigby/math` and used them to make `Transform3D` compatible with third-party libraries like Three.js.
 - 456e101: `App` now extends `World`, so there is no longer an `app.world`.
@@ -12,7 +11,11 @@
 
 ### Patch Changes
 
-- a244622: Upgrade Rigidbody initialization API
+- fce4c4e: `loadGLTF`
+- 510a686: Support custom parenting
+- 881d8b1: Canvas now automatically resizes on window size change.
+- fce4c4e: Fixed color space (sRGB)
+- 92febb0: New plugin: `@bigby/plugin-three`. Build Three.js games with Bigby!
 - Updated dependencies [1a49332]
 - Updated dependencies [d743a6c]
 - Updated dependencies [49de4db]
@@ -25,38 +28,3 @@
 - Updated dependencies [d743a6c]
   - @bigby/core@0.11.0
   - @bigby/math@0.11.0
-
-## 0.10.2
-
-### Patch Changes
-
-- 660f02e: Switched to the `@dimforge/rapier3d-compat` package for the time being. This allows us to use the package in sandboxes.
-
-## 0.10.1
-
-### Patch Changes
-
-- Force version bump.
-- Updated dependencies
-  - @bigby/core@0.10.1
-  - @bigby/math@0.10.1
-
-## 0.9.0
-
-### Minor Changes
-
-- 1529fe6: Let's go!
-
-### Patch Changes
-
-- Updated dependencies [1529fe6]
-  - @bigby/core@0.9.0
-  - @bigby/math@0.9.0
-
-## 0.8.2
-
-### Patch Changes
-
-- 6abcde4: Initializers!
-- Updated dependencies [6abcde4]
-  - @bigby/core@0.8.2

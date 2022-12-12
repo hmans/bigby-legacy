@@ -6,7 +6,7 @@
     "url": "https://hmans.co"
   },
   "description": "Make games, learn things.",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "main": "dist/bigby-core.cjs.js",
   "module": "dist/bigby-core.esm.js",
   "files": [
@@ -27,9 +27,9 @@
     ]
   },
   "dependencies": {
-    "@bigby/math": "workspace:^0.10.1",
-    "@maxiplex/core": "workspace:^0.10.1",
-    "@maxiplex/event-dispatcher": "workspace:^0.10.1"
+    "@bigby/math": "workspace:^0.11.0",
+    "@maxiplex/core": "workspace:^0.11.0",
+    "@maxiplex/event-dispatcher": "workspace:^0.11.0"
   },
   "devDependencies": {
     "three": "^0.147.0"
