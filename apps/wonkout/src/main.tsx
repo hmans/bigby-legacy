@@ -2,7 +2,7 @@ import { InputPlugin } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
 import { ThreePlugin } from "@bigby/plugin-three"
 import { ThreePostprocessingPlugin } from "@bigby/plugin-three-postprocessing"
-import { App, AnimationFrameTicker } from "bigby"
+import { AnimationFrameTicker, App } from "bigby"
 import { Ball } from "./Ball"
 import { Bricks } from "./Bricks"
 import { ConstantVelocityPlugin } from "./ConstantVelocityPlugin"
@@ -13,9 +13,6 @@ import { Player } from "./Player"
 import { Scene } from "./Scene"
 import { Walls } from "./Walls"
 
-const Wonkynoid = (app: App) =>
-  app.use(Bricks).use(Floor).use(Walls).use(Player).use(Scene).use(Ball)
-
 const app = new App()
   .use(AnimationFrameTicker)
   .use(ThreePlugin)
@@ -24,7 +21,12 @@ const app = new App()
   .use(Physics.Plugin({ gravity: [0, 0, 0] }))
   .use(ConstantVelocityPlugin)
   .use(FollowCameraPlugin)
-  .use(Wonkynoid)
+
+/* Plugins are just functions. And they can load other plugins! */
+const Wonkout = (app: App) =>
+  app.use(Bricks).use(Floor).use(Walls).use(Player).use(Scene).use(Ball)
+
+app.use(Wonkout)
 
 app.start()
 
