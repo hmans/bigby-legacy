@@ -133,7 +133,7 @@ export const ThreePlugin = (app: App) => {
   app.registerComponent(THREE.Camera)
   app.registerComponent(Parent3D)
 
-  app.spawn([new ThreeSystem(app)])
+  app.addSystem(ThreeSystem)
 
   return app
 }
