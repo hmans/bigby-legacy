@@ -6,8 +6,15 @@ export function SystemsPlugin(app: App) {
   const systems = app.query([System])
 
   /* Invoke all systems' onStart methods */
-  app.onStart(() => {
-    for (const [_, system] of systems) system.onStart?.()
+  // app.onStart(() => {
+  //   for (const [_, system] of systems) system.onStart?.()
+  // })
+
+  /* Start systems once they show up */
+  /* TODO: if the app is already started! */
+  systems.onEntityAdded.add((entity) => {
+    const system = entity.get(System)!
+    system.onStart?.()
   })
 
   /* Invoke all systems' onStop methods */
