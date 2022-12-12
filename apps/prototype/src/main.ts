@@ -28,7 +28,7 @@ class RotatesAllMeshesSystem extends System {
   }
 }
 
-app.spawn([apply(new RotatesAllMeshesSystem(app), { speed: 5 })])
+app.addSystem(RotatesAllMeshesSystem, { speed: -3 })
 
 /* Set up the scene */
 app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
