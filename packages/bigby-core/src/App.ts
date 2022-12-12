@@ -1,5 +1,4 @@
 import { NonAbstractConstructor, Query, World } from "@maxiplex/core"
-import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import { System } from "./System"
 
 export type Plugin = (app: App) => App | void

@@ -48,13 +48,12 @@ export class BallSystem extends System {
     ])
 
     /* I don't have the APIs yet, so please don't look at this */
-    console.log(ball.components)
-    // const rb = ball.get(Physics.DynamicBody)!.raw!
-    // const coll = ball.get(Physics.BallCollider)!.raw!
-    // console.log(rb, ball)
-    // rb.setLinearDamping(0)
-    // // rb.applyImpulse({ x: 0, y: 5, z: 0 }, true)
-    // coll.setRestitution(1)
+    const rb = ball.get(Physics.DynamicBody)!.raw!
+    const coll = ball.get(Physics.BallCollider)!.raw!
+    console.log(rb, ball)
+    rb.setLinearDamping(0)
+    // rb.applyImpulse({ x: 0, y: 5, z: 0 }, true)
+    coll.setRestitution(1)
   }
 }
 
