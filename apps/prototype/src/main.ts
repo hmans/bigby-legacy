@@ -14,6 +14,22 @@ const app = new App()
 app.use(AnimationFrameTicker)
 app.use(ThreePlugin)
 
+class FooSystem extends System {
+  onStart(): void {
+    console.log("FooSystem started")
+  }
+
+  onStop(): void {
+    console.log("FooSystem stopped")
+  }
+
+  onUpdate(dt: number) {
+    console.log("FooSystem update")
+  }
+}
+
+app.addSystem(FooSystem)
+
 /* Add a silly little system, just for fun */
 class RotatesAllMeshesSystem extends System {
   speed = 1
@@ -47,5 +63,12 @@ app.spawn([
   }),
 ])
 
-/* Let's go */
 app.start()
+
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+await wait(1000)
+
+app.stop()

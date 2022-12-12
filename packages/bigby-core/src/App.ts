@@ -1,7 +1,6 @@
-import { NonAbstractConstructor, World } from "@maxiplex/core"
+import { NonAbstractConstructor, Query, World } from "@maxiplex/core"
 import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import { System } from "./System"
-import { SystemsPlugin } from "./SystemsPlugin"
 
 export type Plugin = (app: App) => App | void
 
@@ -18,22 +17,16 @@ export const DEFAULT_STAGES = [
 ] as const
 
 export class App extends World {
-  onLoadCallbacks = new EventDispatcher<typeof this>()
-  onStartCallbacks = new EventDispatcher<typeof this>()
-  onStopCallbacks = new EventDispatcher<typeof this>()
-
-  onEarlyUpdate = new EventDispatcher<number>()
-  onFixedUpdate = new EventDispatcher<number>()
-  onUpdate = new EventDispatcher<number>()
-  onLateUpdate = new EventDispatcher<number>()
-  onRender = new EventDispatcher<number>()
-
   protected registeredPlugins = new Set<Plugin>()
+
+  protected systems: Query<[System]>
 
   constructor() {
     super()
     console.log("🐝 Bigby Initializing")
-    this.use(SystemsPlugin)
+
+    this.registerComponent(System)
+    this.systems = this.query([System])
   }
 
   use(plugin: Plugin) {
@@ -56,36 +49,25 @@ export class App extends World {
     return this
   }
 
-  onLoad(callback: OnLoadCallback<App>) {
-    this.onLoadCallbacks.add(callback)
-    return this
-  }
-
-  onStart(callback: OnStartCallback<App>) {
-    this.onStartCallbacks.add(callback)
-    return this
-  }
-
-  onStop(callback: OnStopCallback<App>) {
-    this.onStopCallbacks.add(callback)
-    return this
-  }
-
   async start() {
     console.log("✅ Starting App")
 
-    /* Execute and wait for initializers to complete */
-    await this.onLoadCallbacks.emitAsync(this)
-
-    /* Execute and wait for startupSystems to complete */
-    await this.onStartCallbacks.emitAsync(this)
+    /* Start all systems */
+    for (const [_, system] of this.systems) {
+      system.onStart?.()
+    }
 
     return this
   }
 
   stop() {
     console.log("⛔ Stopping App")
-    this.onStopCallbacks.emit(this)
+
+    /* Stop all systems */
+    for (const [_, system] of this.systems) {
+      system.onStop?.()
+    }
+
     return this
   }
 }

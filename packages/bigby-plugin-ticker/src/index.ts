@@ -1,13 +1,17 @@
-import { App, DEFAULT_STAGES } from "@bigby/core"
+import { App, DEFAULT_STAGES, System } from "@bigby/core"
 import { clamp } from "@bigby/math"
 
-export const AnimationFrameTicker = (app: App) =>
-  app.onStart((app) => {
+export class AnimationFrameTickerSystem extends System {
+  running = false
+
+  onStart() {
+    this.running = true
     let lastTime = performance.now()
-    let running = true
+
+    const systems = this.app.query([System])
 
     const animate = () => {
-      if (running) requestAnimationFrame(animate)
+      if (this.running) requestAnimationFrame(animate)
 
       /* Calculate delta time */
       const time = performance.now()
@@ -16,13 +20,20 @@ export const AnimationFrameTicker = (app: App) =>
 
       /* Invoke app update callbacks */
       for (const stage of DEFAULT_STAGES) {
-        app[stage].emit(dt)
+        for (const [_, system] of systems) {
+          system[stage]?.(dt)
+        }
       }
     }
 
     animate()
+  }
 
-    app.onStop(() => {
-      running = false
-    })
-  })
+  onStop() {
+    this.running = false
+  }
+}
+
+export function AnimationFrameTicker(app: App) {
+  app.addSystem(AnimationFrameTickerSystem)
+}

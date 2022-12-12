@@ -42,6 +42,21 @@ export class ThreeSystem extends System {
     this.scene = new THREE.Scene()
   }
 
+  onResize = () => {
+    this.renderer.setSize(window.innerWidth, window.innerHeight)
+
+    if (this.camera instanceof THREE.PerspectiveCamera) {
+      this.camera.aspect = window.innerWidth / window.innerHeight
+      this.camera.updateProjectionMatrix()
+    } else if (this.camera instanceof THREE.OrthographicCamera) {
+      this.camera.left = -window.innerWidth / 2
+      this.camera.right = window.innerWidth / 2
+      this.camera.top = window.innerHeight / 2
+      this.camera.bottom = -window.innerHeight / 2
+      this.camera.updateProjectionMatrix()
+    }
+  }
+
   onStart(): void {
     /* Mount our renderer */
     this.renderer.setSize(window.innerWidth, window.innerHeight)
@@ -60,27 +75,7 @@ export class ThreeSystem extends System {
       if (entity.get(THREE.Camera) === this.camera) this.camera = undefined
     })
 
-    /* Resize the renderer when the window resizes */
-    const onResize = () => {
-      this.renderer.setSize(window.innerWidth, window.innerHeight)
-
-      if (this.camera instanceof THREE.PerspectiveCamera) {
-        this.camera.aspect = window.innerWidth / window.innerHeight
-        this.camera.updateProjectionMatrix()
-      } else if (this.camera instanceof THREE.OrthographicCamera) {
-        this.camera.left = -window.innerWidth / 2
-        this.camera.right = window.innerWidth / 2
-        this.camera.top = window.innerHeight / 2
-        this.camera.bottom = -window.innerHeight / 2
-        this.camera.updateProjectionMatrix()
-      }
-    }
-
-    window.addEventListener("resize", onResize)
-
-    this.app.onStop(() => {
-      window.removeEventListener("resize", onResize)
-    })
+    window.addEventListener("resize", this.onResize)
 
     /* Scene Objects */
     /* Query the world for Three.js scene objects */
@@ -115,6 +110,8 @@ export class ThreeSystem extends System {
 
   onStop(): void {
     console.debug("Disposing renderer")
+    window.removeEventListener("resize", this.onResize)
+
     document.body.removeChild(this.renderer.domElement)
     this.renderer.dispose()
     this.renderer.forceContextLoss()
