@@ -7,10 +7,6 @@ export type Plugin = (
   app: App
 ) => void | DisposeCallback | Promise<void | DisposeCallback>
 
-export type OnLoadCallback<A extends App> = (app: A) => void | Promise<void>
-export type OnStartCallback<A extends App> = (app: A) => void | Promise<void>
-export type OnStopCallback<A extends App> = (app: A) => void
-
 export type DisposeCallback = (app: App) => void
 
 export const DEFAULT_STAGES = [
@@ -42,6 +38,7 @@ export class App extends World {
     /* Execute the system immediately */
     const result = await plugin(this)
     if (result) this.onDispose.add(result)
+    return this
   }
 
   dispose() {
