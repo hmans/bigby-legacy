@@ -23,7 +23,5 @@ export const Plugin =
       .registerComponent(RigidBody)
       .registerComponent(Collider)
 
-    await RAPIER.init()
-
     app.addSystem(new PhysicsSystem(app, { gravity }), Stage.FixedUpdate)
   }
