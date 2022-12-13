@@ -1,4 +1,4 @@
-import { App, Entity, Object3D, System } from "@bigby/core"
+import { App, Entity, Object3D, Stage, System } from "@bigby/core"
 import { clamp } from "@bigby/math"
 import * as RAPIER from "@dimforge/rapier3d-compat"
 import { ColliderHandle, RigidBodyDesc } from "@dimforge/rapier3d-compat"
@@ -85,7 +85,7 @@ class PhysicsSystem extends System {
   /* Create new RAPIER colliders when entities appear */
   rigidbodyQuery = this.app.query([Object3D, RigidBody, Collider])
 
-  /* Wire up colliders to their rigidbodies */
+  /* Wire up c olliders to their rigidbodies */
   collidersToComponent = new Map<ColliderHandle, Collider>()
   collidersToEntity = new Map<ColliderHandle, Entity>()
 
@@ -102,7 +102,7 @@ class PhysicsSystem extends System {
     })
   }
 
-  async onStart() {
+  async start() {
     /* Create new RAPIER rigidbodies when entities appear */
     this.rigidbodyQuery.onEntityAdded.add((entity) => {
       let desc = entity.get(RigidBody)!.desc
@@ -148,7 +148,7 @@ class PhysicsSystem extends System {
     })
   }
 
-  onFixedUpdate(dt: number): void {
+  run(dt: number): void {
     /* Simulate physics world */
     this.world.timestep = clamp(dt, 0.01, 0.2)
     this.world.step(this.eventQueue)
@@ -200,5 +200,5 @@ export const Plugin =
       .registerComponent(RigidBody)
       .registerComponent(Collider)
 
-      .spawn([new PhysicsSystem(app, { gravity })])
+      .addSystem(new PhysicsSystem(app, { gravity }), Stage.FixedUpdate)
   }

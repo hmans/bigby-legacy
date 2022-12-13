@@ -1,4 +1,4 @@
-import { App, System } from "@bigby/core"
+import { App, Stage, System } from "@bigby/core"
 
 export class Input {
   move = {
@@ -18,7 +18,7 @@ export class InputSystem extends System {
 
   isPressed = (key: string) => (this.keys.has(key) ? 1 : 0)
 
-  onStart() {
+  start() {
     document.addEventListener("keydown", (e) => {
       this.keys.add(e.code)
     })
@@ -28,7 +28,7 @@ export class InputSystem extends System {
     })
   }
 
-  onEarlyUpdate() {
+  run() {
     for (const [_, input] of this.entities) {
       input.move.x = this.isPressed("KeyD") - this.isPressed("KeyA")
       input.move.y = this.isPressed("KeyW") - this.isPressed("KeyS")
@@ -40,4 +40,4 @@ export class InputSystem extends System {
 }
 
 export const InputPlugin = (app: App) =>
-  app.registerComponent(Input).addSystem(InputSystem)
+  app.registerComponent(Input).addSystem(InputSystem, Stage.EarlyUpdate)

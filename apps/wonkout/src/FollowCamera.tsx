@@ -1,4 +1,4 @@
-import { App, System } from "bigby"
+import { App, Stage, System } from "bigby"
 import { Matrix4, Object3D, Quaternion } from "three"
 
 const _mat4 = new Matrix4()
@@ -10,13 +10,16 @@ export class FollowCamera {
 
 export class CameraTarget {}
 
-class FollowCameraSystem extends System {
-  cameraQuery = this.app.query([Object3D, FollowCamera])
-  targetQuery = this.app.query([Object3D, CameraTarget])
+export function FollowCameraPlugin(app: App) {
+  app.registerComponent(CameraTarget)
+  app.registerComponent(FollowCamera)
 
-  onLateUpdate(dt: number): void {
-    const camera = this.cameraQuery.first
-    const target = this.targetQuery.first
+  const cameraQuery = app.query([Object3D, FollowCamera])
+  const targetQuery = app.query([Object3D, CameraTarget])
+
+  app.addSystem((dt: number) => {
+    const camera = cameraQuery.first
+    const target = targetQuery.first
 
     if (camera && target) {
       /* Nope, I don't really want to fetch these every frame */
@@ -33,14 +36,7 @@ class FollowCameraSystem extends System {
         followCamera.delta
       )
     }
-  }
-}
-
-export function FollowCameraPlugin(app: App) {
-  app.registerComponent(CameraTarget)
-  app.registerComponent(FollowCamera)
-
-  app.spawn([new FollowCameraSystem(app)])
+  }, Stage.LateUpdate)
 
   return app
 }

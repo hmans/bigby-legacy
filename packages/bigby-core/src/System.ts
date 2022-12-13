@@ -5,10 +5,12 @@ export type SystemCallback = (dt: number) => any
 
 export interface System {
   dispose?(): void
+  start?(): void
 }
 
 export abstract class System {
   constructor(public app: App) {}
+
   abstract run(dt: number): void
 }
 

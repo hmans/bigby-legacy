@@ -10,7 +10,7 @@ import {
 
 export type Plugin = (
   app: App
-) => void | DisposeCallback | Promise<void | DisposeCallback>
+) => any | DisposeCallback | Promise<any | DisposeCallback>
 
 export type DisposeCallback = (app: App) => void
 
@@ -45,6 +45,12 @@ export class App extends World {
     this.registerComponent(System)
     this.registerComponent(Stage.Stage)
 
+    /* Whenever a system is added, call its start method */
+    this.query([System]).onEntityAdded.add((entity) => {
+      const system = entity.get(System)!
+      if (system.start) system.start()
+    })
+
     /* Whenever a system is removed, call its dispose method */
     this.query([System]).onEntityRemoved.add((entity) => {
       const system = entity.get(System)!
@@ -60,13 +66,14 @@ export class App extends World {
    * @param plugin The plugin to use.
    * @returns A reference to this app, for chaining.
    */
-  async use(plugin: Plugin) {
+  use(plugin: Plugin) {
     if (this.registeredPlugins.has(plugin)) return this
     this.registeredPlugins.add(plugin)
 
     /* Execute the plugin immediately */
-    const result = await plugin(this)
-    if (result) this.onDispose.add(result)
+    Promise.resolve(plugin(this)).then((result) => {
+      if (result) this.onDispose.add(result)
+    })
 
     return this
   }

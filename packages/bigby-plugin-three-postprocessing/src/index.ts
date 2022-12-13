@@ -1,4 +1,4 @@
-import { App, System } from "@bigby/core"
+import { App, Stage, System } from "@bigby/core"
 import { ThreeSystem } from "@bigby/plugin-three"
 import {
   BlendFunction,
@@ -18,7 +18,7 @@ export class ThreePostProcessing extends System {
 
   cameraQuery = this.app.query([THREE.Camera])
 
-  onStart(): void {
+  start(): void {
     const three = this.app.getSingletonComponent(ThreeSystem)
 
     if (!three)
@@ -63,17 +63,15 @@ export class ThreePostProcessing extends System {
     })
   }
 
-  onRender(dt: number): void {
+  run(dt: number): void {
     this.composer?.render()
   }
 
   onResize(): void {
     this.composer?.setSize(window.innerWidth, window.innerHeight)
   }
-
-  onStop(): void {}
 }
 
 export function ThreePostprocessingPlugin(app: App) {
-  app.addSystem(ThreePostProcessing)
+  app.addSystem(ThreePostProcessing, Stage.Render)
 }
