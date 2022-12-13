@@ -32,19 +32,19 @@ const Wonkout = (app: App) => {
 
 app.use(Wonkout)
 
-function wait(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
-await wait(1000)
-
-app.dispose()
-
-// if (import.meta.hot) {
-//   import.meta.hot.accept((newModule) => {
-//     if (newModule) {
-//       console.log("HMR received")
-//       app.dispose()
-//     }
-//   })
+// function wait(ms: number) {
+//   return new Promise((resolve) => setTimeout(resolve, ms))
 // }
+
+// await wait(1000)
+
+// app.dispose()
+
+if (import.meta.hot) {
+  import.meta.hot.accept((newModule) => {
+    if (newModule) {
+      console.log("HMR received")
+      app.dispose()
+    }
+  })
+}
