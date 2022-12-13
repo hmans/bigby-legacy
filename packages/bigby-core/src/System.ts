@@ -7,7 +7,7 @@ export interface System {
 }
 
 export abstract class System {
-  constructor(protected app: App) {}
+  constructor(public app: App) {}
   abstract run(dt: number): void
 }
 
@@ -20,3 +20,10 @@ export class FunctionSystem extends System {
     this.callback(dt)
   }
 }
+
+export const system = (callback: SystemCallback) =>
+  class extends System {
+    run(dt: number) {
+      callback(dt)
+    }
+  }

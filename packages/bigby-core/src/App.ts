@@ -1,7 +1,12 @@
-import { World } from "@maxiplex/core"
+import {
+  Constructor,
+  Entity,
+  NonAbstractConstructor,
+  World
+} from "@maxiplex/core"
 import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import * as Stage from "./Stage"
-import { System } from "./System"
+import { FunctionSystem, System, SystemCallback } from "./System"
 
 export type Plugin = (
   app: App
@@ -41,13 +46,28 @@ export class App extends World {
     return this
   }
 
+  addSystem(system: System, stage?: NonAbstractConstructor<Stage.Stage>): Entity
+
+  addSystem(
+    callback: SystemCallback,
+    stage?: NonAbstractConstructor<Stage.Stage>
+  ): Entity
+
+  addSystem(
+    system: System | SystemCallback,
+    stage: NonAbstractConstructor<Stage.Stage> = Stage.Update
+  ) {
+    return this.spawn([
+      system instanceof System ? system : new FunctionSystem(this, system),
+      stage
+    ])
+  }
+
   dispose() {
     console.log("⛔ Stopping App")
 
     /* Call all dispose callbacks */
     this.onDispose.emit(this)
     this.onDispose.clear()
-
-    return this
   }
 }

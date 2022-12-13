@@ -4,6 +4,7 @@ import {
   FunctionSystem,
   make,
   Stage,
+  system,
   System,
 } from "bigby"
 import {
@@ -24,15 +25,10 @@ function wait(ms: number) {
 const app = new App()
 app.use(AnimationFrameTicker)
 
-app.use(() => {
+app.use(async () => {
   console.log("Starting up!")
 
-  app.spawn([
-    new FunctionSystem(app, (dt) => {
-      console.log("tick")
-    }),
-    Stage.Update,
-  ])
+  app.addSystem((dt) => console.log("dt", dt))
 
   return () => {
     console.log("shutting down!")
