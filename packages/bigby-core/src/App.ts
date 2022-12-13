@@ -6,7 +6,12 @@ import {
 } from "@maxiplex/core"
 import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import * as Stage from "./Stage"
-import { FunctionSystem, System, SystemCallback } from "./System"
+import {
+  FunctionSystem,
+  isSystemConstructor,
+  System,
+  SystemCallback
+} from "./System"
 
 export type Plugin = (
   app: App
@@ -90,10 +95,9 @@ export class App extends World {
     let system: System
 
     if (typeof a === "function") {
-      try {
-        // @ts-ignore
+      if (isSystemConstructor(a)) {
         system = new a(this)
-      } catch (e) {
+      } else {
         system = new FunctionSystem(this, a as SystemCallback)
       }
     } else {

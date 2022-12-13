@@ -1,3 +1,4 @@
+import { NonAbstractConstructor } from "@maxiplex/core"
 import { App } from "./App"
 
 export type SystemCallback = (dt: number) => any
@@ -27,3 +28,9 @@ export const system = (callback: SystemCallback) =>
       callback(dt)
     }
   }
+
+export function isSystemConstructor(
+  fun: Function
+): fun is NonAbstractConstructor<System> {
+  return fun.prototype instanceof System
+}
