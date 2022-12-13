@@ -9,19 +9,19 @@ describe(App, () => {
       expect(fn).toHaveBeenCalledWith(app)
     })
 
-    it("returns itself", () => {
+    it("returns itself", async () => {
       const app = new App()
       const fn = jest.fn()
-      const result = app.use(fn)
+      const result = await app.use(fn)
       expect(result).toBe(app)
     })
 
     describe("if the plugin was already used previously", () => {
-      it("does not execute the given function", () => {
+      it("does not execute the given function", async () => {
         const app = new App()
         const fn = jest.fn()
-        app.use(fn)
-        app.use(fn)
+        await app.use(fn)
+        await app.use(fn)
         expect(fn).toHaveBeenCalledTimes(1)
       })
     })

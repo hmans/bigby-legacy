@@ -1,4 +1,4 @@
-import { Query, World } from "@maxiplex/core"
+import { World } from "@maxiplex/core"
 import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import * as Stage from "./Stage"
 import { System } from "./System"
@@ -20,8 +20,6 @@ export const DEFAULT_STAGES = [
 export class App extends World {
   protected registeredPlugins = new Set<Plugin>()
 
-  protected systems: Query<[System]>
-
   protected onDispose = new EventDispatcher<App>()
 
   constructor() {
@@ -30,14 +28,16 @@ export class App extends World {
 
     this.registerComponent(System)
     this.registerComponent(Stage.Stage)
-
-    this.systems = this.query([System])
   }
 
   async use(plugin: Plugin) {
+    if (this.registeredPlugins.has(plugin)) return this
+    this.registeredPlugins.add(plugin)
+
     /* Execute the system immediately */
     const result = await plugin(this)
     if (result) this.onDispose.add(result)
+
     return this
   }
 
@@ -47,11 +47,6 @@ export class App extends World {
     /* Call all dispose callbacks */
     this.onDispose.emit(this)
     this.onDispose.clear()
-
-    /* Remove all systems */
-    for (const [entity] of this.systems) {
-      this.destroy(entity)
-    }
 
     return this
   }
