@@ -1,4 +1,4 @@
-import { AbstractConstructor, Entity, Constructor, World } from "@maxiplex/core"
+import { AbstractConstructor, Constructor, Entity, World } from "@maxiplex/core"
 import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import * as Stage from "./Stage"
 import {
@@ -13,14 +13,6 @@ export type Plugin = (
 ) => any | DisposeCallback | Promise<any | DisposeCallback>
 
 export type DisposeCallback = (app: App) => void
-
-export const DEFAULT_STAGES = [
-  Stage.EarlyUpdate,
-  Stage.FixedUpdate,
-  Stage.Update,
-  Stage.LateUpdate,
-  Stage.Render
-] as const
 
 export class App extends World {
   /**

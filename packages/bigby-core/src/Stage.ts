@@ -6,3 +6,11 @@ export class FixedUpdate extends Stage {}
 export class Update extends Stage {}
 export class LateUpdate extends Stage {}
 export class Render extends Stage {}
+
+export const DEFAULT_STAGES = [
+  EarlyUpdate,
+  FixedUpdate,
+  Update,
+  LateUpdate,
+  Render
+] as const

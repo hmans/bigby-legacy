@@ -1,4 +1,5 @@
-import { App, DEFAULT_STAGES, Stage, System } from "@bigby/core"
+import { App, System } from "@bigby/core"
+import { DEFAULT_STAGES } from "@bigby/core/src/Stage"
 import { clamp } from "@bigby/math"
 
 export function AnimationFrameTicker(app: App) {
