@@ -23,8 +23,19 @@ export const DEFAULT_STAGES = [
 ] as const
 
 export class App extends World {
+  /**
+   * A list of all the plugins that have been registered. We use this to make
+   * sure the user doesn't accidentally register the same plugin twice. Plugins
+   * are checked through reference equality, so if the user passes an anonymous
+   * function, all bets are off.
+   */
   protected registeredPlugins = new Set<Plugin>()
 
+  /**
+   * An event that will be fired when this app is disposed. We use this to
+   * allow plugins to clean up after themselves, by registering their returned
+   * dispose callbacks with this event.
+   */
   protected onDispose = new EventDispatcher<App>()
 
   constructor() {
@@ -41,11 +52,19 @@ export class App extends World {
     })
   }
 
+  /**
+   * Applies a plugin to the app. Plugins are simply functions that receive a reference
+   * to the app as their only argument. They can use this reference to add systems, components,
+   * and other plugins.
+   *
+   * @param plugin The plugin to use.
+   * @returns A reference to this app, for chaining.
+   */
   async use(plugin: Plugin) {
     if (this.registeredPlugins.has(plugin)) return this
     this.registeredPlugins.add(plugin)
 
-    /* Execute the system immediately */
+    /* Execute the plugin immediately */
     const result = await plugin(this)
     if (result) this.onDispose.add(result)
 
@@ -87,6 +106,11 @@ export class App extends World {
     ])
   }
 
+  /**
+   * Disposes of this app. This will remove all systems, and call their dispose
+   * methods if they have one. It will also fire the onDispose event, invoking
+   * all registered plugins' dispose callbacks.
+   */
   dispose() {
     console.log("⛔ Stopping App")
 
