@@ -1,9 +1,4 @@
-import {
-  Constructor,
-  Entity,
-  NonAbstractConstructor,
-  World
-} from "@maxiplex/core"
+import { AbstractConstructor, Entity, Constructor, World } from "@maxiplex/core"
 import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import * as Stage from "./Stage"
 import {
@@ -76,21 +71,18 @@ export class App extends World {
     return this
   }
 
-  addSystem(system: System, stage?: NonAbstractConstructor<Stage.Stage>): Entity
+  addSystem(system: System, stage?: Constructor<Stage.Stage>): Entity
+
+  addSystem(callback: SystemCallback, stage?: Constructor<Stage.Stage>): Entity
 
   addSystem(
-    callback: SystemCallback,
-    stage?: NonAbstractConstructor<Stage.Stage>
+    constructor: AbstractConstructor<System>,
+    stage?: Constructor<Stage.Stage>
   ): Entity
 
   addSystem(
-    constructor: Constructor<System>,
-    stage?: NonAbstractConstructor<Stage.Stage>
-  ): Entity
-
-  addSystem(
-    a: System | SystemCallback | Constructor<System>,
-    stage: NonAbstractConstructor<Stage.Stage> = Stage.Update
+    a: System | SystemCallback | AbstractConstructor<System>,
+    stage: Constructor<Stage.Stage> = Stage.Update
   ) {
     let system: System
 

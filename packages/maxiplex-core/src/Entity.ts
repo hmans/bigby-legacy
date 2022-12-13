@@ -1,5 +1,5 @@
 import type { World } from "./World"
-import type { Component, Constructor } from "./types"
+import type { Component, AbstractConstructor } from "./types"
 import { processComponent } from "./helpers"
 
 export class Entity {
@@ -7,17 +7,17 @@ export class Entity {
 
   constructor(public world: World) {}
 
-  get<C extends Component>(type: Constructor<C>): C | undefined {
+  get<C extends Component>(type: AbstractConstructor<C>): C | undefined {
     return this.components.find((c) => c instanceof type)
   }
 
-  add(component: Component | Constructor<Component>) {
+  add(component: Component | AbstractConstructor<Component>) {
     return this.world.addComponent(this, processComponent(component))
   }
 
-  remove(type: Constructor<any>): boolean
+  remove(type: AbstractConstructor<any>): boolean
   remove(component: Component): boolean
-  remove(c: Constructor<any> | Component) {
+  remove(c: AbstractConstructor<any> | Component) {
     return this.world.removeComponent(this, c)
   }
 }

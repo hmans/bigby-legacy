@@ -2,7 +2,7 @@ import { EventDispatcher } from "@maxiplex/event-dispatcher"
 import { Entity } from "./Entity"
 import { processComponent } from "./helpers"
 import { Query } from "./Query"
-import { Component, ComponentQuery, Constructor } from "./types"
+import { Component, ComponentQuery, AbstractConstructor } from "./types"
 
 export type BaseEntity = {}
 
@@ -18,7 +18,7 @@ export class World {
 
   protected queries = new Map<string, Query<any>>()
 
-  spawn(components: (Component | Constructor<Component>)[] = []) {
+  spawn(components: (Component | AbstractConstructor<Component>)[] = []) {
     /* Instantiate components where only the constructor was given */
     const processed = components.map(processComponent)
 
@@ -49,7 +49,7 @@ export class World {
     return entity
   }
 
-  registerComponent(ctor: Constructor<Component>) {
+  registerComponent(ctor: AbstractConstructor<Component>) {
     this.registeredComponents.add(ctor)
     return this
   }
@@ -73,7 +73,7 @@ export class World {
 
   removeComponent(
     entity: Entity,
-    component: Component | Constructor<Component>
+    component: Component | AbstractConstructor<Component>
   ) {
     /* Remove the component from the entity */
     const index = entity.components.findIndex(
@@ -90,18 +90,18 @@ export class World {
     return true
   }
 
-  getSingletonComponent<T extends Component>(ctor: Constructor<T>) {
+  getSingletonComponent<T extends Component>(ctor: AbstractConstructor<T>) {
     this.assertRegisteredComponent(ctor)
     /* TODO: optimize this! */
     return this.query([ctor]).first?.get(ctor)
   }
 
-  requireComponent(...query: Constructor<Component>[]) {
+  requireComponent(...query: AbstractConstructor<Component>[]) {
     query.forEach((ctor) => this.assertRegisteredComponent(ctor))
     return this
   }
 
-  private assertRegisteredComponent(ctor: Constructor<Component>) {
+  private assertRegisteredComponent(ctor: AbstractConstructor<Component>) {
     /* Check our list of component constructors */
     if (this.registeredComponents.has(ctor)) return
 

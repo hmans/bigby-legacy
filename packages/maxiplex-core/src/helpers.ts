@@ -1,5 +1,5 @@
 import { Color, ColorRepresentation, Vector3 } from "three"
-import { Component, Constructor } from "./types"
+import { Component, AbstractConstructor } from "./types"
 
 export type ApplyProps<T> = Partial<{
   [K in keyof T]: T[K] extends Color
@@ -46,14 +46,14 @@ export const setup = <T extends object>(object: T, fun: (object: T) => any) => {
   return object
 }
 
-export type MakeProps<C extends Constructor<any>> = ApplyProps<
+export type MakeProps<C extends AbstractConstructor<any>> = ApplyProps<
   InstanceType<C>
 > & {
   args?: ConstructorParameters<C>
   setup?: (object: InstanceType<C>) => any
 }
 
-export const make = <C extends Constructor<any>>(
+export const make = <C extends AbstractConstructor<any>>(
   ctor: C,
   { args, setup, ...props }: MakeProps<C> = {},
   fun?: (object: InstanceType<C>) => void
@@ -69,7 +69,7 @@ export const make = <C extends Constructor<any>>(
 export const c = make
 
 export const processComponent = <C extends Component>(
-  c: C | Constructor<C>
+  c: C | AbstractConstructor<C>
 ): C => {
   // @ts-ignore
   return typeof c === "function" ? new c() : c
