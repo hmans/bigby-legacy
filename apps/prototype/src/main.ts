@@ -9,17 +9,26 @@ import {
 import { ThreePlugin } from "../../../packages/bigby-plugin-three/src"
 import "./style.css"
 
-class GreetSystem extends System {
-  run() {
-    console.log("Hello World")
-  }
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 /* Set up the application */
 const app = new App()
-app.addSystem(new GreetSystem(), Stage.Start)
+app.use(AnimationFrameTicker)
 
-// app.use(AnimationFrameTicker)
+app.use(() => {
+  console.log("Starting up!")
+
+  return () => {
+    console.log("shutting down!")
+  }
+})
+
+await wait(1000)
+
+app.dispose()
+
 // app.use(ThreePlugin)
 
 // /* Add a silly little system, just for fun */
