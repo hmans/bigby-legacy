@@ -1,12 +1,4 @@
-import {
-  AnimationFrameTicker,
-  App,
-  FunctionSystem,
-  make,
-  Stage,
-  system,
-  System,
-} from "bigby"
+import { AnimationFrameTicker, App, make, System } from "bigby"
 import {
   DirectionalLight,
   IcosahedronGeometry,
@@ -24,6 +16,7 @@ function wait(ms: number) {
 /* Set up the application */
 const app = new App()
 app.use(AnimationFrameTicker)
+app.use(ThreePlugin)
 
 app.use(async () => {
   console.log("Starting up!")
@@ -35,51 +28,39 @@ app.use(async () => {
   }
 })
 
+/* Add a silly little system, just for fun */
+class RotatesAllMeshesSystem extends System {
+  speed = 1
+
+  protected meshes = this.app.query([Mesh])
+
+  run(dt: number) {
+    for (const [_, mesh] of this.meshes) {
+      mesh.rotation.x += dt * this.speed
+      mesh.rotation.y += dt * this.speed
+    }
+  }
+}
+
+app.addSystem(RotatesAllMeshesSystem)
+
+/* Set up the scene */
+app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
+
+app.spawn([
+  make(PerspectiveCamera, {
+    args: [75, window.innerWidth / window.innerHeight, 0.1, 1000],
+    position: [0, 0, 5],
+  }),
+])
+
+app.spawn([
+  make(Mesh, {
+    geometry: make(IcosahedronGeometry),
+    material: make(MeshStandardMaterial),
+  }),
+])
+
 await wait(1000)
 
 app.dispose()
-
-// app.use(ThreePlugin)
-
-// /* Add a silly little system, just for fun */
-// class RotatesAllMeshesSystem extends System {
-//   speed = 1
-
-//   protected meshes = this.app.query([Mesh])
-
-//   onUpdate(dt: number) {
-//     for (const [_, mesh] of this.meshes) {
-//       mesh.rotation.x += dt * this.speed
-//       mesh.rotation.y += dt * this.speed
-//     }
-//   }
-// }
-
-// app.addSystem(RotatesAllMeshesSystem, { speed: 1 })
-
-// /* Set up the scene */
-// app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
-
-// app.spawn([
-//   make(PerspectiveCamera, {
-//     args: [75, window.innerWidth / window.innerHeight, 0.1, 1000],
-//     position: [0, 0, 5],
-//   }),
-// ])
-
-// app.spawn([
-//   make(Mesh, {
-//     geometry: make(IcosahedronGeometry),
-//     material: make(MeshStandardMaterial),
-//   }),
-// ])
-
-// app.start()
-
-// function wait(ms: number) {
-//   return new Promise((resolve) => setTimeout(resolve, ms))
-// }
-
-// // await wait(1000)
-
-// // app.stop()

@@ -1,4 +1,4 @@
-import { App, System } from "@bigby/core"
+import { App, Stage, System } from "@bigby/core"
 import * as THREE from "three"
 
 export * from "./helpers"
@@ -40,24 +40,7 @@ export class ThreeSystem extends System {
     this.renderer.outputEncoding = THREE.sRGBEncoding
 
     this.scene = new THREE.Scene()
-  }
 
-  onResize() {
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
-
-    if (this.camera instanceof THREE.PerspectiveCamera) {
-      this.camera.aspect = window.innerWidth / window.innerHeight
-      this.camera.updateProjectionMatrix()
-    } else if (this.camera instanceof THREE.OrthographicCamera) {
-      this.camera.left = -window.innerWidth / 2
-      this.camera.right = window.innerWidth / 2
-      this.camera.top = window.innerHeight / 2
-      this.camera.bottom = -window.innerHeight / 2
-      this.camera.updateProjectionMatrix()
-    }
-  }
-
-  onStart(): void {
     /* Mount our renderer */
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     document.body.appendChild(this.renderer.domElement)
@@ -110,7 +93,22 @@ export class ThreeSystem extends System {
     })
   }
 
-  onStop(): void {
+  onResize() {
+    this.renderer.setSize(window.innerWidth, window.innerHeight)
+
+    if (this.camera instanceof THREE.PerspectiveCamera) {
+      this.camera.aspect = window.innerWidth / window.innerHeight
+      this.camera.updateProjectionMatrix()
+    } else if (this.camera instanceof THREE.OrthographicCamera) {
+      this.camera.left = -window.innerWidth / 2
+      this.camera.right = window.innerWidth / 2
+      this.camera.top = window.innerHeight / 2
+      this.camera.bottom = -window.innerHeight / 2
+      this.camera.updateProjectionMatrix()
+    }
+  }
+
+  dispose() {
     console.debug("Disposing renderer")
     window.removeEventListener("resize", this.onResize)
 
@@ -119,7 +117,7 @@ export class ThreeSystem extends System {
     this.renderer.forceContextLoss()
   }
 
-  onRender(): void {
+  run(): void {
     if (!this.render) return
     if (!this.camera) return
 
@@ -132,7 +130,5 @@ export const ThreePlugin = (app: App) => {
   app.registerComponent(THREE.Camera)
   app.registerComponent(Parent3D)
 
-  app.addSystem(ThreeSystem)
-
-  return app
+  app.addSystem(new ThreeSystem(app), Stage.Render)
 }

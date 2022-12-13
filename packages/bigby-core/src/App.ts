@@ -33,6 +33,12 @@ export class App extends World {
 
     this.registerComponent(System)
     this.registerComponent(Stage.Stage)
+
+    /* Whenever a system is removed, call its dispose method */
+    this.query([System]).onEntityRemoved.add((entity) => {
+      const system = entity.get(System)!
+      if (system.dispose) system.dispose()
+    })
   }
 
   async use(plugin: Plugin) {
@@ -54,9 +60,27 @@ export class App extends World {
   ): Entity
 
   addSystem(
-    system: System | SystemCallback,
+    constructor: Constructor<System>,
+    stage?: NonAbstractConstructor<Stage.Stage>
+  ): Entity
+
+  addSystem(
+    a: System | SystemCallback | Constructor<System>,
     stage: NonAbstractConstructor<Stage.Stage> = Stage.Update
   ) {
+    let system: System
+
+    if (typeof a === "function") {
+      try {
+        // @ts-ignore
+        system = new a(this)
+      } catch (e) {
+        system = new FunctionSystem(this, a as SystemCallback)
+      }
+    } else {
+      system = a
+    }
+
     return this.spawn([
       system instanceof System ? system : new FunctionSystem(this, system),
       stage
@@ -69,5 +93,10 @@ export class App extends World {
     /* Call all dispose callbacks */
     this.onDispose.emit(this)
     this.onDispose.clear()
+
+    /* Remove all systems */
+    for (const [entity] of this.query([System])) {
+      this.destroy(entity)
+    }
   }
 }
