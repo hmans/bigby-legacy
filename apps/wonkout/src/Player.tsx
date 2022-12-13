@@ -1,7 +1,7 @@
 import { Input } from "@bigby/plugin-input"
 import * as Physics from "@bigby/plugin-physics3d"
 import { loadGLTF } from "@bigby/plugin-three"
-import { App, apply, make, System } from "bigby"
+import { App, apply, make, Stage, System } from "bigby"
 
 export class PlayerComponent {
   thrust = 50
@@ -11,7 +11,7 @@ export class PlayerComponent {
 class PlayerSystem extends System {
   protected playerQuery = this.app.query([PlayerComponent])
 
-  async onStart() {
+  async start() {
     const gltf = await loadGLTF("/models/wonkout_paddle.gltf")
 
     /* Player */
@@ -40,7 +40,7 @@ class PlayerSystem extends System {
     ])
   }
 
-  onUpdate(dt: number) {
+  run(dt: number) {
     const player = this.playerQuery.first
 
     if (player) {
@@ -63,5 +63,5 @@ class PlayerSystem extends System {
 
 export const Player = (app: App) => {
   app.registerComponent(PlayerComponent)
-  app.addSystem(PlayerSystem)
+  app.addSystem(PlayerSystem, Stage.Update)
 }

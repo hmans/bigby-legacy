@@ -20,21 +20,14 @@ const app = new App()
   .use(AnimationFrameTicker)
   .use(ThreePlugin)
   .use(ThreePostprocessingPlugin)
-  // .use(InputPlugin)
+  .use(InputPlugin)
   .use(Physics.Plugin({ gravity: [0, 0, 0] }))
-  // .use(ConstantVelocityPlugin)
+  .use(ConstantVelocityPlugin)
   .use(FollowCameraPlugin)
 
 /* Plugins are just functions. And they can load other plugins! */
 const Wonkout = (app: App) =>
-  app
-    .use(Bricks)
-
-    .use(Floor)
-    // .use(Walls)
-    // .use(Player)
-    .use(Scene)
-// .use(Ball)
+  app.use(Bricks).use(Floor).use(Walls).use(Player).use(Scene).use(Ball)
 
 app.use(Wonkout)
 
