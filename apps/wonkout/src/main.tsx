@@ -26,16 +26,25 @@ const app = new App()
   .use(FollowCameraPlugin)
 
 /* Plugins are just functions. And they can load other plugins! */
-const Wonkout = (app: App) =>
+const Wonkout = (app: App) => {
   app.use(Bricks).use(Floor).use(Walls).use(Player).use(Scene).use(Ball)
+}
 
 app.use(Wonkout)
+
+function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+await wait(1000)
+
+app.dispose()
 
 // if (import.meta.hot) {
 //   import.meta.hot.accept((newModule) => {
 //     if (newModule) {
 //       console.log("HMR received")
-//       app.stop()
+//       app.dispose()
 //     }
 //   })
 // }

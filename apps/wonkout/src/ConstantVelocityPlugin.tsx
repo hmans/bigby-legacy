@@ -24,8 +24,9 @@ export class ConstantVelocitySystem extends System {
   }
 }
 
-export const ConstantVelocityPlugin = (app: App) =>
+export function ConstantVelocityPlugin(app: App) {
   app
     .requireComponent(RigidBody)
     .registerComponent(ConstantVelocity)
     .addSystem(ConstantVelocitySystem, Stage.FixedUpdate)
+}

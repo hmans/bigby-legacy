@@ -37,6 +37,4 @@ export function FollowCameraPlugin(app: App) {
       )
     }
   }, Stage.LateUpdate)
-
-  return app
 }

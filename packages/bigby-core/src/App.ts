@@ -10,7 +10,7 @@ import {
 
 export type Plugin = (
   app: App
-) => any | DisposeCallback | Promise<any | DisposeCallback>
+) => void | DisposeCallback | Promise<void | DisposeCallback>
 
 export type DisposeCallback = (app: App) => void
 
@@ -64,7 +64,7 @@ export class App extends World {
 
     /* Execute the plugin immediately */
     Promise.resolve(plugin(this)).then((result) => {
-      if (result) this.onDispose.add(result)
+      if (typeof result === "function") this.onDispose.add(result)
     })
 
     return this

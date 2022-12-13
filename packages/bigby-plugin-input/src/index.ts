@@ -39,5 +39,7 @@ export class InputSystem extends System {
   }
 }
 
-export const InputPlugin = (app: App) =>
-  app.registerComponent(Input).addSystem(InputSystem, Stage.EarlyUpdate)
+export function InputPlugin(app: App) {
+  app.registerComponent(Input)
+  app.addSystem(InputSystem, Stage.EarlyUpdate)
+}
