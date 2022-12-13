@@ -1,5 +1,11 @@
-import { NonAbstractConstructor, Query, World } from "@maxiplex/core"
-import { System } from "./System"
+import {
+  Constructor,
+  NonAbstractConstructor,
+  Query,
+  World
+} from "@maxiplex/core"
+import * as Stage from "./Stage"
+import { System, SystemCallback } from "./System"
 
 export type Plugin = (app: App) => App | void
 
@@ -25,7 +31,15 @@ export class App extends World {
     console.log("🐝 Bigby Initializing")
 
     this.registerComponent(System)
+    this.registerComponent(Stage.Stage)
+
     this.systems = this.query([System])
+
+    /* When a new system arrives in the Start stage, execute it once */
+    const startSystems = this.query([System, Stage.Start])
+    startSystems.onEntityAdded.add((entity) => {
+      entity.get(System)!.run()
+    })
   }
 
   use(plugin: Plugin) {
@@ -38,45 +52,17 @@ export class App extends World {
     return result || this
   }
 
-  addSystem<S extends System>(
-    ctor: NonAbstractConstructor<S>,
-    props: Partial<S> = {}
+  addSystem(
+    system: System | NonAbstractConstructor<System>,
+    stage: NonAbstractConstructor<Stage.Stage> = Stage.Update
   ) {
-    const system = new ctor(this)
-    Object.assign(system, props)
-    this.spawn([system])
-    return this
-  }
-
-  onResize = () => {
-    for (const [_, system] of this.systems) {
-      system.onResize?.()
-    }
-  }
-
-  async start() {
-    console.log("✅ Starting App")
-
-    window.addEventListener("resize", this.onResize)
-
-    /* Start all systems */
-    /* We need to reverse here because it's important that we need to initialize systems in the order that they were added */
-    for (const [_, system] of [...this.systems].reverse()) {
-      system.onStart?.()
-    }
+    this.spawn([system, stage])
 
     return this
   }
 
-  stop() {
+  dispose() {
     console.log("⛔ Stopping App")
-
-    window.removeEventListener("resize", this.onResize)
-
-    /* Stop all systems */
-    for (const [_, system] of this.systems) {
-      system.onStop?.()
-    }
 
     return this
   }

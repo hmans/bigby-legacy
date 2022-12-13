@@ -1,4 +1,4 @@
-import { AnimationFrameTicker, App, make, System } from "bigby"
+import { AnimationFrameTicker, App, make, Stage, System } from "bigby"
 import {
   DirectionalLight,
   IcosahedronGeometry,
@@ -9,66 +9,58 @@ import {
 import { ThreePlugin } from "../../../packages/bigby-plugin-three/src"
 import "./style.css"
 
+class GreetSystem extends System {
+  run() {
+    console.log("Hello World")
+  }
+}
+
 /* Set up the application */
 const app = new App()
-app.use(AnimationFrameTicker)
-app.use(ThreePlugin)
+app.addSystem(new GreetSystem(), Stage.Start)
 
-class FooSystem extends System {
-  onStart(): void {
-    console.log("FooSystem started")
-  }
+// app.use(AnimationFrameTicker)
+// app.use(ThreePlugin)
 
-  onStop(): void {
-    console.log("FooSystem stopped")
-  }
+// /* Add a silly little system, just for fun */
+// class RotatesAllMeshesSystem extends System {
+//   speed = 1
 
-  onUpdate(dt: number) {
-    console.log("FooSystem update")
-  }
-}
+//   protected meshes = this.app.query([Mesh])
 
-app.addSystem(FooSystem)
+//   onUpdate(dt: number) {
+//     for (const [_, mesh] of this.meshes) {
+//       mesh.rotation.x += dt * this.speed
+//       mesh.rotation.y += dt * this.speed
+//     }
+//   }
+// }
 
-/* Add a silly little system, just for fun */
-class RotatesAllMeshesSystem extends System {
-  speed = 1
+// app.addSystem(RotatesAllMeshesSystem, { speed: 1 })
 
-  protected meshes = this.app.query([Mesh])
+// /* Set up the scene */
+// app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
 
-  onUpdate(dt: number) {
-    for (const [_, mesh] of this.meshes) {
-      mesh.rotation.x += dt * this.speed
-      mesh.rotation.y += dt * this.speed
-    }
-  }
-}
+// app.spawn([
+//   make(PerspectiveCamera, {
+//     args: [75, window.innerWidth / window.innerHeight, 0.1, 1000],
+//     position: [0, 0, 5],
+//   }),
+// ])
 
-app.addSystem(RotatesAllMeshesSystem, { speed: 1 })
+// app.spawn([
+//   make(Mesh, {
+//     geometry: make(IcosahedronGeometry),
+//     material: make(MeshStandardMaterial),
+//   }),
+// ])
 
-/* Set up the scene */
-app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
+// app.start()
 
-app.spawn([
-  make(PerspectiveCamera, {
-    args: [75, window.innerWidth / window.innerHeight, 0.1, 1000],
-    position: [0, 0, 5],
-  }),
-])
+// function wait(ms: number) {
+//   return new Promise((resolve) => setTimeout(resolve, ms))
+// }
 
-app.spawn([
-  make(Mesh, {
-    geometry: make(IcosahedronGeometry),
-    material: make(MeshStandardMaterial),
-  }),
-])
+// // await wait(1000)
 
-app.start()
-
-function wait(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
-// await wait(1000)
-
-// app.stop()
+// // app.stop()
