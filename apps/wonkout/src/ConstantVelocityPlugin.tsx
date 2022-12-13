@@ -8,7 +8,7 @@ export class ConstantVelocity {
 export class ConstantVelocitySystem extends System {
   protected query = this.app.query([ConstantVelocity, RigidBody])
 
-  run(dt: number): void {
+  run(): void {
     for (const [_, v, rigidbody] of this.query) {
       const rb = rigidbody.raw!
       const vel = rb.linvel()
@@ -28,4 +28,4 @@ export const ConstantVelocityPlugin = (app: App) =>
   app
     .requireComponent(RigidBody)
     .registerComponent(ConstantVelocity)
-    .addSystem(ConstantVelocitySystem, Stage.EarlyUpdate)
+    .addSystem(ConstantVelocitySystem, Stage.FixedUpdate)
