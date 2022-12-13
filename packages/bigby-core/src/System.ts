@@ -8,8 +8,15 @@ export interface System {
 
 export abstract class System {
   constructor(protected app: App) {}
+  abstract run(dt: number): void
 }
 
-export abstract class StartupSystem extends System {
-  abstract run(): void
+export class FunctionSystem extends System {
+  constructor(app: App, protected callback: SystemCallback) {
+    super(app)
+  }
+
+  run(dt: number) {
+    this.callback(dt)
+  }
 }

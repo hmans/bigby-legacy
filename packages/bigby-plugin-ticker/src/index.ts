@@ -20,8 +20,10 @@ export function AnimationFrameTicker(app: App) {
     lastTime = time
 
     /* Invoke app update callbacks */
-    for (const [_, system] of systemQueries) {
-      // system.run(dt)
+    for (const query of systemQueries) {
+      for (const [_, system] of query) {
+        system.run(dt)
+      }
     }
   }
 

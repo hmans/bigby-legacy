@@ -1,4 +1,11 @@
-import { AnimationFrameTicker, App, make, Stage, System } from "bigby"
+import {
+  AnimationFrameTicker,
+  App,
+  FunctionSystem,
+  make,
+  Stage,
+  System,
+} from "bigby"
 import {
   DirectionalLight,
   IcosahedronGeometry,
@@ -19,6 +26,13 @@ app.use(AnimationFrameTicker)
 
 app.use(() => {
   console.log("Starting up!")
+
+  app.spawn([
+    new FunctionSystem(app, (dt) => {
+      console.log("tick")
+    }),
+    Stage.Update,
+  ])
 
   return () => {
     console.log("shutting down!")
