@@ -21,8 +21,8 @@ app.use(ThreePlugin)
 app.use(async () => {
   console.log("Starting up!")
 
-  await wait(2000)
-  app.addSystem((dt) => console.log("dt", dt))
+  // await wait(2000)
+  // app.addSystem((dt) => console.log("dt", dt))
 
   return () => {
     console.log("shutting down!")
@@ -46,7 +46,17 @@ class LoadingSystem extends System {
   }
 }
 
-app.addSystem(LoadingSystem)
+const loadingSystem = new LoadingSystem(app)
+
+app.addSystem(loadingSystem)
+
+function systemsReady(systems: System[]) {
+  return Promise.all(systems.map((system) => system.promise))
+}
+
+await systemsReady([loadingSystem])
+
+console.log("moving on")
 
 /* Add a silly little system, just for fun */
 class RotatesAllMeshesSystem extends System {
