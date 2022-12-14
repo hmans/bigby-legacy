@@ -41,20 +41,23 @@ export class App extends World {
     this.query([System]).onEntityAdded.add((entity) => {
       const system = entity.get(System)!
 
-      if (system.start) {
-        const result = system.start()
-
-        if (result instanceof Promise) {
-          system.promise = result
-          result.then(() => {
-            system.state = "running"
-          })
-        } else {
-          system.state = "running"
-        }
-      } else {
+      if (!system.start) {
         system.state = "running"
+        return
       }
+
+      system.state = "starting"
+      const result = system.start()
+
+      if (!(result instanceof Promise)) {
+        system.state = "running"
+        return
+      }
+
+      system.promise = result
+      system.promise.then(() => {
+        system.state = "running"
+      })
     })
 
     /* Whenever a system is removed, call its dispose method */

@@ -21,7 +21,8 @@ app.use(ThreePlugin)
 app.use(async () => {
   console.log("Starting up!")
 
-  // app.addSystem((dt) => console.log("dt", dt))
+  await wait(2000)
+  app.addSystem((dt) => console.log("dt", dt))
 
   return () => {
     console.log("shutting down!")
