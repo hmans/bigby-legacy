@@ -36,7 +36,12 @@ class LoadingSystem extends System {
   }
 
   run() {
-    console.log("run")
+    /* This will only run when the system is ready */
+    console.log("running")
+  }
+
+  dispose() {
+    console.log("disposing")
   }
 }
 

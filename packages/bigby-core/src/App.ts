@@ -61,6 +61,7 @@ export class App extends World {
     this.query([System]).onEntityRemoved.add((entity) => {
       const system = entity.get(System)!
       if (system.dispose) system.dispose()
+      system.ready = false
     })
   }
 
