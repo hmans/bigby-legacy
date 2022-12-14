@@ -40,7 +40,21 @@ export class App extends World {
     /* Whenever a system is added, call its start method */
     this.query([System]).onEntityAdded.add((entity) => {
       const system = entity.get(System)!
-      if (system.start) system.start()
+
+      if (system.start) {
+        const result = system.start()
+
+        if (result instanceof Promise) {
+          system.promise = result
+          result.then(() => {
+            system.ready = true
+          })
+        } else {
+          system.ready = true
+        }
+      } else {
+        system.ready = true
+      }
     })
 
     /* Whenever a system is removed, call its dispose method */

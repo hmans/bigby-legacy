@@ -23,7 +23,7 @@ export function AnimationFrameTicker(app: App) {
     /* Invoke app update callbacks */
     for (const query of systemQueries) {
       for (const [_, system] of query) {
-        system.run(dt)
+        if (system.ready) system.run(dt)
       }
     }
   }

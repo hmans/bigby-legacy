@@ -29,21 +29,13 @@ app.use(async () => {
 })
 
 class LoadingSystem extends System {
-  ready = false
-  promise: Promise<any> | null = null
-
   async start() {
     console.log("Loading a thing")
-    this.promise = wait(1000)
-    await this.promise
-
-    this.ready = true
+    await wait(1000)
     console.log("Done loading")
   }
 
   run() {
-    if (!this.ready) return
-
     console.log("run")
   }
 }
