@@ -6,6 +6,7 @@ export type SystemCallback = (dt: number) => any
 export interface System {
   dispose?(): void
   start?(): void | Promise<void>
+  run?(dt: number): void
 }
 
 export abstract class System {
@@ -13,8 +14,6 @@ export abstract class System {
   promise?: Promise<any>
 
   constructor(public app: App) {}
-
-  abstract run(dt: number): void
 }
 
 export class FunctionSystem extends System {
