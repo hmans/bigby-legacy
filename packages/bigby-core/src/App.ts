@@ -47,13 +47,13 @@ export class App extends World {
         if (result instanceof Promise) {
           system.promise = result
           result.then(() => {
-            system.ready = true
+            system.state = "running"
           })
         } else {
-          system.ready = true
+          system.state = "running"
         }
       } else {
-        system.ready = true
+        system.state = "running"
       }
     })
 
@@ -61,7 +61,7 @@ export class App extends World {
     this.query([System]).onEntityRemoved.add((entity) => {
       const system = entity.get(System)!
       if (system.dispose) system.dispose()
-      system.ready = false
+      system.state = "stopped"
     })
   }
 

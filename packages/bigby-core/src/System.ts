@@ -9,8 +9,10 @@ export interface System {
   run?(dt: number): void
 }
 
+export type SystemState = "stopped" | "starting" | "running"
+
 export abstract class System {
-  ready = false
+  state: SystemState = "stopped"
   promise?: Promise<any>
 
   constructor(public app: App) {}
