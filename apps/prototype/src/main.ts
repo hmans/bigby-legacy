@@ -21,12 +21,34 @@ app.use(ThreePlugin)
 app.use(async () => {
   console.log("Starting up!")
 
-  app.addSystem((dt) => console.log("dt", dt))
+  // app.addSystem((dt) => console.log("dt", dt))
 
   return () => {
     console.log("shutting down!")
   }
 })
+
+class LoadingSystem extends System {
+  ready = false
+  promise: Promise<any> | null = null
+
+  async start() {
+    console.log("Loading a thing")
+    this.promise = wait(1000)
+    await this.promise
+
+    this.ready = true
+    console.log("Done loading")
+  }
+
+  run() {
+    if (!this.ready) return
+
+    console.log("run")
+  }
+}
+
+app.addSystem(LoadingSystem)
 
 /* Add a silly little system, just for fun */
 class RotatesAllMeshesSystem extends System {
@@ -61,6 +83,6 @@ app.spawn([
   }),
 ])
 
-await wait(1000)
+await wait(5000)
 
 app.dispose()
