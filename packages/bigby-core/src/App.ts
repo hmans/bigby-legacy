@@ -7,6 +7,7 @@ import {
   System,
   SystemCallback
 } from "./System"
+import { SystemsPlugin } from "./SystemsPlugin"
 
 export type Plugin = (
   app: App
@@ -37,35 +38,7 @@ export class App extends World {
     this.registerComponent(System)
     this.registerComponent(Stage.Stage)
 
-    /* Whenever a system is added, call its start method */
-    this.query([System]).onEntityAdded.add((entity) => {
-      const system = entity.get(System)!
-
-      if (!system.start) {
-        system.state = "running"
-        return
-      }
-
-      system.state = "starting"
-      const result = system.start()
-
-      if (!(result instanceof Promise)) {
-        system.state = "running"
-        return
-      }
-
-      system.promise = result
-      system.promise.then(() => {
-        system.state = "running"
-      })
-    })
-
-    /* Whenever a system is removed, call its dispose method */
-    this.query([System]).onEntityRemoved.add((entity) => {
-      const system = entity.get(System)!
-      if (system.dispose) system.dispose()
-      system.state = "stopped"
-    })
+    this.use(SystemsPlugin)
   }
 
   /**

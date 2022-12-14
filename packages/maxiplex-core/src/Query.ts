@@ -31,8 +31,8 @@ export class Query<Q extends readonly Component[]> {
   entities = new Array<Entity>()
   components = new Map<Entity, Q>()
 
-  onEntityAdded = new EventDispatcher<Entity>()
-  onEntityRemoved = new EventDispatcher<Entity>()
+  onEntityAdded = new EventDispatcher<Entity, Q>()
+  onEntityRemoved = new EventDispatcher<Entity, Q>()
 
   get first() {
     return this.entities[0]
@@ -59,7 +59,7 @@ export class Query<Q extends readonly Component[]> {
     /* TODO: this should be baked into `Bucket`! */
     this.onEntityAdded.onEntityAdded.add((listener) => {
       for (const entity of this.entities) {
-        listener(entity)
+        listener(entity, this.components.get(entity)!)
       }
     })
   }
@@ -84,8 +84,9 @@ export class Query<Q extends readonly Component[]> {
 
     if (wants && !has) {
       this.entities.push(entity)
-      this.components.set(entity, subentity as unknown as Q)
-      this.onEntityAdded.emit(entity)
+      const components = subentity as unknown as Q
+      this.components.set(entity, components)
+      this.onEntityAdded.emit(entity, components)
     } else if (!wants && has) {
       this.remove(entity)
     }
@@ -95,8 +96,9 @@ export class Query<Q extends readonly Component[]> {
     const index = this.entities.indexOf(entity)
     if (index !== -1) {
       this.entities.splice(index, 1)
+      const components = this.components.get(entity)!
       this.components.delete(entity)
-      this.onEntityRemoved.emit(entity)
+      this.onEntityRemoved.emit(entity, components)
     }
   }
 }
