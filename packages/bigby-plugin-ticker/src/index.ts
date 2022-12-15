@@ -10,7 +10,7 @@ export function AnimationFrameTicker(app: App) {
   let lastTime = performance.now()
 
   const systemQueries = DEFAULT_STAGES.map((stage) =>
-    app.query([System, stage])
+    app.world.query([System, stage])
   )
 
   const animate = () => {

@@ -15,7 +15,9 @@ export type Plugin = (
 
 export type DisposeCallback = (app: App) => void
 
-export class App extends World {
+export class App {
+  public world = new World()
+
   /**
    * A list of all the plugins that have been registered. We use this to make
    * sure the user doesn't accidentally register the same plugin twice. Plugins
@@ -32,11 +34,10 @@ export class App extends World {
   protected onDispose = new EventDispatcher<App>()
 
   constructor() {
-    super()
     console.log("🐝 Bigby Initializing")
 
-    this.registerComponent(System)
-    this.registerComponent(Stage.Stage)
+    this.world.registerComponent(System)
+    this.world.registerComponent(Stage.Stage)
 
     this.use(SystemsPlugin)
   }
@@ -86,7 +87,7 @@ export class App extends World {
       system = a
     }
 
-    return this.spawn([
+    return this.world.spawn([
       system instanceof System ? system : new FunctionSystem(this, system),
       stage
     ])
@@ -105,8 +106,8 @@ export class App extends World {
     this.onDispose.clear()
 
     /* Remove all systems */
-    for (const [entity] of this.query([System])) {
-      this.destroy(entity)
+    for (const [entity] of this.world.query([System])) {
+      this.world.destroy(entity)
     }
   }
 }

@@ -62,7 +62,7 @@ console.log("moving on")
 class RotatesAllMeshesSystem extends System {
   speed = 1
 
-  protected meshes = this.app.query([Mesh])
+  protected meshes = this.app.world.query([Mesh])
 
   run(dt: number) {
     for (const [_, mesh] of this.meshes) {
@@ -75,16 +75,16 @@ class RotatesAllMeshesSystem extends System {
 app.addSystem(RotatesAllMeshesSystem)
 
 /* Set up the scene */
-app.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
+app.world.spawn([make(DirectionalLight, { position: [1, 2, 3] })])
 
-app.spawn([
+app.world.spawn([
   make(PerspectiveCamera, {
     args: [75, window.innerWidth / window.innerHeight, 0.1, 1000],
     position: [0, 0, 5],
   }),
 ])
 
-app.spawn([
+app.world.spawn([
   make(Mesh, {
     geometry: make(IcosahedronGeometry),
     material: make(MeshStandardMaterial),

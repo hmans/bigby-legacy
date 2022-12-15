@@ -46,7 +46,7 @@ export class ThreeSystem extends System {
     document.body.appendChild(this.renderer.domElement)
 
     /* Camera & Rendering */
-    const cameras = this.app.query([THREE.Camera])
+    const cameras = this.app.world.query([THREE.Camera])
 
     /* When a new camera appears, register it as the main camera */
     cameras.onEntityAdded.add((entity) => {
@@ -64,7 +64,7 @@ export class ThreeSystem extends System {
 
     /* Scene Objects */
     /* Query the world for Three.js scene objects */
-    const sceneObjects = this.app.query([THREE.Object3D])
+    const sceneObjects = this.app.world.query([THREE.Object3D])
 
     /* When an entity with a scene object appears, add it to the Three.js scene */
     sceneObjects.onEntityAdded.add((entity) => {
@@ -78,7 +78,7 @@ export class ThreeSystem extends System {
     })
 
     /* Custom Parenting */
-    const parentedQuery = this.app.query([Parent3D, THREE.Object3D])
+    const parentedQuery = this.app.world.query([Parent3D, THREE.Object3D])
 
     parentedQuery.onEntityAdded.add((entity) => {
       const parent = entity.get(Parent3D)!.parent
@@ -126,9 +126,9 @@ export class ThreeSystem extends System {
 }
 
 export const ThreePlugin = (app: App) => {
-  app.registerComponent(THREE.Object3D)
-  app.registerComponent(THREE.Camera)
-  app.registerComponent(Parent3D)
+  app.world.registerComponent(THREE.Object3D)
+  app.world.registerComponent(THREE.Camera)
+  app.world.registerComponent(Parent3D)
 
   app.addSystem(new ThreeSystem(app), Stage.Render)
 }
