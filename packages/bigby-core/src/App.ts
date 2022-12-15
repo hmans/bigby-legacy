@@ -17,6 +17,7 @@ export type DisposeCallback = (app: App) => void
 
 export class App {
   public world = new World()
+  public systems = new World()
 
   /**
    * A list of all the plugins that have been registered. We use this to make
@@ -36,8 +37,8 @@ export class App {
   constructor() {
     console.log("🐝 Bigby Initializing")
 
-    this.world.registerComponent(System)
-    this.world.registerComponent(Stage.Stage)
+    this.systems.registerComponent(System)
+    this.systems.registerComponent(Stage.Stage)
 
     this.use(SystemsPlugin)
   }
@@ -87,7 +88,7 @@ export class App {
       system = a
     }
 
-    return this.world.spawn([
+    return this.systems.spawn([
       system instanceof System ? system : new FunctionSystem(this, system),
       stage
     ])
@@ -106,8 +107,8 @@ export class App {
     this.onDispose.clear()
 
     /* Remove all systems */
-    for (const [entity] of this.world.query([System])) {
-      this.world.destroy(entity)
+    for (const [entity] of this.systems.query([System])) {
+      this.systems.destroy(entity)
     }
   }
 }

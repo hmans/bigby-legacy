@@ -2,7 +2,7 @@ import { App } from "./App"
 import { System } from "./System"
 
 export function SystemsPlugin(app: App) {
-  const systems = app.world.query([System])
+  const systems = app.systems.query([System])
 
   /* Whenever a system is added, call its start method */
   systems.onEntityAdded.add((_, [system]) => {

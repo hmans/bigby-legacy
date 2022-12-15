@@ -1,7 +1,6 @@
 import { App, System } from "@bigby/core"
 import { DEFAULT_STAGES } from "@bigby/core/src/Stage"
 import { clamp } from "@bigby/math"
-import { StaticReadUsage } from "three"
 
 export function AnimationFrameTicker(app: App) {
   let running = false
@@ -10,7 +9,7 @@ export function AnimationFrameTicker(app: App) {
   let lastTime = performance.now()
 
   const systemQueries = DEFAULT_STAGES.map((stage) =>
-    app.world.query([System, stage])
+    app.systems.query([System, stage])
   )
 
   const animate = () => {

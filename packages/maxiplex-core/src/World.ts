@@ -44,6 +44,11 @@ export class World {
     if (index !== -1) {
       this.entities.splice(index, 1)
       this.onEntityRemoved.emit(entity)
+    } else {
+      console.warn(
+        "Tried to destroy an entity that is not part of this world:",
+        entity
+      )
     }
 
     return entity
